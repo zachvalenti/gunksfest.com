@@ -1,0 +1,228 @@
+/* ============================================================
+   GunksFest 2026 — styles
+   Edit the variables below to retheme the whole site at once.
+   ============================================================ */
+
+:root {
+  /* Palette — sampled from the hero photo + GCC & Mohonk logos.
+     Deep forest green (Mohonk/GCC) · sky blue (hero sky + Mohonk) ·
+     emerald (GCC lizard) · warm cream ground. All text pairings pass WCAG AA. */
+  --color-forest:    #1d4d34;   /* deep pine green — from Mohonk logo */
+  --color-forest-dk: #143526;
+  --color-leaf:      #27692b;   /* GCC emerald — structural accents */
+  --color-stone:     #6b6256;   /* cliff/rock neutral */
+  --color-sand:      #f4efe6;   /* warm off-white background */
+  --color-sand-dk:   #e8e0d2;
+  --color-cream:     #ffffff;
+  --color-accent-light: #6cc6f0; /* light sky — legible accent text on the photo */
+  --color-accent:    #0e90d6;   /* bright sky blue — highlights on dark */
+  --color-accent-dk: #0b6a9e;   /* deep sky blue — buttons & links (AA on light) */
+  --color-accent-darker: #08567d; /* button hover */
+  --color-ink:       #20251f;   /* body text */
+  --color-ink-soft:  #4a4f46;
+
+  /* Typography */
+  --font-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* Layout */
+  --maxw: 1080px;
+  --radius: 12px;
+  --shadow: 0 8px 30px rgba(33, 53, 40, 0.12);
+  --space: clamp(3rem, 7vw, 6rem);
+}
+
+/* ---------- Reset-ish ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  background: var(--color-sand);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--color-accent-dk); }
+
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; letter-spacing: -0.01em; }
+
+.container { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 1.25rem; }
+.container.narrow { max-width: 680px; }
+
+.skip-link {
+  position: absolute; left: -999px; top: 0;
+  background: var(--color-ink); color: #fff; padding: 0.6rem 1rem; z-index: 200;
+}
+.skip-link:focus { left: 0; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-block;
+  padding: 0.8rem 1.6rem;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.12s ease, background-color 0.12s ease, color 0.12s ease;
+  border: 2px solid transparent;
+}
+.btn:active { transform: translateY(1px); }
+.btn-primary {
+  background: var(--color-accent-dk); color: #fff;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.32); /* lifts the button off the photo */
+}
+.btn-primary:hover { background: var(--color-accent); box-shadow: 0 8px 24px rgba(0,0,0,0.38); }
+.btn-ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,0.7); }
+.btn-ghost:hover { background: rgba(255,255,255,0.12); }
+.btn-lg { padding: 1rem 2.2rem; font-size: 1.05rem; }
+
+/* ---------- Header / Nav ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(244, 239, 230, 0.92);
+  backdrop-filter: saturate(140%) blur(8px);
+  border-bottom: 1px solid var(--color-sand-dk);
+}
+.nav-bar { display: flex; align-items: center; justify-content: space-between; min-height: 64px; }
+.brand { display: flex; align-items: baseline; gap: 0.4rem; text-decoration: none; color: var(--color-forest); }
+.brand-mark { font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; letter-spacing: -0.02em; }
+.brand-year { color: var(--color-accent); font-weight: 800; font-size: 1.4rem; }
+
+.nav-menu { list-style: none; display: flex; gap: 1.6rem; margin: 0; padding: 0; align-items: center; }
+.nav-menu a { text-decoration: none; color: var(--color-ink); font-weight: 600; }
+.nav-menu a:hover { color: var(--color-accent-dk); }
+.nav-cta { background: var(--color-forest); color: #fff !important; padding: 0.5rem 1.1rem; border-radius: 999px; }
+.nav-cta:hover { background: var(--color-forest-dk); }
+
+.nav-toggle {
+  display: none;
+  background: none; border: 0; cursor: pointer;
+  width: 44px; height: 44px; padding: 10px;
+}
+.nav-toggle-bar { display: block; height: 2px; background: var(--color-ink); margin: 5px 0; transition: 0.2s; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  color: #fff;
+  text-align: center;
+  /* Gunks cliff photo with a dark gradient on top for text legibility.
+     To change the photo, replace assets/img/hero.jpg. */
+  background:
+    linear-gradient(160deg, rgba(33,53,40,0.55) 0%, rgba(33,53,40,0.45) 45%, rgba(33,53,40,0.78) 100%),
+    url('../assets/img/hero.jpg') center 30% / cover no-repeat;
+  background-color: #2f4a3c; /* fallback while the image loads / if missing */
+  padding: clamp(4.5rem, 12vw, 8.5rem) 0;
+  overflow: hidden;
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at top, rgba(14,144,214,0.18), transparent 60%);
+  pointer-events: none;
+}
+/* Soft dark shadow keeps all hero text legible over the busy photo. */
+.hero-inner { position: relative; text-shadow: 0 2px 12px rgba(0,0,0,0.55); }
+.eyebrow {
+  text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.78rem;
+  font-weight: 700; color: rgba(255,255,255,0.9); margin: 0 0 1rem;
+}
+.hero h1 { font-size: clamp(3rem, 11vw, 6rem); font-weight: 800; margin: 0; }
+.hero-year { color: var(--color-accent-light); }
+.hero-tagline { font-size: clamp(1.1rem, 2.6vw, 1.5rem); max-width: 38ch; margin: 1rem auto 0; color: rgba(255,255,255,0.92); }
+.hero-date {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  margin: 1.6rem auto 2rem; padding: 0.5rem 1.1rem;
+  background: rgba(0,0,0,0.22); border-radius: 999px; font-weight: 600;
+}
+.hero-date .dot { color: var(--color-accent); font-size: 0.7rem; }
+.hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+/* ---------- Sections ---------- */
+.section { padding: var(--space) 0; }
+.section-alt { background: var(--color-sand-dk); }
+.section h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); color: var(--color-forest); margin: 0 0 0.75rem; }
+.lead { font-size: 1.15rem; color: var(--color-ink-soft); max-width: 60ch; margin: 0 0 2rem; }
+
+/* Feature grid */
+.feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
+.feature {
+  background: var(--color-cream); border-radius: var(--radius); padding: 1.5rem;
+  box-shadow: var(--shadow); border-top: 4px solid var(--color-leaf);
+}
+.feature h3 { margin: 0 0 0.4rem; color: var(--color-forest); font-size: 1.2rem; }
+.feature p { margin: 0; color: var(--color-ink-soft); }
+
+/* Partner logos */
+.logo-row { display: flex; flex-wrap: wrap; gap: 1.25rem; }
+.logo-card {
+  flex: 1 1 240px; min-height: 140px;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  background: var(--color-cream); border: 1px solid var(--color-sand-dk);
+  border-radius: var(--radius); padding: 1.75rem; text-decoration: none;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+.logo-card img { max-height: 96px; width: auto; }
+.logo-card:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(33,53,40,0.18); }
+
+/* Venue cards */
+.venue-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+.venue-card {
+  background: var(--color-forest); color: #fff; border-radius: var(--radius);
+  padding: 2rem; box-shadow: var(--shadow);
+}
+.venue-card h3 { margin: 0 0 0.25rem; font-size: 1.5rem; }
+.venue-role {
+  display: inline-block; margin: 0 0 0.9rem; font-size: 0.72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-accent);
+  background: rgba(255,255,255,0.08); padding: 0.25rem 0.7rem; border-radius: 999px;
+}
+.venue-card p:last-child { margin: 0; color: rgba(255,255,255,0.88); }
+
+/* CTA section */
+.section-cta { background: var(--color-forest-dk); color: #fff; text-align: center; }
+.section-cta h2 { color: #fff; }
+.section-cta .lead { color: rgba(255,255,255,0.85); margin-left: auto; margin-right: auto; }
+.cta-note { margin-top: 1.5rem; color: rgba(255,255,255,0.8); }
+.cta-note a { color: #fff; font-weight: 600; }
+
+/* ---------- Footer ---------- */
+.site-footer { background: var(--color-ink); color: rgba(255,255,255,0.75); padding: 3rem 0; }
+.footer-inner { display: grid; gap: 1.5rem; }
+.footer-brand .brand-mark { color: #fff; font-size: 1.4rem; }
+.footer-brand p { margin: 0.3rem 0 0; font-size: 0.9rem; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 1.25rem; }
+.footer-links a { color: rgba(255,255,255,0.85); text-decoration: none; font-weight: 600; }
+.footer-links a:hover { color: var(--color-accent); }
+.footer-meta { font-size: 0.85rem; line-height: 1.6; margin: 0; }
+
+@media (min-width: 720px) {
+  .footer-inner { grid-template-columns: 1fr auto; align-items: center; }
+  .footer-meta { grid-column: 1 / -1; }
+}
+
+/* ---------- Mobile nav ---------- */
+@media (max-width: 720px) {
+  .nav-toggle { display: block; }
+  .nav-menu {
+    position: absolute; top: 64px; left: 0; right: 0;
+    flex-direction: column; gap: 0; align-items: stretch;
+    background: var(--color-sand); border-bottom: 1px solid var(--color-sand-dk);
+    box-shadow: var(--shadow);
+    max-height: 0; overflow: hidden; transition: max-height 0.25s ease;
+  }
+  .nav-menu.open { max-height: 360px; }
+  .nav-menu li { border-top: 1px solid var(--color-sand-dk); }
+  .nav-menu a { display: block; padding: 1rem 1.25rem; }
+  .nav-cta { border-radius: 0; text-align: center; }
+}
+
+/* ---------- Motion preference ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
