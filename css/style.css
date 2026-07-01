@@ -34,12 +34,14 @@
 
 /* ---------- Reset-ish ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+/* Dark root background so the overscroll "rubber-band" at the top/bottom
+   matches the dark header/footer instead of flashing white. */
+html { scroll-behavior: smooth; background: #14251f; }
 body {
   margin: 0;
   font-family: var(--font-body);
   color: var(--color-ink);
-  background: var(--color-sand);
+  background: #14251f;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
