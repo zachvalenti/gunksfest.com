@@ -240,6 +240,15 @@ body.scrolled .menu-fab { display: flex; }        /* appears once scrolled */
   transition: box-shadow 0.15s, transform 0.15s;
 }
 .logo-card img { max-height: 96px; width: auto; }
+
+/* "You?" — invite-a-sponsor card sitting alongside the partner logos */
+.sponsor-card { flex-direction: column; gap: 0.4rem; border: 2px dashed var(--color-leaf); }
+.sponsor-card:hover { border-color: var(--color-accent); }
+.sponsor-you {
+  font-family: var(--font-display); font-weight: 800; line-height: 1;
+  font-size: 2.8rem; color: var(--color-leaf);
+}
+.sponsor-sub { color: var(--color-ink-soft); font-weight: 700; font-size: 0.95rem; max-width: 22ch; }
 .logo-card:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(33,53,40,0.18); }
 
 /* Venue cards */
