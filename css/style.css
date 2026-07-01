@@ -249,6 +249,8 @@ body.scrolled .menu-fab { display: flex; }        /* appears once scrolled */
   font-size: 2.8rem; color: var(--color-leaf);
 }
 .sponsor-sub { color: var(--color-ink-soft); font-weight: 700; font-size: 0.95rem; max-width: 22ch; }
+.sponsor-link { color: var(--color-accent-dk); text-decoration: underline; }
+.sponsor-card:hover .sponsor-link { color: var(--color-accent); }
 .logo-card:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(33,53,40,0.18); }
 
 /* Venue cards */
