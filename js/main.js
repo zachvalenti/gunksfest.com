@@ -82,4 +82,24 @@
       }, 5500);
     }
   }
+
+  // --- Draw a gentle, slightly-waving line into each rope divider ---
+  // Path is built in plain pixels (SVG has no viewBox) so the woven fleck
+  // pattern stays undistorted at any width. Each divider waves a bit differently.
+  var ropes = document.querySelectorAll(".rope");
+  Array.prototype.forEach.call(ropes, function (svg, i) {
+    var W = 3200, mid = 30;
+    var amp = [8, 11, 9, 10][i % 4];    // wave height (px)
+    var wl  = [520, 470, 560, 500][i % 4]; // wavelength (px)
+    var ph  = [0, 1.3, 2.4, 0.7][i % 4];   // phase offset
+    var d = "";
+    for (var x = -20; x <= W; x += 24) {
+      var y = mid + amp * Math.sin((x / wl) * 2 * Math.PI + ph);
+      d += (x === -20 ? "M" : "L") + x + " " + y.toFixed(1) + " ";
+    }
+    d = d.trim();
+    Array.prototype.forEach.call(svg.querySelectorAll("path"), function (p) {
+      p.setAttribute("d", d);
+    });
+  });
 })();

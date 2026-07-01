@@ -209,14 +209,14 @@ body.scrolled .menu-fab { display: flex; }        /* appears once scrolled */
   pointer-events: none;
 }
 .rope-divider .rope {
-  position: absolute; left: 0; right: 0; bottom: -32px;
-  width: 100%; height: 64px; overflow: visible;
-  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.38));
+  position: absolute; left: 0; right: 0; bottom: -30px;
+  width: 100%; height: 60px;
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.40));
 }
-.rope-line { fill: none; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-.rope-base { stroke: #2b6f30; stroke-width: 11; }                 /* green rope body */
-.rope-wrap { stroke: #0e90d6; stroke-width: 11; stroke-linecap: butt;
-             stroke-dasharray: 9 15; }                            /* blue wraps */
+/* Rope = a solid blue body with two crossing dashed-fleck patterns on top,
+   modelled on a kernmantle climbing rope. */
+.rope-body  { fill: none; stroke: #0d6ea4; stroke-width: 14; stroke-linecap: round; }
+.rope-fleck { stroke-width: 14; stroke-linecap: round; }
 
 /* Feature grid */
 .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }

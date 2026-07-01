@@ -21,6 +21,19 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
+  <!-- Shared kernmantle-weave fleck patterns for the rope dividers.
+       Two dashed line-sets rotated in opposite directions = woven fleck. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <pattern id="fleckA" width="7" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(48)">
+        <line x1="0" y1="-1" x2="0" y2="9" stroke="#d6ecfd" stroke-width="2.3" stroke-dasharray="3.2 4" stroke-linecap="round" />
+      </pattern>
+      <pattern id="fleckB" width="7" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-48)">
+        <line x1="0" y1="-1" x2="0" y2="9" stroke="#7cc47f" stroke-width="2" stroke-dasharray="2.6 4.4" stroke-linecap="round" />
+      </pattern>
+    </defs>
+  </svg>
+
   <!-- ============ HEADER / NAV ============ -->
   <header class="site-header" id="top">
     <div class="container nav-bar">
@@ -69,7 +82,7 @@
       </div>
     </section>
 
-    <div class="rope-divider" role="presentation"><svg class="rope" viewBox="0 0 1200 64" width="100%" height="64" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="rope-line rope-base" d="M-8,15 Q600,49 1208,19"/><path class="rope-line rope-wrap" d="M-8,15 Q600,49 1208,19"/></svg></div>
+    <div class="rope-divider" role="presentation"><svg class="rope" width="100%" height="60" aria-hidden="true" focusable="false"><path class="rope-body" d="M-20,30 L3200,30"/><path class="rope-fleck" fill="none" stroke="url(#fleckA)" d="M-20,30 L3200,30"/><path class="rope-fleck" fill="none" stroke="url(#fleckB)" d="M-20,30 L3200,30"/></svg></div>
 
     <!-- ============ ABOUT ============ -->
     <section class="section section-photo" id="about" aria-labelledby="about-title">
@@ -118,7 +131,7 @@
       </div>
     </section>
 
-    <div class="rope-divider" role="presentation"><svg class="rope" viewBox="0 0 1200 64" width="100%" height="64" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="rope-line rope-base" d="M-8,18 Q540,60 1208,13"/><path class="rope-line rope-wrap" d="M-8,18 Q540,60 1208,13"/></svg></div>
+    <div class="rope-divider" role="presentation"><svg class="rope" width="100%" height="60" aria-hidden="true" focusable="false"><path class="rope-body" d="M-20,30 L3200,30"/><path class="rope-fleck" fill="none" stroke="url(#fleckA)" d="M-20,30 L3200,30"/><path class="rope-fleck" fill="none" stroke="url(#fleckB)" d="M-20,30 L3200,30"/></svg></div>
 
     <!-- ============ PARTNERS ============ -->
     <section class="section section-photo" id="partners" aria-labelledby="partners-title">
@@ -141,7 +154,7 @@
       </div>
     </section>
 
-    <div class="rope-divider" role="presentation"><svg class="rope" viewBox="0 0 1200 64" width="100%" height="64" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="rope-line rope-base" d="M-8,16 Q660,43 1208,17"/><path class="rope-line rope-wrap" d="M-8,16 Q660,43 1208,17"/></svg></div>
+    <div class="rope-divider" role="presentation"><svg class="rope" width="100%" height="60" aria-hidden="true" focusable="false"><path class="rope-body" d="M-20,30 L3200,30"/><path class="rope-fleck" fill="none" stroke="url(#fleckA)" d="M-20,30 L3200,30"/><path class="rope-fleck" fill="none" stroke="url(#fleckB)" d="M-20,30 L3200,30"/></svg></div>
 
     <!-- ============ VENUE / FORMAT ============ -->
     <section class="section section-photo" id="venue" aria-labelledby="venue-title">
@@ -165,7 +178,7 @@
       </div>
     </section>
 
-    <div class="rope-divider" role="presentation"><svg class="rope" viewBox="0 0 1200 64" width="100%" height="64" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="rope-line rope-base" d="M-8,13 Q600,62 1208,21"/><path class="rope-line rope-wrap" d="M-8,13 Q600,62 1208,21"/></svg></div>
+    <div class="rope-divider" role="presentation"><svg class="rope" width="100%" height="60" aria-hidden="true" focusable="false"><path class="rope-body" d="M-20,30 L3200,30"/><path class="rope-fleck" fill="none" stroke="url(#fleckA)" d="M-20,30 L3200,30"/><path class="rope-fleck" fill="none" stroke="url(#fleckB)" d="M-20,30 L3200,30"/></svg></div>
 
     <!-- ============ UPDATES / CTA ============ -->
     <section class="section section-cta" id="updates" aria-labelledby="updates-title">
