@@ -156,6 +156,12 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; letter-spacing:
   will-change: opacity;
 }
 .slide.is-active { opacity: 1; }
+/* Static single-photo background (Partners, Venue) with a solid brand fallback. */
+.section-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background-color: var(--color-forest-dk);
+  background-size: cover; background-position: center;
+}
 /* Dark scrim keeps the text and white cards legible over any photo. */
 .slideshow-scrim {
   position: absolute; inset: 0; z-index: 1;
@@ -164,7 +170,17 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; letter-spacing:
 .section-photo .container { position: relative; z-index: 2; }
 .section-photo h2 { color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
 .section-photo .lead { color: rgba(255,255,255,0.92); text-shadow: 0 1px 8px rgba(0,0,0,0.5); }
+.section-photo .lead strong { color: #fff; }
 @media (prefers-reduced-motion: reduce) { .slide { transition: none; } }
+
+/* ---------- Climbing-rope section divider ---------- */
+.rope-divider {
+  position: relative; z-index: 5;
+  height: 18px; margin: -9px 0;          /* straddles the seam between sections */
+  line-height: 0; pointer-events: none;
+  filter: drop-shadow(0 3px 5px rgba(0,0,0,0.30));
+}
+.rope-divider .rope { display: block; width: 100%; height: 18px; }
 
 /* Feature grid */
 .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
@@ -191,8 +207,10 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; letter-spacing:
 /* Venue cards */
 .venue-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
 .venue-card {
-  background: var(--color-forest); color: #fff; border-radius: var(--radius);
+  background: rgba(20, 37, 31, 0.55); color: #fff; border-radius: var(--radius);
   padding: 2rem; box-shadow: var(--shadow);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px);
 }
 .venue-card h3 { margin: 0 0 0.25rem; font-size: 1.5rem; }
 .venue-role {

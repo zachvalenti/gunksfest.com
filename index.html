@@ -21,6 +21,26 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
+  <!-- Shared climbing-rope pattern, referenced by every .rope-divider below.
+       Kernmantle candy-stripe in the brand blue + green with cylindrical shading. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <pattern id="ropeTwist" width="22" height="22" patternUnits="userSpaceOnUse" patternTransform="rotate(54)">
+        <rect width="22" height="22" fill="#0e90d6" />
+        <rect width="11" height="22" fill="#256a2b" />
+        <rect x="10" width="2" height="22" fill="#0b5a86" opacity="0.5" />
+        <rect x="21" width="2" height="22" fill="#194f1f" opacity="0.5" />
+      </pattern>
+      <linearGradient id="ropeRound" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0"    stop-color="#000" stop-opacity="0.42" />
+        <stop offset="0.16" stop-color="#000" stop-opacity="0.04" />
+        <stop offset="0.44" stop-color="#fff" stop-opacity="0.42" />
+        <stop offset="0.62" stop-color="#fff" stop-opacity="0.04" />
+        <stop offset="1"    stop-color="#000" stop-opacity="0.48" />
+      </linearGradient>
+    </defs>
+  </svg>
+
   <!-- ============ HEADER / NAV ============ -->
   <header class="site-header" id="top">
     <div class="container nav-bar">
@@ -62,6 +82,8 @@
         </div>
       </div>
     </section>
+
+    <div class="rope-divider" role="presentation"><svg class="rope" width="100%" height="18" preserveAspectRatio="none" aria-hidden="true"><rect width="100%" height="100%" fill="url(#ropeTwist)"/><rect width="100%" height="100%" fill="url(#ropeRound)"/></svg></div>
 
     <!-- ============ ABOUT ============ -->
     <section class="section section-photo" id="about" aria-labelledby="about-title">
@@ -110,8 +132,12 @@
       </div>
     </section>
 
+    <div class="rope-divider" role="presentation"><svg class="rope" width="100%" height="18" preserveAspectRatio="none" aria-hidden="true"><rect width="100%" height="100%" fill="url(#ropeTwist)"/><rect width="100%" height="100%" fill="url(#ropeRound)"/></svg></div>
+
     <!-- ============ PARTNERS ============ -->
-    <section class="section section-alt" id="partners" aria-labelledby="partners-title">
+    <section class="section section-photo" id="partners" aria-labelledby="partners-title">
+      <div class="section-bg" style="background-image:url('assets/img/mohonk-visitor-center.jpg')" aria-hidden="true"></div>
+      <div class="slideshow-scrim" aria-hidden="true"></div>
       <div class="container">
         <h2 id="partners-title">Presented in Partnership</h2>
         <p class="lead">
@@ -129,8 +155,12 @@
       </div>
     </section>
 
+    <div class="rope-divider" role="presentation"><svg class="rope" width="100%" height="18" preserveAspectRatio="none" aria-hidden="true"><rect width="100%" height="100%" fill="url(#ropeTwist)"/><rect width="100%" height="100%" fill="url(#ropeRound)"/></svg></div>
+
     <!-- ============ VENUE / FORMAT ============ -->
-    <section class="section" id="venue" aria-labelledby="venue-title">
+    <section class="section section-photo" id="venue" aria-labelledby="venue-title">
+      <div class="section-bg" style="background-image:url('assets/img/ulster-fairground.jpg')" aria-hidden="true"></div>
+      <div class="slideshow-scrim" aria-hidden="true"></div>
       <div class="container">
         <h2 id="venue-title">A New Home for 2026</h2>
         <p class="lead">This year the festival spreads across two iconic Shawangunks locations.</p>
@@ -148,6 +178,8 @@
         </div>
       </div>
     </section>
+
+    <div class="rope-divider" role="presentation"><svg class="rope" width="100%" height="18" preserveAspectRatio="none" aria-hidden="true"><rect width="100%" height="100%" fill="url(#ropeTwist)"/><rect width="100%" height="100%" fill="url(#ropeRound)"/></svg></div>
 
     <!-- ============ UPDATES / CTA ============ -->
     <section class="section section-cta" id="updates" aria-labelledby="updates-title">
