@@ -94,23 +94,74 @@
     }, 5500);
   }
 
-  // --- Draw a gentle, slightly-waving line into each rope divider ---
+  // --- Reveal cards on scroll ---
+  var revealEls = document.querySelectorAll(".feature, .logo-card, .venue-card");
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (revealEls.length && "IntersectionObserver" in window && !reduceMotion) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add("is-visible"); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
+    Array.prototype.forEach.call(revealEls, function (el) { io.observe(el); });
+  } else {
+    Array.prototype.forEach.call(revealEls, function (el) { el.classList.add("is-visible"); });
+  }
+
+  // --- Rope dividers: whip on load, settle into a gentle wave, nudge on scroll ---
   // Path is built in plain pixels (SVG has no viewBox) so the woven fleck
   // pattern stays undistorted at any width. Each divider waves a bit differently.
-  var ropes = document.querySelectorAll(".rope");
-  Array.prototype.forEach.call(ropes, function (svg, i) {
-    var W = 3200, mid = 30;
-    var amp = [8, 11, 9, 10][i % 4];    // wave height (px)
-    var wl  = [520, 470, 560, 500][i % 4]; // wavelength (px)
-    var ph  = [0, 1.3, 2.4, 0.7][i % 4];   // phase offset
-    var d = "";
-    for (var x = -20; x <= W; x += 24) {
-      var y = mid + amp * Math.sin((x / wl) * 2 * Math.PI + ph);
-      d += (x === -20 ? "M" : "L") + x + " " + y.toFixed(1) + " ";
-    }
-    d = d.trim();
-    Array.prototype.forEach.call(svg.querySelectorAll("path"), function (p) {
-      p.setAttribute("d", d);
+  (function () {
+    var ropes = Array.prototype.slice.call(document.querySelectorAll(".rope"));
+    if (!ropes.length) return;
+    var W = 3200, mid = 45, step = 22;
+    var cfg = ropes.map(function (_, i) {
+      return { amp: [8, 11, 9, 10][i % 4], wl: [520, 470, 560, 500][i % 4], ph: [0, 1.3, 2.4, 0.7][i % 4] };
     });
-  });
+    var paths = ropes.map(function (svg) { return Array.prototype.slice.call(svg.querySelectorAll("path")); });
+    var scrollPhase = 0;
+
+    function build(i, whipAmp, tSec) {
+      var c = cfg[i], d = "", first = true;
+      for (var x = -20; x <= W; x += step) {
+        var y = mid + c.amp * Math.sin(x / c.wl * 2 * Math.PI + c.ph + scrollPhase);
+        if (whipAmp > 0.05) {   // fast, decaying, higher-frequency travelling squiggle
+          y += whipAmp * Math.sin(x / (c.wl * 0.34) * 2 * Math.PI + tSec * 13 + i * 1.7);
+        }
+        d += (first ? "M" : "L") + x + " " + y.toFixed(1) + " ";
+        first = false;
+      }
+      d = d.trim();
+      paths[i].forEach(function (p) { p.setAttribute("d", d); });
+    }
+    function drawAll(whipAmp, tSec) { for (var i = 0; i < ropes.length; i++) build(i, whipAmp, tSec); }
+
+    drawAll(0, 0);   // paint the resting wave immediately (robust if rAF is throttled)
+    if (reduceMotion) return;
+
+    var start = null, DUR = 1800;
+    function frame(ts) {
+      if (start === null) start = ts;
+      var elapsed = ts - start, t = elapsed / 1000;
+      var prog = Math.min(elapsed / DUR, 1);
+      var decay = (1 - prog) * (1 - prog);   // ease-out to rest
+      drawAll(22 * decay, t);
+      if (prog < 1) requestAnimationFrame(frame);
+      else drawAll(0, 0);
+    }
+    requestAnimationFrame(frame);
+
+    // Subtle scroll-driven undulation once the whip has settled.
+    var settled = false, ticking = false;
+    setTimeout(function () { settled = true; }, DUR);
+    window.addEventListener("scroll", function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        scrollPhase = window.scrollY * 0.0013;
+        if (settled) drawAll(0, 0);
+        ticking = false;
+      });
+    }, { passive: true });
+  })();
 })();
