@@ -80,24 +80,25 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; letter-spacing:
 .btn-lg { padding: 1rem 2.2rem; font-size: 1.05rem; }
 
 /* ---------- Header / Nav ---------- */
-/* Dark bar at the top; slides away on scroll, replaced by the floating burger. */
+/* Transparent overlay on the hero (only ever visible near the very top).
+   A soft top-down scrim keeps the brand/links legible; it fades onto the
+   hero photo rather than showing a solid bar. Slides away on scroll. */
 .site-header {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(20, 37, 31, 0.94);
-  -webkit-backdrop-filter: saturate(140%) blur(8px);
-  backdrop-filter: saturate(140%) blur(8px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: linear-gradient(to bottom, rgba(16, 32, 26, 0.55), rgba(16, 32, 26, 0));
   transition: transform 0.32s ease, opacity 0.32s ease;
 }
 body.scrolled .site-header { transform: translateY(-100%); opacity: 0; pointer-events: none; }
 
 .nav-bar { display: flex; align-items: center; justify-content: space-between; min-height: 64px; }
-.brand { display: flex; align-items: baseline; gap: 0.4rem; text-decoration: none; color: #fff; }
+.brand { display: flex; align-items: baseline; gap: 0.4rem; text-decoration: none; color: #fff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45); }
 .brand-mark { font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; letter-spacing: -0.02em; }
 .brand-year { color: var(--color-accent-light); font-weight: 800; font-size: 1.4rem; }
 
 .nav-desktop { display: flex; gap: 1.6rem; align-items: center; }
-.nav-desktop a { text-decoration: none; color: rgba(255, 255, 255, 0.9); font-weight: 600; }
+.nav-desktop a { text-decoration: none; color: rgba(255, 255, 255, 0.92); font-weight: 600;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45); }
 .nav-desktop a:hover { color: var(--color-accent-light); }
 .nav-cta { background: var(--color-accent-dk); color: #fff !important; padding: 0.5rem 1.1rem; border-radius: 999px; }
 .nav-cta:hover { background: var(--color-accent) !important; }
@@ -145,7 +146,8 @@ body.scrolled .menu-fab { display: flex; }        /* appears once scrolled */
     linear-gradient(160deg, rgba(33,53,40,0.55) 0%, rgba(33,53,40,0.45) 45%, rgba(33,53,40,0.78) 100%),
     url('../assets/img/hero.jpg') center 30% / cover no-repeat;
   background-color: #2f4a3c; /* fallback while the image loads / if missing */
-  padding: clamp(4.5rem, 12vw, 8.5rem) 0;
+  /* Extra top padding clears the fixed, overlaid header (~64px). */
+  padding: clamp(6rem, 13vw, 9.5rem) 0 clamp(4.5rem, 12vw, 8.5rem);
   overflow: hidden;
 }
 .hero-overlay {
