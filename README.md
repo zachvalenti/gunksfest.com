@@ -32,7 +32,7 @@ exact names (the HTML/CSS already point at them):
 | `assets/img/hero.jpg` | The Gunks cliff hero photo (large, landscape). |
 | `assets/img/gcc-logo.jpg` | Gunks Climbers Coalition logo. |
 | `assets/img/mohonk-logo.png` | Mohonk Preserve logo (transparent PNG ideal). |
-| `assets/img/mohonk-visitor-center.jpg` | Background for the "Presented in Partnership" block. **Currently a placeholder** — replace with a Mohonk Preserve visitor-center photo (wide/landscape). |
+| `assets/img/mohonk-visitor-center.jpg` | Background for the "Presented in Partnership" block. Currently a Mohonk Preserve Skytop Tower photo — swap freely for another wide/landscape Mohonk shot. |
 | `assets/img/ulster-fairground.jpg` | Background for the "A New Home for 2026" block. **Currently a placeholder** — replace with an Ulster County Fairground photo (wide/landscape). |
 | `assets/img/gallery/slide-01…12.jpg` | The crossfading photos behind "What is GunksFest?" (extracted from the sponsor deck). |
 
