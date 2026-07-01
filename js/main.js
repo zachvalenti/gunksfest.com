@@ -139,13 +139,13 @@
     drawAll(0, 0);   // paint the resting wave immediately (robust if rAF is throttled)
     if (reduceMotion) return;
 
-    var start = null, DUR = 1800;
+    var start = null, DUR = 1000;          // was 1450 — shorter whip
     function frame(ts) {
       if (start === null) start = ts;
       var elapsed = ts - start, t = elapsed / 1000;
       var prog = Math.min(elapsed / DUR, 1);
       var decay = (1 - prog) * (1 - prog);   // ease-out to rest
-      drawAll(22 * decay, t);
+      drawAll(6 * decay, t);                // was 13 — gentler whip
       if (prog < 1) requestAnimationFrame(frame);
       else drawAll(0, 0);
     }
@@ -158,7 +158,7 @@
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(function () {
-        scrollPhase = window.scrollY * 0.0013;
+        scrollPhase = window.scrollY * 0.0035;   // was 0.0013 — stronger ripple
         if (settled) drawAll(0, 0);
         ticking = false;
       });
