@@ -53,34 +53,45 @@
     yearEl.textContent = String(new Date().getFullYear());
   }
 
-  // --- Background photo slideshow (#about) ---
-  var slideshow = document.querySelector(".slideshow");
-  if (slideshow) {
-    var slides = Array.prototype.slice.call(slideshow.querySelectorAll(".slide"));
+  // --- Background photo slideshows (#about and #updates) ---
+  // Every .slideshow shares one rotation tick; each has a data-offset so the
+  // two never display the same image at the same time.
+  var shows = [];
+  Array.prototype.forEach.call(document.querySelectorAll(".slideshow"), function (ss) {
+    var slides = Array.prototype.slice.call(ss.querySelectorAll(".slide"));
+    if (!slides.length) return;
+    var offset = ((parseInt(ss.dataset.offset || "0", 10) % slides.length) + slides.length) % slides.length;
 
-    // Lazy-load the remaining slides one at a time so we don't hammer the
-    // network on page load (slide 1 is already loaded via its src attribute).
-    var loaded = 1;
+    // Show the offset slide first.
+    slides.forEach(function (s, i) { s.classList.toggle("is-active", i === offset); });
+
+    // Lazy-load one at a time, starting from the visible slide, so we don't
+    // hammer the network. Slides that already have a src (eager) are skipped.
+    var order = slides.map(function (_, i) { return (offset + i) % slides.length; });
+    var li = 0;
     (function loadNext() {
-      if (loaded >= slides.length) return;
-      var img = slides[loaded];
-      var done = function () { loaded++; setTimeout(loadNext, 250); };
+      if (li >= order.length) return;
+      var img = slides[order[li]];
+      if (img.getAttribute("src")) { li++; return loadNext(); }
+      var done = function () { li++; setTimeout(loadNext, 220); };
       img.addEventListener("load", done, { once: true });
       img.addEventListener("error", done, { once: true });
-      if (img.dataset.src) { img.src = img.dataset.src; } else { done(); }
+      img.src = img.dataset.src || "";
     })();
 
-    // Crossfade rotation (skipped when the user prefers reduced motion).
-    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (slides.length > 1 && !reduce) {
-      var idx = 0;
-      setInterval(function () {
-        var next = (idx + 1) % slides.length;
-        slides[idx].classList.remove("is-active");
-        slides[next].classList.add("is-active");
-        idx = next;
-      }, 5500);
-    }
+    shows.push({ slides: slides, offset: offset });
+  });
+
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (shows.length && !reduce) {
+    var tick = 0;
+    setInterval(function () {
+      tick++;
+      shows.forEach(function (sh) {
+        var active = (tick + sh.offset) % sh.slides.length;
+        sh.slides.forEach(function (s, i) { s.classList.toggle("is-active", i === active); });
+      });
+    }, 5500);
   }
 
   // --- Draw a gentle, slightly-waving line into each rope divider ---

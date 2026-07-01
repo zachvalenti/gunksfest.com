@@ -11,11 +11,12 @@
   <meta property="og:title" content="GunksFest 2026 — A Shawangunks Climbing Festival" />
   <meta property="og:description" content="Clinics, vendors, camping, and an evening film festival in the Shawangunks. Presented by the Gunks Climbers Coalition with Mohonk Preserve. October 9th - 12th, 2026." />
   <meta property="og:url" content="https://gunksfest.com/" />
-  <!-- TODO: add a real share image at assets/img/og-image.jpg (1200x630) -->
   <meta property="og:image" content="https://gunksfest.com/assets/img/og-image.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <link rel="icon" href="assets/favicon.ico" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/img/favicon.png" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -181,7 +182,25 @@
     <div class="rope-divider" role="presentation"><svg class="rope" width="100%" height="60" aria-hidden="true" focusable="false"><path class="rope-body" d="M-20,30 L3200,30"/><path class="rope-fleck" fill="none" stroke="url(#fleckA)" d="M-20,30 L3200,30"/><path class="rope-fleck" fill="none" stroke="url(#fleckB)" d="M-20,30 L3200,30"/></svg></div>
 
     <!-- ============ UPDATES / CTA ============ -->
-    <section class="section section-cta" id="updates" aria-labelledby="updates-title">
+    <section class="section section-cta section-photo" id="updates" aria-labelledby="updates-title">
+      <!-- Same event photos as the About block, offset by 6 so the two
+           slideshows never show the same image at the same time. -->
+      <div class="slideshow" data-offset="6" aria-hidden="true">
+        <img class="slide" data-src="assets/img/gallery/slide-01.jpg" alt="" />
+        <img class="slide" data-src="assets/img/gallery/slide-02.jpg" alt="" />
+        <img class="slide" data-src="assets/img/gallery/slide-03.jpg" alt="" />
+        <img class="slide" data-src="assets/img/gallery/slide-04.jpg" alt="" />
+        <img class="slide" data-src="assets/img/gallery/slide-05.jpg" alt="" />
+        <img class="slide" data-src="assets/img/gallery/slide-06.jpg" alt="" />
+        <img class="slide" data-src="assets/img/gallery/slide-07.jpg" alt="" />
+        <img class="slide" data-src="assets/img/gallery/slide-08.jpg" alt="" />
+        <img class="slide" data-src="assets/img/gallery/slide-09.jpg" alt="" />
+        <img class="slide" data-src="assets/img/gallery/slide-10.jpg" alt="" />
+        <img class="slide" data-src="assets/img/gallery/slide-11.jpg" alt="" />
+        <img class="slide" data-src="assets/img/gallery/slide-12.jpg" alt="" />
+      </div>
+      <div class="slideshow-scrim" aria-hidden="true"></div>
+
       <div class="container narrow">
         <h2 id="updates-title">Stay in the Loop</h2>
         <p class="lead">
