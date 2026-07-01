@@ -78,32 +78,59 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; letter-spacing:
 .btn-lg { padding: 1rem 2.2rem; font-size: 1.05rem; }
 
 /* ---------- Header / Nav ---------- */
+/* Dark bar at the top; slides away on scroll, replaced by the floating burger. */
 .site-header {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(244, 239, 230, 0.92);
+  background: rgba(20, 37, 31, 0.94);
+  -webkit-backdrop-filter: saturate(140%) blur(8px);
   backdrop-filter: saturate(140%) blur(8px);
-  border-bottom: 1px solid var(--color-sand-dk);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  transition: transform 0.32s ease, opacity 0.32s ease;
 }
+body.scrolled .site-header { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+
 .nav-bar { display: flex; align-items: center; justify-content: space-between; min-height: 64px; }
-.brand { display: flex; align-items: baseline; gap: 0.4rem; text-decoration: none; color: var(--color-forest); }
+.brand { display: flex; align-items: baseline; gap: 0.4rem; text-decoration: none; color: #fff; }
 .brand-mark { font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; letter-spacing: -0.02em; }
-.brand-year { color: var(--color-accent); font-weight: 800; font-size: 1.4rem; }
+.brand-year { color: var(--color-accent-light); font-weight: 800; font-size: 1.4rem; }
 
-.nav-menu { list-style: none; display: flex; gap: 1.6rem; margin: 0; padding: 0; align-items: center; }
-.nav-menu a { text-decoration: none; color: var(--color-ink); font-weight: 600; }
-.nav-menu a:hover { color: var(--color-accent-dk); }
-.nav-cta { background: var(--color-forest); color: #fff !important; padding: 0.5rem 1.1rem; border-radius: 999px; }
-.nav-cta:hover { background: var(--color-forest-dk); }
+.nav-desktop { display: flex; gap: 1.6rem; align-items: center; }
+.nav-desktop a { text-decoration: none; color: rgba(255, 255, 255, 0.9); font-weight: 600; }
+.nav-desktop a:hover { color: var(--color-accent-light); }
+.nav-cta { background: var(--color-accent-dk); color: #fff !important; padding: 0.5rem 1.1rem; border-radius: 999px; }
+.nav-cta:hover { background: var(--color-accent) !important; }
 
-.nav-toggle {
-  display: none;
-  background: none; border: 0; cursor: pointer;
-  width: 44px; height: 44px; padding: 10px;
+/* Floating burger button (top-right). Hidden by default on desktop-at-top. */
+.menu-fab {
+  position: fixed; top: 14px; right: 14px; z-index: 130;
+  display: none; align-items: center; justify-content: center; flex-direction: column;
+  width: 48px; height: 48px; padding: 13px; gap: 0; cursor: pointer;
+  background: rgba(20, 37, 31, 0.92); border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
 }
-.nav-toggle-bar { display: block; height: 2px; background: var(--color-ink); margin: 5px 0; transition: 0.2s; }
-.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) { opacity: 0; }
-.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+body.scrolled .menu-fab { display: flex; }        /* appears once scrolled */
+.menu-fab-bar { display: block; width: 22px; height: 2px; background: #fff; margin: 3px 0; transition: 0.25s; }
+.menu-fab[aria-expanded="true"] .menu-fab-bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.menu-fab[aria-expanded="true"] .menu-fab-bar:nth-child(2) { opacity: 0; }
+.menu-fab[aria-expanded="true"] .menu-fab-bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* Dropdown menu panel opened by the burger (top-right, doesn't overlap content). */
+.menu-panel {
+  position: fixed; top: 70px; right: 14px; z-index: 129;
+  display: flex; flex-direction: column; min-width: 190px;
+  padding: 0.5rem; gap: 0.15rem;
+  background: rgba(20, 37, 31, 0.97); border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px; box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  opacity: 0; transform: translateY(-8px) scale(0.98); transform-origin: top right;
+  pointer-events: none; transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.menu-panel.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+.menu-panel a { text-decoration: none; color: #fff; font-weight: 600; padding: 0.7rem 0.9rem; border-radius: 9px; }
+.menu-panel a:hover { background: rgba(255, 255, 255, 0.08); color: var(--color-accent-light); }
+.menu-panel .menu-cta { background: var(--color-accent-dk); text-align: center; margin-top: 0.2rem; }
+.menu-panel .menu-cta:hover { background: var(--color-accent); color: #fff; }
 
 /* ---------- Hero ---------- */
 .hero {
@@ -174,13 +201,22 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; letter-spacing:
 @media (prefers-reduced-motion: reduce) { .slide { transition: none; } }
 
 /* ---------- Climbing-rope section divider ---------- */
+/* A slack rope draped across each seam. Zero-height wrapper so the sections
+   stay flush; the SVG is absolutely centred on the seam and only the rope
+   (drawn as two stroked paths) is visible over the adjacent photos. */
 .rope-divider {
-  position: relative; z-index: 5;
-  height: 18px; margin: -9px 0;          /* straddles the seam between sections */
-  line-height: 0; pointer-events: none;
-  filter: drop-shadow(0 3px 5px rgba(0,0,0,0.30));
+  position: relative; z-index: 6; height: 0;
+  pointer-events: none;
 }
-.rope-divider .rope { display: block; width: 100%; height: 18px; }
+.rope-divider .rope {
+  position: absolute; left: 0; right: 0; bottom: -32px;
+  width: 100%; height: 64px; overflow: visible;
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.38));
+}
+.rope-line { fill: none; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.rope-base { stroke: #2b6f30; stroke-width: 11; }                 /* green rope body */
+.rope-wrap { stroke: #0e90d6; stroke-width: 11; stroke-linecap: butt;
+             stroke-dasharray: 9 15; }                            /* blue wraps */
 
 /* Feature grid */
 .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
@@ -244,18 +280,8 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; letter-spacing:
 
 /* ---------- Mobile nav ---------- */
 @media (max-width: 720px) {
-  .nav-toggle { display: block; }
-  .nav-menu {
-    position: absolute; top: 64px; left: 0; right: 0;
-    flex-direction: column; gap: 0; align-items: stretch;
-    background: var(--color-sand); border-bottom: 1px solid var(--color-sand-dk);
-    box-shadow: var(--shadow);
-    max-height: 0; overflow: hidden; transition: max-height 0.25s ease;
-  }
-  .nav-menu.open { max-height: 360px; }
-  .nav-menu li { border-top: 1px solid var(--color-sand-dk); }
-  .nav-menu a { display: block; padding: 1rem 1.25rem; }
-  .nav-cta { border-radius: 0; text-align: center; }
+  .nav-desktop { display: none; }      /* inline links give way to the burger */
+  .menu-fab { display: flex; }         /* burger always available on mobile */
 }
 
 /* ---------- Motion preference ---------- */

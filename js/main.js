@@ -2,24 +2,50 @@
 (function () {
   "use strict";
 
-  // --- Mobile nav toggle ---
-  var toggle = document.querySelector(".nav-toggle");
-  var menu = document.getElementById("nav-menu");
+  // --- Floating burger menu (FAB + dropdown panel) ---
+  var fab = document.querySelector(".menu-fab");
+  var panel = document.getElementById("menu-panel");
 
-  if (toggle && menu) {
-    toggle.addEventListener("click", function () {
-      var open = menu.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", String(open));
+  function closePanel() {
+    if (!panel) return;
+    panel.classList.remove("open");
+    if (fab) fab.setAttribute("aria-expanded", "false");
+  }
+
+  if (fab && panel) {
+    fab.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var open = panel.classList.toggle("open");
+      fab.setAttribute("aria-expanded", String(open));
     });
-
-    // Close the menu after tapping a link (mobile)
-    menu.addEventListener("click", function (e) {
-      if (e.target.tagName === "A" && menu.classList.contains("open")) {
-        menu.classList.remove("open");
-        toggle.setAttribute("aria-expanded", "false");
-      }
+    // Close when a link is tapped, when clicking away, or on Escape.
+    panel.addEventListener("click", function (e) {
+      if (e.target.tagName === "A") closePanel();
+    });
+    document.addEventListener("click", function (e) {
+      if (panel.classList.contains("open") && !panel.contains(e.target) && e.target !== fab) closePanel();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closePanel();
     });
   }
+
+  // --- Hide the top bar on scroll (body.scrolled drives the CSS) ---
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      var scrolled = window.scrollY > 80;
+      if (scrolled !== document.body.classList.contains("scrolled")) {
+        document.body.classList.toggle("scrolled", scrolled);
+        if (!scrolled) closePanel();   // tidy up when the bar returns
+      }
+      ticking = false;
+    });
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
 
   // --- Current year in footer ---
   var yearEl = document.getElementById("year");

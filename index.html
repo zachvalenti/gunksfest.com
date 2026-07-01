@@ -21,26 +21,6 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- Shared climbing-rope pattern, referenced by every .rope-divider below.
-       Kernmantle candy-stripe in the brand blue + green with cylindrical shading. -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-    <defs>
-      <pattern id="ropeTwist" width="22" height="22" patternUnits="userSpaceOnUse" patternTransform="rotate(54)">
-        <rect width="22" height="22" fill="#0e90d6" />
-        <rect width="11" height="22" fill="#256a2b" />
-        <rect x="10" width="2" height="22" fill="#0b5a86" opacity="0.5" />
-        <rect x="21" width="2" height="22" fill="#194f1f" opacity="0.5" />
-      </pattern>
-      <linearGradient id="ropeRound" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0"    stop-color="#000" stop-opacity="0.42" />
-        <stop offset="0.16" stop-color="#000" stop-opacity="0.04" />
-        <stop offset="0.44" stop-color="#fff" stop-opacity="0.42" />
-        <stop offset="0.62" stop-color="#fff" stop-opacity="0.04" />
-        <stop offset="1"    stop-color="#000" stop-opacity="0.48" />
-      </linearGradient>
-    </defs>
-  </svg>
-
   <!-- ============ HEADER / NAV ============ -->
   <header class="site-header" id="top">
     <div class="container nav-bar">
@@ -50,22 +30,28 @@
         <span class="brand-year">2026</span>
       </a>
 
-      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu">
-        <span class="nav-toggle-bar"></span>
-        <span class="nav-toggle-bar"></span>
-        <span class="nav-toggle-bar"></span>
-      </button>
-
-      <nav class="nav" aria-label="Primary">
-        <ul class="nav-menu" id="nav-menu">
-          <li><a href="#about">About</a></li>
-          <li><a href="#partners">Partners</a></li>
-          <li><a href="#venue">Venue</a></li>
-          <li><a class="nav-cta" href="#updates">Get Updates</a></li>
-        </ul>
+      <nav class="nav-desktop" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#partners">Partners</a>
+        <a href="#venue">Venue</a>
+        <a class="nav-cta" href="#updates">Get Updates</a>
       </nav>
     </div>
   </header>
+
+  <!-- Floating burger — appears on scroll (all sizes) and on mobile.
+       Kept outside <header> so hiding the bar doesn't hide the menu. -->
+  <button class="menu-fab" aria-expanded="false" aria-controls="menu-panel" aria-label="Open menu">
+    <span class="menu-fab-bar"></span>
+    <span class="menu-fab-bar"></span>
+    <span class="menu-fab-bar"></span>
+  </button>
+  <nav class="menu-panel" id="menu-panel" aria-label="Menu">
+    <a href="#about">About</a>
+    <a href="#partners">Partners</a>
+    <a href="#venue">Venue</a>
+    <a class="menu-cta" href="#updates">Get Updates</a>
+  </nav>
 
   <main id="main">
     <!-- ============ HERO ============ -->
@@ -83,7 +69,7 @@
       </div>
     </section>
 
-    <div class="rope-divider" role="presentation"><svg class="rope" width="100%" height="18" preserveAspectRatio="none" aria-hidden="true"><rect width="100%" height="100%" fill="url(#ropeTwist)"/><rect width="100%" height="100%" fill="url(#ropeRound)"/></svg></div>
+    <div class="rope-divider" role="presentation"><svg class="rope" viewBox="0 0 1200 64" width="100%" height="64" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="rope-line rope-base" d="M-8,15 Q600,49 1208,19"/><path class="rope-line rope-wrap" d="M-8,15 Q600,49 1208,19"/></svg></div>
 
     <!-- ============ ABOUT ============ -->
     <section class="section section-photo" id="about" aria-labelledby="about-title">
@@ -132,7 +118,7 @@
       </div>
     </section>
 
-    <div class="rope-divider" role="presentation"><svg class="rope" width="100%" height="18" preserveAspectRatio="none" aria-hidden="true"><rect width="100%" height="100%" fill="url(#ropeTwist)"/><rect width="100%" height="100%" fill="url(#ropeRound)"/></svg></div>
+    <div class="rope-divider" role="presentation"><svg class="rope" viewBox="0 0 1200 64" width="100%" height="64" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="rope-line rope-base" d="M-8,18 Q540,60 1208,13"/><path class="rope-line rope-wrap" d="M-8,18 Q540,60 1208,13"/></svg></div>
 
     <!-- ============ PARTNERS ============ -->
     <section class="section section-photo" id="partners" aria-labelledby="partners-title">
@@ -155,7 +141,7 @@
       </div>
     </section>
 
-    <div class="rope-divider" role="presentation"><svg class="rope" width="100%" height="18" preserveAspectRatio="none" aria-hidden="true"><rect width="100%" height="100%" fill="url(#ropeTwist)"/><rect width="100%" height="100%" fill="url(#ropeRound)"/></svg></div>
+    <div class="rope-divider" role="presentation"><svg class="rope" viewBox="0 0 1200 64" width="100%" height="64" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="rope-line rope-base" d="M-8,16 Q660,43 1208,17"/><path class="rope-line rope-wrap" d="M-8,16 Q660,43 1208,17"/></svg></div>
 
     <!-- ============ VENUE / FORMAT ============ -->
     <section class="section section-photo" id="venue" aria-labelledby="venue-title">
@@ -179,7 +165,7 @@
       </div>
     </section>
 
-    <div class="rope-divider" role="presentation"><svg class="rope" width="100%" height="18" preserveAspectRatio="none" aria-hidden="true"><rect width="100%" height="100%" fill="url(#ropeTwist)"/><rect width="100%" height="100%" fill="url(#ropeRound)"/></svg></div>
+    <div class="rope-divider" role="presentation"><svg class="rope" viewBox="0 0 1200 64" width="100%" height="64" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="rope-line rope-base" d="M-8,13 Q600,62 1208,21"/><path class="rope-line rope-wrap" d="M-8,13 Q600,62 1208,21"/></svg></div>
 
     <!-- ============ UPDATES / CTA ============ -->
     <section class="section section-cta" id="updates" aria-labelledby="updates-title">
