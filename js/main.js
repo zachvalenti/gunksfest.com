@@ -20,7 +20,7 @@
     });
     // Close when a link is tapped, when clicking away, or on Escape.
     panel.addEventListener("click", function (e) {
-      if (e.target.tagName === "A") closePanel();
+      if (e.target.closest("a")) closePanel();
     });
     document.addEventListener("click", function (e) {
       if (panel.classList.contains("open") && !panel.contains(e.target) && e.target !== fab) closePanel();

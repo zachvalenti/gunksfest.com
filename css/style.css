@@ -90,7 +90,7 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; letter-spacing:
 }
 body.scrolled .site-header { transform: translateY(-100%); opacity: 0; pointer-events: none; }
 
-.nav-bar { display: flex; align-items: center; justify-content: space-between; min-height: 64px; }
+.nav-bar { display: flex; align-items: center; justify-content: flex-end; min-height: 64px; }
 .brand { display: flex; align-items: baseline; gap: 0.4rem; text-decoration: none; color: #fff;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45); }
 .brand-mark { font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; letter-spacing: -0.02em; }
@@ -131,6 +131,15 @@ body.scrolled .menu-fab { display: flex; }        /* appears once scrolled */
 }
 .menu-panel.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
 .menu-panel a { text-decoration: none; color: #fff; font-weight: 600; padding: 0.7rem 0.9rem; border-radius: 9px; }
+/* Brand title at the top of the menu */
+.menu-brand {
+  font-family: var(--font-display); font-weight: 800; letter-spacing: -0.02em;
+  padding: 0.4rem 0.9rem 0.7rem !important; margin-bottom: 0.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12); border-radius: 0 !important;
+}
+.menu-brand:hover { background: none !important; color: #fff !important; }
+.menu-brand .brand-mark { font-size: 1.2rem; }
+.menu-brand .brand-year { font-size: 1.2rem; color: var(--color-accent-light); }
 .menu-panel a:hover { background: rgba(255, 255, 255, 0.08); color: var(--color-accent-light); }
 .menu-panel .menu-cta { background: var(--color-accent-dk); text-align: center; margin-top: 0.2rem; }
 .menu-panel .menu-cta:hover { background: var(--color-accent); color: #fff; }
