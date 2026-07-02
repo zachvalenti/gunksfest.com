@@ -139,27 +139,52 @@
     drawAll(0, 0);   // paint the resting wave immediately (robust if rAF is throttled)
     if (reduceMotion) return;
 
-    var start = null, DUR = 1000;          // was 1450 — shorter whip
-    function frame(ts) {
-      if (start === null) start = ts;
-      var elapsed = ts - start, t = elapsed / 1000;
-      var prog = Math.min(elapsed / DUR, 1);
-      var decay = (1 - prog) * (1 - prog);   // ease-out to rest
-      drawAll(6 * decay, t);                // was 13 — gentler whip
-      if (prog < 1) requestAnimationFrame(frame);
-      else drawAll(0, 0);
-    }
-    requestAnimationFrame(frame);
+    // Each rope whips once, the moment it scrolls into view (so it's actually
+    // seen on mobile, where the dividers start below the fold).
+    var DUR = 1000, AMP = 7;
+    var whipStart = ropes.map(function () { return null; });
 
-    // Subtle scroll-driven undulation once the whip has settled.
-    var settled = false, ticking = false;
-    setTimeout(function () { settled = true; }, DUR);
+    function render(now) {
+      for (var i = 0; i < ropes.length; i++) {
+        var s = whipStart[i];
+        if (s == null || now - s >= DUR) { build(i, 0, 0); continue; }
+        var prog = (now - s) / DUR, decay = (1 - prog) * (1 - prog);
+        build(i, AMP * decay, (now - s) / 1000);
+      }
+    }
+    var running = false;
+    function loop(now) {
+      render(now);
+      var any = false;
+      for (var i = 0; i < ropes.length; i++) {
+        if (whipStart[i] != null && now - whipStart[i] < DUR) { any = true; break; }
+      }
+      if (any) requestAnimationFrame(loop); else running = false;
+    }
+    function startLoop() { if (!running) { running = true; requestAnimationFrame(loop); } }
+
+    if ("IntersectionObserver" in window) {
+      var ropeIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          var i = ropes.indexOf(en.target);
+          if (en.isIntersecting && i > -1 && whipStart[i] == null) {
+            whipStart[i] = (window.performance || Date).now();
+            startLoop();
+            ropeIO.unobserve(en.target);
+          }
+        });
+      }, { threshold: 0.25 });
+      ropes.forEach(function (r) { ropeIO.observe(r); });
+    }
+
+    // Scroll-driven ripple (and keeps any in-progress whip rendering).
+    var ticking = false;
     window.addEventListener("scroll", function () {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(function () {
-        scrollPhase = window.scrollY * 0.0035;   // was 0.0013 — stronger ripple
-        if (settled) drawAll(0, 0);
+        scrollPhase = window.scrollY * 0.0035;
+        render((window.performance || Date).now());
         ticking = false;
       });
     }, { passive: true });
