@@ -108,6 +108,48 @@
     Array.prototype.forEach.call(revealEls, function (el) { el.classList.add("is-visible"); });
   }
 
+  // --- Parallax backgrounds ---
+  // Photo layers lag behind the scroll (translate3d, rAF-throttled). Each layer
+  // has ±90px CSS bleed; depths stay below that so edges never show. The hero
+  // text drifts and fades slightly for a second plane of depth.
+  (function () {
+    var layers = [];
+    var hero = document.querySelector(".hero");
+    var heroBg = document.querySelector(".hero-bg");
+    var heroInner = document.querySelector(".hero-inner");
+    if (hero && heroBg) layers.push({ sec: hero, el: heroBg, depth: 75 });
+    Array.prototype.forEach.call(document.querySelectorAll(".section-photo"), function (sec) {
+      var bg = sec.querySelector(".slideshow, .section-bg");
+      if (bg) layers.push({ sec: sec, el: bg, depth: 55 });
+    });
+    if (!layers.length) return;
+
+    var vh = window.innerHeight;
+    window.addEventListener("resize", function () { vh = window.innerHeight; }, { passive: true });
+
+    function update() {
+      for (var i = 0; i < layers.length; i++) {
+        var L = layers[i], r = L.sec.getBoundingClientRect();
+        // -1 = section just left the top, +1 = about to enter from the bottom
+        var prog = (r.top + r.height / 2 - vh / 2) / ((vh + r.height) / 2);
+        if (prog < -1.15 || prog > 1.15) continue;
+        L.el.style.transform = "translate3d(0," + (-prog * L.depth).toFixed(1) + "px,0)";
+      }
+      if (hero && heroInner) {
+        var sy = window.scrollY, hh = hero.offsetHeight || 1;
+        heroInner.style.transform = "translate3d(0," + (sy * 0.12).toFixed(1) + "px,0)";
+        heroInner.style.opacity = String(Math.max(1 - (sy / hh) * 0.7, 0.2));
+      }
+    }
+    var pxTick = false;
+    window.addEventListener("scroll", function () {
+      if (pxTick) return;
+      pxTick = true;
+      requestAnimationFrame(function () { update(); pxTick = false; });
+    }, { passive: true });
+    update();
+  })();
+
   // --- Rope dividers: whip on load, settle into a gentle wave, nudge on scroll ---
   // Path is built in plain pixels (SVG has no viewBox) so the woven fleck
   // pattern stays undistorted at any width. Each divider waves a bit differently.

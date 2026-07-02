@@ -148,15 +148,19 @@ body.scrolled .menu-fab { display: flex; }        /* appears once scrolled */
   position: relative;
   color: #fff;
   text-align: center;
-  /* Gunks cliff photo with a dark gradient on top for text legibility.
-     To change the photo, replace assets/img/hero.jpg. */
-  background:
-    linear-gradient(160deg, rgba(33,53,40,0.55) 0%, rgba(33,53,40,0.45) 45%, rgba(33,53,40,0.78) 100%),
-    url('../assets/img/hero.jpg') center 30% / cover no-repeat;
   background-color: #2f4a3c; /* fallback while the image loads / if missing */
   /* Extra top padding clears the fixed, overlaid header (~64px). */
   padding: clamp(6rem, 13vw, 9.5rem) 0 clamp(4.5rem, 12vw, 8.5rem);
   overflow: hidden;
+}
+/* Gunks cliff photo with a dark gradient on top for text legibility, on its
+   own layer so it can parallax. To change the photo, replace assets/img/hero.jpg. */
+.hero-bg {
+  position: absolute; left: 0; right: 0; top: 0; bottom: 0; z-index: 0;
+  background:
+    linear-gradient(160deg, rgba(33,53,40,0.55) 0%, rgba(33,53,40,0.45) 45%, rgba(33,53,40,0.78) 100%),
+    url('../assets/img/hero.jpg') center 30% / cover no-repeat;
+  background-color: #2f4a3c;
 }
 .hero-overlay {
   position: absolute; inset: 0;
@@ -229,6 +233,17 @@ body.scrolled .menu-fab { display: flex; }        /* appears once scrolled */
    modelled on a kernmantle climbing rope. */
 .rope-body  { fill: none; stroke: #0d6ea4; stroke-width: 14; stroke-linecap: round; }
 .rope-fleck { stroke-width: 14; stroke-linecap: round; }
+
+/* ---------- Parallax backgrounds (JS-driven) ---------- */
+/* Layers get vertical bleed so the photo can lag behind the scroll without
+   ever exposing a section edge. Transforms are set from js/main.js. */
+html.js .hero-bg,
+html.js .section-photo .slideshow,
+html.js .section-photo .section-bg {
+  top: -90px; bottom: -90px;
+  will-change: transform;
+}
+html.js .hero-inner { will-change: transform, opacity; }
 
 /* ---------- Reveal cards on scroll (only when JS is on) ---------- */
 html.js .feature, html.js .logo-card, html.js .venue-card {
