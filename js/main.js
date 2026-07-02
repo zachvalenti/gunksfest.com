@@ -174,7 +174,8 @@
           }
         });
       }, { threshold: 0.25 });
-      ropes.forEach(function (r) { ropeIO.observe(r); });
+      // Only the first rope performs the entrance whip; the rest just ripple on scroll.
+      if (ropes[0]) ropeIO.observe(ropes[0]);
     }
 
     // Scroll-driven ripple (and keeps any in-progress whip rendering).
