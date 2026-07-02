@@ -137,10 +137,10 @@
     function drawAll(whipAmp, tSec) { for (var i = 0; i < ropes.length; i++) build(i, whipAmp, tSec); }
 
     drawAll(0, 0);   // paint the resting wave immediately (robust if rAF is throttled)
-    if (reduceMotion) return;
 
-    // Each rope whips once, the moment it scrolls into view (so it's actually
-    // seen on mobile, where the dividers start below the fold).
+    // The rope motion is subtle and decorative, so it runs even under
+    // reduced-motion. Each rope whips once, the moment it scrolls into view
+    // (so it's actually seen on mobile, where the dividers start below the fold).
     var DUR = 1000, AMP = 7;
     var whipStart = ropes.map(function () { return null; });
 
