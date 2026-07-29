@@ -95,7 +95,7 @@
   }
 
   // --- Reveal cards on scroll ---
-  var revealEls = document.querySelectorAll(".feature, .logo-card, .venue-card");
+  var revealEls = document.querySelectorAll(".feature, .logo-card, .venue-card, .pass-card");
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (revealEls.length && "IntersectionObserver" in window && !reduceMotion) {
     var io = new IntersectionObserver(function (entries) {
@@ -107,6 +107,31 @@
   } else {
     Array.prototype.forEach.call(revealEls, function (el) { el.classList.add("is-visible"); });
   }
+
+  // --- Click-to-load video embeds ---
+  // The page ships a thumbnail + play button; YouTube isn't contacted at all
+  // until someone hits play. If the thumbnail 404s (some videos have no
+  // maxres still), drop it and let the card's dark background show through.
+  Array.prototype.forEach.call(document.querySelectorAll(".video-embed"), function (box) {
+    var id = box.dataset.video;
+    var btn = box.querySelector(".video-play");
+    if (!id || !btn) return;
+
+    var thumb = box.querySelector(".video-thumb");
+    if (thumb) {
+      thumb.addEventListener("error", function () { thumb.remove(); }, { once: true });
+    }
+
+    btn.addEventListener("click", function () {
+      var frame = document.createElement("iframe");
+      frame.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0";
+      frame.title = btn.getAttribute("aria-label") || "Video";
+      frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+      frame.allowFullscreen = true;
+      box.innerHTML = "";
+      box.appendChild(frame);
+    });
+  });
 
   // --- Parallax backgrounds ---
   // Photo layers lag behind the scroll (translate3d, rAF-throttled). Each layer

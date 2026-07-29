@@ -246,11 +246,12 @@ html.js .section-photo .section-bg {
 html.js .hero-inner { will-change: transform, opacity; }
 
 /* ---------- Reveal cards on scroll (only when JS is on) ---------- */
-html.js .feature, html.js .logo-card, html.js .venue-card {
+html.js .feature, html.js .logo-card, html.js .venue-card, html.js .pass-card {
   opacity: 0; transform: translateY(18px);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
-html.js .feature.is-visible, html.js .logo-card.is-visible, html.js .venue-card.is-visible {
+html.js .feature.is-visible, html.js .logo-card.is-visible, html.js .venue-card.is-visible,
+html.js .pass-card.is-visible {
   opacity: 1; transform: none;
 }
 /* Gentle stagger within each group */
@@ -258,7 +259,7 @@ html.js .feature:nth-child(2), html.js .logo-card:nth-child(2), html.js .venue-c
 html.js .feature:nth-child(3), html.js .logo-card:nth-child(3) { transition-delay: 0.18s; }
 html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-delay: 0.27s; }
 @media (prefers-reduced-motion: reduce) {
-  html.js .feature, html.js .logo-card, html.js .venue-card { opacity: 1; transform: none; transition: none; }
+  html.js .feature, html.js .logo-card, html.js .venue-card, html.js .pass-card { opacity: 1; transform: none; transition: none; }
 }
 
 /* Feature grid */
@@ -308,6 +309,85 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
   background: rgba(14, 144, 214, 0.12); padding: 0.25rem 0.7rem; border-radius: 999px;
 }
 .venue-card p:last-child { margin: 0; color: var(--color-ink-soft); }
+
+/* ---------- Stay & Play (light section) ---------- */
+.section-pass { background: var(--color-sand); }
+.pass-layout { display: grid; gap: 1.5rem; grid-template-columns: 1fr; align-items: start; }
+@media (min-width: 820px) {
+  .pass-layout { grid-template-columns: 1.15fr 1fr; gap: 2rem; }
+}
+
+/* The price card — the one place on the page with a filled brand header. */
+.pass-card {
+  background: var(--color-cream); border-radius: var(--radius); padding: 2rem;
+  box-shadow: var(--shadow); border-top: 4px solid var(--color-accent-dk);
+}
+.pass-eyebrow {
+  margin: 0; font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.14em; color: var(--color-accent-dk);
+}
+.pass-price { margin: 0.35rem 0 1.1rem; }
+.pass-amount {
+  font-family: var(--font-display); font-weight: 800; line-height: 1;
+  font-size: clamp(3rem, 9vw, 4.25rem); color: var(--color-forest);
+  letter-spacing: -0.03em;
+}
+.pass-list { margin: 0 0 1.6rem; padding: 0; list-style: none; }
+.pass-list li {
+  position: relative; padding: 0 0 0 1.75rem; margin-bottom: 0.7rem;
+  color: var(--color-ink-soft);
+}
+.pass-list li::before {
+  content: ""; position: absolute; left: 0; top: 0.5em;
+  width: 0.7rem; height: 0.4rem; border-left: 2.5px solid var(--color-leaf);
+  border-bottom: 2.5px solid var(--color-leaf); transform: rotate(-45deg);
+}
+.pass-note { margin: 1rem 0 0; font-size: 0.9rem; color: var(--color-stone); font-style: italic; }
+
+.pass-side { padding: 0.5rem 0 0; }
+.pass-side h3 { margin: 0 0 1rem; font-size: 1.25rem; color: var(--color-forest); }
+.amenity-list { margin: 0; padding: 0; list-style: none; }
+.amenity-list li {
+  padding: 0.6rem 0; border-bottom: 1px solid var(--color-sand-dk);
+  color: var(--color-ink-soft); font-weight: 600;
+}
+.amenity-list li:last-child { border-bottom: 0; }
+
+/* ---------- Evening program: click-to-load video ---------- */
+.video-figure { margin: 0; max-width: 760px; }
+.video-embed {
+  position: relative; aspect-ratio: 16 / 9; overflow: hidden;
+  border-radius: var(--radius);
+  /* Shown until the YouTube still loads (and if it never does). */
+  background: linear-gradient(150deg, #1b3b2c 0%, #0f2119 100%);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+}
+.video-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video-play {
+  position: absolute; inset: 0; width: 100%; height: 100%; padding: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: 0; cursor: pointer;
+}
+.video-thumb { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* Play triangle in a brand-blue disc. */
+.video-btn {
+  position: relative; width: 76px; height: 76px; border-radius: 50%;
+  background: var(--color-accent-dk); box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+.video-btn::after {
+  content: ""; position: absolute; top: 50%; left: 54%; transform: translate(-50%, -50%);
+  border-style: solid; border-width: 13px 0 13px 22px;
+  border-color: transparent transparent transparent #fff;
+}
+.video-play:hover .video-btn, .video-play:focus-visible .video-btn {
+  transform: scale(1.08); background: var(--color-accent);
+}
+.video-figure figcaption {
+  margin-top: 0.9rem; color: rgba(255, 255, 255, 0.86); font-size: 0.95rem;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
+.video-figure figcaption strong { color: #fff; }
 
 /* CTA section */
 .section-cta { background: var(--color-forest-dk); color: #fff; text-align: center; }
