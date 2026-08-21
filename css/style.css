@@ -217,6 +217,8 @@ body.scrolled .menu-fab { display: flex; }        /* appears once scrolled */
 .section-photo h2 { color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
 .section-photo .lead { color: rgba(255,255,255,0.92); text-shadow: 0 1px 8px rgba(0,0,0,0.5); }
 .section-photo .lead strong { color: #fff; }
+/* The default link blue is far too dark against the scrim — match .cta-note. */
+.section-photo .lead a { color: #fff; font-weight: 600; }
 @media (prefers-reduced-motion: reduce) { .slide { transition: none; } }
 
 /* ---------- Climbing-rope section divider ---------- */

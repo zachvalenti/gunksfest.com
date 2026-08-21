@@ -1,0 +1,73 @@
+{
+  "generated": "2026-08-21T12:00:00.000Z",
+  "_comment": "Sample data for previewing the layout — open schedule.html?demo=1. Not used on a normal page load, and never written to by the sync workflow.",
+  "shop": {
+    "base": "https://pretix.eu",
+    "organizer": "gunks-climbers-coalition",
+    "event": "gunksfest-2026",
+    "url": "https://pretix.eu/gunks-climbers-coalition/gunksfest-2026/",
+    "widget": "",
+    "name": "GunksFest V (2026)",
+    "currency": "USD",
+    "timezone": "America/New_York",
+    "live": false
+  },
+  "categories": [
+    { "id": 3, "name": "Saturday Clinics", "description": null, "position": 0, "isAddon": false },
+    { "id": 4, "name": "Sunday Clinics", "description": null, "position": 1, "isAddon": false },
+    { "id": 5, "name": "Passes", "description": null, "position": 2, "isAddon": false }
+  ],
+  "days": [
+    {
+      "date": "2026-10-10",
+      "label": "Saturday, October 10",
+      "sessions": [
+        {
+          "id": 101, "slotId": "101-1", "name": "Sample Clinic — Anchor Building",
+          "description": "<p>Placeholder copy. Real descriptions come straight from each product in pretix.</p>",
+          "category": "Saturday Clinics", "categoryId": 3,
+          "start": "2026-10-10T13:00:00.000Z", "end": "2026-10-10T17:00:00.000Z",
+          "location": "The Trapps", "price": "125.00", "priceFrom": false,
+          "freePrice": false, "hasVariations": false, "allowWaitinglist": true,
+          "picture": null, "meta": { "guide": "Sample Guide", "difficulty": "Beginner" },
+          "url": "https://pretix.eu/gunks-climbers-coalition/gunksfest-2026/"
+        },
+        {
+          "id": 102, "slotId": "102-1", "name": "Sample Clinic — Self-Rescue",
+          "description": null, "category": "Saturday Clinics", "categoryId": 3,
+          "start": "2026-10-10T12:00:00.000Z", "end": "2026-10-10T20:00:00.000Z",
+          "location": "Mohonk Preserve", "price": "165.00", "priceFrom": true,
+          "freePrice": false, "hasVariations": true, "allowWaitinglist": true,
+          "picture": null, "meta": { "difficulty": "Intermediate" },
+          "url": "https://pretix.eu/gunks-climbers-coalition/gunksfest-2026/"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-11",
+      "label": "Sunday, October 11",
+      "sessions": [
+        {
+          "id": 103, "slotId": "103-1", "name": "Sample Session — Sunrise Yoga",
+          "description": "<p>Stretch before you send.</p>",
+          "category": "Sunday Clinics", "categoryId": 4,
+          "start": "2026-10-11T11:00:00.000Z", "end": "2026-10-11T12:00:00.000Z",
+          "location": "Field 1", "price": "0.00", "priceFrom": false,
+          "freePrice": false, "hasVariations": false, "allowWaitinglist": true,
+          "picture": null, "meta": {},
+          "url": "https://pretix.eu/gunks-climbers-coalition/gunksfest-2026/"
+        }
+      ]
+    }
+  ],
+  "unscheduled": [
+    {
+      "id": 104, "slotId": "104-none", "name": "Sample — Stay & Play Pass",
+      "description": null, "category": "Passes", "categoryId": 5,
+      "start": null, "end": null, "location": null,
+      "price": "250.00", "priceFrom": false, "freePrice": false,
+      "hasVariations": false, "allowWaitinglist": true, "picture": null, "meta": {},
+      "url": "https://pretix.eu/gunks-climbers-coalition/gunksfest-2026/"
+    }
+  ]
+}

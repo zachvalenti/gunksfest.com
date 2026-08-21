@@ -1,0 +1,56 @@
+# Pulls the clinic line-up out of pretix and commits data/schedule.json,
+# which schedule.html renders. The API token never leaves the runner — the
+# committed file holds only what the public ticket shop already shows.
+#
+# Setup (once):
+#   1. In pretix: Organizer → Teams → pick a team with "Can change event settings"
+#      (read access is enough) → API tokens → create one.
+#   2. In GitHub: Settings → Secrets and variables → Actions
+#        Secret    PRETIX_TOKEN      = the token from step 1
+#        Variable  PRETIX_ORGANIZER  = your organizer slug
+#        Variable  PRETIX_EVENT      = your event slug
+#        Variable  PRETIX_URL        = only if you self-host (default https://pretix.eu)
+#   3. Run it once by hand from the Actions tab to fill in the first snapshot.
+name: Sync pretix schedule
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"   # four times a day, off the hour to dodge the rush
+  workflow_dispatch:          # and on demand, right after you edit the shop
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pretix-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Fetch line-up from pretix
+        env:
+          PRETIX_TOKEN: ${{ secrets.PRETIX_TOKEN }}
+          PRETIX_URL: ${{ vars.PRETIX_URL || 'https://pretix.eu' }}
+          PRETIX_ORGANIZER: ${{ vars.PRETIX_ORGANIZER }}
+          PRETIX_EVENT: ${{ vars.PRETIX_EVENT }}
+        run: node scripts/fetch-pretix.mjs
+
+      - name: Commit if the line-up changed
+        run: |
+          if git diff --quiet -- data/schedule.json; then
+            echo "Schedule unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/schedule.json
+          git commit -m "Sync clinic schedule from pretix"
+          git push
