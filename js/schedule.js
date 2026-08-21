@@ -243,8 +243,11 @@
       a.href = s.url;
       a.target = "_blank";
       a.rel = "noopener";
-      a.textContent = "Register";
-      a.setAttribute("aria-label", "Register for " + (s.name || "this session"));
+      // Add-ons are bought alongside a pass rather than on their own, so
+      // "Register" would promise a checkout the link can't deliver.
+      var label = s.isAddon ? "View in shop" : "Register";
+      a.textContent = label;
+      a.setAttribute("aria-label", label + " — " + (s.name || "this session"));
       side.appendChild(a);
     }
     li.appendChild(side);

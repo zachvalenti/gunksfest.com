@@ -48,14 +48,13 @@ private than what the public ticket shop already shows.
 In pretix: **Organizer → Teams →** a team with read access to the event **→ API tokens
 →** create one.
 
-In GitHub: **Settings → Secrets and variables → Actions**
+In GitHub: **Settings → Secrets and variables → Actions →** add one secret,
+`PRETIX_TOKEN`. That is the only required setting — the shop at
+<https://pretix.eu/gunksclimbers/gunksfest2026/> is already the default.
 
-| Kind     | Name               | Value                                        |
-| -------- | ------------------ | -------------------------------------------- |
-| Secret   | `PRETIX_TOKEN`     | the token you just created                    |
-| Variable | `PRETIX_ORGANIZER` | your organizer slug                           |
-| Variable | `PRETIX_EVENT`     | your event slug                               |
-| Variable | `PRETIX_URL`       | only if self-hosting (default `https://pretix.eu`) |
+Three optional variables override it, for a rename, next year's event, or a
+self-hosted pretix: `PRETIX_ORGANIZER` (default `gunksclimbers`), `PRETIX_EVENT`
+(default `gunksfest2026`), `PRETIX_URL` (default `https://pretix.eu`).
 
 Then run **Actions → Sync pretix schedule → Run workflow** once to fill in the first
 snapshot. Until that happens the page shows a "line-up isn't published yet" notice.
@@ -82,8 +81,12 @@ each one runs. The script looks in two places, in order:
    Naive times are read in the event's own timezone.
 
 Products with neither land in a **Passes & Add-ons** block at the bottom — which is
-exactly where the Stay & Play pass belongs. Categories become the filter chips, and
-add-on categories are skipped.
+exactly where the Stay & Play pass belongs. Categories become the filter chips.
+
+Add-ons are handled by whether they carry a time. A clinic sold as an add-on to a
+festival pass still appears on the schedule (its button reads *View in shop*, since
+an add-on can't be checked out on its own). An add-on with no time is merch or an
+extra, and is left off the page entirely.
 
 ### Local preview
 

@@ -3,9 +3,9 @@
   "_comment": "Sample data for previewing the layout — open schedule.html?demo=1. Not used on a normal page load, and never written to by the sync workflow.",
   "shop": {
     "base": "https://pretix.eu",
-    "organizer": "gunks-climbers-coalition",
-    "event": "gunksfest-2026",
-    "url": "https://pretix.eu/gunks-climbers-coalition/gunksfest-2026/",
+    "organizer": "gunksclimbers",
+    "event": "gunksfest2026",
+    "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
     "widget": "",
     "name": "GunksFest V (2026)",
     "currency": "USD",
@@ -30,7 +30,7 @@
           "location": "The Trapps", "price": "125.00", "priceFrom": false,
           "freePrice": false, "hasVariations": false, "allowWaitinglist": true,
           "picture": null, "meta": { "guide": "Sample Guide", "difficulty": "Beginner" },
-          "url": "https://pretix.eu/gunks-climbers-coalition/gunksfest-2026/"
+          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/"
         },
         {
           "id": 102, "slotId": "102-1", "name": "Sample Clinic — Self-Rescue",
@@ -39,7 +39,7 @@
           "location": "Mohonk Preserve", "price": "165.00", "priceFrom": true,
           "freePrice": false, "hasVariations": true, "allowWaitinglist": true,
           "picture": null, "meta": { "difficulty": "Intermediate" },
-          "url": "https://pretix.eu/gunks-climbers-coalition/gunksfest-2026/"
+          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/"
         }
       ]
     },
@@ -55,7 +55,7 @@
           "location": "Field 1", "price": "0.00", "priceFrom": false,
           "freePrice": false, "hasVariations": false, "allowWaitinglist": true,
           "picture": null, "meta": {},
-          "url": "https://pretix.eu/gunks-climbers-coalition/gunksfest-2026/"
+          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/"
         }
       ]
     }
@@ -67,7 +67,7 @@
       "start": null, "end": null, "location": null,
       "price": "250.00", "priceFrom": false, "freePrice": false,
       "hasVariations": false, "allowWaitinglist": true, "picture": null, "meta": {},
-      "url": "https://pretix.eu/gunks-climbers-coalition/gunksfest-2026/"
+      "url": "https://pretix.eu/gunksclimbers/gunksfest2026/"
     }
   ]
 }

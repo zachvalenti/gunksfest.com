@@ -1,13 +1,13 @@
 {
   "generated": null,
   "placeholder": true,
-  "_comment": "Placeholder until the pretix shop is live. .github/workflows/pretix-sync.yml overwrites this file with the real line-up. Set the PRETIX_ORGANIZER and PRETIX_EVENT repo variables to match your shop, then run the workflow. While days[] is empty, schedule.html shows its 'coming soon' state and makes no request to pretix.",
+  "_comment": "Placeholder until the GunksFest 2026 line-up is published. .github/workflows/pretix-sync.yml overwrites this file with the real thing — add the PRETIX_TOKEN secret and run it. While days[] is empty, schedule.html shows its 'coming soon' state and makes no request to pretix.",
   "shop": {
     "base": "https://pretix.eu",
-    "organizer": "gunks-climbers-coalition",
-    "event": "gunksfest-2026",
-    "url": "https://pretix.eu/gunks-climbers-coalition/gunksfest-2026/",
-    "widget": "https://pretix.eu/gunks-climbers-coalition/gunksfest-2026/widget/product_list",
+    "organizer": "gunksclimbers",
+    "event": "gunksfest2026",
+    "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
+    "widget": "https://pretix.eu/gunksclimbers/gunksfest2026/widget/product_list",
     "name": "GunksFest V (2026)",
     "currency": "USD",
     "timezone": "America/New_York",

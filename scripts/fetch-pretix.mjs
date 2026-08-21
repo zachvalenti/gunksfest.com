@@ -20,8 +20,8 @@ import { writeFile, readFile, mkdir } from "node:fs/promises";
 import { dirname } from "node:path";
 
 const BASE = (process.env.PRETIX_URL || "https://pretix.eu").replace(/\/+$/, "");
-const ORG = process.env.PRETIX_ORGANIZER || "gunks-climbers-coalition";
-const EVENT = process.env.PRETIX_EVENT || "gunksfest-2026";
+const ORG = process.env.PRETIX_ORGANIZER || "gunksclimbers";
+const EVENT = process.env.PRETIX_EVENT || "gunksfest2026";
 const TOKEN = process.env.PRETIX_TOKEN;
 const OUT = process.env.PRETIX_OUT || "data/schedule.json";
 
@@ -168,7 +168,7 @@ async function main() {
 
   for (const item of items) {
     const cat = item.category != null ? catById.get(item.category) : null;
-    if (cat && cat.isAddon) continue;  // add-ons are bought with something else, not scheduled
+    const isAddon = !!(cat && cat.isAddon);
 
     const { price, priceFrom } = priceOf(item);
     const meta = item.meta_data || {};
@@ -184,8 +184,11 @@ async function main() {
       hasVariations: !!item.has_variations,
       allowWaitinglist: item.allow_waitinglist !== false,
       picture: item.picture || null,
+      isAddon,
       meta,
-      url: `${BASE}/${ORG}/${EVENT}/?item=${item.id}`,
+      // Add-ons can't be bought on their own, so deep-linking the product does
+      // nothing useful — send those to the shop front page instead.
+      url: isAddon ? `${BASE}/${ORG}/${EVENT}/` : `${BASE}/${ORG}/${EVENT}/?item=${item.id}`,
     };
 
     let slots = [];
@@ -226,9 +229,12 @@ async function main() {
         end: parseMetaDate(meta.end, tz),
         location: meta.location || i18n(event.location, lang),
       });
-    } else {
+    } else if (!isAddon) {
       unscheduled.push({ ...base, slotId: `${item.id}-none`, start: null, end: null, location: meta.location || null });
     }
+    // An add-on with no time on it is merch or an extra (chalk, a t-shirt), not
+    // something that belongs on a schedule — drop it. An add-on WITH a time is a
+    // clinic sold alongside a festival pass, and was kept above.
   }
 
   sessions.sort((a, b) => a.start.localeCompare(b.start) || (a.name || "").localeCompare(b.name || ""));
@@ -260,7 +266,9 @@ async function main() {
       dateFrom: event.date_from || null,
       dateTo: event.date_to || null,
     },
-    categories: categories.filter((c) => !c.isAddon),
+    // Add-on categories are kept: a clinic sold alongside a festival pass lives
+    // in one, and its name is still what the filter chip should read.
+    categories,
     days,
     unscheduled,
   };
