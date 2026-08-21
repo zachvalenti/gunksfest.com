@@ -176,12 +176,9 @@ body.scrolled .menu-fab { display: flex; }        /* appears once scrolled */
 .hero h1 { font-size: clamp(3rem, 11vw, 6rem); font-weight: 800; margin: 0; }
 /* Numeral stays white — the blue lost too much contrast against the cliff photo. */
 .hero-year { color: #fff; }
-/* The year rides below the wordmark so "GunksFest V" stays the loud part
-   and the lockup never has to wrap mid-name on a phone. */
-.hero-edition {
-  display: block; font-size: 0.32em; font-weight: 700; letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.92); margin-top: 0.35em;
-}
+/* Year sits inline with the wordmark at full size; the whole lockup wraps
+   as one line of text when the viewport is too narrow for it. */
+.hero-edition { color: #fff; }
 .hero-tagline { font-size: clamp(1.1rem, 2.6vw, 1.5rem); max-width: 38ch; margin: 1rem auto 0; color: rgba(255,255,255,0.92); }
 .hero-date {
   display: inline-flex; align-items: center; gap: 0.5rem;
