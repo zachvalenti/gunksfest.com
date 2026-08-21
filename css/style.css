@@ -185,7 +185,6 @@ body.scrolled .menu-fab { display: flex; }        /* appears once scrolled */
   margin: 1.6rem auto 2rem; padding: 0.5rem 1.1rem;
   background: rgba(0,0,0,0.22); border-radius: 999px; font-weight: 600;
 }
-.hero-date .dot { color: var(--color-accent); font-size: 0.7rem; }
 .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
 /* ---------- Sections ---------- */
