@@ -94,7 +94,7 @@ body.scrolled .site-header { transform: translateY(-100%); opacity: 0; pointer-e
 .brand { display: flex; align-items: baseline; gap: 0.4rem; text-decoration: none; color: #fff;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45); }
 .brand-mark { font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; letter-spacing: -0.02em; }
-.brand-year { color: var(--color-accent-light); font-weight: 800; font-size: 1.4rem; }
+.brand-year { color: #fff; font-weight: 800; font-size: 1.4rem; }
 
 .nav-desktop { display: flex; gap: 1.6rem; align-items: center; }
 .nav-desktop a { text-decoration: none; color: rgba(255, 255, 255, 0.92); font-weight: 600;
@@ -138,7 +138,7 @@ body.scrolled .menu-fab { display: flex; }        /* appears once scrolled */
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 .menu-brand .brand-mark { font-size: 1.2rem; }
-.menu-brand .brand-year { font-size: 1.2rem; color: var(--color-accent-light); }
+.menu-brand .brand-year { font-size: 1.2rem; color: #fff; }
 .menu-panel a:hover { background: rgba(255, 255, 255, 0.08); color: var(--color-accent-light); }
 .menu-panel .menu-cta { background: var(--color-accent-dk); text-align: center; margin-top: 0.2rem; }
 .menu-panel .menu-cta:hover { background: var(--color-accent); color: #fff; }
@@ -174,7 +174,8 @@ body.scrolled .menu-fab { display: flex; }        /* appears once scrolled */
   font-weight: 700; color: rgba(255,255,255,0.9); margin: 0 0 1rem;
 }
 .hero h1 { font-size: clamp(3rem, 11vw, 6rem); font-weight: 800; margin: 0; }
-.hero-year { color: var(--color-accent-light); }
+/* Numeral stays white — the blue lost too much contrast against the cliff photo. */
+.hero-year { color: #fff; }
 .hero-tagline { font-size: clamp(1.1rem, 2.6vw, 1.5rem); max-width: 38ch; margin: 1rem auto 0; color: rgba(255,255,255,0.92); }
 .hero-date {
   display: inline-flex; align-items: center; gap: 0.5rem;
