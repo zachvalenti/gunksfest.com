@@ -28,6 +28,11 @@ CNAME               Tells GitHub Pages the custom domain is gunksfest.com. Don't
 
 ## The schedule page
 
+> **Currently unlisted.** Nothing on the site links to `schedule.html`, and the page
+> carries `<meta name="robots" content="noindex, nofollow">`. It is live and reachable
+> by direct URL, but it stays out of search results until you take the steps under
+> [Going live](#going-live) below.
+
 `schedule.html` never hardcodes a clinic. It draws everything from pretix, in two steps:
 
 1. **Build time.** `.github/workflows/pretix-sync.yml` runs `scripts/fetch-pretix.mjs`
@@ -87,6 +92,22 @@ Add-ons are handled by whether they carry a time. A clinic sold as an add-on to 
 festival pass still appears on the schedule (its button reads *View in shop*, since
 an add-on can't be checked out on its own). An add-on with no time is merch or an
 extra, and is left off the page entirely.
+
+### Going live
+
+When the line-up is published and the page looks right, three things flip it public:
+
+1. Delete the `<meta name="robots" content="noindex, nofollow">` tag from
+   `schedule.html` (there's a comment above it saying so).
+2. Add the nav links back to `index.html` — the header nav, the burger menu, and the
+   footer each want an `<a href="schedule.html">Schedule</a>` after the Venue entry.
+3. Optionally point the "coming soon" copy in the `#updates` section at the page.
+
+**Why no `robots.txt` entry?** Because `Disallow` and `noindex` pull against each
+other. A disallowed page is never fetched, so a crawler never reads its `noindex` —
+and if anyone links the URL, Google can list it as a bare result anyway. `noindex`
+alone is the reliable way to keep a reachable page out of the index, and it needs the
+crawler to be *allowed* in to work. Don't add both.
 
 ### Local preview
 
