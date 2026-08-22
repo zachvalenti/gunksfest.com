@@ -84,7 +84,32 @@
   background: #fff; border-color: #fff; color: var(--color-forest);
 }
 
-.day-tab:focus-visible {
+/* Second row: smaller, lighter pills so the day picker above stays the
+   primary control and these read as a refinement of it. */
+.filter-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+.filter-label {
+  font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em;
+  text-transform: uppercase; color: rgba(255,255,255,0.62); margin-right: 0.2rem;
+}
+.filter-pill {
+  font: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+  padding: 0.3rem 0.8rem; border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.28);
+  background: transparent; color: rgba(255,255,255,0.85);
+  transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+.filter-pill:hover { border-color: var(--color-accent-light); color: #fff; }
+.filter-pill.is-active {
+  background: var(--color-accent-dk); border-color: var(--color-accent-dk); color: #fff;
+}
+.filter-clear {
+  font: inherit; font-size: 0.85rem; cursor: pointer;
+  padding: 0.3rem 0.5rem; border: 0; background: none;
+  color: rgba(255,255,255,0.7); text-decoration: underline;
+}
+.filter-clear:hover { color: #fff; }
+
+.day-tab:focus-visible, .filter-pill:focus-visible, .filter-clear:focus-visible {
   outline: 3px solid var(--color-accent-dk); outline-offset: 2px;
 }
 

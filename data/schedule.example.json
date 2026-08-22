@@ -49,12 +49,22 @@
       "sessions": [
         {
           "id": 103, "slotId": "103-1", "name": "Sample Session — Sunrise Yoga",
-          "description": "<p>Stretch before you send.</p>",
+          "description": "<p>Stretch before you send. No difficulty set, so this one sits outside the level pills.</p>",
           "category": "Sunday Clinics", "categoryId": 4,
           "start": "2026-10-11T11:00:00.000Z", "end": "2026-10-11T12:00:00.000Z",
           "location": "Field 1", "price": "0.00", "priceFrom": false,
           "freePrice": false, "hasVariations": false, "allowWaitinglist": true,
           "picture": null, "meta": {},
+          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/"
+        },
+        {
+          "id": 105, "slotId": "105-1", "name": "Sample Clinic — Hard Multipitch Linkups",
+          "description": "<p>Placeholder copy for an advanced clinic.</p>",
+          "category": "Sunday Clinics", "categoryId": 4,
+          "start": "2026-10-11T12:30:00.000Z", "end": "2026-10-11T21:00:00.000Z",
+          "location": "Near Trapps", "price": "175.00", "priceFrom": false,
+          "freePrice": false, "hasVariations": false, "allowWaitinglist": true,
+          "picture": null, "meta": { "guide": "Sample Guide", "difficulty": "Advanced" },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/"
         }
       ]

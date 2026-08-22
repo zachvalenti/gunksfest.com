@@ -20,6 +20,7 @@
 
   var statusEl = document.getElementById("schedule-status");
   var navEl = document.getElementById("schedule-nav");
+  var filterEl = document.getElementById("schedule-filters");
   var updatedEl = document.getElementById("schedule-updated");
 
   var DATA_URL = "data/schedule.json";
@@ -30,7 +31,20 @@
   // pretix Quota availability states (pretix/base/models/items.py)
   var AVAIL_GONE = 0, AVAIL_ORDERED = 10, AVAIL_RESERVED = 20, AVAIL_OK = 100;
 
-  var state = { data: null, day: "all", avail: null };
+  // Filters are two independent facets: cost (Free / Paid) and level
+  // (Beginner / Intermediate / Advanced). Within a facet the picks are a union,
+  // across facets they're an AND — the usual faceted-search behaviour.
+  var state = { data: null, day: "all", cost: {}, level: {}, avail: null };
+
+  var COST_PILLS = [
+    { key: "free", label: "Free" },
+    { key: "paid", label: "Paid" }
+  ];
+  var LEVEL_PILLS = [
+    { key: "beginner", label: "Beginner" },
+    { key: "intermediate", label: "Intermediate" },
+    { key: "advanced", label: "Advanced" }
+  ];
 
   fetch(DATA_URL, { cache: "no-cache" })
     .then(function (r) {
@@ -83,6 +97,7 @@
     if (statusEl) statusEl.hidden = true;
 
     renderDayNav();
+    renderFilters();
 
     var days = (data.days || []).filter(function (d) {
       return state.day === "all" || state.day === d.date;
@@ -92,15 +107,18 @@
     // and film tickets — are sold on the pretix shop, not scheduled here.
     var shown = 0;
     days.forEach(function (day) {
-      if (!day.sessions.length) return;
-      shown += day.sessions.length;
-      root.appendChild(dayBlock(day.label, day.date, day.sessions));
+      var sessions = day.sessions.filter(matchesFilters);
+      if (!sessions.length) return;
+      shown += sessions.length;
+      root.appendChild(dayBlock(day.label, day.date, sessions));
     });
 
     if (!shown) {
       var p = document.createElement("p");
       p.className = "schedule-none";
-      p.textContent = "Nothing scheduled for that day yet.";
+      p.textContent = anyFilterActive()
+        ? "Nothing matches those filters yet."
+        : "Nothing scheduled for that day yet.";
       root.appendChild(p);
     }
 
@@ -160,6 +178,7 @@
 
   function renderEmpty() {
     if (navEl) navEl.hidden = true;
+    if (filterEl) filterEl.hidden = true;
     setStatus(
       "<strong>The 2026 clinic line-up isn't published yet.</strong><br />" +
       "Clinic schedules and tickets go live in early September — this page fills in " +
@@ -257,6 +276,111 @@
       btn.addEventListener("click", function () { state.day = opt.key; render(); });
       navEl.appendChild(btn);
     });
+  }
+
+  /* ---------- price / level filters ---------- */
+
+  /* A $0 clinic isn't standalone-free — it comes with a pass — but from the
+     climber's side of the counter it costs nothing extra, which is what the
+     "Free" pill means. "Pay what you can" counts as free too. */
+  function costOf(s) {
+    var n = Number(s.price);
+    if (s.price == null || !Number.isFinite(n)) return null;
+    return n === 0 ? "free" : "paid";
+  }
+
+  /* Level comes from the `difficulty` item meta property in pretix (see the
+     README). Nothing is inferred from the title or description: guessing a
+     clinic's level from prose is how someone ends up in the wrong clinic. A
+     clinic with no difficulty set simply isn't offered under a level pill. */
+  function levelOf(s) {
+    var raw = s.meta && s.meta.difficulty;
+    if (!raw) return null;
+    var key = String(raw).trim().toLowerCase();
+    for (var i = 0; i < LEVEL_PILLS.length; i++) {
+      if (key.indexOf(LEVEL_PILLS[i].key) === 0) return LEVEL_PILLS[i].key;
+    }
+    return null;
+  }
+
+  function facetActive(facet) {
+    return Object.keys(state[facet]).length > 0;
+  }
+
+  function anyFilterActive() {
+    return facetActive("cost") || facetActive("level");
+  }
+
+  function matchesFilters(s) {
+    if (facetActive("cost") && !state.cost[costOf(s)]) return false;
+    if (facetActive("level") && !state.level[levelOf(s)]) return false;
+    return true;
+  }
+
+  /* Only offer a pill that would actually turn something up. Levels stay hidden
+     until pretix carries difficulties, so the row never shows a dead control. */
+  function renderFilters() {
+    if (!filterEl) return;
+
+    var sessions = [];
+    (state.data.days || []).forEach(function (d) { sessions = sessions.concat(d.sessions); });
+
+    var pills = [];
+    ["cost", "level"].forEach(function (facet) {
+      var of = facet === "cost" ? costOf : levelOf;
+      var used = {};
+      sessions.forEach(function (s) {
+        var key = of(s);
+        if (key) used[key] = true;
+      });
+      var group = (facet === "cost" ? COST_PILLS : LEVEL_PILLS).filter(function (opt) {
+        return used[opt.key];
+      });
+      // One lone pill in a facet filters nothing out — every session matches it.
+      if (group.length > 1) {
+        group.forEach(function (opt) { pills.push({ facet: facet, opt: opt }); });
+      } else {
+        state[facet] = {};
+      }
+    });
+
+    if (!pills.length) { filterEl.hidden = true; return; }
+
+    filterEl.innerHTML = "";
+    filterEl.hidden = false;
+
+    var label = document.createElement("span");
+    label.className = "filter-label";
+    label.textContent = "Filters:";
+    filterEl.appendChild(label);
+
+    pills.forEach(function (pill) {
+      var on = !!state[pill.facet][pill.opt.key];
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "filter-pill is-" + pill.facet + (on ? " is-active" : "");
+      btn.textContent = pill.opt.label;
+      btn.setAttribute("aria-pressed", String(on));
+      btn.addEventListener("click", function () {
+        if (state[pill.facet][pill.opt.key]) delete state[pill.facet][pill.opt.key];
+        else state[pill.facet][pill.opt.key] = true;
+        render();
+      });
+      filterEl.appendChild(btn);
+    });
+
+    if (anyFilterActive()) {
+      var clear = document.createElement("button");
+      clear.type = "button";
+      clear.className = "filter-clear";
+      clear.textContent = "Clear";
+      clear.addEventListener("click", function () {
+        state.cost = {};
+        state.level = {};
+        render();
+      });
+      filterEl.appendChild(clear);
+    }
   }
 
   /* ---------- live availability from the pretix widget endpoint ---------- */

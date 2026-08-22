@@ -81,7 +81,7 @@ each one runs. The script looks in two places, in order:
    | `end`        | `2026-10-10 13:00`   | the end time             |
    | `location`   | `The Trapps`         | a chip on the card       |
    | `guide`      | `Sarah K.`           | a chip on the card       |
-   | `difficulty` | `Beginner`           | a chip on the card       |
+   | `difficulty` | `Beginner`           | the level filter pills   |
 
    Naive times are read in the event's own timezone.
 
@@ -102,7 +102,25 @@ few lines with a **More** toggle. Without it, 45 clinics is twenty screens of sc
 
 Products with neither land in a block at the bottom, named after their pretix
 category when they share one (yours reads **Tickets**) — which is exactly where the
-weekend passes and film tickets belong. Categories become the filter chips.
+weekend passes and film tickets belong.
+
+### The Filters row
+
+Under the day pills sits a row of filter pills: **Free / Paid**, then **Beginner /
+Intermediate / Advanced**. Picks inside one group are an *or* (Free + Paid is
+everything), across the two groups an *and*, and both are an *and* with whichever
+day is selected. A **Clear** link appears as soon as anything is on.
+
+Free/Paid comes from the price: a $0 clinic is Free — it costs nothing on top of a
+pass — and anything with a fee is Paid. The three level pills come from the
+`difficulty` item meta property in pretix, and **only** from there. Nothing is
+guessed from the title or the description: a clinic whose blurb happens to say
+"great for beginners *and* intermediates" would be mislabelled either way, and the
+cost of that mistake is somebody standing at the wrong trailhead. Until difficulties
+are filled in, the level pills simply don't appear — a pill is only rendered when at
+least two options in its group have something behind them, so the row never shows a
+control that filters nothing. `schedule.html?demo=1` shows the full five-pill row
+against the sample data.
 
 Add-ons are handled by whether they carry a time. A clinic sold as an add-on to a
 festival pass still appears on the schedule (its button reads *View in shop*, since
