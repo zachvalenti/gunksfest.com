@@ -31,9 +31,16 @@
    last stretch of the hero fades into exactly the section colour that follows;
    the rope then sits on a join that has already disappeared. */
 .schedule-head::after {
-  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 130px;
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 112px;
   pointer-events: none; z-index: 0;
-  background: linear-gradient(to bottom, rgba(244,239,230,0) 0%, rgba(244,239,230,0.65) 62%, var(--color-sand) 100%);
+  /* Weighted late so the photo stays photographic for most of the fade and only
+     the last stretch goes to cream — a linear ramp turns the whole band milky. */
+  background: linear-gradient(to bottom,
+    rgba(244,239,230,0) 0%,
+    rgba(244,239,230,0.12) 42%,
+    rgba(244,239,230,0.55) 72%,
+    rgba(244,239,230,0.88) 90%,
+    var(--color-sand) 100%);
 }
 .schedule-head h1 {
   font-size: clamp(2.2rem, 6vw, 3.6rem);
@@ -231,14 +238,17 @@ html.js .session.is-visible { opacity: 1; transform: none; }
    footer below, so the photo has no cut edge on either side. */
 .schedule-cta::before,
 .schedule-cta::after {
-  content: ""; position: absolute; left: 0; right: 0; height: 90px;
+  content: ""; position: absolute; left: 0; right: 0; height: 78px;
   pointer-events: none; z-index: 0;
 }
 .schedule-cta::before {
   top: 0;
-  background: linear-gradient(to bottom, var(--color-sand) 0%, rgba(244,239,230,0.55) 45%, rgba(244,239,230,0) 100%);
+  background: linear-gradient(to bottom,
+    var(--color-sand) 0%, rgba(244,239,230,0.88) 12%, rgba(244,239,230,0.5) 32%,
+    rgba(244,239,230,0.12) 62%, rgba(244,239,230,0) 100%);
 }
 .schedule-cta::after {
   bottom: 0;
-  background: linear-gradient(to top, var(--color-ink) 0%, rgba(32,37,31,0.55) 45%, rgba(32,37,31,0) 100%);
+  background: linear-gradient(to top,
+    var(--color-ink) 0%, rgba(32,37,31,0.85) 18%, rgba(32,37,31,0.45) 45%, rgba(32,37,31,0) 100%);
 }
