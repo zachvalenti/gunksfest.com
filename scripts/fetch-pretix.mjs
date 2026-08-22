@@ -147,11 +147,36 @@ function dayLabel(iso, tz) {
  * HTML-escaped first, so nothing an author types can inject markup; the browser
  * re-checks the result against an allowlist before it renders.
  */
+/**
+ * Per-line copy tidying, applied to the Markdown before it becomes HTML.
+ *
+ * Two things only, both about consistency across 36 clinic cards:
+ *   - Credit lines. Most read "Guide: Name" or "With: Name", and one already
+ *     reads "Instructor: Name". Two strays are written as prose — "With Dr.
+ *     Richard Goldstone." and "-- With Jane ... --" — and get folded into the
+ *     "Instructor:" form. Lines already using a colon are left alone.
+ *   - Prerequisites / Required gear lines drop their trailing full stop, so the
+ *     column reads evenly whether or not the author typed one.
+ */
+function tidyLine(line) {
+  // Length guard: a credit is a short standalone line. Without it this also
+  // swallows prose openings like "With years of big mountain experience, ...".
+  const credit = line.length <= 70 && line.match(/^\s*-*\s*With\s+(?!:)(.+?)\s*-*\s*$/i);
+  if (credit) {
+    const who = credit[1].replace(/\s*[.!]+$/, "").replace(/^(?:Dr|Mr|Ms|Mrs|Prof)\.?\s+/i, "");
+    return `Instructor: ${who}`;
+  }
+  const spec = line.match(/^(\s*#*\s*(?:Prerequisites?|Required\s+Gear)\b.*?)\s*[.!;,]+\s*$/i);
+  if (spec) return spec[1];
+  return line;
+}
+
 function mdToHtml(src) {
   if (!src) return null;
   // Shop boilerplate that belongs in the cart, not on a schedule. It sits on its
   // own line in every description that has it, so drop the whole line.
   src = String(src).replace(/^.*General Admission Event Ticket.*$/gim, "");
+  src = src.split("\n").map(tidyLine).join("\n");
   const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   const inline = (t) =>
     esc(t)

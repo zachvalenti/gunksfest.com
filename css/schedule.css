@@ -11,7 +11,7 @@
   /* Photo first, brand gradient underneath. If the file is missing the layer
      simply doesn't paint and the gradient carries the section on its own. */
   background-image:
-    url("../assets/img/2025-08-gunksfest-chris.jpg"),
+    url("../assets/img/2025-08-gunksfest-chris-vultaggio-2097.JPG"),
     linear-gradient(165deg, var(--color-forest) 0%, var(--color-forest-dk) 100%);
   background-size: cover, auto;
   background-position: center 38%, center;
@@ -186,7 +186,7 @@
 }
 .session-price.is-included {
   font-family: var(--font-body); font-size: 0.85rem; font-weight: 600;
-  color: var(--color-leaf); line-height: 1.35;
+  color: var(--color-forest); line-height: 1.35;   /* same green as "$50" */
 }
 
 .session-badge {
@@ -222,7 +222,7 @@ html.js .session.is-visible { opacity: 1; transform: none; }
 .schedule-cta {
   position: relative; isolation: isolate; overflow: hidden;
   background-image:
-    url("../assets/img/2025-08-gunksfest-sarah.jpg"),
+    url("../assets/img/2025-08-gunksfest-sarah-karbachinskiy-5350.jpg"),
     linear-gradient(165deg, var(--color-forest) 0%, var(--color-forest-dk) 100%);
   background-size: cover, auto;
   background-position: center 42%, center;

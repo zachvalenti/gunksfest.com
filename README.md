@@ -115,13 +115,13 @@ Two background slots are wired up in `css/schedule.css` and expect these files:
 
 | Path | Where it shows |
 | --- | --- |
-| `assets/img/2025-08-gunksfest-chris.jpg` | behind the "Clinics & Schedule" hero |
-| `assets/img/2025-08-gunksfest-sarah.jpg` | behind "Questions about a clinic?" |
+| `assets/img/2025-08-gunksfest-chris-vultaggio-2097.JPG` | behind the "Clinics & Schedule" hero |
+| `assets/img/2025-08-gunksfest-sarah-karbachinskiy-5350.jpg` | behind "Questions about a clinic?" |
 
 Each is the first layer of a two-layer background, with the brand green gradient
 underneath. A missing file paints nothing and the gradient carries the section, so
-the page never shows a broken image — but it also never warns you. Rename the CSS
-`url()` if your filenames differ.
+the page never shows a broken image — but it also never warns you, and the paths are
+case-sensitive on GitHub Pages (note the uppercase `.JPG` on the first one).
 
 ### Going live
 
