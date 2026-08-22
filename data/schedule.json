@@ -1,0 +1,21 @@
+{
+  "generated": null,
+  "placeholder": true,
+  "_comment": "Placeholder until the GunksFest 2026 line-up is published. .github/workflows/pretix-sync.yml overwrites this file with the real thing — add the PRETIX_TOKEN secret and run it. While days[] is empty, schedule.html shows its 'coming soon' state and makes no request to pretix.",
+  "shop": {
+    "base": "https://pretix.eu",
+    "organizer": "gunksclimbers",
+    "event": "gunksfest2026",
+    "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
+    "widget": "https://pretix.eu/gunksclimbers/gunksfest2026/widget/product_list",
+    "name": "GunksFest V (2026)",
+    "currency": "USD",
+    "timezone": "America/New_York",
+    "live": false,
+    "dateFrom": "2026-10-09T12:00:00Z",
+    "dateTo": "2026-10-12T22:00:00Z"
+  },
+  "categories": [],
+  "days": [],
+  "unscheduled": []
+}
