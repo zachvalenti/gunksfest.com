@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-22T13:20:39.626Z",
+  "generated": "2026-08-22T18:51:36.599Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -85,7 +85,7 @@
         {
           "id": 1118628,
           "name": "Multipitch Strategies for Efficiency and Safety",
-          "rawName": "2026_Multipitch Strategies for Efficiency and Safety (Saturday 8am - 12pm)",
+          "rawName": "Multipitch Strategies for Efficiency and Safety (Saturday 8am - 12pm)",
           "description": "<p><em>Guide: Angelo Urrico, Rise Outside guides</em></p><p>Join Rise Outside’s Angelo Urrico for an immersive 4hrs in getting your multi-pitch skills dialed.</p><p>Angelo will cover a variety of multi-pitch topics, including gear, anchoring, belays and belay transfers, rope management, swapping leads, and much more!.</p><p><strong>Prerequisites: Previous outdoor rock climbing experience; a desire to multi-pitch climb</strong><br /><strong>Required gear: Personal climbing kit, anchor gear and anchor material</strong></p>",
           "category": "Saturday Clinics",
           "categoryId": 282660,
@@ -96,7 +96,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1118628-b6e35f7f-89de-4af9-8eac-3df3333cd4f9.b24ba65872e109.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "Intermediate"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118628-55764",
           "start": "2026-10-10T12:00:00.000Z",
@@ -106,7 +108,7 @@
         {
           "id": 1118547,
           "name": "Yoga For Climbers - PreClimb Warm Up Class",
-          "rawName": "2026_Yoga For Climbers - PreClimb Warm Up Class (Saturday 8am - 8:45am)",
+          "rawName": "Yoga For Climbers - PreClimb Warm Up Class (Saturday 8am - 8:45am)",
           "description": "<p><em>With: Laura Obringer</em></p><p>Kick GunksFest off with our favorite yoga instructor Laura as she gets you warm and limber for a weekend of climbing. A climber herself, Laura knows all the moves to get your body and mind prepped for the day.</p><p>Prepare yourself for a great day on the rock with a warm-up targeted specifically for climbing that blends traditional yoga with modern kinesiology. The class runs 40 minutes so that participants can be at their climbing clinics ontime. For more information, please visit www.laurayogaclimb.com</p><p>This clinic meets at the Mohonk Preserve Visitor Center and will be held on the covered patio.</p><p><strong>Prerequisites: None</strong><br /><strong>Required Gear: Yoga mats will be provided</strong></p>",
           "category": "Saturday Clinics",
           "categoryId": 282660,
@@ -117,7 +119,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1118547-b2c28036-a27d-4043-b876-7aeb064cf1d6.14dcc8e2b42ca5.PNG",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "All Levels"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118547-55731",
           "start": "2026-10-10T12:00:00.000Z",
@@ -127,7 +131,7 @@
         {
           "id": 1118780,
           "name": "Anchor Power: Advanced Anchoring for Women & Non-Binary",
-          "rawName": "2026_Anchor Power: Advanced Anchoring for Women & Non-Binary (Saturday 9am-4pm)",
+          "rawName": "Anchor Power: Advanced Anchoring for Women & Non-Binary (Saturday 9am-4pm)",
           "description": "<p><em>With: Patty Lankhorst, Gunks Guides</em></p><p>Take your anchor skills to the next level. This hands-on clinic will explore more advanced anchor-building techniques, gear selection, and creative solutions for building solid, efficient systems in a variety of climbing situations. We’ll focus on the “why” behind anchor choices so you can make confident decisions when the perfect textbook anchor isn’t an option.</p><p>Note this clinic is only open to women and non-binary climbers.</p><h4>Prerequisites: Some general anchor building knowledge using traditional gear will be helpful for this clinic</h4><h4>Required Gear: Personal gear and a trad rack if you have one</h4>",
           "category": "Saturday Clinics",
           "categoryId": 282660,
@@ -138,7 +142,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-None-201d37b6-842b-4397-b1cf-abc0d13e2cc7.f1676c82255ae9.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "Intermediate"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118780-55844",
           "start": "2026-10-10T13:00:00.000Z",
@@ -148,7 +154,7 @@
         {
           "id": 1119354,
           "name": "Glacier Travel and Crevasse Rescue",
-          "rawName": "2026_Glacier Travel and Crevasse Rescue (Saturday 9am-4pm)",
+          "rawName": "Glacier Travel and Crevasse Rescue (Saturday 9am-4pm)",
           "description": "<p><em>Guide: Gregory Kanter, Gunks Guides</em></p><p>This course made it's debut in 2025 and was a huge success! Bystanders watched as our fearless group of mountaineers made their way through the festival grounds clad in mountaineer's coils and dripping with mountain rescue hardware.</p><p>Take your climbing skills to the next level by building on the techniques used in rock climbing to explore new and thrilling terrain on glaciated peaks. In this Glacier Travel and Crevasse Rescue course, you will learn how to navigate glaciers and tackle challenging mountain environments.</p><p>Throughout the course, you’ll gain hands-on experience with the specialized gear needed for mountaineering, and how to properly use and move with it. Learn the critical skills for traveling on glaciers as part of a rope team, protecting snow climbs, and performing essential crevasse rescue techniques. Whether you’re rescuing a partner or yourself after a crevasse fall, this course will give you the skills and confidence to handle emergencies in high-mountain terrain.</p><p>This course is good for all levels. We will customize your day based on your experience level, ensuring you get the most out of the training no matter where you’re starting from. Available all year round, sign up today and unlock the door to new mountaineering adventures!</p><p>If you endeavor to spend time in the big mountains you won't find a better primer!</p><p><strong>Prerequisites:  A strong motivation for hands on learning and active participation! It will be helpful to have familiarity with basic climbing knots and hitches</strong><br /><strong>Required Gear: Personal climbing gear plus any of the following that you have: Pulleys, locking carabiner, progress capture device, prussiks, slings. There will be some to use at the clinic too</strong></p>",
           "category": "Saturday Clinics",
           "categoryId": 282660,
@@ -159,7 +165,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1119354-933815d4-cac6-473b-9125-95bcf20fcd52.0022a546236039.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "All Levels"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1119354-56015",
           "start": "2026-10-10T13:00:00.000Z",
@@ -169,7 +177,7 @@
         {
           "id": 1119446,
           "name": "Partner Rescue with Guest Guide Karsten Delap",
-          "rawName": "2026_Partner Rescue with Guest Guide Karsten Delap (Saturday 9am-1pm)",
+          "rawName": "Partner Rescue with Guest Guide Karsten Delap (Saturday 9am-1pm)",
           "description": "<p><em>Guide: Karsten Delap, Pisgah Climbing School</em></p><p>Join our 2026 guest keynote speaker and IFMGA guide Karsten Delap for an exclusive clinic on partner rescue.</p><p>With years of big mountain experience and trained to the highest certifications, Karsten will be on hand for this intensive course that all levels of climber will benefit from.</p><p>He will provide tools to set you up for success when things go wrong, and get you and your partner down safely in any situation.</p><p><strong>Prerequisites:  Motivation to step up and manage rescue situations in the vertical</strong><br /><strong>Required Gear: Personal kit: prusik cord, ATC belay plate, gri-gri, cordellete, slings, etc.</strong></p>",
           "category": "Saturday Clinics",
           "categoryId": 282660,
@@ -180,7 +188,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1119446-68ce0047-db17-4aec-bd58-42d7cc3e0d14.41d2b113df9a10.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "Intermediate"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1119446-56076",
           "start": "2026-10-10T13:00:00.000Z",
@@ -190,7 +200,7 @@
         {
           "id": 1118643,
           "name": "Ropecraft 101: Knots and hitches every climber should know",
-          "rawName": "2026_Ropecraft 101: Knots and hitches every climber should know (Saturday 9-11am)",
+          "rawName": "Ropecraft 101: Knots and hitches every climber should know (Saturday 9-11am)",
           "description": "<p><em>Guide: Dan Gorski, Rise Outside guides</em></p><p>As a climber, your most important tool is your rope!  This clinic will teach you the essential knots and hitches needed to climb in the gunks, and where and how to implement them<br /><strong>Prerequisites: Beginner-intermediate focused</strong><br /><strong>Required gear: None required, you are welcome to bring a rope/cordalette with which to practice</strong></p>",
           "category": "Saturday Clinics",
           "categoryId": 282660,
@@ -213,7 +223,7 @@
         {
           "id": 1119426,
           "name": "Top Rope Anchors: Anchoring Fundamentals",
-          "rawName": "2026_Top Rope Anchors: Anchoring Fundamentals (Saturday 9am-4pm)",
+          "rawName": "Top Rope Anchors: Anchoring Fundamentals (Saturday 9am-4pm)",
           "description": "<p><em>Guide: Eric Waldron, Gunks Guides</em></p><p>This top rope anchoring class is designed to help you gain the skills needed to get out climbing on your own. </p><p>Focusing on essential techniques like gear selection, guidebook interpretation, and natural anchor construction, this hands-on course provides the foundation for safe and efficient anchor setups. You’ll build practical experience in constructing reliable anchors while learning best practices. </p><p>This course also sets the stage for future advanced skills like learning to lead and gives you a better understanding of what’s happening when climbing with others. Perfect for climbers looking to gain independence and strengthen their technical abilities.</p><p><strong>Prerequisites:  Some previous outdoor climbing experience is helpful but not required</strong><br /><strong>Required Gear: Personal climbing gear (ie. harness and helmet), Optional: bring your own ropes, static ropes, locking carabiners, slings, ATC-style belay device, ABD-style belay device (preferably a Grigri), several (up to 6) locking carabiners similar to Petzl Attaché, at least 1 double-length (48″ or 120 cm) sling, 2 shoulder-length (24″ or 60 cm) slings, other personal gear that you use or have questions about</strong></p>",
           "category": "Saturday Clinics",
           "categoryId": 282660,
@@ -234,30 +244,9 @@
           "location": "This clinic meets at the Mohonk Preserve Visitor Center."
         },
         {
-          "id": 1118635,
-          "name": "Top Rope Rescue Tactics",
-          "rawName": "2026_Top Rope Rescue Tactics (Saturday 9am - 4pm)",
-          "description": "<p><em>Guide: Teddy Dondaville, Mountain Skills guides</em></p><p>What do you do if something goes wrong during top roping? How do you escape the belay? What if you're belaying from the top? This clinic, led by Teddy Dondanville from Mountain Skills Climbing Guides, will answer these questions and many more. The goal of this clinic will be to each introductory rescue skills and offer best practices to make your top rope practice a little less risky.</p><p><strong>Prerequisites:  Top rope belaying and climbing experience is preferred</strong><br /><strong>Required Gear: Helmet, harness, climbing shoes. In addition, a selection of belay/rappel devices, slings/ cordelette, friction hitch, lockers, and non-lockers</strong></p>",
-          "category": "Saturday Clinics",
-          "categoryId": 282660,
-          "price": "150.00",
-          "priceFrom": false,
-          "freePrice": false,
-          "hasVariations": false,
-          "allowWaitinglist": true,
-          "picture": null,
-          "isAddon": true,
-          "meta": {},
-          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
-          "slotId": "1118635-55769",
-          "start": "2026-10-10T13:00:00.000Z",
-          "end": "2026-10-10T20:00:00.000Z",
-          "location": "This clinic meets at the Mohonk Preserve Visitor Center."
-        },
-        {
           "id": 1118598,
           "name": "Trapps Bouldering Tour",
-          "rawName": "2026_Trapps Bouldering Tour (Saturday 9am-11am)",
+          "rawName": "Trapps Bouldering Tour (Saturday 9am-11am)",
           "description": "<p>Join us for a walking tour of the boulders in the Trapps. Get oriented from the classics to hidden gems with an expert bouldering guide sponsored by Mustangs Climbing Gym in Kingston.</p><p>Please note this is a walking tour only, and not a guided climbing experience.</p>",
           "category": "Saturday Clinics",
           "categoryId": 282660,
@@ -268,7 +257,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1118598-c11ea761-febf-4c43-a9cf-f07c67a9a2e9.d7710666f2e7eb.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "All Levels"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118598-55751",
           "start": "2026-10-10T13:00:00.000Z",
@@ -278,7 +269,7 @@
         {
           "id": 1118604,
           "name": "Trapps Climbing Tour: 5.0-5.5",
-          "rawName": "2026_Trapps Climbing Tour: 5.0-5.5 (Saturday 9-11am)",
+          "rawName": "Trapps Climbing Tour: 5.0-5.5 (Saturday 9-11am)",
           "description": "<p>Join us for a guided walking tour of Trapps routes between the grades of 5.0-5.5. You'll be guided by a gunks local who can point out classics, hidden gems, routes with great protection, good for breaking into the grade routes, and notorious sandbags.</p><p>Please note this is a walking tour only, and not a guided climbing experience.</p>",
           "category": "Saturday Clinics",
           "categoryId": 282660,
@@ -301,7 +292,7 @@
         {
           "id": 1118620,
           "name": "Trapps Climbing Tour: 5.11-5.13",
-          "rawName": "2026_Trapps Climbing Tour: 5.11-5.13 (Saturday 9-11am)",
+          "rawName": "Trapps Climbing Tour: 5.11-5.13 (Saturday 9-11am)",
           "description": "<p>Join us for a guided walking tour of Trapps routes between the grades of 5.11-5.13. You'll be guided by a gunks local who can point out classics, hidden gems, routes with great protection, good for breaking into the grade routes, and notorious sandbags.</p><p>Please note this is a walking tour only, and not a guided climbing experience.</p>",
           "category": "Saturday Clinics",
           "categoryId": 282660,
@@ -324,7 +315,7 @@
         {
           "id": 1118609,
           "name": "Trapps Climbing Tour: 5.6-5.8",
-          "rawName": "2026_Trapps Climbing Tour: 5.6-5.8 (Saturday 9-11am)",
+          "rawName": "Trapps Climbing Tour: 5.6-5.8 (Saturday 9-11am)",
           "description": "<p>Join us for a guided walking tour of Trapps routes between the grades of 5.6-5.8. You'll be guided by a gunks local who can point out classics, hidden gems, routes with great protection, good for breaking into the grade routes, and notorious sandbags.</p><p>Please note this is a walking tour only, and not a guided climbing experience.</p>",
           "category": "Saturday Clinics",
           "categoryId": 282660,
@@ -335,7 +326,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1118609-a082bea3-0abb-46ee-baaa-3f1dbcfcc415.d91d1471314419.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "Intermediate"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118609-55755",
           "start": "2026-10-10T13:00:00.000Z",
@@ -345,7 +338,7 @@
         {
           "id": 1118614,
           "name": "Trapps Climbing Tour: 5.9-5.10",
-          "rawName": "2026_Trapps Climbing Tour: 5.9-5.10 (Saturday 9-11am)",
+          "rawName": "Trapps Climbing Tour: 5.9-5.10 (Saturday 9-11am)",
           "description": "<p>Join us for a guided walking tour of Trapps routes between the grades of 5.9-5.10. You'll be guided by a gunks local who can point out classics, hidden gems, routes with great protection, good for breaking into the grade routes, and notorious sandbags.</p><p>Please note this is a walking tour only, and not a guided climbing experience.</p>",
           "category": "Saturday Clinics",
           "categoryId": 282660,
@@ -356,7 +349,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1118614-751b1e1b-5875-4a5a-b630-6c2d1acedfe8.eac3d3c562ae07.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "Advanced"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118614-55759",
           "start": "2026-10-10T13:00:00.000Z",
@@ -366,7 +361,7 @@
         {
           "id": 1118626,
           "name": "What Happens When Things Go Sideways",
-          "rawName": "2026_What Happens When Things Go Sideways (Saturday 9-11am)",
+          "rawName": "What Happens When Things Go Sideways (Saturday 9-11am)",
           "description": "<p><em>Guide: Alan Kline, Rise Outside guides</em></p><p>One of our longest-running and most popular masterclasses in Gunks literacy.</p><p>What happens if you drop your belay device? Or forget your harness? Or (gasp!)  don't have enough snacks?! </p><p>The unforeseen happens all the time in this silly activity, and it's better to have a plan for the worse than be stuck. </p><p>Join Rise Outside guide Alan Kline for a dive into the nuanced and creative ways to solve problems. <br /><strong>Prerequisites: Helmet, Harness, Personal climbing gear</strong><br /><strong>Required gear: A foundation in outdoor climbing</strong></p>",
           "category": "Saturday Clinics",
           "categoryId": 282660,
@@ -377,7 +372,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1118626-6d9e27ed-9083-4804-829a-44e70edb70e1.d06ce38f477f5e.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "Advanced"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118626-55763",
           "start": "2026-10-10T13:00:00.000Z",
@@ -387,7 +384,7 @@
         {
           "id": 1118555,
           "name": "How to be a Good Second",
-          "rawName": "2026_How to be a Good Second (Saturday 10am - 12pm)",
+          "rawName": "How to be a Good Second (Saturday 10am - 12pm)",
           "description": "<p><em>Instructor: Richard Goldstone</em></p><p>We are very happy to be bringing this clinic back, as it's one of our most popular festival events.</p><p>From the technical to the theoretical, Gunks legend Richard Goldstone brings his legendary teaching style to this class - sure to pack the house.</p><p>We'll talk about personal gear, belaying, choss management, cleaning gear, belay transitions, rappelling, getting yourself out of jams, expedition mentality, and maybe just a touch about evaluating potential leaders.</p><p>This clinic meets at the Mohonk Preserve Visitor Center and will take place in the Visitor Center classroom.</p><h4>Prerequisites: The intended audience for this clinic is climbers who are transitioning from gym or sport climbing to multipitch trad climbing and who want to know more about the skills involved in competent trad seconding</h4>",
           "category": "Saturday Clinics",
           "categoryId": 282660,
@@ -399,7 +396,7 @@
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1118555-5963ad48-0bf0-4f75-981c-995cb58aa8dd.4441678b668641.jpg",
           "isAddon": true,
           "meta": {
-            "difficulty": "Beginner"
+            "difficulty": "All Levels"
           },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118555-55736",
@@ -410,7 +407,7 @@
         {
           "id": 1118640,
           "name": "Beyond the Onsight: Broadening your Trad Climbing Horizons",
-          "rawName": "2026_Beyond the Onsight: Broadening your Trad Climbing Horizons (Saturday 12pm-2pm)",
+          "rawName": "Beyond the Onsight: Broadening your Trad Climbing Horizons (Saturday 12pm-2pm)",
           "description": "<p><em>Guides: Alan Kline and Dan Gorski, Rise Outside guides</em></p><p>This clinic discusses the elements that go into working trad climbs in the gunks.  We'll dive into choosing the climb for you, finding your beta, assessing gear, and centering your mindset as you begin pushing your limits.<br /><strong>Prerequisites: Experience leading on gear, confidence in gear assessment (intermediate-advanced focused)</strong><br /><strong>Required gear: None required, you are welcome to bring any trad gear for discussion/demonstration</strong></p>",
           "category": "Saturday Clinics",
           "categoryId": 282660,
@@ -421,7 +418,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1118640-1276401d-e256-49b8-8863-49a980483869.6aec0100ca1b99.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "Intermediate"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118640-55771",
           "start": "2026-10-10T16:00:00.000Z",
@@ -431,7 +430,7 @@
         {
           "id": 1118556,
           "name": "Cams: From Soup to Nuts",
-          "rawName": "2026_Cams: From Soup to Nuts (Saturday 1pm - 3pm)",
+          "rawName": "Cams: From Soup to Nuts (Saturday 1pm - 3pm)",
           "description": "<p><em>Instructor: Richard Goldstone</em></p><p>Along with being a groundbreaking Gunks climber, Richard Goldstone is among our most talented instructors, whose teaching style has captured audiences at previous GunksFests, mixing the anecdotal with the scientific, and this cam-focused session is no exception.</p><p>This clinic aims to discuss all aspects of cams. There’s a touch of history, a smidgen of theory, a review of failure modes, and some practical guidelines for placements. Richard will try to illuminate how not to do things as well as how to do them.</p><p>This clinic meets at the Mohonk Preserve Visitor Center and will be held in the visitor center classroom.</p><p>Prerequisites: None<br /><strong>Required gear: None</strong></p>",
           "category": "Saturday Clinics",
           "categoryId": 282660,
@@ -442,7 +441,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1118556-bc95f4b8-08f9-4f0b-afa2-308bfde5a3b8.4441678b668641.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "All Levels"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118556-55739",
           "start": "2026-10-10T17:00:00.000Z",
@@ -458,7 +459,7 @@
         {
           "id": 1118630,
           "name": "Intro to Gunks Climbing",
-          "rawName": "2026_Intro to Gunks Climbing (Sunday 8am-10am)",
+          "rawName": "Intro to Gunks Climbing (Sunday 8am-10am)",
           "description": "<p><em>Guide: Angelo Urrico, Rise Outside guides</em></p><p>This immersive clinic is geared towards the trad climber looking to expand their knowledge of gunks routes and history, with an explanation of all the Gunks climbing areas. Angelo will walk you through all you need to know to get up (and down) safely, as well as areas that are best on crowded days, best spots with easy leads to access harder TRs, and, of course, best swimming spots on hot days...</p><p>Participants will be introduced to the various Gunks cliffs, with special attention to the Trapps, including navigating the base, route-finding, decent options, and details of the most classic Gunks routes!</p><p><strong>Prerequisites: None</strong><br /><strong>Required gear: Proper hiking footwear, guidebook or Gunks app</strong></p>",
           "category": "Sunday Clinics",
           "categoryId": 282661,
@@ -469,7 +470,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-None-d9fb41e9-32c5-420a-9531-0091405ec46d.b24ba65872e109.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "Beginner"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118630-55765",
           "start": "2026-10-11T12:00:00.000Z",
@@ -479,10 +482,10 @@
         {
           "id": 1119444,
           "name": "Because Things Happen: Self Rescue",
-          "rawName": "2026_Because Things Happen: Self Rescue (Sunday 9am-4pm)",
+          "rawName": "Because Things Happen: Self Rescue (Sunday 9am-4pm)",
           "description": "<p><em>Guide: Eric Waldron, Gunks Guides</em></p><p>Oh Crap! Now What?</p><p>Things don’t always go according to plan—but with the right skills, you can handle the unexpected. This hands-on clinic puts you in realistic climbing scenarios and challenges you to figure out what to do when things go sideways. </p><p>We’ll work through practical problem-solving skills for situations like stuck ropes, tricky rappels, unexpected partner issues, and other common climbing curveballs. </p><p>Come ready to think, experiment, and build the confidence to turn an “oh crap” moment into a “we’ve got this” moment.</p><p><strong>Prerequisites:  Some experience with building trad anchors and trad lead climbing is helpful for this clinic</strong><br /><strong>Required Gear: Personal Gear / Trad Rack, lockers, slings</strong></p>",
-          "category": "Saturday Clinics",
-          "categoryId": 282660,
+          "category": "Sunday Clinics",
+          "categoryId": 282661,
           "price": "150.00",
           "priceFrom": false,
           "freePrice": false,
@@ -490,7 +493,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-None-93013981-3ca9-4d45-aca0-5672aa2d2373.fa0e688682cd10.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "Intermediate"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1119444-56075",
           "start": "2026-10-11T13:00:00.000Z",
@@ -500,7 +505,7 @@
         {
           "id": 1119384,
           "name": "Bonticou Ecology Tour with a Mohonk Preserve Ranger",
-          "rawName": "2026_Bonticou Ecology Tour with a Mohonk Preserve Ranger (Sunday 9am-Noon)",
+          "rawName": "Bonticou Ecology Tour with a Mohonk Preserve Ranger (Sunday 9am-Noon)",
           "description": "<p><em>With: Evan Timony, Mohonk Forestry Specialist and Preserve Ranger</em></p><p>Participate in a 5 mile hike throughout the Mohonk Preserve's Spring Farm area. We will be hiking into the Dwarf Pitch Pines and discussing the Mohonk Preserve's long term monitoring projects, approach to conservation as well the uniqueness that gives this area its character. </p><p>We will plan on hiking to the top of Bonticou Crag via the Bonticou Scramble, down the North East Trial with a potential visit to Table Rocks. This will total in mileage around 5 miles and includes a proper scramble, be prepared to use your hands and feet. An alternate route is available around the scramble. </p><p>Please note car transportation will be required to access Spring Farm Trailhead, and although it is a short drive carpooling is encouraged.</p><p><strong>Prerequisites: None</strong><br /><strong>Required Gear: Sturdy hiking shoes, water and snack</strong></p>",
           "category": "Sunday Clinics",
           "categoryId": 282661,
@@ -511,7 +516,9 @@
           "allowWaitinglist": true,
           "picture": null,
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "All Levels"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1119384-56041",
           "start": "2026-10-11T13:00:00.000Z",
@@ -532,7 +539,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1122747-57d80f30-4f50-497b-b9a9-7702c607a718.196c3af52207ce.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "All Levels"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1122747-57248",
           "start": "2026-10-11T13:00:00.000Z",
@@ -542,7 +551,7 @@
         {
           "id": 1119372,
           "name": "Map and Compass Navigation",
-          "rawName": "2026_Map and Compass Navigation (Sunday 9-1pm)",
+          "rawName": "Map and Compass Navigation (Sunday 9-1pm)",
           "description": "<p><em>Guide: Gregory Kanter, Gunks Guides</em></p><p>Don’t depend on unreliable apps or a draining phone battery for navigation in the backcountry!</p><p>Learn how to expertly navigate the wilderness with our comprehensive Wilderness Navigation Course. </p><p>This hands-on course covers essential skills such as reading topographic maps, using a compass for precise orientation, and plotting your own route. Whether you’re hiking familiar trails or venturing off the beaten path into the wilderness, map and compass skills are vital for ensuring safety and confidence.</p><p>This half-day wilderness navigation course is perfect for adventurers of all experience levels, from beginners to seasoned explorers. Gain the confidence to navigate the mountains and backcountry with ease and never worry about getting lost again. Sign up today to secure your spot and enhance your outdoor skills!</p><p><strong>Prerequisites:  None</strong><br /><strong>Required Gear: A compass if you have one. Maps and compass will be provided</strong></p>",
           "category": "Sunday Clinics",
           "categoryId": 282661,
@@ -553,7 +562,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1119372-a83b7be6-22c4-4204-9335-8087649522ec.25a81673ffb674.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "All Levels"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1119372-56028",
           "start": "2026-10-11T13:00:00.000Z",
@@ -561,30 +572,9 @@
           "location": "Meet at Mohonk Preserve Visitor Center."
         },
         {
-          "id": 1118638,
-          "name": "Multipitching in Party of Three",
-          "rawName": "2026_Multipitching in Party of Three (Sunday 9am - 4pm)",
-          "description": "<p><em>Guide: Teddy Dondaville, Mountain Skills guides</em></p><p>Climbing in a party of three can be cumbersome– there’s a lot of rope to manage and an extra person. This clinic, led by Teddy Dondanville from Mountain Skills Climbing Guides, will teach best practices for climbing in a party of three, including a deep dive into two belay methods. In addition, this clinic will offer some efficiency hacks to make the process more smoother.</p><p><strong>Prerequisites:  Lead multi-pitch experience. (This workshop will be taught through the perspective of the leader.)</strong><br /><strong>Required Gear: Standard multi pitch kit, including a harness, a selection of belay/rappel devices, lockers, non-lockers, slings or PAS, anchor building material</strong></p>",
-          "category": "Sunday Clinics",
-          "categoryId": 282661,
-          "price": "150.00",
-          "priceFrom": false,
-          "freePrice": false,
-          "hasVariations": false,
-          "allowWaitinglist": true,
-          "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1118638-a465a1a7-352a-4a23-88c8-cceb86323511.810f4fa0c51005.jpg",
-          "isAddon": true,
-          "meta": {},
-          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
-          "slotId": "1118638-55770",
-          "start": "2026-10-11T13:00:00.000Z",
-          "end": "2026-10-11T20:00:00.000Z",
-          "location": "This clinic meets at the Mohonk Preserve Visitor Center."
-        },
-        {
           "id": 1118767,
           "name": "Oops, Now What? - Self Rescue for Women & Non-Binary Climbers",
-          "rawName": "2026_Oops, Now What? - Self Rescue for Women & Non-Binary Climbers (Sunday 9am-4pm)",
+          "rawName": "Oops, Now What? - Self Rescue for Women & Non-Binary Climbers (Sunday 9am-4pm)",
           "description": "<p><em>With: Patty Lankhorst, Gunks Guides</em></p><p>Things don’t always go according to plan—but with the right skills, you can handle the unexpected. This hands-on clinic will cover some of the essentials of self-rescue. Possible topics include belay transitions, load transfers, ascending and descending systems, hauling and lowering techniques, and multi-pitch retreats. Learn the “why” behind these systems and build the confidence to problem-solve when things get complicated - with one of the Gunks most celebrated guides.</p><p>Note this clinic is only open to women and non-binary climbers.</p><h4>Prerequisites: To get the most out of this clinic, participants should have experience building trad anchors and leading trad climbs</h4><h4>Required Gear: Personal climbing gear, anything you would normally carry on a day out climbing and leading</h4>",
           "category": "Sunday Clinics",
           "categoryId": 282661,
@@ -605,9 +595,32 @@
           "location": "Meet at Mohonk Preserve Visitor Center."
         },
         {
+          "id": 1118635,
+          "name": "Top Rope Rescue Tactics",
+          "rawName": "Top Rope Rescue Tactics (Sunday 9am - 1pm)",
+          "description": "<p><em>Guide: Teddy Dondaville, Mountain Skills guides</em></p><p>What do you do if something goes wrong during top roping? How do you escape the belay? What if you're belaying from the top? This clinic, led by Teddy Dondanville from Mountain Skills Climbing Guides, will answer these questions and many more. The goal of this clinic will be to each introductory rescue skills and offer best practices to make your top rope practice a little less risky.</p><p><strong>Prerequisites:  Top rope belaying and climbing experience is preferred</strong><br /><strong>Required Gear: Helmet, harness, climbing shoes. In addition, a selection of belay/rappel devices, slings/ cordelette, friction hitch, lockers, and non-lockers</strong></p>",
+          "category": "Sunday Clinics",
+          "categoryId": 282661,
+          "price": "100.00",
+          "priceFrom": false,
+          "freePrice": false,
+          "hasVariations": false,
+          "allowWaitinglist": true,
+          "picture": null,
+          "isAddon": true,
+          "meta": {
+            "difficulty": "Intermediate"
+          },
+          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
+          "slotId": "1118635-55769",
+          "start": "2026-10-11T13:00:00.000Z",
+          "end": "2026-10-11T17:00:00.000Z",
+          "location": "This clinic meets at the Mohonk Preserve Visitor Center."
+        },
+        {
           "id": 1119424,
           "name": "Trad Climbing Intensive—A full day introduction to the gear, rope systems, training and ethics of Trad climbing",
-          "rawName": "2026_Trad Climbing Intensive—A full day introduction to the gear, rope systems, training and ethics of Trad climbing (Sunday 9-4pm)",
+          "rawName": "Trad Climbing Intensive—A full day introduction to the gear, rope systems, training and ethics of Trad climbing (Sunday 9-4pm)",
           "description": "<p><em>With: Franz Buzawa, Gunks Guides</em></p><p>Welcome to the World of Trad Climbing! Get ready for a full-day, hands-on clinic where the crag is your classroom. </p><p>Whether you’re a gym climber, sport climber, or an experienced leader looking to refresh your skills, this clinic will offer a solid foundation for your traditional (aka trad) climbing journey.</p><p>The day will be broken up into topic-specific modules covering key concepts such as active and passive protection, gear-based anchor building, rope system transitions, training strategies, ethics, and more. </p><p>Expect a practical, information-rich experience—bring your questions, your curiosity, and a notebook!</p><h4>Prerequisites: The clinic is designed for climbers from diverse backgrounds and levels of experience, however prior experience with belaying, both top-rope and lead as well as rappelling is extremely useful</h4><h4>Required Gear: Helmet, harness, ATC-style belay device, ABD-style belay device, preferably a Grigri, several, up to 6, locking carabiners (similar to Petzl Attaché), at least 1 double-length (48″ or 120 cm) sling, 2 shoulder-length (24″ or 60 cm) slings, other personal gear that you use or have questions about</h4>",
           "category": "Sunday Clinics",
           "categoryId": 282661,
@@ -618,7 +631,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1119424-343a7997-ed29-4023-ade9-2abc7eab9967.eb2fea97ea01e8.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "All Levels"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1119424-56061",
           "start": "2026-10-11T13:00:00.000Z",
@@ -628,7 +643,7 @@
         {
           "id": 1118603,
           "name": "Trapps Bouldering Tour",
-          "rawName": "2026_Trapps Bouldering Tour (Sunday 9-11am)",
+          "rawName": "Trapps Bouldering Tour (Sunday 9-11am)",
           "description": "<p>Join us for a walking tour of the boulders in the Trapps. Get oriented from the classics to hidden gems with an expert bouldering guide sponsored by Mustangs Climbing Gym in Kingston.</p><p>Please note this is a walking tour only, and not a guided climbing experience.</p>",
           "category": "Sunday Clinics",
           "categoryId": 282661,
@@ -639,7 +654,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-None-1bb5e00d-f792-4047-878c-9d8148e8a78f.d7710666f2e7eb.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "All Levels"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118603-55752",
           "start": "2026-10-11T13:00:00.000Z",
@@ -649,7 +666,7 @@
         {
           "id": 1118605,
           "name": "Trapps Climbing Tour: 5.0-5.5",
-          "rawName": "2026_Trapps Climbing Tour: 5.0-5.5 (Sunday 9-11am)",
+          "rawName": "Trapps Climbing Tour: 5.0-5.5 (Sunday 9-11am)",
           "description": "<p>Join us for a guided walking tour of Trapps routes between the grades of 5.0-5.5. You'll be guided by a gunks local who can point out classics, hidden gems, routes with great protection, good for breaking into the grade routes, and notorious sandbags.</p><p>Please note this is a walking tour only, and not a guided climbing experience.</p>",
           "category": "Sunday Clinics",
           "categoryId": 282661,
@@ -660,7 +677,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-None-812a8f32-cbf8-4861-b031-596d927c0a12.10f0b1e0cc0495.JPG",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "Beginner"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118605-55754",
           "start": "2026-10-11T13:00:00.000Z",
@@ -670,7 +689,7 @@
         {
           "id": 1118624,
           "name": "Trapps Climbing Tour: 5.11-5.13",
-          "rawName": "2026_Trapps Climbing Tour: 5.11-5.13 (Sunday 9-11am)",
+          "rawName": "Trapps Climbing Tour: 5.11-5.13 (Sunday 9-11am)",
           "description": "<p>Join us for a guided walking tour of Trapps routes between the grades of 5.11-5.13. You'll be guided by a gunks local who can point out classics, hidden gems, routes with great protection, good for breaking into the grade routes, and notorious sandbags.</p><p>Please note this is a walking tour only, and not a guided climbing experience.</p>",
           "category": "Sunday Clinics",
           "categoryId": 282661,
@@ -681,7 +700,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-None-54d360e3-39c0-4eae-b69e-e12b141b8ea9.74a96b81943fd5.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "Advanced"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118624-55762",
           "start": "2026-10-11T13:00:00.000Z",
@@ -691,7 +712,7 @@
         {
           "id": 1118612,
           "name": "Trapps Climbing Tour: 5.6-5.8",
-          "rawName": "2026_Trapps Climbing Tour: 5.6-5.8 (Sunday 9-11am)",
+          "rawName": "Trapps Climbing Tour: 5.6-5.8 (Sunday 9-11am)",
           "description": "<p>Join us for a guided walking tour of Trapps routes between the grades of 5.6-5.8. You'll be guided by a gunks local who can point out classics, hidden gems, routes with great protection, good for breaking into the grade routes, and notorious sandbags.</p><p>Please note this is a walking tour only, and not a guided climbing experience.</p>",
           "category": "Sunday Clinics",
           "categoryId": 282661,
@@ -702,7 +723,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-None-b16f3aaf-de6f-4329-9f3b-082a3e1935c4.d91d1471314419.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "Intermediate"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118612-55758",
           "start": "2026-10-11T13:00:00.000Z",
@@ -712,7 +735,7 @@
         {
           "id": 1118618,
           "name": "Trapps Climbing Tour: 5.9-5.10",
-          "rawName": "2026_Trapps Climbing Tour: 5.9-5.10 (Sunday 9-11am)",
+          "rawName": "Trapps Climbing Tour: 5.9-5.10 (Sunday 9-11am)",
           "description": "<p>Join us for a guided walking tour of Trapps routes between the grades of 5.9-5.10. You'll be guided by a gunks local who can point out classics, hidden gems, routes with great protection, good for breaking into the grade routes, and notorious sandbags.</p><p>Please note this is a walking tour only, and not a guided climbing experience.</p>",
           "category": "Sunday Clinics",
           "categoryId": 282661,
@@ -723,7 +746,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-None-3b74feb4-9dd1-47bc-9e95-5bd9ad63f4cd.eac3d3c562ae07.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "Advanced"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118618-55760",
           "start": "2026-10-11T13:00:00.000Z",
@@ -733,7 +758,7 @@
         {
           "id": 1118560,
           "name": "How Trusty are those Rusties?",
-          "rawName": "2026_How Trusty are those Rusties? (Sunday 10am - 12pm)",
+          "rawName": "How Trusty are those Rusties? (Sunday 10am - 12pm)",
           "description": "<p><em>Instructor: Richard Goldstone</em></p><p>Clip-and-whip or just plain skip? Or maybe time to tie-off? </p><p>Learn about the intricacies and history of iron, and how trustworthy exactly it can and cannot be. Chances are you have encountered an original piece of fixed hardware, if you have wondered the vintage then this class is for you.</p><p>This clinic presents some of the history of piton development, discusses appropriate attitudes and practices for dealing with in-situ gear, and describes selection, placing and removal (in the context of free climbing—this is not an aid tutorial).</p><p>This clinic meets at the Mohonk Preserve Visitor Center and will be held in the visitor center classroom.</p>",
           "category": "Sunday Clinics",
           "categoryId": 282661,
@@ -744,7 +769,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1118560-48753fe7-09d6-4563-af97-1c9f1d0fd02f.ea33b270df5a9b.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "All Levels"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118560-55724",
           "start": "2026-10-11T14:00:00.000Z",
@@ -754,7 +781,7 @@
         {
           "id": 1118631,
           "name": "Safe Rappelling Practices",
-          "rawName": "2026_Safe Rappelling Practices (Sunday 11-1pm)",
+          "rawName": "Safe Rappelling Practices (Sunday 11-1pm)",
           "description": "<p><em>Guide: Angelo Urrico, Rise Outside guides</em></p><p>Join Angelo to learn techniques for safely descending single or multiple rappels, using the gear that you are comfortable with. You will also learn several methods for keeping your less experienced partner safe on rappel.</p><p><strong>Prerequisites: Previous outdoor rock climbing experience; a desire to improve safety on descent for yourself and your partner</strong><br /><strong>Required gear: Personal climbing kit, rappel equipment</strong></p>",
           "category": "Sunday Clinics",
           "categoryId": 282661,
@@ -765,7 +792,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-None-60522556-78ba-4079-9c5e-6fb82137397a.b24ba65872e109.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "Beginner"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118631-55766",
           "start": "2026-10-11T15:00:00.000Z",
@@ -775,7 +804,7 @@
         {
           "id": 1119492,
           "name": "Climbing Photography Masterclass",
-          "rawName": "2026_Climbing Photography Masterclass (Sunday 12-4pm)",
+          "rawName": "Climbing Photography Masterclass (Sunday 12-4pm)",
           "description": "<p><em>Guide: Chris Vultaggio</em></p><p>Want to take your climbing photography to the next level?</p><p>Join professional climbing photographer Chris Vultaggio to cover everything from lens choices to lighting, composition to fixed-line logistics.</p><p>Time permitting, we will be able to practice some rope ascending for some hands-on skill development.</p><p><strong>Prerequisites: Photography and climbing knowledge a plus, especially experience and confidence in rappelling and anchors</strong><br /><strong>Required Gear: Personal climbing kit, camera kit, rope ascending kit if you have one</strong></p>",
           "category": "Sunday Clinics",
           "categoryId": 282661,
@@ -786,7 +815,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1119492-a8410832-2e1d-4bf3-af3b-cb17d77a43be.d1acf140fe1b2a.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "All Levels"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1119492-56089",
           "start": "2026-10-11T16:00:00.000Z",
@@ -796,7 +827,7 @@
         {
           "id": 1118581,
           "name": "Half Rope Usage: Techniques, Pros, and Cons",
-          "rawName": "2026_Half Rope Usage: Techniques, Pros, and Cons (Sunday 1pm-3pm)",
+          "rawName": "Half Rope Usage: Techniques, Pros, and Cons (Sunday 1pm-3pm)",
           "description": "<p>Instructor: Richard Goldstone<br />You're finishing out your route, top of the cliff within a few body-lengths. Your partner is out of sight, under a roof and a long traverse back to the belay.</p><p>Each step becomes more tedious like you're dragging an elephant from your harness - and you find yourself yarding up armloads of slack just to move. We've all been there, but did you know there is an easy fix?</p><p>Half ropes are not popular except in the UK, where they are the technique of choice for trad, and for good reason with their wandering pitches - just like someplace else we know...</p><p>Everyone knows they have the potential to reduce friction, but is that the whole story?  Do the Brits know something we don’t? </p><p>As a 30+ year user, Dr. Goldstone will share his insights on how this seasoned practice applies in the Gunks, both pros and cons.</p><p>This clinic will meet at the Mohonk Preserve Visitor Center and be held in the visitor center classroom.</p>",
           "category": "Sunday Clinics",
           "categoryId": 282661,
@@ -807,7 +838,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1118581-ebd4da78-61b9-44b9-9e38-435420690008.4441678b668641.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "Intermediate"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118581-55744",
           "start": "2026-10-11T17:00:00.000Z",
@@ -815,9 +848,32 @@
           "location": "Mohonk Preserve Visitor Center Classroom"
         },
         {
+          "id": 1118638,
+          "name": "Multipitching in Party of Three",
+          "rawName": "Multipitching in Party of Three (Sunday 1pm - 5pm)",
+          "description": "<p><em>Guide: Teddy Dondaville, Mountain Skills guides</em></p><p>Climbing in a party of three can be cumbersome– there’s a lot of rope to manage and an extra person. This clinic, led by Teddy Dondanville from Mountain Skills Climbing Guides, will teach best practices for climbing in a party of three, including a deep dive into two belay methods. In addition, this clinic will offer some efficiency hacks to make the process more smoother.</p><p><strong>Prerequisites:  Lead multi-pitch experience. (This workshop will be taught through the perspective of the leader.)</strong><br /><strong>Required Gear: Standard multi pitch kit, including a harness, a selection of belay/rappel devices, lockers, non-lockers, slings or PAS, anchor building material</strong></p>",
+          "category": "Sunday Clinics",
+          "categoryId": 282661,
+          "price": "100.00",
+          "priceFrom": false,
+          "freePrice": false,
+          "hasVariations": false,
+          "allowWaitinglist": true,
+          "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1118638-a465a1a7-352a-4a23-88c8-cceb86323511.810f4fa0c51005.jpg",
+          "isAddon": true,
+          "meta": {
+            "difficulty": "Intermediate"
+          },
+          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
+          "slotId": "1118638-55770",
+          "start": "2026-10-11T17:00:00.000Z",
+          "end": "2026-10-11T21:00:00.000Z",
+          "location": "This clinic meets at the afternoon clinic meetup location."
+        },
+        {
           "id": 1119409,
           "name": "Wilderness Survival for the Outdoor Recreator",
-          "rawName": "2026_Wilderness Survival for the Outdoor Recreator (Sunday 2pm-6pm)",
+          "rawName": "Wilderness Survival for the Outdoor Recreator (Sunday 2pm-6pm)",
           "description": "<p><em>Guide: Gregory Kanter, Gunks Guides</em></p><p>Ready to become more “outdoorsy?\" </p><p>Whether you’re a beginner looking to start your outdoor journey or an experienced adventurer seeking a skills refresh, Wilderness Survival is the perfect course for you! Learn how to thrive in the wilderness with the right preparation, gear, clothing, and skills to manage risks and ensure comfort on all your outdoor adventures.</p><p>In this comprehensive wilderness survival course, we’ll cover essential topics like the Ten Essentials, clothing layering techniques, dealing with environmental threats and weather, animal encounters, medical considerations, and effective decision-making in the backcountry.</p><p> To cap off the day, we’ll engage in role-playing scenarios to put your newly acquired skills to the test and boost your confidence.</p><p>This course is ideal for outdoor enthusiasts of all experience levels, offering practical skills for anyone who wants to explore the wilderness safely and confidently. Sign up today to enhance your outdoor recreation knowledge and wilderness survival abilities!</p><p><strong>Prerequisites:  None</strong><br /><strong>Required Gear: Just your clothing you’d be wearing for a day out and a pack you’d normally carry</strong></p>",
           "category": "Sunday Clinics",
           "categoryId": 282661,
@@ -828,7 +884,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1119409-8ad5cd67-8a55-40b0-97b0-1f9261fe4baf.e44889c2edfa81.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "All Levels"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1119409-56048",
           "start": "2026-10-11T18:00:00.000Z",
