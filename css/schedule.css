@@ -28,6 +28,9 @@
 .schedule-head .eyebrow,
 .schedule-head .lead { text-shadow: 0 2px 10px rgba(0,0,0,0.55); }
 .schedule-head .lead strong { color: #fff; font-weight: 700; }
+/* Four sentences now, so the last line kept stranding a single word. Ignored by
+   browsers that don't support it, which just get the orphan back. */
+.schedule-head .lead { text-wrap: pretty; }
 /* No blend at the seams. See .page-schedule .rope-divider below for why. */
 .schedule-head h1 {
   font-size: clamp(2.2rem, 6vw, 3.6rem);
