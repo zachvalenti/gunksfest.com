@@ -14,11 +14,14 @@
     url("../assets/img/2025-08-gunksfest-sarah-karbachinskiy-5350.jpg"),
     linear-gradient(165deg, var(--color-forest) 0%, var(--color-forest-dk) 100%);
   background-size: cover, auto;
-  /* Crop is set by where the group lands, not by the horizon. The heading has
-     to sit on clean sky, so the people are pushed as low as the frame allows —
-     at 12% their heads clear the headline and only the tail of the lead runs
-     across them, while the ridge and the valley still read behind. */
-  background-position: center 12%, center;
+  /* Crop is set by where the group lands, not by the horizon. At 60% the photo
+     rides high enough to show the whole group — heads down to feet, standing on
+     the ledge — which is the point of this picture. The trade is that the heads
+     come up beside the headline rather than sitting below it; they clear it
+     horizontally, since the copy is left-aligned and the group is centre-right.
+     Drop toward 12% to buy the headline clean sky again, at the cost of cutting
+     everyone off around the waist. */
+  background-position: center 60%, center;
   background-repeat: no-repeat;
 }
 /* A summit photo, so the scrim can be lighter than a shaded one needs: enough
@@ -83,35 +86,19 @@
    the job — which is why the modifier class stays on the wrapper in
    schedule.html even with no declaration left in this rule. */
 
-/* Shortens the feather band's fade on the underside of this one divider.
-   The shared band is symmetric, 46px of fade either side of the seam, which is
-   right when both sides of a join are dark: the band is then read as shadow
-   under the rope rather than as a band. The top half here is exactly that
-   case — it lands on #14251f, the colour the band is made of, so it costs
-   nothing and there is nothing to gain by trimming it. Only the lower half
-   moves, 46px down to 18px, about the reach of the rope's own drop shadow, so
-   what is left under the rope reads as the rope's shadow rather than as a
-   gradient in its own right.
+/* The lower divider uses the shared band from style.css, unmodified: 46px of
+   fade either side of the seam. That symmetry is right whenever both sides of
+   a join are dark, which is the case here — dark clinic list above, and a
+   shaded forest photo below whose own top is nearly as dark as the band. The
+   band is then read as shadow under the rope rather than as a band of its own.
 
-   The band is not what covers the join here — the rope is (see above) — which
-   is what makes shortening it safe. Measured across the full range of
-   candidates the residual straight step never left its floor, and against the
-   photo currently below it reads 12.8 short versus 13.7 at the full 46px: no
-   worse, marginally better, and without the wash.
-
-   Lengthen the 18px if it ever wants to be gentler; 30px puts it about halfway
-   back. It matters most when the section below is bright — this was trimmed
-   while a sky photo sat there, where 46px of fade smeared visibly out of the
-   rope and took the top of the picture with it. */
-.page-schedule .rope-divider--lower::before {
-  bottom: -18px; height: 64px;
-  background: linear-gradient(to bottom,
-    rgba(20, 37, 31, 0) 0%,
-    rgba(20, 37, 31, 0.70) 40%,
-    rgba(20, 37, 31, 0.88) 72%,   /* peak lands on the seam */
-    rgba(20, 37, 31, 0.50) 88%,
-    rgba(20, 37, 31, 0) 100%);
-}
+   It was briefly trimmed to 18px on the underside, which mattered when a
+   bright sky photo sat in the CTA: against sky those 46px smeared visibly out
+   of the rope and washed out the top of the picture. That photo has since
+   moved to the page head, so the reason went with it. If a bright photo ever
+   comes back down here, that is the knob — `bottom: -18px; height: 64px` on
+   .page-schedule .rope-divider--lower::before, with the gradient's peak kept
+   on the seam. */
 
 .schedule-section { position: relative; z-index: 1; }
 
