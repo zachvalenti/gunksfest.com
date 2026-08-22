@@ -20,7 +20,6 @@
 
   var statusEl = document.getElementById("schedule-status");
   var navEl = document.getElementById("schedule-nav");
-  var filterEl = document.getElementById("schedule-filters");
   var updatedEl = document.getElementById("schedule-updated");
 
   var DATA_URL = "data/schedule.json";
@@ -31,7 +30,7 @@
   // pretix Quota availability states (pretix/base/models/items.py)
   var AVAIL_GONE = 0, AVAIL_ORDERED = 10, AVAIL_RESERVED = 20, AVAIL_OK = 100;
 
-  var state = { data: null, day: "all", category: "all", avail: null };
+  var state = { data: null, day: "all", avail: null };
 
   fetch(DATA_URL, { cache: "no-cache" })
     .then(function (r) {
@@ -84,36 +83,24 @@
     if (statusEl) statusEl.hidden = true;
 
     renderDayNav();
-    renderFilters();
 
     var days = (data.days || []).filter(function (d) {
       return state.day === "all" || state.day === d.date;
     });
 
+    // Only timed sessions are listed. Products with no time — the weekend passes
+    // and film tickets — are sold on the pretix shop, not scheduled here.
     var shown = 0;
     days.forEach(function (day) {
-      var sessions = day.sessions.filter(matchesCategory);
-      if (!sessions.length) return;
-      shown += sessions.length;
-      root.appendChild(dayBlock(day.label, day.date, sessions));
+      if (!day.sessions.length) return;
+      shown += day.sessions.length;
+      root.appendChild(dayBlock(day.label, day.date, day.sessions));
     });
-
-    // Products with no time on them — passes, camping, merch. Only worth a
-    // block of their own when the current filters don't hide them.
-    var extras = (data.unscheduled || []).filter(matchesCategory);
-    if (extras.length && state.day === "all") {
-      shown += extras.length;
-      // These are the festival passes and film tickets. When pretix has them all
-      // under one category, that category's own name beats a generic heading.
-      var cats = extras.map(function (s) { return s.category; });
-      var unanimous = cats[0] && cats.every(function (c) { return c === cats[0]; });
-      root.appendChild(dayBlock(unanimous ? cats[0] : "Passes & Tickets", "unscheduled", extras));
-    }
 
     if (!shown) {
       var p = document.createElement("p");
       p.className = "schedule-none";
-      p.textContent = "Nothing matches that filter yet.";
+      p.textContent = "Nothing scheduled for that day yet.";
       root.appendChild(p);
     }
 
@@ -173,7 +160,6 @@
 
   function renderEmpty() {
     if (navEl) navEl.hidden = true;
-    if (filterEl) filterEl.hidden = true;
     setStatus(
       "<strong>The 2026 clinic line-up isn't published yet.</strong><br />" +
       "Clinic schedules and tickets go live in early September — this page fills in " +
@@ -181,10 +167,6 @@
       '<a href="index.html#updates">Get on the updates list</a> and we\'ll tell you when.',
       "empty"
     );
-  }
-
-  function matchesCategory(session) {
-    return state.category === "all" || String(session.categoryId) === state.category;
   }
 
   function dayBlock(label, key, sessions) {
@@ -229,22 +211,6 @@
     title.textContent = s.name || "Untitled";
     body.appendChild(title);
 
-    var chips = document.createElement("p");
-    chips.className = "session-chips";
-    [
-      s.category,
-      s.location,
-      s.meta && (s.meta.guide || s.meta.instructor),
-      s.meta && (s.meta.difficulty || s.meta.level)
-    ].forEach(function (value) {
-      if (!value) return;
-      var chip = document.createElement("span");
-      chip.className = "chip";
-      chip.textContent = value;
-      chips.appendChild(chip);
-    });
-    if (chips.childNodes.length) body.appendChild(chips);
-
     if (s.description) {
       var desc = document.createElement("div");
       desc.className = "session-desc";
@@ -258,8 +224,9 @@
     side.className = "session-side";
 
     var price = document.createElement("p");
-    price.className = "session-price";
-    price.textContent = formatPrice(s);
+    var money = formatPrice(s);
+    price.className = "session-price" + (money.included ? " is-included" : "");
+    price.textContent = money.text;
     side.appendChild(price);
 
     var badge = document.createElement("p");
@@ -267,19 +234,6 @@
     badge.hidden = true;
     side.appendChild(badge);
 
-    if (s.url) {
-      var a = document.createElement("a");
-      a.className = "btn btn-primary btn-sm session-cta";
-      a.href = s.url;
-      a.target = "_blank";
-      a.rel = "noopener";
-      // Add-ons are bought alongside a pass rather than on their own, so
-      // "Register" would promise a checkout the link can't deliver.
-      var label = s.isAddon ? "View in shop" : "Register";
-      a.textContent = label;
-      a.setAttribute("aria-label", label + " — " + (s.name || "this session"));
-      side.appendChild(a);
-    }
     li.appendChild(side);
     return li;
   }
@@ -305,42 +259,6 @@
     });
   }
 
-  function renderFilters() {
-    if (!filterEl) return;
-    // Only offer categories that actually have something in them right now.
-    var used = {};
-    collectAll().forEach(function (s) {
-      if (s.categoryId != null) used[s.categoryId] = s.category;
-    });
-    var cats = Object.keys(used);
-    if (cats.length < 2) { filterEl.hidden = true; return; }
-
-    filterEl.innerHTML = "";
-    filterEl.hidden = false;
-    var label = document.createElement("span");
-    label.className = "filter-label";
-    label.textContent = "Filter:";
-    filterEl.appendChild(label);
-
-    [{ key: "all", label: "Everything" }].concat(
-      cats.map(function (id) { return { key: id, label: used[id] }; })
-    ).forEach(function (opt) {
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "filter-chip" + (state.category === opt.key ? " is-active" : "");
-      btn.textContent = opt.label;
-      btn.setAttribute("aria-pressed", String(state.category === opt.key));
-      btn.addEventListener("click", function () { state.category = opt.key; render(); });
-      filterEl.appendChild(btn);
-    });
-  }
-
-  function collectAll() {
-    var out = [];
-    (state.data.days || []).forEach(function (d) { out = out.concat(d.sessions); });
-    return out.concat(state.data.unscheduled || []);
-  }
-
   /* ---------- live availability from the pretix widget endpoint ---------- */
 
   function loadAvailability(shop) {
@@ -363,7 +281,6 @@
     Array.prototype.forEach.call(root.querySelectorAll(".session"), function (card) {
       var item = byId[card.dataset.itemId];
       var badge = card.querySelector(".session-badge");
-      var cta = card.querySelector(".session-cta");
       if (!item || !badge) return;
 
       var info = describeAvailability(item);
@@ -373,7 +290,6 @@
       badge.className = "session-badge is-" + info.tone;
       badge.hidden = false;
       card.classList.toggle("is-gone", info.tone === "gone");
-      if (cta && info.cta) cta.textContent = info.cta;
     });
   }
 
@@ -400,7 +316,7 @@
       return { text: "Currently reserved", tone: "low" };
     }
     return item.allow_waitinglist
-      ? { text: "Sold out", tone: "gone", cta: "Join waiting list" }
+      ? { text: "Waiting list", tone: "gone" }
       : { text: "Sold out", tone: "gone" };
   }
 
@@ -437,10 +353,15 @@
   }
 
   function formatPrice(s) {
-    if (s.price == null) return "";
+    if (s.price == null) return { text: "", included: false };
     var n = Number(s.price);
-    if (!Number.isFinite(n)) return "";
-    if (n === 0) return s.freePrice ? "Pay what you can" : "Free";
+    if (!Number.isFinite(n)) return { text: "", included: false };
+    // A $0 clinic isn't free-standing — it comes with a festival pass.
+    if (n === 0) {
+      return s.freePrice
+        ? { text: "Pay what you can", included: false }
+        : { text: "Included with Day/Weekend Pass", included: true };
+    }
     var currency = (state.data.shop && state.data.shop.currency) || "USD";
     var text;
     try {
@@ -451,7 +372,7 @@
     } catch (e) {
       text = "$" + n.toFixed(2);
     }
-    return (s.priceFrom ? "from " : "") + text;
+    return { text: (s.priceFrom ? "from " : "") + text, included: false };
   }
 
   function esc(str) {

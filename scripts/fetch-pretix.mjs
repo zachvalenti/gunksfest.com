@@ -149,6 +149,9 @@ function dayLabel(iso, tz) {
  */
 function mdToHtml(src) {
   if (!src) return null;
+  // Shop boilerplate that belongs in the cart, not on a schedule. It sits on its
+  // own line in every description that has it, so drop the whole line.
+  src = String(src).replace(/^.*General Admission Event Ticket.*$/gim, "");
   const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   const inline = (t) =>
     esc(t)
@@ -157,7 +160,7 @@ function mdToHtml(src) {
       .replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>")
       .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+|mailto:[^)\s]+)\)/g, '<a href="$2">$1</a>');
 
-  const blocks = String(src).replace(/\r\n?/g, "\n").trim().split(/\n{2,}/);
+  const blocks = src.replace(/\r\n?/g, "\n").trim().split(/\n{2,}/);
   const out = [];
   for (const block of blocks) {
     const lines = block.split("\n").filter((l) => l.trim());

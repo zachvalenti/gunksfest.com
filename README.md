@@ -109,6 +109,20 @@ festival pass still appears on the schedule (its button reads *View in shop*, si
 an add-on can't be checked out on its own). An add-on with no time is merch or an
 extra, and is left off the page entirely.
 
+### Photos on the schedule page
+
+Two background slots are wired up in `css/schedule.css` and expect these files:
+
+| Path | Where it shows |
+| --- | --- |
+| `assets/img/2025-08-gunksfest-chris.jpg` | behind the "Clinics & Schedule" hero |
+| `assets/img/2025-08-gunksfest-sarah.jpg` | behind "Questions about a clinic?" |
+
+Each is the first layer of a two-layer background, with the brand green gradient
+underneath. A missing file paints nothing and the gradient carries the section, so
+the page never shows a broken image — but it also never warns you. Rename the CSS
+`url()` if your filenames differ.
+
 ### Going live
 
 When the line-up is published and the page looks right, three things flip it public:
