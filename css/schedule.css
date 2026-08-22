@@ -46,10 +46,14 @@
    override — the shared rule in style.css does the work. */
 /* Nothing should paint over the blend, and the schedule must start below it. */
 .page-schedule .rope-divider { z-index: 3; }
-/* The lower rope stays centred on the seam, which is where the two sections
-   actually meet — measured as a sharp luminance step exactly at the divider's
-   top edge. Offsetting it downward to chase the perceived boundary left that
-   real join uncovered. */
+/* The lower rope sits on the seam, which is where the two sections actually
+   meet — measured as a sharp luminance step exactly at the divider's top edge.
+   Offsetting it downward to chase the perceived boundary left that real join
+   uncovered, so the nudge goes the other way: 10px up, which the 92px feather
+   band still covers the seam through. Move the whole divider, not the rope —
+   the band has to travel with it. */
+.rope-divider--lower { transform: translateY(-10px); }
+
 .schedule-section { position: relative; z-index: 1; }
 
 /* ---------- Section shell ---------- */
