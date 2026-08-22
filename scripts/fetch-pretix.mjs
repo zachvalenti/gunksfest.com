@@ -43,6 +43,11 @@
  * `difficulty` is the one the schedule page reads directly and cannot infer:
  * js/schedule.js will never guess a level from a title or description, so a
  * clinic without this property set simply doesn't appear under any level pill.
+ * The four values it understands are Beginner, Intermediate, Advanced, and
+ * All Levels — the last meaning the clinic is listed under all three pills
+ * rather than under one of its own. Anything else is treated as unset, so a
+ * new wording invented in pretix will quietly drop clinics out of the filter
+ * rather than mislabel them; add it to levelsOf() in js/schedule.js instead.
  * ---------------------------------------------------------------------------
  */
 import { writeFile, readFile, mkdir } from "node:fs/promises";

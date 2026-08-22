@@ -311,24 +311,48 @@
   /* A $0 clinic isn't standalone-free — it comes with a pass — but from the
      climber's side of the counter it costs nothing extra, which is what the
      "Free" pill means. "Pay what you can" counts as free too. */
-  function costOf(s) {
+  /* Both facets answer the same question — which pills does this session belong
+     under? — so both return a list of keys. Cost is always exactly one. Level
+     can be none, one, or all three. */
+  function costsOf(s) {
     var n = Number(s.price);
-    if (s.price == null || !Number.isFinite(n)) return null;
-    return n === 0 ? "free" : "paid";
+    if (s.price == null || !Number.isFinite(n)) return [];
+    return [n === 0 ? "free" : "paid"];
   }
 
-  /* Level comes from the `difficulty` item meta property in pretix (see the
-     README). Nothing is inferred from the title or description: guessing a
-     clinic's level from prose is how someone ends up in the wrong clinic. A
-     clinic with no difficulty set simply isn't offered under a level pill. */
-  function levelOf(s) {
+  function allLevelKeys() {
+    return LEVEL_PILLS.map(function (p) { return p.key; });
+  }
+
+  /* Level comes from the `difficulty` item meta property in pretix (see
+     scripts/fetch-pretix.mjs). Nothing is inferred from the title or the
+     description: guessing a clinic's level from prose is how someone ends up
+     in the wrong clinic.
+
+     "All Levels" is a real value staff use in pretix, and it is not a fourth
+     level — it says the clinic belongs under every one of them. It has to
+     return all three keys rather than a key of its own, because the person it
+     matters to is the beginner who clicks Beginner: a clinic explicitly open
+     to them must be in that list, not filed under a separate pill they have no
+     reason to press. With the current line-up that is the difference between
+     Beginner showing 5 clinics and showing 18.
+
+     A clinic with no difficulty set, or one carrying a word this doesn't
+     recognise, returns nothing and simply isn't offered under a level pill —
+     the same deliberate silence as before. */
+  function levelsOf(s) {
     var raw = s.meta && s.meta.difficulty;
-    if (!raw) return null;
+    if (!raw) return [];
     var key = String(raw).trim().toLowerCase();
+    if (key.indexOf("all") === 0) return allLevelKeys();
     for (var i = 0; i < LEVEL_PILLS.length; i++) {
-      if (key.indexOf(LEVEL_PILLS[i].key) === 0) return LEVEL_PILLS[i].key;
+      if (key.indexOf(LEVEL_PILLS[i].key) === 0) return [LEVEL_PILLS[i].key];
     }
-    return null;
+    return [];
+  }
+
+  function keysFor(facet, s) {
+    return facet === "cost" ? costsOf(s) : levelsOf(s);
   }
 
   function facetActive(facet) {
@@ -339,9 +363,20 @@
     return facetActive("cost") || facetActive("level");
   }
 
+  /* A session clears a facet if any one of its keys is lit — so an "All Levels"
+     clinic clears the level facet under Beginner, Intermediate or Advanced
+     alike. Across facets it is still an and: Free + Beginner means both. */
+  function litInFacet(facet, s) {
+    var keys = keysFor(facet, s);
+    for (var i = 0; i < keys.length; i++) {
+      if (state[facet][keys[i]]) return true;
+    }
+    return false;
+  }
+
   function matchesFilters(s) {
-    if (facetActive("cost") && !state.cost[costOf(s)]) return false;
-    if (facetActive("level") && !state.level[levelOf(s)]) return false;
+    if (facetActive("cost") && !litInFacet("cost", s)) return false;
+    if (facetActive("level") && !litInFacet("level", s)) return false;
     return true;
   }
 
@@ -355,17 +390,24 @@
 
     var pills = [];
     ["cost", "level"].forEach(function (facet) {
-      var of = facet === "cost" ? costOf : levelOf;
       var used = {};
       sessions.forEach(function (s) {
-        var key = of(s);
-        if (key) used[key] = true;
+        keysFor(facet, s).forEach(function (key) { used[key] = true; });
       });
       var group = (facet === "cost" ? COST_PILLS : LEVEL_PILLS).filter(function (opt) {
         return used[opt.key];
       });
-      // One lone pill in a facet filters nothing out — every session matches it.
-      if (group.length > 1) {
+      /* Two tests, both asking whether this row of pills earns its space.
+         One pill filters nothing out, since every session it knows about
+         matches it. And more than one pill still filters nothing if every
+         session carries all of them — which is exactly what a line-up made
+         entirely of "All Levels" clinics would look like now that one clinic
+         can sit under several pills at once. */
+      var discriminates = group.length > 1 && sessions.some(function (s) {
+        var keys = keysFor(facet, s);
+        return group.some(function (opt) { return keys.indexOf(opt.key) === -1; });
+      });
+      if (discriminates) {
         group.forEach(function (opt) { pills.push({ facet: facet, opt: opt }); });
       } else {
         state[facet] = {};
