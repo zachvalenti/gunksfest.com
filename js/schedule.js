@@ -58,7 +58,12 @@
     { key: "free", label: "Free" },
     { key: "paid", label: "Paid" }
   ];
+  /* "All Levels" leads the level group, so it renders between Paid and
+     Beginner — the pills are drawn cost-group first, then this list in order.
+     It is a lens rather than a rung on the ladder: the three below it narrow to
+     a level, this one narrows to the clinics that don't ask for one. */
   var LEVEL_PILLS = [
+    { key: "all", label: "All Levels" },
     { key: "beginner", label: "Beginner" },
     { key: "intermediate", label: "Intermediate" },
     { key: "advanced", label: "Advanced" }
@@ -320,22 +325,27 @@
     return [n === 0 ? "free" : "paid"];
   }
 
-  function allLevelKeys() {
-    return LEVEL_PILLS.map(function (p) { return p.key; });
-  }
-
   /* Level comes from the `difficulty` item meta property in pretix (see
      scripts/fetch-pretix.mjs). Nothing is inferred from the title or the
      description: guessing a clinic's level from prose is how someone ends up
      in the wrong clinic.
 
-     "All Levels" is a real value staff use in pretix, and it is not a fourth
-     level — it says the clinic belongs under every one of them. It has to
-     return all three keys rather than a key of its own, because the person it
-     matters to is the beginner who clicks Beginner: a clinic explicitly open
-     to them must be in that list, not filed under a separate pill they have no
-     reason to press. With the current line-up that is the difference between
-     Beginner showing 5 clinics and showing 18.
+     An "All Levels" clinic returns every key — its own pill AND all three
+     rungs. Both halves matter, for different people:
+
+       - the three rungs, because the person the label is written for is the
+         beginner who presses Beginner. A clinic explicitly open to them has to
+         be in that list, not filed away under a pill they have no reason to
+         try. That is the difference between Beginner showing 5 and showing 18.
+       - its own pill, because "show me the ones that don't ask for a level" is
+         a real question, and it is not the same question as "show me beginner
+         clinics".
+
+     A consequence worth knowing before changing this: the level pills are not
+     a partition. All Levels is a subset of each of the other three, so
+     All Levels + Beginner lists the same 18 as Beginner alone. That is the
+     price of the first bullet, and it is the right way round — the failure it
+     avoids is somebody missing a clinic they could have taken.
 
      A clinic with no difficulty set, or one carrying a word this doesn't
      recognise, returns nothing and simply isn't offered under a level pill —
@@ -344,9 +354,12 @@
     var raw = s.meta && s.meta.difficulty;
     if (!raw) return [];
     var key = String(raw).trim().toLowerCase();
-    if (key.indexOf("all") === 0) return allLevelKeys();
+    if (key.indexOf("all") === 0) {
+      return LEVEL_PILLS.map(function (p) { return p.key; });
+    }
     for (var i = 0; i < LEVEL_PILLS.length; i++) {
-      if (key.indexOf(LEVEL_PILLS[i].key) === 0) return [LEVEL_PILLS[i].key];
+      var k = LEVEL_PILLS[i].key;
+      if (k !== "all" && key.indexOf(k) === 0) return [k];
     }
     return [];
   }
