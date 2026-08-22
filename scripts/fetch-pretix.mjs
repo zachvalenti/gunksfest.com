@@ -15,6 +15,35 @@
  *
  * Nothing here is secret at rest: the token only ever lives in the environment,
  * and the file we emit is the same information the public ticket shop shows.
+ *
+ * ---------------------------------------------------------------------------
+ * GETTING A CLINIC ONTO THE SCHEDULE
+ *
+ * Clinics are products (items) in one pretix event, so pretix has to be told
+ * when each one runs. Anything without a time is not a session, and won't be
+ * listed. This script looks in two places, in that order:
+ *
+ *   1. Program times (preferred) — on the product, under "Program times", add
+ *      a start and end, and optionally a location. A product can carry several,
+ *      and each becomes its own row on the schedule.
+ *
+ *   2. Item meta properties (fallback, for pretix versions predating the
+ *      program_times API). Define these once under Organizer settings → Item
+ *      meta properties, then fill them in per product:
+ *
+ *        start       2026-10-10 09:00   the clinic's start time
+ *        end         2026-10-10 13:00   the end time
+ *        location    The Trapps         where it meets
+ *        guide       Sarah K.           who is running it
+ *        difficulty  Beginner           drives the level filter pills
+ *
+ *      Times without a zone are read as wall-clock time in the event's own
+ *      timezone (see parseMetaDate below).
+ *
+ * `difficulty` is the one the schedule page reads directly and cannot infer:
+ * js/schedule.js will never guess a level from a title or description, so a
+ * clinic without this property set simply doesn't appear under any level pill.
+ * ---------------------------------------------------------------------------
  */
 import { writeFile, readFile, mkdir } from "node:fs/promises";
 import { dirname } from "node:path";
@@ -32,8 +61,28 @@ if (!TOKEN) {
 
 const api = `${BASE}/api/v1/organizers/${ORG}/events/${EVENT}`;
 
+/**
+ * One authenticated GET against the pretix REST API.
+ *
+ * Two habits worth copying whenever you talk to an HTTP API:
+ *
+ *  - fetch() does NOT throw on 404 or 500. It only rejects when the request
+ *    itself fails (DNS, connection dropped). A response is a response, however
+ *    unhappy, so you have to check res.ok yourself — forgetting this is the
+ *    single most common bug in code that calls an API, because it turns a
+ *    clear "401 unauthorised" into a confusing crash somewhere further down
+ *    when the parsed body isn't shaped how you expected.
+ *  - When it does fail, put everything you'll need into the error message:
+ *    method, URL, status, and the start of the body (which is where APIs
+ *    usually explain themselves). A CI job that fails at 3am is only as
+ *    debuggable as the line it prints. The status is also stashed on the error
+ *    object so callers can branch on it — main() uses that to detect a 404 for
+ *    program_times and fall back to meta properties.
+ */
 async function get(url) {
   const res = await fetch(url, {
+    // The API token travels in a header, never in the URL: query strings end
+    // up in server logs, browser history and Referer headers.
     headers: { Authorization: `Token ${TOKEN}`, Accept: "application/json" },
   });
   if (!res.ok) {
@@ -45,7 +94,17 @@ async function get(url) {
   return res.json();
 }
 
-/** Follows pretix's `next` links and returns every page's results concatenated. */
+/**
+ * Follows pretix's `next` links and returns every page's results concatenated.
+ *
+ * Nearly every REST API paginates: ask for a collection and you get the first
+ * 50 items plus a pointer to the rest. Code that ignores this works perfectly
+ * in testing and then silently loses data the day the event grows past one
+ * page — the request still succeeds, it just answers a narrower question than
+ * you asked. Always check how the API you're calling signals "there's more",
+ * and follow it. pretix returns a `next` URL and null when it's done, which
+ * makes the loop trivial; others use page numbers or opaque cursors.
+ */
 async function getAll(url) {
   const out = [];
   let next = url;
@@ -114,7 +173,22 @@ function parseMetaDate(raw, tz) {
   return new Date(guess - offset).toISOString();
 }
 
-/** Milliseconds `tz` is ahead of UTC at the given instant. */
+/**
+ * Milliseconds `tz` is ahead of UTC at the given instant.
+ *
+ * Worth reading as a lesson in dates, which are the classic source of bugs
+ * that only appear in one month of the year. The rule: an instant in time and
+ * a wall-clock reading are different things. "2026-10-10 09:00" is not a
+ * moment — it's a moment only once you say where. And the offset isn't a
+ * property of the zone, it's a property of the zone *at that date*: New York
+ * is UTC-4 in October and UTC-5 in December.
+ *
+ * So this asks Intl to format a known instant in the target zone, reads the
+ * digits back, and measures how far they drift from UTC — which is the offset
+ * in force on that date, daylight saving included. Store and pass instants
+ * (ISO strings with a Z, as data/schedule.json does), and convert to local
+ * wall-clock only at the point of display.
+ */
 function tzOffsetMs(instant, tz) {
   const dtf = new Intl.DateTimeFormat("en-US", {
     timeZone: tz,
@@ -372,7 +446,9 @@ async function main() {
   };
 
   // Ignore the timestamp when deciding whether anything really changed, so the
-  // scheduled workflow doesn't commit a no-op every run.
+  // scheduled workflow doesn't commit a no-op every run. Any job that writes
+  // to a repo on a schedule needs a check like this, or the history fills with
+  // identical commits and a real change becomes impossible to spot.
   const json = JSON.stringify(data, null, 2) + "\n";
   const previous = await readFile(OUT, "utf8").catch(() => null);
   if (previous && stripGenerated(previous) === stripGenerated(json)) {

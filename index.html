@@ -1,12 +1,51 @@
 <!DOCTYPE html>
+<!--
+  GunksFest 2026 — the landing page.
+
+  Hand-written HTML, no templating and no build step: what's in this file is
+  exactly what the browser receives. Reading it top to bottom is a decent tour
+  of how a page is put together.
+
+  The shape of any HTML document:
+    <!DOCTYPE html>  tells the browser to use standards mode. Without it you
+                     get "quirks mode", which emulates 1990s browser bugs.
+    <html lang="en"> the language, which screen readers use to pick a voice and
+                     pronunciation, and translation tools use to detect source.
+    <head>           metadata: nothing here is displayed. Title, description,
+                     social preview, icons, stylesheets.
+    <body>           everything visible, in the order it appears on screen.
+
+  Elements are chosen for what the content *is*, not how it should look — that
+  is what "semantic HTML" means, and it's the difference between a page that
+  works with a screen reader, a search engine and reader mode, and one that is
+  a pile of <div>s. <header>, <nav>, <main>, <section> and <footer> are called
+  landmarks: assistive software builds a table of contents from them and lets
+  someone jump straight to a region. A <div> would look identical and announce
+  nothing.
+-->
 <html lang="en">
 <head>
+  <!-- charset must be in the first 1024 bytes: the browser has to know how to
+       decode the bytes before it can parse anything else. UTF-8 always. -->
   <meta charset="UTF-8" />
+  <!-- Without this, mobile browsers pretend to be ~980px wide and shrink the
+       page to fit, so every responsive rule in the CSS is measured against a
+       lie. One line, and it's the difference between a mobile-friendly site
+       and a zoomed-out desktop one. -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <title> is the browser tab, the bookmark name, and the headline in
+       search results. Distinctive words first — many places truncate it. -->
   <title>GunksFest V (2026) — A Shawangunks Climbing Festival</title>
+  <!-- Not used for ranking, but search engines usually show it as the snippet
+       under the link, so it's the page's advert. ~155 characters before it's
+       cut off. -->
   <meta name="description" content="GunksFest is the annual climbing festival in the Shawangunks, presented by the Gunks Climbers Coalition in partnership with Mohonk Preserve. Clinics, vendors, films, and four days of camping on the $250 Stay &amp; Play pass. Coming October 9th - 12th, 2026." />
 
-  <!-- Open Graph / social preview -->
+  <!-- Open Graph: the card that appears when the URL is pasted into a message,
+       a social post or a chat. Without these tags the platform guesses — often
+       picking the first image on the page and the wrong text. Note og:image
+       must be an absolute URL, because it's fetched by someone else's server,
+       not by a browser sitting on this page. -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="GunksFest V (2026) — A Shawangunks Climbing Festival" />
   <meta property="og:description" content="Clinics, vendors, camping, and an evening film festival in the Shawangunks. Presented by the Gunks Climbers Coalition with Mohonk Preserve. October 9th - 12th, 2026." />
@@ -14,6 +53,13 @@
   <meta property="og:image" content="https://gunksfest.com/assets/img/og-image.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
 
+  <!-- Sets html.js before the first paint, so CSS can hide the elements it
+       intends to animate in without any flicker. Deliberately inline and
+       deliberately here rather than in main.js: an external file would arrive
+       too late, and the cards would flash visible before being hidden. If
+       scripting is off this never runs, the class is never added, and every
+       `html.js` rule in the stylesheet quietly stops applying — which leaves
+       the page fully readable. See css/style.css, "Reveal cards on scroll". -->
   <script>document.documentElement.classList.add('js');</script>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="icon" type="image/png" href="assets/img/favicon.png" />
@@ -21,10 +67,22 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <!-- First focusable thing on the page, so one Tab press offers a keyboard
+       user a way past the nav straight to the content. It's visually hidden
+       until focused — see .skip-link in css/style.css. -->
   <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- Shared kernmantle-weave fleck patterns for the rope dividers.
-       Two dashed line-sets rotated in opposite directions = woven fleck. -->
+       Two dashed line-sets rotated in opposite directions = woven fleck.
+
+       An SVG <defs> block holds definitions that are never drawn where they
+       sit — they're referenced by id from elsewhere, here as
+       stroke="url(#fleckA)" on each rope. Defining the two patterns once at
+       the top of the document and pointing six dividers at them is the same
+       instinct as a CSS class: describe the thing once, use it many times.
+       aria-hidden="true" keeps this decorative markup out of the accessibility
+       tree entirely, and focusable="false" stops IE/Edge putting the SVG in
+       the tab order. Every purely decorative graphic on the page carries both. -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
     <defs>
       <pattern id="fleckA" width="7" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(48)">
@@ -37,6 +95,11 @@
   </svg>
 
   <!-- ============ HEADER / NAV ============ -->
+  <!-- There are two <nav> elements on this page (this bar and the burger
+       panel), which is why each carries an aria-label: with more than one
+       landmark of the same type, the label is what distinguishes "Primary"
+       from "Menu" from "Footer" when someone lists the page's regions. A
+       single nav wouldn't need one. -->
   <header class="site-header" id="top">
     <div class="container nav-bar">
       <nav class="nav-desktop" aria-label="Primary">
@@ -51,7 +114,20 @@
   </header>
 
   <!-- Floating burger — appears on scroll (all sizes) and on mobile.
-       Kept outside <header> so hiding the bar doesn't hide the menu. -->
+       Kept outside <header> so hiding the bar doesn't hide the menu.
+
+       A real <button>, not a styled <div>. A button is focusable, reachable by
+       Tab, fires on both Enter and Space, and announces itself as a button —
+       all of which you'd otherwise have to rebuild by hand with tabindex, a
+       role and keyboard handlers, and would get subtly wrong. The rule of
+       thumb: if it does something, it's a <button>; if it goes somewhere, it's
+       an <a href>.
+       The three ARIA attributes describe state the visuals alone convey:
+         aria-expanded  is the menu open? (kept in sync by js/main.js, and read
+                        by the CSS to animate the bars into an X)
+         aria-controls  which element this button operates
+         aria-label     the accessible name, since the button's only content is
+                        three decorative bars with no text to announce -->
   <button class="menu-fab" aria-expanded="false" aria-controls="menu-panel" aria-label="Open menu">
     <span class="menu-fab-bar"></span>
     <span class="menu-fab-bar"></span>
@@ -67,9 +143,22 @@
     <a class="menu-cta" href="#stay-play">Get Updates</a>
   </nav>
 
+  <!-- <main> marks the page's primary content — one per document, excluding
+       the header, nav and footer that repeat across pages. It's the target of
+       the skip link above, and the region reader modes extract. -->
   <main id="main">
     <!-- ============ HERO ============ -->
+    <!-- aria-labelledby points at the id of the element that names this
+         section, so it's announced as "GunksFest V (2026), region" rather than
+         just "region". Every <section> on this page is labelled this way — an
+         unlabelled section is no more useful to a screen reader than a <div>,
+         which is why they're worth the two extra attributes.
+         Use aria-labelledby when a visible heading already says it (no
+         duplicated text to keep in sync) and aria-label only when nothing
+         on screen does. -->
     <section class="hero" aria-labelledby="hero-title">
+      <!-- Empty divs whose only job is to hold a background layer. They carry
+           no content, so aria-hidden keeps them out of the accessibility tree. -->
       <div class="hero-bg" aria-hidden="true"></div>
       <div class="hero-overlay"></div>
       <div class="container hero-inner">
@@ -88,7 +177,19 @@
 
     <!-- ============ ABOUT ============ -->
     <section class="section section-photo" id="about" aria-labelledby="about-title">
-      <!-- Crossfading event photos (extracted from the sponsor deck). Decorative. -->
+      <!-- Crossfading event photos (extracted from the sponsor deck). Decorative.
+
+           Note alt="" on every slide — an empty alt, not a missing one. They
+           mean different things: alt="" says "this image carries no
+           information, skip it", which is correct for decoration, while
+           omitting alt entirely leaves a screen reader to read out the
+           filename. Every <img> needs the attribute; only meaningful ones need
+           words in it (compare the venue photos further down).
+
+           Only the first slide has a real src, and fetchpriority="high" tells
+           the browser to fetch it ahead of the queue — it's the largest thing
+           the visitor sees first. The other eleven carry data-src and are
+           loaded one at a time by js/main.js, so they don't compete with it. -->
       <div class="slideshow" aria-hidden="true">
         <img class="slide is-active" src="assets/img/gallery/slide-01.jpg" alt="" fetchpriority="high" />
         <img class="slide" data-src="assets/img/gallery/slide-02.jpg" alt="" />
@@ -173,6 +274,12 @@
           <div class="venue-card">
             <h3>Ulster County Fairgrounds</h3>
             <p class="venue-role">Basecamp</p>
+            <!-- A meaningful image, so alt describes what it shows — write it
+                 as if reading the page aloud to someone over the phone, not as
+                 a list of keywords ("fairgrounds photo climbing gunks").
+                 loading="lazy" defers the download until the image is near the
+                 viewport; correct for anything below the fold, and exactly
+                 wrong for the hero image, which you want fetched immediately. -->
             <img class="venue-photo" src="assets/img/df7b7300-e033-4e14-a859-f91136d7badc.jpg"
                  alt="The Ulster County Fairgrounds from the air, with the Shawangunk ridge rising behind it." loading="lazy" />
             <p>Camping, vendors, and the evening program — the heart of the weekend. A short
@@ -259,7 +366,12 @@
         </ul>
 
         <!-- Click-to-load YouTube facade: nothing is requested from YouTube
-             until the visitor actually hits play. -->
+             until the visitor actually hits play. See js/main.js for what that
+             saves and why it's worth doing.
+             <figure> + <figcaption> is the semantic pairing for any piece of
+             self-contained media with a caption — an image, a diagram, a code
+             listing, a quote. It ties the caption to the thing it describes
+             rather than leaving a stray <p> underneath. -->
         <figure class="video-figure">
           <div class="video-embed" data-video="cLM-6Xqk_UI">
             <button class="video-play" type="button" aria-label="Play the video for The Queen Swing">
@@ -334,6 +446,13 @@
     </div>
   </footer>
 
+  <!-- Scripts at the very end of <body>, not in <head>. A plain <script> tag
+       blocks HTML parsing while it downloads and runs, so one in the head
+       delays the whole page appearing; down here, everything above has already
+       been parsed and painted. It also means main.js can query for elements
+       immediately without waiting for DOMContentLoaded — they all exist by the
+       time it runs. (The modern alternative is <script defer> in the head,
+       which downloads in parallel and runs at the same point.) -->
   <script src="js/main.js"></script>
 </body>
 </html>

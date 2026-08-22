@@ -1,12 +1,44 @@
 /* ============================================================
    GunksFest 2026 — styles
    Edit the variables below to retheme the whole site at once.
+
+   How this file is organised, and why it's worth reading top to bottom:
+   there is no framework here, no build step, no generated CSS. Every rule
+   below is one a browser reads directly, in order. That order matters —
+   when two rules could apply, the browser picks by specificity first (how
+   tightly the selector describes the element) and by source order only as
+   the tiebreak. So the general rules come first (reset, typography,
+   containers), then components, then the media queries that adjust them.
+
+   Sections, in order:
+     1. Design tokens (:root)      — the whole theme in ~20 values
+     2. Reset-ish + base elements  — the small set of defaults worth changing
+     3. Buttons, header, nav       — reusable components
+     4. Hero, sections, dividers   — page furniture
+     5. Parallax + reveal          — the JS-driven bits (all gated on html.js)
+     6. Grids and cards            — the content blocks
+     7. Footer, media queries      — responsive adjustments last
    ============================================================ */
 
+/* :root is the <html> element, and it's where custom properties ("CSS
+   variables") are declared so every rule beneath can read them. A custom
+   property is any name starting with `--`; you read it back with var().
+   Two things make this worth doing over hardcoding hex codes:
+   they cascade like any other property (redefine one inside a section and
+   everything under that section changes), and they're live at runtime — JS
+   can set them, and the page repaints. Change --color-forest here and the
+   headings, buttons and logo borders all move together. */
 :root {
   /* Palette — sampled from the hero photo + GCC & Mohonk logos.
      Deep forest green (Mohonk/GCC) · sky blue (hero sky + Mohonk) ·
-     emerald (GCC lizard) · warm cream ground. All text pairings pass WCAG AA. */
+     emerald (GCC lizard) · warm cream ground. All text pairings pass WCAG AA.
+
+     "Passes WCAG AA" means the contrast ratio between text and its background
+     is at least 4.5:1 (3:1 for large text). It is the difference between a
+     site most people can read and a site everybody can read, and it is worth
+     checking with a contrast tool rather than by eye — dark grey on mid grey
+     looks fine to a designer on a good monitor and vanishes on a phone in
+     sunlight. */
   --color-forest:    #1d4d34;   /* deep pine green — from Mohonk logo */
   --color-forest-dk: #143526;
   --color-leaf:      #27692b;   /* GCC emerald — structural accents */
@@ -29,10 +61,23 @@
   --maxw: 1080px;
   --radius: 12px;
   --shadow: 0 8px 30px rgba(33, 53, 40, 0.12);
+  /* clamp(MIN, PREFERRED, MAX) is the single most useful function in modern
+     CSS layout. It says: use 7% of the viewport width, but never less than
+     3rem and never more than 6rem. That one line replaces two media queries
+     and scales smoothly at every width in between rather than jumping at
+     breakpoints. Used here for section padding and, further down, for every
+     heading size on the page. */
   --space: clamp(3rem, 7vw, 6rem);
 }
 
 /* ---------- Reset-ish ---------- */
+/* The one browser default genuinely worth overriding on every project.
+   By default an element's `width` measures its content only, so adding
+   padding or a border makes the box wider than the number you wrote —
+   width:300px + padding:20px renders 340px wide. `border-box` makes width
+   mean the whole visible box, padding and border included, which is what
+   everyone means when they say "300 wide". The *, *::before, *::after
+   selector applies it to every element and every generated pseudo-element. */
 *, *::before, *::after { box-sizing: border-box; }
 /* Dark root background so the overscroll "rubber-band" at the top/bottom
    matches the dark header/footer instead of flashing white. */
@@ -45,14 +90,36 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
+/* Two defaults worth fixing for every image on the site: max-width keeps a
+   large photo from overflowing its column on a narrow screen, and display:block
+   removes the few pixels of gap browsers leave under an inline image (images
+   are inline by default, so they sit on the text baseline with room for a
+   descender underneath — the famous "mystery gap"). */
 img { max-width: 100%; display: block; }
 a { color: var(--color-accent-dk); }
 
+/* line-height gets tighter as type gets bigger: 1.6 on body text (set on
+   <body>) gives the eye room to find the next line, but the same ratio on a
+   6rem headline leaves a canyon. Big type wants ~1.1, and slightly negative
+   letter-spacing, because the gaps that look right at 16px look loose at 96px. */
 h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; letter-spacing: -0.01em; }
 
+/* The centred-column idiom, and the only layout primitive this site needs.
+   max-width caps the measure, `margin: 0 auto` centres it once the viewport is
+   wider than that cap, and the padding keeps text off the screen edge on a
+   phone. Note it's a separate element from the section: the section paints
+   full-bleed backgrounds edge to edge, the container inside it holds the text
+   to a readable width. Nesting them this way is what lets a photo run the full
+   width of the screen while the copy on top of it stays in a column. */
 .container { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 1.25rem; }
 .container.narrow { max-width: 680px; }
 
+/* An accessibility staple: the first thing in the DOM is a link straight to
+   the content, parked off-screen so it costs sighted users nothing. Someone
+   navigating by keyboard hits Tab once, the link takes focus, :focus pulls it
+   on-screen, and Enter skips the whole nav. Note it is moved with `left`
+   rather than `display: none` — a hidden element cannot receive focus at all,
+   so the usual ways of hiding things would break the feature. */
 .skip-link {
   position: absolute; left: -999px; top: 0;
   background: var(--color-ink); color: #fff; padding: 0.6rem 1rem; z-index: 200;
@@ -60,15 +127,35 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; letter-spacing:
 .skip-link:focus { left: 0; }
 
 /* ---------- Buttons ---------- */
+/* .btn carries everything shared (shape, weight, transition) and .btn-primary
+   / .btn-ghost / .btn-lg only carry what differs. An element opts into both:
+   class="btn btn-primary". That split is the whole idea behind component CSS —
+   one place to change the shape of every button, one place per variant for the
+   colour. The alternative, a complete rule per button type, means every future
+   change has to be made three times and one of them gets missed. */
 .btn {
   display: inline-block;
   padding: 0.8rem 1.6rem;
+  /* The pill trick: any radius larger than half the element's height clamps to
+     a perfect semicircle on each end, so one value works at every size without
+     ever being recalculated. 999px is just "definitely bigger than half". */
   border-radius: 999px;
   font-weight: 700;
   text-decoration: none;
+  /* transition names the properties that should animate rather than snap, and
+     how long they take. Naming them explicitly (instead of `transition: all`)
+     is deliberate: `all` will happily animate a property you never meant to,
+     including expensive ones, and costs the browser work on every change.
+     0.12s is around the shortest duration the eye still registers as movement —
+     long enough to feel responsive, short enough to never feel slow. */
   transition: transform 0.12s ease, background-color 0.12s ease, color 0.12s ease;
+  /* A transparent border reserves the space now so the .btn-ghost variant can
+     colour it in without the button changing size and shoving its neighbours. */
   border: 2px solid transparent;
 }
+/* :active is the moment a button is held down. One pixel of travel is enough
+   to read as a physical press — the smallest possible piece of feedback that
+   tells someone the click registered. */
 .btn:active { transform: translateY(1px); }
 .btn-primary {
   background: var(--color-accent-dk); color: #fff;
@@ -82,14 +169,44 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; letter-spacing:
 /* ---------- Header / Nav ---------- */
 /* Transparent overlay on the hero (only ever visible near the very top).
    A soft top-down scrim keeps the brand/links legible; it fades onto the
-   hero photo rather than showing a solid bar. Slides away on scroll. */
+   hero photo rather than showing a solid bar. Slides away on scroll.
+
+   z-index only works on positioned elements (anything that isn't the default
+   `position: static`), and the values across this file are deliberately spaced
+   out rather than sequential, so there's room to slot something in later:
+     200  skip link      — must beat everything, it's the escape hatch
+     130  burger button
+     129  menu panel     — just under its own button
+     100  header
+       6  rope dividers  — over the sections they straddle
+       1  section scrims
+       0  background photos
+   Numbers only compete inside the same stacking context, which is the subtlety
+   that trips people up: a child of an element with z-index 1 can never paint
+   above a sibling of that element with z-index 2, no matter how large its own
+   number is. `isolation: isolate` further down deliberately creates one of
+   these contexts to keep a section's layers from escaping it. */
 .site-header {
+  /* fixed = positioned against the viewport, so it stays put while the page
+     scrolls underneath (absolute would scroll away with the document). Setting
+     left and right instead of width:100% lets the box size itself. */
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   background: linear-gradient(to bottom, rgba(16, 32, 26, 0.55), rgba(16, 32, 26, 0));
   transition: transform 0.32s ease, opacity 0.32s ease;
 }
+/* State lives in one class on <body>, set by js/main.js, and CSS decides what
+   that state looks like. This is the pattern worth internalising: JavaScript
+   toggles a class, CSS owns every visual consequence. The alternative — JS
+   writing .style.transform directly — scatters the design across two languages
+   and loses you transitions, media queries and the cascade.
+   translateY(-100%) means "up by exactly my own height", whatever that is.
+   pointer-events: none stops the invisible bar from swallowing clicks. */
 body.scrolled .site-header { transform: translateY(-100%); opacity: 0; pointer-events: none; }
 
+/* Flexbox in one line: lay children out in a row, centre them on the cross
+   (vertical) axis, and push them to the end of the main (horizontal) one.
+   align-items handles vertical centring of items of different heights — the
+   thing that took hacks and table layouts for the first fifteen years of CSS. */
 .nav-bar { display: flex; align-items: center; justify-content: flex-end; min-height: 64px; }
 .brand { display: flex; align-items: baseline; gap: 0.4rem; text-decoration: none; color: #fff;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45); }
@@ -114,6 +231,13 @@ body.scrolled .site-header { transform: translateY(-100%); opacity: 0; pointer-e
 }
 body.scrolled .menu-fab { display: flex; }        /* appears once scrolled */
 .menu-fab-bar { display: block; width: 22px; height: 2px; background: #fff; margin: 3px 0; transition: 0.25s; }
+/* The burger→X animation, and a small lesson in styling from ARIA state.
+   The selector reads the aria-expanded attribute the JS already has to set for
+   screen readers, instead of a second CSS-only class like .is-open. One source
+   of truth: if the attribute is wrong the animation is visibly wrong too, so
+   the accessible state can't silently drift out of sync with the visual one.
+   Any attribute can be selected this way — [attr], [attr="value"], [attr^="x"]
+   for starts-with, [attr*="x"] for contains. */
 .menu-fab[aria-expanded="true"] .menu-fab-bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
 .menu-fab[aria-expanded="true"] .menu-fab-bar:nth-child(2) { opacity: 0; }
 .menu-fab[aria-expanded="true"] .menu-fab-bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
@@ -126,6 +250,12 @@ body.scrolled .menu-fab { display: flex; }        /* appears once scrolled */
   background: rgba(20, 37, 31, 0.97); border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 14px; box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
   -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  /* Hidden by being transparent and click-through rather than display:none,
+     because display cannot be transitioned — it flips instantly, and the panel
+     would appear with no animation. opacity and transform both can, so the
+     panel fades and grows into place. transform-origin: top right makes it
+     scale out of the corner the burger sits in, so it reads as coming from the
+     button rather than from nowhere. */
   opacity: 0; transform: translateY(-8px) scale(0.98); transform-origin: top right;
   pointer-events: none; transition: opacity 0.2s ease, transform 0.2s ease;
 }
@@ -154,7 +284,24 @@ body.scrolled .menu-fab { display: flex; }        /* appears once scrolled */
   overflow: hidden;
 }
 /* Gunks cliff photo with a dark gradient on top for text legibility, on its
-   own layer so it can parallax. To change the photo, replace assets/img/hero.jpg. */
+   own layer so it can parallax. To change the photo, replace assets/img/hero.jpg.
+
+   Two techniques stacked here. First, `background` takes a comma-separated
+   list of layers, painted FIRST-TO-LAST as top-to-bottom — the gradient is
+   listed first because it sits on top of the photo. That saves an extra
+   element whose only job would be to hold a tint.
+
+   Second, white text on a photograph is never reliably readable — a cloud or
+   a pale rock face will eat it. Darkening the photo under the text is the fix,
+   and it's why nearly every hero image on the web is quietly tinted. The
+   angled gradient (160deg) keeps the middle of the photo lighter so it still
+   reads as a photo, and goes darkest at the bottom where the buttons land.
+
+   The `center 30% / cover` shorthand is background-position / background-size:
+   cover fills the box, cropping whatever doesn't fit, and the 30% biases the
+   crop upward so heads aren't cut off. background-color underneath is the
+   fallback: if the photo is missing or still loading, the section is brand
+   green rather than a white hole. */
 .hero-bg {
   position: absolute; left: 0; right: 0; top: 0; bottom: 0; z-index: 0;
   background:
@@ -174,11 +321,23 @@ body.scrolled .menu-fab { display: flex; }        /* appears once scrolled */
   font-weight: 700; color: rgba(255,255,255,0.9); margin: 0 0 1rem;
 }
 .hero h1 { font-size: clamp(3rem, 11vw, 6rem); font-weight: 800; margin: 0; }
+/* ^ 3rem on a phone, 6rem on a desktop, fluid in between — the responsive
+   headline in one declaration. Note the min is a rem (a fixed multiple of the
+   user's font size) while the middle term is vw: mixing units this way is what
+   keeps the type from collapsing on a narrow screen while still filling a wide
+   one. Never use vw alone for type — it can't be zoomed, which fails anyone
+   who needs larger text. */
 /* Numeral stays white — the blue lost too much contrast against the cliff photo. */
 .hero-year { color: #fff; }
 /* Year sits inline with the wordmark at full size; the whole lockup wraps
    as one line of text when the viewport is too narrow for it. */
 .hero-edition { color: #fff; }
+/* 38ch — the `ch` unit is the width of a "0" in the current font, so a
+   max-width in ch is a limit on characters per line rather than on pixels.
+   Typography research puts comfortable reading at roughly 45–75 characters;
+   much wider and the eye loses its place tracking back to the next line. That
+   is the real reason text columns on the web are narrower than their screens,
+   and why .lead below is capped at 60ch. */
 .hero-tagline { font-size: clamp(1.1rem, 2.6vw, 1.5rem); max-width: 38ch; margin: 1rem auto 0; color: rgba(255,255,255,0.92); }
 .hero-date {
   display: inline-flex; align-items: center; gap: 0.5rem;
@@ -194,11 +353,36 @@ body.scrolled .menu-fab { display: flex; }        /* appears once scrolled */
 .lead { font-size: 1.15rem; color: var(--color-ink-soft); max-width: 60ch; margin: 0 0 2rem; }
 
 /* ---------- Photo slideshow section (#about) ---------- */
+/* The three-layer section, which is the structural pattern this whole site is
+   built on. Every photo section stacks the same way:
+     z-index 0  the photo(s)      — position:absolute, filling the section
+     z-index 1  a dark scrim      — so text on top stays readable
+     z-index 2  .container        — the actual content
+   `position: relative` on the parent is what the absolutely-positioned
+   children measure themselves against; without it they'd escape to the nearest
+   positioned ancestor, or the page itself. That parent/child pairing —
+   relative outside, absolute inside — is the most common positioning idiom in
+   CSS and worth recognising on sight.
+   `overflow: hidden` crops the parallax bleed, and `isolation: isolate` forces
+   this section into its own stacking context so its layers can never interleave
+   with another section's. */
 .section-photo { position: relative; overflow: hidden; isolation: isolate; }
+/* `inset: 0` is shorthand for top/right/bottom/left all 0 — with
+   position:absolute that means "fill the positioned parent exactly". */
 .slideshow { position: absolute; inset: 0; z-index: 0; background: var(--color-forest-dk); }
+/* All twelve slides are stacked in the same place at opacity 0; JS adds
+   .is-active to exactly one, and the 1.4s transition crossfades between them.
+   No JS animation loop, no library — the browser interpolates opacity on the
+   compositor, which is why this stays smooth on a phone.
+   object-fit: cover does for an <img> what background-size: cover does for a
+   background: fill the box and crop the overflow, instead of squashing the
+   photo to fit. object-position would move the crop. */
 .slide {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover; opacity: 0; transition: opacity 1.4s ease-in-out;
+  /* A hint that this property is about to animate, so the browser can promote
+     the element to its own layer in advance. Use it sparingly and only on
+     things that really do animate — every hinted layer costs memory. */
   will-change: opacity;
 }
 .slide.is-active { opacity: 1; }
@@ -219,6 +403,11 @@ body.scrolled .menu-fab { display: flex; }        /* appears once scrolled */
 .section-photo .lead strong { color: #fff; }
 /* The default link blue is far too dark against the scrim — match .cta-note. */
 .section-photo .lead a { color: #fff; font-weight: 600; }
+/* prefers-reduced-motion is a real setting on every OS, and honouring it is
+   not optional politeness: large moving areas trigger nausea and migraines for
+   people with vestibular disorders. The rule is simple — if the motion is
+   decoration, turn it off; if it carries meaning, slow it down and keep it.
+   There's a blanket version of this at the very bottom of the file. */
 @media (prefers-reduced-motion: reduce) { .slide { transition: none; } }
 
 /* ---------- Climbing-rope section divider ---------- */
@@ -230,7 +419,14 @@ body.scrolled .menu-fab { display: flex; }        /* appears once scrolled */
   pointer-events: none;
 }
 /* Feathered band centred on the seam. Sits under the rope (source order),
-   fading to nothing top and bottom so neither section shows an edge. */
+   fading to nothing top and bottom so neither section shows an edge.
+
+   ::before and ::after generate a child element out of nothing — no markup
+   needed — and they're the standard way to add purely decorative shapes.
+   `content: ""` is mandatory: without that declaration the pseudo-element is
+   not generated at all, however many other properties you set. Look for the
+   same technique on .pass-list li::before (a tick drawn from two rotated
+   borders) and .video-btn::after (a triangle drawn from a border). */
 .rope-divider::before {
   content: ""; position: absolute; left: 0; right: 0; bottom: -46px;
   height: 92px; pointer-events: none;
@@ -264,6 +460,14 @@ html.js .section-photo .section-bg {
 html.js .hero-inner { will-change: transform, opacity; }
 
 /* ---------- Reveal cards on scroll (only when JS is on) ---------- */
+/* Every rule that hides something for JS to reveal is scoped to `html.js`, a
+   class added by a one-line inline script in the <head> of each page. This is
+   progressive enhancement, and the ordering is the whole point: the class is
+   set before the browser paints, so there's no flash of un-hidden content, and
+   if the script never runs — JS disabled, a parse error, a bad network — the
+   class is absent, these rules never match, and the cards are simply visible.
+   The failure mode is "no animation", not "no content". Build the working page
+   first, then let JS improve it; never let the improvement be load-bearing. */
 html.js .feature, html.js .logo-card, html.js .venue-card, html.js .pass-card {
   opacity: 0; transform: translateY(18px);
   transition: opacity 0.6s ease, transform 0.6s ease;
@@ -272,7 +476,10 @@ html.js .feature.is-visible, html.js .logo-card.is-visible, html.js .venue-card.
 html.js .pass-card.is-visible {
   opacity: 1; transform: none;
 }
-/* Gentle stagger within each group */
+/* Gentle stagger within each group. :nth-child(n) matches by position among
+   siblings, so the second card waits 0.09s, the third 0.18s, and the row
+   arrives as a cascade rather than a block. The delays are small on purpose —
+   a stagger you consciously notice is a stagger that's too slow. */
 html.js .feature:nth-child(2), html.js .logo-card:nth-child(2), html.js .venue-card:nth-child(2) { transition-delay: 0.09s; }
 html.js .feature:nth-child(3), html.js .logo-card:nth-child(3) { transition-delay: 0.18s; }
 html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-delay: 0.27s; }
@@ -281,6 +488,17 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
 }
 
 /* Feature grid */
+/* The responsive grid with no media queries, and probably the single most
+   useful line of CSS Grid to memorise. Read it inside out:
+     minmax(220px, 1fr)  every column is at least 220px, and shares the leftover
+                         space equally (1fr = one fraction of what's free)
+     repeat(auto-fit, …) fit as many such columns as the container allows
+   So four cards sit in a row on a desktop, two on a tablet and one on a phone,
+   and no breakpoint anywhere decides that — the container width does. Add a
+   fifth card to the HTML and it slots in without a CSS change. `gap` spaces
+   them without margins, so there's no stray margin on the outer edges to
+   cancel out. (auto-fill is the near-identical sibling: it keeps empty column
+   tracks rather than stretching the real ones to fill the row.) */
 .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
 .feature {
   background: var(--color-cream); border-radius: var(--radius); padding: 1.5rem;
@@ -289,9 +507,13 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
 .feature h3 { margin: 0 0 0.4rem; color: var(--color-forest); font-size: 1.2rem; }
 .feature p { margin: 0; color: var(--color-ink-soft); }
 
-/* Partner logos */
+/* Partner logos. Flex rather than grid here because the cards should be able
+   to grow to fill an incomplete last row — grid would hold the column widths. */
 .logo-row { display: flex; flex-wrap: wrap; gap: 1.25rem; }
 .logo-card {
+  /* flex: grow shrink basis. Start every card at 240px, let it grow into spare
+     space and shrink when crowded — with flex-wrap above, that's a row that
+     reflows to two or three across on its own. */
   flex: 1 1 240px; min-height: 140px;
   display: flex; align-items: center; justify-content: center; text-align: center;
   background: var(--color-cream); border: 1px solid var(--color-sand-dk);
@@ -363,6 +585,11 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
   position: relative; padding: 0 0 0 1.75rem; margin-bottom: 0.7rem;
   color: var(--color-ink-soft);
 }
+/* A tick mark with no icon font, no SVG and no image request: take an empty
+   box, give it only a left and bottom border so it draws an "L", then rotate
+   it 45° anticlockwise. Same trick, different shape, as the play triangle on
+   .video-btn::after further down. Drawing small marks in CSS costs zero
+   network requests and inherits colour changes for free. */
 .pass-list li::before {
   content: ""; position: absolute; left: 0; top: 0.5em;
   width: 0.7rem; height: 0.4rem; border-left: 2.5px solid var(--color-leaf);
@@ -399,6 +626,12 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
 /* ---------- Click-to-load video ---------- */
 .video-figure { margin: 0; max-width: 760px; }
 .video-embed {
+  /* aspect-ratio reserves the right shape before anything loads, so the page
+     doesn't jump when the thumbnail or iframe arrives. That jump has a name —
+     layout shift — and it's both the most irritating thing a page can do to
+     someone mid-read and a measured ranking signal (Google's CLS). Anything
+     whose size is known in advance should declare it: width/height attributes
+     on an <img>, aspect-ratio on a box like this. */
   position: relative; aspect-ratio: 16 / 9; overflow: hidden;
   border-radius: var(--radius);
   /* Shown until the YouTube still loads (and if it never does). */
@@ -423,6 +656,13 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
   border-style: solid; border-width: 13px 0 13px 22px;
   border-color: transparent transparent transparent #fff;
 }
+/* :focus-visible, not :focus. Both fire when an element takes focus, but
+   :focus-visible only shows the ring when the browser judges it useful —
+   keyboard and assistive navigation get it, a plain mouse click doesn't. That
+   solves the old dilemma where designers stripped focus outlines because they
+   looked wrong on click, and in doing so made the site unusable by keyboard.
+   Pair every :hover with a :focus-visible; a hover state a keyboard user can't
+   see is half a control. */
 .video-play:hover .video-btn, .video-play:focus-visible .video-btn {
   transform: scale(1.08); background: var(--color-accent);
 }
@@ -456,18 +696,35 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
 .footer-links a:hover { color: var(--color-accent); }
 .footer-meta { font-size: 0.85rem; line-height: 1.6; margin: 0; }
 
+/* A min-width query is "mobile first": the base rules above describe the phone
+   layout, and this only adds the second column once there's room. Writing it
+   this way means the simplest layout is the default and the enhancements are
+   opt-in, which is both less code and the right failure direction.
+   `grid-column: 1 / -1` spans a grid item from the first line to the last,
+   whatever the column count — the way to say "full width" in Grid. */
 @media (min-width: 720px) {
   .footer-inner { grid-template-columns: 1fr auto; align-items: center; }
   .footer-meta { grid-column: 1 / -1; }
 }
 
 /* ---------- Mobile nav ---------- */
+/* The nav is the one place this file goes the other way (max-width), because
+   the inline links are the base state and the burger is the narrow-screen
+   substitution. Note both navs exist in the HTML at all times and CSS picks
+   which is shown — no JS decides the layout, so resizing the window can never
+   leave the page in a state neither nav expected. */
 @media (max-width: 720px) {
   .nav-desktop { display: none; }      /* inline links give way to the burger */
   .menu-fab { display: flex; }         /* burger always available on mobile */
 }
 
 /* ---------- Motion preference ---------- */
+/* The blanket backstop for the per-component rules above: whatever anyone adds
+   to this file later, it won't animate for someone who asked it not to.
+   !important is a genuinely bad habit almost everywhere — it wins over normal
+   specificity and leaves the next person no way to override it except another
+   !important — but a user's stated accessibility preference is exactly the
+   case it exists for. This should stay the only one in the file. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   * { transition: none !important; }

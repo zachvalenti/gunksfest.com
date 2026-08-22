@@ -11,6 +11,23 @@
  *
  * If step 2 fails for any reason the page just keeps the snapshot's prices and
  * links, which is a perfectly good schedule.
+ *
+ * That split is the design worth taking away from this file. The obvious build
+ * would call the ticket API from the browser on every page load — and then the
+ * schedule is blank whenever pretix is slow, down, or hasn't opened yet, and
+ * every visitor waits on a third party before seeing anything. Committing a
+ * snapshot at build time inverts it: the page always has an answer, and the
+ * live call only ever *adds* to what's already on screen. Ask of any external
+ * call: what does the visitor see if this never comes back? If the answer is
+ * "nothing", move it off the critical path.
+ *
+ * The rendering approach is the other half: state lives in one `state` object,
+ * render() rebuilds the list from it, and every interaction changes state and
+ * calls render() again rather than reaching in to patch individual elements.
+ * That is the core idea behind React and every framework like it, in about 20
+ * lines and no dependencies. It costs a little efficiency — the whole list is
+ * rebuilt to toggle one filter — and buys the guarantee that what's on screen
+ * always matches the data, which is the bug class that eats afternoons.
  */
 (function () {
   "use strict";
@@ -206,6 +223,16 @@
     return sec;
   }
 
+  /* Builds one clinic card. Everything is createElement + textContent rather
+     than a template string of HTML, which is more typing but means no value
+     from the data file is ever parsed as markup — a clinic named
+     `<img onerror=...>` is simply a card with a strange title. The one place
+     markup is intended (the description) goes through sanitize() below.
+
+     dataset.itemId writes data-item-id="1126451" onto the element, which is
+     how applyAvailability() finds the right card to stamp a badge on later
+     without keeping a separate map of elements. Storing an id on the DOM node
+     that represents it is a small pattern that saves a lot of bookkeeping. */
   function sessionCard(s) {
     var li = document.createElement("li");
     li.className = "session";
@@ -510,7 +537,19 @@
 
   /* pretix hands back rendered HTML for descriptions. It comes from our own
      backend, but this page is public, so keep it to a boring tag allowlist
-     rather than trusting the string wholesale. */
+     rather than trusting the string wholesale.
+
+     The principle, which generalises well beyond HTML: allowlist, never
+     blocklist. A blocklist ("strip <script>") requires you to have thought of
+     every dangerous case in advance, and attackers are in the business of
+     finding the one you missed — an onerror attribute, an SVG, a javascript:
+     URL, a nested tag that survives the first pass. An allowlist requires you
+     to have thought of the safe cases, and anything you forget merely fails to
+     render. Getting it wrong is a missing <em>, not a stolen session.
+
+     Note also that this is the second check, not the only one: the sync script
+     already escaped the text before converting Markdown. Layering two
+     independent defences means a mistake in either one alone isn't a hole. */
   var ALLOWED = {
     P: 1, BR: 1, STRONG: 1, B: 1, EM: 1, I: 1, UL: 1, OL: 1, LI: 1, A: 1, SPAN: 1,
     // Descriptions are Markdown converted at sync time; these are what it emits.

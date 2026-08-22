@@ -49,10 +49,16 @@
 /* The lower rope sits on the seam, which is where the two sections actually
    meet — measured as a sharp luminance step exactly at the divider's top edge.
    Nudges ride on the whole divider rather than the rope alone: the feather band
-   is what hides the join, so it has to travel with the rope. Currently 5px low,
+   is what hides the join, so it has to travel with the rope. Currently 10px low,
    which keeps the band over the step while letting a little more of the dark
-   section read above the rope. */
-.page-schedule .rope-divider--lower { transform: translateY(5px); }
+   section read above the rope.
+
+   translateY moves the painted result without touching layout — the divider is
+   a zero-height wrapper, so nothing below it shifts up or down to compensate.
+   That is the difference between transform and, say, `position: relative; top`:
+   both look the same here, but only transform is composited on the GPU and
+   never triggers a reflow. */
+.page-schedule .rope-divider--lower { transform: translateY(10px); }
 
 .schedule-section { position: relative; z-index: 1; }
 

@@ -27,9 +27,21 @@
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="icon" type="image/png" href="assets/img/favicon.png" />
   <link rel="apple-touch-icon" href="assets/img/favicon.png" />
+  <!-- Two stylesheets, in this order: the shared site styles, then the
+       page-specific ones. Order is the tiebreak when two rules have equal
+       specificity, so schedule.css can override style.css simply by coming
+       second — no !important, no more-specific selectors invented to win. -->
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/schedule.css" />
-  <!-- Warm up the connection the availability fetch lands on. -->
+  <!-- Warm up the connection the availability fetch lands on.
+       Opening an HTTPS connection means a DNS lookup, a TCP handshake and a
+       TLS handshake — easily 200-300ms before a single byte of the actual
+       request moves. preconnect gets all of that out of the way while the page
+       is still rendering, so js/schedule.js's fetch starts paying off
+       immediately. Worth adding for any third-party origin you know you'll
+       hit; not worth adding speculatively, since each one holds a connection
+       open. crossorigin is required here because the fetch is a CORS request —
+       without it the browser warms up a connection the fetch can't reuse. -->
   <link rel="preconnect" href="https://pretix.eu" crossorigin />
 </head>
 <body class="page-schedule">
@@ -101,11 +113,31 @@
       <div class="container">
         <h2 id="lineup-title" class="visually-hidden">Line-up</h2>
 
+        <!-- These three containers are empty on purpose: js/schedule.js fills
+             them from data/schedule.json. The markup that ships is the shell
+             plus a loading message, and everything inside is built at runtime.
+
+             role="group" + aria-label bundles the buttons inside into one
+             named set, so they're announced as "Filter by day, group" rather
+             than as five unrelated buttons.
+
+             `hidden` is the HTML attribute, not a class — it hides the element
+             from sight AND from assistive software, and JS flips it with
+             el.hidden = false once there's something to show. Preferable to
+             a .is-hidden class for exactly that reason: display:none in a
+             stylesheet is easy to accidentally override, `hidden` isn't. -->
         <div class="schedule-controls">
           <div class="day-tabs" id="schedule-nav" role="group" aria-label="Filter by day" hidden></div>
           <div class="filter-pills" id="schedule-filters" role="group" aria-label="Filter by price and level" hidden></div>
         </div>
 
+        <!-- A live region. Anything JS writes in here is announced by a screen
+             reader without moving focus — which is how you communicate an
+             asynchronous change ("couldn't load the schedule") to someone who
+             can't see it appear. "polite" waits for a pause in speech;
+             "assertive" interrupts and should be reserved for genuine errors.
+             The element must exist in the DOM from the start: a live region
+             added and populated in the same breath usually doesn't announce. -->
         <p class="schedule-status" id="schedule-status" role="status" aria-live="polite" hidden></p>
 
         <div id="schedule-root" class="schedule-root">
