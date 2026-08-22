@@ -1,0 +1,48 @@
+# Strips the "2026_" prefix off product names in pretix. Unlike every other
+# workflow here this one WRITES to the ticket shop, so it never runs on its own:
+# no schedule, no push trigger, and the default run only prints what it would do.
+#
+# Setup (once):
+#   In pretix: Organizer → Teams → a team with "Can change event settings" →
+#   API tokens → create one. In GitHub: Settings → Secrets and variables →
+#   Actions → secret PRETIX_ADMIN. Keep it separate from the read-only
+#   PRETIX_TOKEN the sync uses — only this one can change the shop.
+#
+# Running it: Actions → Rename pretix products → Run workflow. Leave mode on
+# "dry-run" first and read the plan in the job summary; run it again with
+# "apply" once the list looks right.
+name: Rename pretix products
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "dry-run prints the plan; apply writes it to pretix"
+        type: choice
+        options: [dry-run, apply]
+        default: dry-run
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pretix-rename
+  cancel-in-progress: false
+
+jobs:
+  rename:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: ${{ inputs.mode == 'apply' && 'Rename products in pretix' || 'Show what would be renamed' }}
+        env:
+          PRETIX_ADMIN: ${{ secrets.PRETIX_ADMIN }}
+          PRETIX_URL: ${{ vars.PRETIX_URL || 'https://pretix.eu' }}
+          PRETIX_ORGANIZER: ${{ vars.PRETIX_ORGANIZER || 'gunksclimbers' }}
+          PRETIX_EVENT: ${{ vars.PRETIX_EVENT || 'gunksfest2026' }}
+        run: node scripts/pretix-rename.mjs ${{ inputs.mode == 'apply' && '--apply' || '' }}

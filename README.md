@@ -19,6 +19,7 @@ js/schedule.js      Renders the schedule and stamps live availability from preti
 data/schedule.json  The clinic line-up, committed by the pretix sync workflow.
 data/schedule.example.json  Sample data for previewing the layout (schedule.html?demo=1).
 scripts/fetch-pretix.mjs    Pulls the line-up out of the pretix API. Run by the workflow.
+scripts/pretix-rename.mjs   One-off cleanup: strips the "2026_" prefix off product names IN pretix.
 assets/img/         Images go here (hero photo, logos, og-image). Currently placeholders.
 assets/favicon.ico  Site icon (add one).
 pages/              Reserved for future pages (tickets.html, faq.html).
@@ -99,6 +100,29 @@ Two things the REST API hands over raw, normalised in `scripts/fetch-pretix.mjs`
 
 Descriptions run long — a few hundred words each — so the page collapses them to a
 few lines with a **More** toggle. Without it, 45 clinics is twenty screens of scroll.
+
+### Cleaning up the names in pretix
+
+The strip above is cosmetic — it fixes the website, not the shop, so the prefix is
+still there in the pretix backend, in order confirmations and in exports.
+`scripts/pretix-rename.mjs` fixes it at the source: **Actions → Rename pretix
+products → Run workflow**.
+
+It is the only thing in this repo that writes to pretix, so it asks twice. There is
+no schedule and no push trigger, and the default `dry-run` mode only prints the plan
+(as a table in the job summary — worth reading before you commit to it). Run it again
+with `apply` to send the changes. It needs a second secret, `PRETIX_ADMIN`, holding a
+token from a team with **Can change event settings**; the read-only `PRETIX_TOKEN`
+the sync uses cannot rename anything.
+
+It touches the year prefix and nothing else. The trailing `(Saturday 9am-1pm)` stays,
+because inside pretix that is how staff tell two identically-named tours apart — the
+website hides it either way. A name that is *only* a prefix is left alone rather than
+blanked, one product failing doesn't stop the rest, and running it twice is safe: the
+second run finds nothing to do.
+
+Renaming changes nothing you can see on the site (the page already hid the prefix),
+and `data/schedule.json` keeps the old value in `rawName` until the next sync lands.
 
 Products with neither land in a block at the bottom, named after their pretix
 category when they share one (yours reads **Tickets**) — which is exactly where the
