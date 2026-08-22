@@ -70,6 +70,33 @@
    the job — which is why the modifier class stays on the wrapper in
    schedule.html even with no declaration left in this rule. */
 
+/* Shortens the feather band's fade on the underside of this one divider.
+   The shared band is symmetric — 46px of fade either side of the seam — which
+   is right when both sides are dark, because then it is never seen as a band
+   at all. Here the underside is a sky photo, so those 46px read as a grey
+   smear washing out of the rope and taking a third of the CTA's sky with it.
+   The top half is kept exactly as it is: it lands on #14251f, the colour the
+   band is made of, so it costs nothing and there is nothing to gain by
+   trimming it. Only the lower half moves, 46px down to 18px, which is about
+   the reach of the rope's own drop shadow — so what is left under the rope
+   reads as the rope's shadow rather than as a gradient of its own.
+
+   The band is not what covers the join here (the rope is — see above), so this
+   is safe to shorten: measured across the whole range of candidates, the
+   residual straight step stays at the 11.5 floor. What changes is only how far
+   the darkness reaches: the ramp below the rope settles 17px down instead of
+   43px. Lengthen the 18px if it ever wants to be gentler — 30px puts it back
+   about halfway. */
+.page-schedule .rope-divider--lower::before {
+  bottom: -18px; height: 64px;
+  background: linear-gradient(to bottom,
+    rgba(20, 37, 31, 0) 0%,
+    rgba(20, 37, 31, 0.70) 40%,
+    rgba(20, 37, 31, 0.88) 72%,   /* peak lands on the seam */
+    rgba(20, 37, 31, 0.50) 88%,
+    rgba(20, 37, 31, 0) 100%);
+}
+
 .schedule-section { position: relative; z-index: 1; }
 
 /* ---------- Section shell ---------- */
