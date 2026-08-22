@@ -33,19 +33,14 @@
 
   // Filters are two facets: cost (Free / Paid) and level (Beginner /
   // Intermediate / Advanced), ANDed together — pick Free and Beginner and you
-  // get the free beginner clinics. They differ inside: cost is one-or-neither,
-  // since a clinic is one or the other and picking both would mean picking
-  // nothing, while levels stack as a union. Both facets are still maps, so the
-  // matcher doesn't care which is which; only the click handler does.
+  // get the free beginner clinics. Inside a facet every pill stacks as a union,
+  // so Free + Paid is simply both, the same list you get with neither lit.
   var state = { data: null, day: "all", cost: {}, level: {}, avail: null };
 
   var COST_PILLS = [
     { key: "free", label: "Free" },
     { key: "paid", label: "Paid" }
   ];
-  // Facets where the pills are alternatives rather than a stackable union.
-  var SINGLE_CHOICE = { cost: true };
-
   var LEVEL_PILLS = [
     { key: "beginner", label: "Beginner" },
     { key: "intermediate", label: "Intermediate" },
@@ -368,12 +363,7 @@
       btn.textContent = pill.opt.label;
       btn.setAttribute("aria-pressed", String(on));
       btn.addEventListener("click", function () {
-        var wasOn = !!state[pill.facet][pill.opt.key];
-        // Free and Paid are the two halves of one question, so turning one on
-        // turns the other off. Clicking the lit one clears the facet — that's
-        // the only way back to "either", since there's no third pill for it.
-        if (SINGLE_CHOICE[pill.facet]) state[pill.facet] = {};
-        if (wasOn) delete state[pill.facet][pill.opt.key];
+        if (state[pill.facet][pill.opt.key]) delete state[pill.facet][pill.opt.key];
         else state[pill.facet][pill.opt.key] = true;
         render();
       });
