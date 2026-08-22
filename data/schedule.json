@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-22T04:36:54.795Z",
+  "generated": "2026-08-22T07:02:54.988Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -357,8 +357,8 @@
         },
         {
           "id": 1118626,
-          "name": "What Happens When Thing Go Sideways",
-          "rawName": "2026_What Happens When Thing Go Sideways (Saturday 9-11am)",
+          "name": "What Happens When Things Go Sideways",
+          "rawName": "2026_What Happens When Things Go Sideways (Saturday 9-11am)",
           "description": "<p><em>Guide: Alan Kline, Rise Outside guides</em></p><p>One of our longest-running and most popular masterclasses in Gunks literacy.</p><p>What happens if you drop your belay device? Or forget your harness? Or (gasp!)  don't have enough snacks?! </p><p>The unforeseen happens all the time in this silly activity, and it's better to have a plan for the worse than be stuck. </p><p>Join Rise Outside guide Alan Kline for a dive into the nuanced and creative ways to solve problems. <br /><strong>Prerequisites: Helmet, Harness, Personal climbing gear</strong><br /><strong>Required gear: A foundation in outdoor climbing</strong></p>",
           "category": "Saturday Clinics",
           "categoryId": 282660,
@@ -507,6 +507,27 @@
           "start": "2026-10-11T13:00:00.000Z",
           "end": "2026-10-11T16:00:00.000Z",
           "location": "This clinic requires transportation to the Mohonk Preserve Spring farm trailhead and will meet there at 9am.\r\n\r\nLocation: https://tinyurl.com/mr3rtbub"
+        },
+        {
+          "id": 1122747,
+          "name": "Climbing Psychology and Mindset Workshop",
+          "rawName": "Climbing Psychology and Mindset Workshop",
+          "description": "<p>Instructor: Jane Bishow-Semevolos, Guide, Genuine Climbing</p><p>Join Jane for an incredibly unique journey through the mental planes of climbing.</p><p>Elevate your climbing experience by building a stronger, more intentional mindset. Whether your goal is to push higher grades, find flow state more consistently, or simply bring more purpose to your sessions, this workshop will give you the tools to get there.</p><p>What We'll Cover:</p><p>Key Concepts: Growth mindset, flow state, expanding comfort zones, and understanding motivation.</p><p>Practical Tools: Visualization techniques, cultivating curiosity, and actionable goal setting.</p><p>What to Expect:<br />This is an interactive, experiential workshop—not a lecture. Come ready to move, try new approaches, and learn through doing.</p><p>Prerequisites: None<br />Required Gear: None</p>",
+          "category": "Sunday Clinics",
+          "categoryId": 282661,
+          "price": "50.00",
+          "priceFrom": false,
+          "freePrice": false,
+          "hasVariations": false,
+          "allowWaitinglist": true,
+          "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1122747-57d80f30-4f50-497b-b9a9-7702c607a718.196c3af52207ce.jpg",
+          "isAddon": true,
+          "meta": {},
+          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
+          "slotId": "1122747-57248",
+          "start": "2026-10-11T13:00:00.000Z",
+          "end": "2026-10-11T15:00:00.000Z",
+          "location": "This clinic meets at the Mohonk Preserve visitor center."
         },
         {
           "id": 1119372,
@@ -698,30 +719,9 @@
           "location": "This clinic meets at the Mohonk Preserve Visitor Center."
         },
         {
-          "id": 1122747,
-          "name": "Climbing Psychology and Mindset Workshop",
-          "rawName": "Climbing Psychology and Mindset Workshop",
-          "description": "<p>Instructor: Jane Bishow-Semevolos, Guide, Genuine Climbing</p><p>Join Jane for an incredibly unique journey through the mental planes of climbing.</p><p>Elevate your climbing experience by building a stronger, more intentional mindset. Whether your goal is to push higher grades, find flow state more consistently, or simply bring more purpose to your sessions, this workshop will give you the tools to get there.</p><p>What We'll Cover:</p><p>Key Concepts: Growth mindset, flow state, expanding comfort zones, and understanding motivation.</p><p>Practical Tools: Visualization techniques, cultivating curiosity, and actionable goal setting.</p><p>What to Expect:<br />This is an interactive, experiential workshop—not a lecture. Come ready to move, try new approaches, and learn through doing.</p><p>Prerequisites: None<br />Required Gear: None</p>",
-          "category": "Sunday Clinics",
-          "categoryId": 282661,
-          "price": "50.00",
-          "priceFrom": false,
-          "freePrice": false,
-          "hasVariations": false,
-          "allowWaitinglist": true,
-          "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1122747-57d80f30-4f50-497b-b9a9-7702c607a718.196c3af52207ce.jpg",
-          "isAddon": true,
-          "meta": {},
-          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
-          "slotId": "1122747-57248",
-          "start": "2026-10-11T13:00:00.000Z",
-          "end": "2026-10-11T15:00:00.000Z",
-          "location": "This clinic meets at the Mohonk Preserve visitor center."
-        },
-        {
           "id": 1118560,
           "name": "How Trusty are those Rusties?",
-          "rawName": "2026_How Trusty are those Rusties? (Sunday 10pm - 12pm)",
+          "rawName": "2026_How Trusty are those Rusties? (Sunday 10am - 12pm)",
           "description": "<p><em>Instructor: Richard Goldstone</em></p><p>Clip-and-whip or just plain skip? Or maybe time to tie-off? </p><p>Learn about the intricacies and history of iron, and how trustworthy exactly it can and cannot be. Chances are you have encountered an original piece of fixed hardware, if you have wondered the vintage then this class is for you.</p><p>This clinic presents some of the history of piton development, discusses appropriate attitudes and practices for dealing with in-situ gear, and describes selection, placing and removal (in the context of free climbing—this is not an aid tutorial).</p><p>This clinic meets at the Mohonk Preserve Visitor Center and will be held in the visitor center classroom.</p>",
           "category": "Sunday Clinics",
           "categoryId": 282661,
