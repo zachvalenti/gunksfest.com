@@ -49,10 +49,10 @@
 /* The lower rope sits on the seam, which is where the two sections actually
    meet — measured as a sharp luminance step exactly at the divider's top edge.
    Offsetting it downward to chase the perceived boundary left that real join
-   uncovered, so the nudge goes the other way: 6px up, which the 92px feather
+   uncovered, so the nudge goes the other way: 3px up, which the 92px feather
    band still covers the seam through. Move the whole divider, not the rope —
    the band has to travel with it. */
-.rope-divider--lower { transform: translateY(-6px); }
+.rope-divider--lower { transform: translateY(-3px); }
 
 .schedule-section { position: relative; z-index: 1; }
 
