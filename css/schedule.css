@@ -11,17 +11,26 @@
   /* Photo first, brand gradient underneath. If the file is missing the layer
      simply doesn't paint and the gradient carries the section on its own. */
   background-image:
-    url("../assets/img/2025-08-gunksfest-chris-vultaggio-2097.JPG"),
+    url("../assets/img/2025-08-gunksfest-sarah-karbachinskiy-5350.jpg"),
     linear-gradient(165deg, var(--color-forest) 0%, var(--color-forest-dk) 100%);
   background-size: cover, auto;
-  background-position: center 20%, center;   /* keeps the instructor's head and raised rope in frame */
+  /* Crop is set by where the group lands, not by the horizon. The heading has
+     to sit on clean sky, so the people are pushed as low as the frame allows —
+     at 12% their heads clear the headline and only the tail of the lead runs
+     across them, while the ridge and the valley still read behind. */
+  background-position: center 12%, center;
   background-repeat: no-repeat;
 }
-/* Dark wash so the heading holds contrast over any part of the photo — these
-   are dappled forest shots, so the mid-tones need real cover, not a tint. */
+/* A summit photo, so the scrim can be lighter than a shaded one needs: enough
+   to hold the copy, not so much that the sky and the valley stop being the
+   point of the picture. Measured against the actual text band with the copy
+   hidden — white on the lightest 10px patch is 5.8:1, clearing AA for body
+   text with room to spare as the crop shifts across viewport widths. Going
+   further (0.66 at the top) measures 4.8:1, which is too close to the 4.5
+   line to be safe. */
 .schedule-head-scrim {
   position: absolute; inset: 0; z-index: -1;
-  background: linear-gradient(170deg, rgba(20,37,31,0.86) 0%, rgba(20,37,31,0.72) 45%, rgba(20,37,31,0.90) 100%);
+  background: linear-gradient(170deg, rgba(20,37,31,0.74) 0%, rgba(20,37,31,0.58) 45%, rgba(20,37,31,0.84) 100%);
 }
 .schedule-head .container { position: relative; z-index: 1; }
 .schedule-head h1,
@@ -40,19 +49,23 @@
 .schedule-head .eyebrow { color: var(--color-accent-light); }
 .schedule-head .lead { color: rgba(255, 255, 255, 0.9); margin-bottom: 0; }
 
-/* Both sides of every seam on this page are now dark, which is the condition
-   the home page's dividers were built for: the feather band reads as shadow
-   under the rope rather than as a band, and the join disappears. Nothing to
-   override — the shared rule in style.css does the work. */
+/* Both sides of every seam on this page are dark, which is the condition the
+   home page's dividers were built for: the feather band reads as shadow under
+   the rope rather than as a band, and the join disappears. The shared rule in
+   style.css does the positioning; the only thing overridden below is how far
+   the band's lower half reaches. */
 /* Nothing should paint over the blend, and the schedule must start below it. */
 .page-schedule .rope-divider { z-index: 3; }
 /* No offset on the lower divider: the shared rule in style.css already centres
    the rope on the join, and that is where it belongs.
 
-   Measured rather than eyeballed, because this seam is the one place on the
-   page where the two sides are genuinely different — dark section above, sky
-   photo below — so the join is a hard luminance step (about 33 to 122) that
-   the feather band tints but cannot erase. Only the rope itself covers it.
+   Measured rather than eyeballed, and worth keeping measured because the
+   margin here depends on the photo below. It was worked out while a bright sky
+   photo sat in the CTA, which made this join a hard luminance step (about 33
+   to 122) that the feather band could tint but never erase — only the rope
+   itself covered it. The photo below is darker now and the step is far
+   gentler, but the geometry below is what holds either way, so swapping in
+   another bright photo needs no rethink.
 
    Method, worth repeating if this ever needs re-checking: hide the divider,
    screenshot the bare strip, and average each row across the width. The seam
@@ -71,22 +84,25 @@
    schedule.html even with no declaration left in this rule. */
 
 /* Shortens the feather band's fade on the underside of this one divider.
-   The shared band is symmetric — 46px of fade either side of the seam — which
-   is right when both sides are dark, because then it is never seen as a band
-   at all. Here the underside is a sky photo, so those 46px read as a grey
-   smear washing out of the rope and taking a third of the CTA's sky with it.
-   The top half is kept exactly as it is: it lands on #14251f, the colour the
-   band is made of, so it costs nothing and there is nothing to gain by
-   trimming it. Only the lower half moves, 46px down to 18px, which is about
-   the reach of the rope's own drop shadow — so what is left under the rope
-   reads as the rope's shadow rather than as a gradient of its own.
+   The shared band is symmetric, 46px of fade either side of the seam, which is
+   right when both sides of a join are dark: the band is then read as shadow
+   under the rope rather than as a band. The top half here is exactly that
+   case — it lands on #14251f, the colour the band is made of, so it costs
+   nothing and there is nothing to gain by trimming it. Only the lower half
+   moves, 46px down to 18px, about the reach of the rope's own drop shadow, so
+   what is left under the rope reads as the rope's shadow rather than as a
+   gradient in its own right.
 
-   The band is not what covers the join here (the rope is — see above), so this
-   is safe to shorten: measured across the whole range of candidates, the
-   residual straight step stays at the 11.5 floor. What changes is only how far
-   the darkness reaches: the ramp below the rope settles 17px down instead of
-   43px. Lengthen the 18px if it ever wants to be gentler — 30px puts it back
-   about halfway. */
+   The band is not what covers the join here — the rope is (see above) — which
+   is what makes shortening it safe. Measured across the full range of
+   candidates the residual straight step never left its floor, and against the
+   photo currently below it reads 12.8 short versus 13.7 at the full 46px: no
+   worse, marginally better, and without the wash.
+
+   Lengthen the 18px if it ever wants to be gentler; 30px puts it about halfway
+   back. It matters most when the section below is bright — this was trimmed
+   while a sky photo sat there, where 46px of fade smeared visibly out of the
+   rope and took the top of the picture with it. */
 .page-schedule .rope-divider--lower::before {
   bottom: -18px; height: 64px;
   background: linear-gradient(to bottom,
@@ -299,20 +315,24 @@ html.js .session.is-visible { opacity: 1; transform: none; }
 .schedule-cta {
   position: relative; isolation: isolate; overflow: hidden;
   background-image:
-    url("../assets/img/2025-08-gunksfest-sarah-karbachinskiy-5350.jpg"),
+    url("../assets/img/2025-08-gunksfest-chris-vultaggio-2097.JPG"),
     linear-gradient(165deg, var(--color-forest) 0%, var(--color-forest-dk) 100%);
   background-size: cover, auto;
-  background-position: center 30%, center;   /* group clears the heading and the button */
+  background-position: center 30%, center;   /* the demo and the ring of climbers around it */
   background-repeat: no-repeat;
 }
 .schedule-cta-scrim {
   position: absolute; inset: 0; z-index: -1;
-  /* Light at the top so the sky reads as sky, deepening toward the ground where
-     the group and the button need separation. White copy measures 4.9:1 against
-     the averaged background here, clearing AA for body text, not just large. */
+  /* An even wash rather than a ramp. The ramp this replaced started at 0.30,
+     which was right when the photo here was a sky: nothing bright sat high in
+     the frame, so the top could stay open. A dappled forest has no such
+     ordering — sunlit patches land wherever they land, including directly
+     behind the heading — and against those the old top measured 2.7:1, well
+     under the 4.5 AA needs. Averages hid it: the same scrim averaged 11.9:1
+     across the whole text band, which is why the lightest patch is the number
+     worth trusting. This wash measures 7.3:1 there. */
   background: linear-gradient(to bottom,
-    rgba(20,37,31,0.30) 0%, rgba(20,37,31,0.45) 40%,
-    rgba(20,37,31,0.72) 75%, rgba(20,37,31,0.88) 100%);
+    rgba(20,37,31,0.78) 0%, rgba(20,37,31,0.70) 45%, rgba(20,37,31,0.90) 100%);
 }
 .schedule-cta .container { position: relative; z-index: 1; }
 .schedule-cta h2, .schedule-cta .lead { text-shadow: 0 2px 10px rgba(0,0,0,0.55); }
