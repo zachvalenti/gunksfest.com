@@ -182,8 +182,16 @@
     var ropes = Array.prototype.slice.call(document.querySelectorAll(".rope"));
     if (!ropes.length) return;
     var W = 3200, mid = 45, step = 22;
-    var cfg = ropes.map(function (_, i) {
-      return { amp: [8, 11, 9, 10][i % 4], wl: [520, 470, 560, 500][i % 4], ph: [0, 1.3, 2.4, 0.7][i % 4] };
+    // Defaults cycle so adjacent ropes never wave in step. A divider can opt out
+    // with data-amp / data-wavelength when its seam wants a calmer line.
+    var cfg = ropes.map(function (svg, i) {
+      var d = svg.dataset || {};
+      var amp = parseFloat(d.amp), wl = parseFloat(d.wavelength);
+      return {
+        amp: isNaN(amp) ? [8, 11, 9, 10][i % 4] : amp,
+        wl: isNaN(wl) ? [520, 470, 560, 500][i % 4] : wl,
+        ph: [0, 1.3, 2.4, 0.7][i % 4]
+      };
     });
     var paths = ropes.map(function (svg) { return Array.prototype.slice.call(svg.querySelectorAll("path")); });
     var scrollPhase = 0;
