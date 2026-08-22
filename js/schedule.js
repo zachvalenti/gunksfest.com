@@ -59,8 +59,8 @@
     var d = state.data;
     var url = d && d.shop && d.shop.url;
     return url
-      ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">ticket shop</a>'
-      : "ticket shop";
+      ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">registration page</a>'
+      : "registration page";
   }
 
   function setStatus(html, kind) {
@@ -105,7 +105,7 @@
     }
 
     if (updatedEl && data.generated) {
-      updatedEl.textContent = "Line-up synced from our ticket shop on " + formatStamp(data.generated) + ".";
+      updatedEl.textContent = "Updated " + formatStamp(data.generated) + ".";
       updatedEl.hidden = false;
     }
 
@@ -360,7 +360,7 @@
     if (n === 0) {
       return s.freePrice
         ? { text: "Pay what you can", included: false }
-        : { text: "Included with Day/Weekend Pass", included: true };
+        : { text: "Included", included: true };
     }
     var currency = (state.data.shop && state.data.shop.currency) || "USD";
     var text;

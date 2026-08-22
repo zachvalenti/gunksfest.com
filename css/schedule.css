@@ -27,6 +27,7 @@
 .schedule-head h1,
 .schedule-head .eyebrow,
 .schedule-head .lead { text-shadow: 0 2px 10px rgba(0,0,0,0.55); }
+.schedule-head .lead strong { color: #fff; font-weight: 700; }
 /* No blend at the seams. See .page-schedule .rope-divider below for why. */
 .schedule-head h1 {
   font-size: clamp(2.2rem, 6vw, 3.6rem);
@@ -187,8 +188,8 @@
   font-size: 1.15rem; color: var(--color-forest);
 }
 .session-price.is-included {
-  font-family: var(--font-body); font-size: 0.85rem; font-weight: 600;
-  color: var(--color-forest); line-height: 1.35;   /* same green as "$50" */
+  font-size: 1rem;   /* one word now, so it can sit near price weight */
+  color: var(--color-forest);   /* same green as "+$50" */
 }
 
 .session-badge {
