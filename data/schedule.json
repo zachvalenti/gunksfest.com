@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-22T07:02:54.988Z",
+  "generated": "2026-08-22T13:20:39.626Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -201,7 +201,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1118643-309db64b-1fd9-4db0-baad-dd3642cde163.d8ef7f81ffb16d.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "Beginner"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118643-55772",
           "start": "2026-10-10T13:00:00.000Z",
@@ -222,7 +224,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1119426-4f12e6b6-309e-4c5d-b49a-dae0b8c804c9.fa0e688682cd10.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "Intermediate"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1119426-56062",
           "start": "2026-10-10T13:00:00.000Z",
@@ -285,7 +289,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1118604-8f32a265-bbea-4550-91d8-b6f3dd8137c5.10f0b1e0cc0495.JPG",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "Beginner"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118604-55753",
           "start": "2026-10-10T13:00:00.000Z",
@@ -306,7 +312,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1118620-91d5c499-80d1-45a2-8b5c-8083c6ed6930.74a96b81943fd5.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "Advanced"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118620-55761",
           "start": "2026-10-10T13:00:00.000Z",
@@ -390,7 +398,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1118555-5963ad48-0bf0-4f75-981c-995cb58aa8dd.4441678b668641.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "Beginner"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118555-55736",
           "start": "2026-10-10T14:00:00.000Z",
@@ -585,7 +595,9 @@
           "allowWaitinglist": true,
           "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1118767-ef521887-1cc0-4a4d-9d32-64d3b22cdd46.f1676c82255ae9.jpg",
           "isAddon": true,
-          "meta": {},
+          "meta": {
+            "difficulty": "Intermediate"
+          },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1118767-55839",
           "start": "2026-10-11T13:00:00.000Z",
