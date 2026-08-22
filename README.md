@@ -109,6 +109,15 @@ festival pass still appears on the schedule (its button reads *View in shop*, si
 an add-on can't be checked out on its own). An add-on with no time is merch or an
 extra, and is left off the page entirely.
 
+### Why the schedule page is dark
+
+The rope dividers hide a seam by laying a feathered band of `rgba(20,37,31,·)`
+across it. That only disappears if both sides of the join are already dark, which
+is true everywhere on the home page. The schedule list is therefore dark too, and
+its background is anchored top and bottom on `#14251f` — the exact colour the band
+is made of — so the band cannot be seen against it. Change that anchor colour and
+the seams come back.
+
 ### Photos on the schedule page
 
 Two background slots are wired up in `css/schedule.css` and expect these files:

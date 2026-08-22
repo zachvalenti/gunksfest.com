@@ -36,21 +36,24 @@
 .schedule-head .eyebrow { color: var(--color-accent-light); }
 .schedule-head .lead { color: rgba(255, 255, 255, 0.9); margin-bottom: 0; }
 
-/* Why this page's dividers are built differently from the home page's.
-   There, every seam is dark-photo-to-dark-photo, so the rope's feather band is
-   never seen as a band — it just reads as shadow under the rope, and the join
-   vanishes. Here the middle section is cream, so both of the usual tricks fail
-   on a light background: the dark band becomes a grey smear, and fading the
-   photo into cream turns the whole strip milky. A crisp edge with the rope and
-   its drop shadow sitting on it is the honest version — it reads as a deliberate
-   join rather than a rendering artefact. */
-.page-schedule .rope-divider::before { display: none; }
+/* Both sides of every seam on this page are now dark, which is the condition
+   the home page's dividers were built for: the feather band reads as shadow
+   under the rope rather than as a band, and the join disappears. Nothing to
+   override — the shared rule in style.css does the work. */
 /* Nothing should paint over the blend, and the schedule must start below it. */
 .page-schedule .rope-divider { z-index: 3; }
 .schedule-section { position: relative; z-index: 1; }
 
 /* ---------- Section shell ---------- */
-.schedule-section { background: var(--color-sand); padding-top: clamp(3.5rem, 7vw, 5rem); }
+/* The rope's feather band is rgba(20,37,31,·). Anchor this section's top and
+   bottom on that exact colour (#14251f, the same ground the page already uses)
+   and the band becomes invisible where it matters — which is the whole trick
+   the home page relies on. The middle lifts slightly so 9000px of it isn't flat;
+   the ends stay pinned so the seams still vanish. */
+.schedule-section {
+  background: linear-gradient(to bottom, #14251f 0%, #1b3128 22%, #1b3128 78%, #14251f 100%);
+  padding-top: clamp(3.5rem, 7vw, 5rem);
+}
 
 .visually-hidden {
   position: absolute; width: 1px; height: 1px; margin: -1px;
@@ -64,13 +67,13 @@
 .day-tab {
   font: inherit; font-weight: 700; cursor: pointer;
   padding: 0.55rem 1.15rem; border-radius: 999px;
-  border: 2px solid var(--color-sand-dk);
-  background: var(--color-cream); color: var(--color-forest);
+  border: 2px solid rgba(255,255,255,0.32);
+  background: rgba(255,255,255,0.07); color: #fff;
   transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
 }
-.day-tab:hover { border-color: var(--color-accent-dk); color: var(--color-accent-darker); }
+.day-tab:hover { border-color: var(--color-accent-light); background: rgba(255,255,255,0.16); }
 .day-tab.is-active {
-  background: var(--color-forest); border-color: var(--color-forest); color: #fff;
+  background: #fff; border-color: #fff; color: var(--color-forest);
 }
 
 .day-tab:focus-visible {
@@ -79,7 +82,7 @@
 
 /* ---------- Status / empty states ---------- */
 .schedule-loading, .schedule-none {
-  color: var(--color-ink-soft); font-style: italic; margin: 2rem 0;
+  color: rgba(255,255,255,0.72); font-style: italic; margin: 2rem 0;
 }
 .schedule-status {
   margin: 0 0 2rem; padding: 1.25rem 1.5rem;
@@ -92,14 +95,17 @@
 .schedule-status.is-error { border-left-color: #b3452e; }
 
 .schedule-updated {
-  margin: 2.5rem 0 0; font-size: 0.85rem; color: var(--color-stone);
+  margin: 2.5rem 0 0; font-size: 0.85rem; color: rgba(255,255,255,0.6);
 }
 
 /* ---------- Day blocks ---------- */
 .schedule-day + .schedule-day { margin-top: 3rem; }
-.schedule-day-title {
+/* Scoped to the section so it outranks `.section h2` in style.css, which would
+   otherwise keep these forest green — invisible now the ground is dark. */
+.schedule-section .schedule-day-title {
   font-size: clamp(1.4rem, 3.2vw, 1.9rem);
-  color: var(--color-forest);
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.45);
   margin: 0 0 1.1rem;
   padding-bottom: 0.5rem;
   border-bottom: 3px solid var(--color-leaf);
@@ -230,14 +236,3 @@ html.js .session.is-visible { opacity: 1; transform: none; }
 }
 .schedule-cta .container { position: relative; z-index: 1; }
 .schedule-cta h2, .schedule-cta .lead { text-shadow: 0 2px 10px rgba(0,0,0,0.55); }
-.schedule-cta::before {
-  top: 0;
-  background: linear-gradient(to bottom,
-    var(--color-sand) 0%, rgba(244,239,230,0.88) 12%, rgba(244,239,230,0.5) 32%,
-    rgba(244,239,230,0.12) 62%, rgba(244,239,230,0) 100%);
-}
-.schedule-cta::after {
-  bottom: 0;
-  background: linear-gradient(to top,
-    var(--color-ink) 0%, rgba(32,37,31,0.85) 18%, rgba(32,37,31,0.45) 45%, rgba(32,37,31,0) 100%);
-}
