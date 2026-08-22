@@ -167,7 +167,10 @@ function tidyLine(line) {
     return `Instructor: ${who}`;
   }
   const spec = line.match(/^(\s*#*\s*(?:Prerequisites?|Required\s+Gear)\b.*?)\s*[.!;,]+\s*$/i);
-  if (spec) return spec[1];
+  // "etc." keeps its full stop — there the dot belongs to the abbreviation, not
+  // to the sentence, and "slings, etc" reads as a typo. Same for other common
+  // abbreviations that can legitimately end a gear list.
+  if (spec && !/\b(?:etc|ie|eg|approx|incl|min|max|lbs|ft|in|vs)$/i.test(spec[1])) return spec[1];
   return line;
 }
 

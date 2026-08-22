@@ -118,6 +118,11 @@ Two background slots are wired up in `css/schedule.css` and expect these files:
 | `assets/img/2025-08-gunksfest-chris-vultaggio-2097.JPG` | behind the "Clinics & Schedule" hero |
 | `assets/img/2025-08-gunksfest-sarah-karbachinskiy-5350.jpg` | behind "Questions about a clinic?" |
 
+Both are resized to 2400px wide and re-encoded (mozjpeg, q78) — wide enough for a
+full-bleed background at 2x DPR. Camera originals are far too heavy to ship: the
+hero came in at 8640x5760 and 18MB, which is 38x the size that renders identically
+here. Re-run that step on any replacement photo.
+
 Each is the first layer of a two-layer background, with the brand green gradient
 underneath. A missing file paints nothing and the gradient carries the section, so
 the page never shows a broken image — but it also never warns you, and the paths are
