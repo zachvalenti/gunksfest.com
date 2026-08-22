@@ -46,19 +46,29 @@
    override — the shared rule in style.css does the work. */
 /* Nothing should paint over the blend, and the schedule must start below it. */
 .page-schedule .rope-divider { z-index: 3; }
-/* The lower rope sits on the seam, which is where the two sections actually
-   meet — measured as a sharp luminance step exactly at the divider's top edge.
-   Nudges ride on the whole divider rather than the rope alone: the feather band
-   is what hides the join, so it has to travel with the rope. Currently 10px low,
-   which keeps the band over the step while letting a little more of the dark
-   section read above the rope.
+/* No offset on the lower divider: the shared rule in style.css already centres
+   the rope on the join, and that is where it belongs.
 
-   translateY moves the painted result without touching layout — the divider is
-   a zero-height wrapper, so nothing below it shifts up or down to compensate.
-   That is the difference between transform and, say, `position: relative; top`:
-   both look the same here, but only transform is composited on the GPU and
-   never triggers a reflow. */
-.page-schedule .rope-divider--lower { transform: translateY(10px); }
+   Measured rather than eyeballed, because this seam is the one place on the
+   page where the two sides are genuinely different — dark section above, sky
+   photo below — so the join is a hard luminance step (about 33 to 122) that
+   the feather band tints but cannot erase. Only the rope itself covers it.
+
+   Method, worth repeating if this ever needs re-checking: hide the divider,
+   screenshot the bare strip, and average each row across the width. The seam
+   is perfectly straight so it survives that averaging as a sharp row-to-row
+   step; the rope waves, so its own edges smear away. Then sweep the offset and
+   watch the residual step. Offsets from -11px to +3px all bottom out at the
+   same floor — the seam is covered, and what's left is the rope's own top
+   edge. Past +4 the residual climbs (25.9 at +10px) and sits exactly `offset`
+   pixels above the rope's mid-line: that is the join, creeping out from under
+   a rope that has been lowered off it.
+
+   So a nudge here has a budget of roughly -11px to +3px, and 0 is the middle
+   of it. Any nudge must ride on the whole divider rather than the rope alone,
+   since the feather band has to travel with the rope to keep doing its half of
+   the job — which is why the modifier class stays on the wrapper in
+   schedule.html even with no declaration left in this rule. */
 
 .schedule-section { position: relative; z-index: 1; }
 
