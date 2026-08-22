@@ -140,6 +140,72 @@ function dayLabel(iso, tz) {
   }).format(new Date(iso));
 }
 
+/**
+ * pretix stores item descriptions as Markdown and only renders them in its own
+ * storefront — the REST API hands back the raw source. Convert a safe subset
+ * here so the page doesn't show literal asterisks and hashes. Everything is
+ * HTML-escaped first, so nothing an author types can inject markup; the browser
+ * re-checks the result against an allowlist before it renders.
+ */
+function mdToHtml(src) {
+  if (!src) return null;
+  const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const inline = (t) =>
+    esc(t)
+      .replace(/`([^`]+)`/g, "<code>$1</code>")
+      .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+      .replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>")
+      .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+|mailto:[^)\s]+)\)/g, '<a href="$2">$1</a>');
+
+  const blocks = String(src).replace(/\r\n?/g, "\n").trim().split(/\n{2,}/);
+  const out = [];
+  for (const block of blocks) {
+    const lines = block.split("\n").filter((l) => l.trim());
+    if (!lines.length) continue;
+
+    const heading = lines[0].match(/^(#{1,6})\s+(.*)$/);
+    if (heading && lines.length === 1) {
+      // The page already owns h1–h3, so every Markdown heading lands at h4.
+      out.push(`<h4>${inline(heading[2])}</h4>`);
+      continue;
+    }
+    // A marker must be followed by a space, so an emphasised line like
+    // "*Guide: ...*" is not mistaken for a bullet.
+    if (lines.every((l) => /^\s*[-*+]\s+/.test(l))) {
+      out.push("<ul>" + lines.map((l) => `<li>${inline(l.replace(/^\s*[-*+]\s+/, ""))}</li>`).join("") + "</ul>");
+      continue;
+    }
+    if (lines.every((l) => /^\s*\d+[.)]\s+/.test(l))) {
+      out.push("<ol>" + lines.map((l) => `<li>${inline(l.replace(/^\s*\d+[.)]\s+/, ""))}</li>`).join("") + "</ol>");
+      continue;
+    }
+    // A heading sharing a block with body text (no blank line after it, which is
+    // common in these descriptions) keeps its emphasis as a bold run.
+    out.push(
+      `<p>${lines
+        .map((l) => {
+          const h = l.match(/^\s*#{1,6}\s+(.*)$/);
+          return h ? `<strong>${inline(h[1])}</strong>` : inline(l);
+        })
+        .join("<br />")}</p>`
+    );
+  }
+  return out.join("") || null;
+}
+
+/**
+ * Product names carry backend bookkeeping: a "2026_" year prefix, and a trailing
+ * "(Saturday 9am-1pm)" that just restates the time already shown beside it. Strip
+ * both for display. The untouched value stays on the record as `rawName`.
+ */
+function displayName(name) {
+  if (!name) return name;
+  return String(name)
+    .replace(/^\s*\d{4}[_\s-]+/, "")
+    .replace(/\s*\((?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*\b[^)]*\)\s*$/i, "")
+    .trim();
+}
+
 async function main() {
   const event = await get(`${api}/`);
   const tz = event.timezone || "America/New_York";
@@ -174,8 +240,9 @@ async function main() {
     const meta = item.meta_data || {};
     const base = {
       id: item.id,
-      name: i18n(item.name, lang),
-      description: i18n(item.description, lang),
+      name: displayName(i18n(item.name, lang)),
+      rawName: i18n(item.name, lang),
+      description: mdToHtml(i18n(item.description, lang)),
       category: cat ? cat.name : null,
       categoryId: cat ? cat.id : null,
       price,

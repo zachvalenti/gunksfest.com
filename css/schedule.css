@@ -127,10 +127,37 @@
   background: var(--color-sand-dk); color: var(--color-ink-soft);
 }
 
-.session-desc { color: var(--color-ink-soft); font-size: 0.95rem; }
+.session-desc {
+  color: var(--color-ink-soft); font-size: 0.95rem;
+  position: relative; max-height: 5.4em; overflow: hidden;
+}
+.session-desc.is-open { max-height: none; }
+/* Fade the cut-off edge, but only while collapsed. */
+.session-desc.is-clamped:not(.is-open)::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2em;
+  background: linear-gradient(to bottom, rgba(255,255,255,0), var(--color-cream));
+}
+.session-more {
+  font: inherit; font-size: 0.85rem; font-weight: 700; cursor: pointer;
+  margin-top: 0.35rem; padding: 0.15rem 0; border: 0; background: none;
+  color: var(--color-accent-dk); text-decoration: underline;
+}
+.session-more:hover { color: var(--color-accent-darker); }
+.session-more:focus-visible { outline: 3px solid var(--color-accent-dk); outline-offset: 2px; }
 .session-desc p { margin: 0 0 0.5rem; }
 .session-desc p:last-child { margin-bottom: 0; }
 .session-desc ul, .session-desc ol { margin: 0 0 0.5rem; padding-left: 1.2rem; }
+/* Markdown headings from the pretix description land here — "Prerequisites:",
+   "Required Gear:" and friends. Keep them quiet; the card title outranks them. */
+.session-desc h4, .session-desc h5, .session-desc h6 {
+  margin: 0.7rem 0 0.25rem; font-size: 0.95rem; color: var(--color-forest);
+  font-family: var(--font-body); font-weight: 700;
+}
+.session-desc code {
+  font-size: 0.9em; background: var(--color-sand-dk);
+  padding: 0.1em 0.35em; border-radius: 4px;
+}
+.session-desc strong { color: var(--color-ink); }
 
 .session-side {
   display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem;

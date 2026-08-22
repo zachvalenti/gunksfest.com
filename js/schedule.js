@@ -103,7 +103,11 @@
     var extras = (data.unscheduled || []).filter(matchesCategory);
     if (extras.length && state.day === "all") {
       shown += extras.length;
-      root.appendChild(dayBlock("Passes & Add-ons", "unscheduled", extras));
+      // These are the festival passes and film tickets. When pretix has them all
+      // under one category, that category's own name beats a generic heading.
+      var cats = extras.map(function (s) { return s.category; });
+      var unanimous = cats[0] && cats.every(function (c) { return c === cats[0]; });
+      root.appendChild(dayBlock(unanimous ? cats[0] : "Passes & Tickets", "unscheduled", extras));
     }
 
     if (!shown) {
@@ -121,7 +125,32 @@
     // Re-stamp live badges: render() rebuilt every card, so whatever we already
     // know from the widget endpoint has to be applied again.
     if (state.avail) applyAvailability(state.avail);
+    clampDescriptions();
     reveal();
+  }
+
+  /* Full pretix descriptions run to a few hundred words, which turns 45 clinics
+     into twenty screens of scrolling. Collapse anything taller than the clamp and
+     offer a toggle — measured after layout, so cards whose text already fits get
+     no button. */
+  function clampDescriptions() {
+    Array.prototype.forEach.call(root.querySelectorAll(".session-desc"), function (desc) {
+      if (desc.scrollHeight <= desc.clientHeight + 4) return;
+      desc.classList.add("is-clamped");
+
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "session-more";
+      btn.textContent = "More";
+      btn.setAttribute("aria-expanded", "false");
+      btn.setAttribute("aria-controls", desc.id);
+      btn.addEventListener("click", function () {
+        var open = desc.classList.toggle("is-open");
+        btn.textContent = open ? "Less" : "More";
+        btn.setAttribute("aria-expanded", String(open));
+      });
+      desc.parentNode.insertBefore(btn, desc.nextSibling);
+    });
   }
 
   /* Cards are built after js/main.js has already run its own observer, so the
@@ -219,6 +248,7 @@
     if (s.description) {
       var desc = document.createElement("div");
       desc.className = "session-desc";
+      desc.id = "desc-" + s.slotId;
       desc.innerHTML = sanitize(s.description);
       body.appendChild(desc);
     }
@@ -433,7 +463,11 @@
   /* pretix hands back rendered HTML for descriptions. It comes from our own
      backend, but this page is public, so keep it to a boring tag allowlist
      rather than trusting the string wholesale. */
-  var ALLOWED = { P: 1, BR: 1, STRONG: 1, B: 1, EM: 1, I: 1, UL: 1, OL: 1, LI: 1, A: 1, SPAN: 1 };
+  var ALLOWED = {
+    P: 1, BR: 1, STRONG: 1, B: 1, EM: 1, I: 1, UL: 1, OL: 1, LI: 1, A: 1, SPAN: 1,
+    // Descriptions are Markdown converted at sync time; these are what it emits.
+    H4: 1, H5: 1, H6: 1, CODE: 1
+  };
   // Unwrapping these would spill code or alt text into the page as prose, so
   // they get removed outright, contents and all.
   var DROP = { SCRIPT: 1, STYLE: 1, IFRAME: 1, OBJECT: 1, EMBED: 1, TEMPLATE: 1, NOSCRIPT: 1, SVG: 1 };

@@ -85,8 +85,24 @@ each one runs. The script looks in two places, in order:
 
    Naive times are read in the event's own timezone.
 
-Products with neither land in a **Passes & Add-ons** block at the bottom — which is
-exactly where the Stay & Play pass belongs. Categories become the filter chips.
+### What the sync cleans up
+
+Two things the REST API hands over raw, normalised in `scripts/fetch-pretix.mjs`:
+
+- **Descriptions are Markdown.** pretix renders them in its own storefront but the
+  API returns the source, so `mdToHtml()` converts a safe subset (paragraphs, bold,
+  italic, lists, links, headings). Everything is HTML-escaped first, and the browser
+  re-checks the result against a tag allowlist before rendering.
+- **Titles carry bookkeeping.** A `2026_` prefix and a trailing `(Saturday 9am-1pm)`
+  that just repeats the time shown beside it both get stripped for display. The
+  original is kept on each record as `rawName`, so nothing is lost.
+
+Descriptions run long — a few hundred words each — so the page collapses them to a
+few lines with a **More** toggle. Without it, 45 clinics is twenty screens of scroll.
+
+Products with neither land in a block at the bottom, named after their pretix
+category when they share one (yours reads **Tickets**) — which is exactly where the
+weekend passes and film tickets belong. Categories become the filter chips.
 
 Add-ons are handled by whether they carry a time. A clinic sold as an add-on to a
 festival pass still appears on the schedule (its button reads *View in shop*, since
