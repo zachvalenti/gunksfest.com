@@ -42,6 +42,11 @@
    override — the shared rule in style.css does the work. */
 /* Nothing should paint over the blend, and the schedule must start below it. */
 .page-schedule .rope-divider { z-index: 3; }
+/* The lower divider's feather band darkens the top of the CTA photo, so the eye
+   reads the dark-to-sky boundary a little below the seam itself. Drop just the
+   rope to meet it — the band stays put, since moving it would move the boundary
+   too and the rope would sit high again. */
+.page-schedule .rope-divider--lower .rope { bottom: -65px; }
 .schedule-section { position: relative; z-index: 1; }
 
 /* ---------- Section shell ---------- */

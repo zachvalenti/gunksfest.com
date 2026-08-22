@@ -372,7 +372,9 @@
     } catch (e) {
       text = "$" + n.toFixed(2);
     }
-    return { text: (s.priceFrom ? "from " : "") + text, included: false };
+    // Leading "+" because every clinic is an add-on: the fee is on top of a day
+    // or weekend pass, never the whole cost of attending.
+    return { text: (s.priceFrom ? "from " : "") + "+" + text, included: false };
   }
 
   function esc(str) {
