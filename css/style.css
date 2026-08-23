@@ -320,7 +320,28 @@ body.scrolled .menu-fab { display: flex; }        /* appears once scrolled */
   text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.78rem;
   font-weight: 700; color: rgba(255,255,255,0.9); margin: 0 0 1rem;
 }
-.hero h1 { font-size: clamp(3rem, 11vw, 6rem); font-weight: 800; margin: 0; }
+/* The hero title stays real HTML text — never an image, never SVG <text>.
+   It is the page's Largest Contentful Paint element and its main keyword, so
+   an image-of-text would cost load speed, selectability, translation, screen
+   reader support and crispness at every DPI, all to gain nothing CSS cannot
+   do. Scale and tight tracking are what create the impact; the "wow" lives in
+   the layers behind it (the parallaxed cliff photo and its scrim), not in the
+   letterforms.
+
+   Sizing is measured rather than picked: 12vw/6.75rem keeps the title on one
+   line down to 1024px, which is exactly where the previous 11vw/6rem broke
+   too, so it buys 12.5% more size at no cost to the layout. 13vw/7.5rem
+   looked better still but wrapped at 1024px, and a two-line title at common
+   laptop widths is a worse trade than a slightly smaller one. */
+.hero h1 {
+  font-size: clamp(3rem, 12vw, 6.75rem);
+  font-weight: 800;
+  margin: 0;
+  /* Big type wants tighter everything: the tracking and leading that read as
+     comfortable at 16px read as loose and timid at 108px. */
+  letter-spacing: -0.035em;
+  line-height: 0.9;
+}
 /* ^ 3rem on a phone, 6rem on a desktop, fluid in between — the responsive
    headline in one declaration. Note the min is a rem (a fixed multiple of the
    user's font size) while the middle term is vw: mixing units this way is what
