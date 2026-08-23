@@ -51,16 +51,19 @@ stamp live availability on top. No API token ever reaches the browser.
 - **Renaming products in pretix** (the only thing here that writes to the shop)
   is documented in `.github/workflows/pretix-rename.yml`.
 
-## Taking the schedule page public
+## The schedule page is public
 
-It's live and reachable by direct URL, but unlisted: nothing links to it and it
-carries `<meta name="robots" content="noindex, nofollow">`. Three steps flip it:
+It is indexed and linked from the home page in two places: the "Clinics &
+Workshops" card under *What is GunksFest?*, and the clinics line in the Stay &
+Play pass list. The `noindex` tag it carried while unlisted is gone.
 
-1. Delete that robots tag from `schedule.html` (there's a comment above it).
-2. Add `<a href="schedule.html">Schedule</a>` to `index.html` in three places —
-   the header nav, the burger menu, and the footer.
-3. Optionally point the "coming soon" copy in `#updates` at the page.
+Note the home page's nav bar does **not** carry a Schedule link, while the
+schedule page's own nav does — so the nav gains an item when you move between
+them. Adding `<a href="schedule.html">Schedule</a>` to the header nav, burger
+menu and footer in `index.html` is the fix if that inconsistency is unwanted.
 
-Don't add a `robots.txt` `Disallow` alongside the `noindex`: a disallowed page
-is never fetched, so the crawler never reads the `noindex` — and can still list
-the bare URL if anyone links it. `noindex` needs the crawler let in to work.
+If it ever needs hiding again, put back the `<meta name="robots"
+content="noindex, nofollow">` tag and drop the two links. Don't reach for a
+`robots.txt` `Disallow` instead: a disallowed page is never fetched, so the
+crawler never reads the `noindex` — and can still list the bare URL if anyone
+links it. `noindex` needs the crawler let in to work.
