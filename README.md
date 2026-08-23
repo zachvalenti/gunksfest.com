@@ -14,13 +14,14 @@ Hosted free on GitHub Pages at **gunksfest.com** (gunksfest.org redirects here).
 
 ```
 index.html          Landing page
-schedule.html       Clinic schedule, rendered from data/schedule.json
+clinics.html        The clinics page — schedule rendered from data/schedule.json
+schedule.html       Redirect stub left behind when clinics.html was renamed
 css/style.css       All shared styling. Theme colours/fonts are the :root variables at the top.
 css/schedule.css    Schedule-page styles only.
 js/main.js          Nav, slideshows, parallax, rope dividers. No frameworks.
 js/schedule.js      Renders the schedule and stamps live availability from pretix.
 data/schedule.json  The clinic line-up, committed by the pretix sync workflow.
-data/schedule.example.json   Sample data — see schedule.html?demo=1
+data/schedule.example.json   Sample data — see clinics.html?demo=1
 scripts/fetch-pretix.mjs     Pulls the line-up from pretix. Run by the workflow.
 scripts/pretix-rename.mjs    One-off: strips "2026_" off product names IN pretix.
 assets/img/         Photos, logos, og-image.
@@ -32,8 +33,8 @@ CNAME               The custom domain for GitHub Pages. Don't delete.
 
 ```
 npx http-server -p 8080 -c-1 .
-# http://127.0.0.1:8080/schedule.html          real data
-# http://127.0.0.1:8080/schedule.html?demo=1   sample data, to check the layout
+# http://127.0.0.1:8080/clinics.html           real data
+# http://127.0.0.1:8080/clinics.html?demo=1    sample data, to check the layout
 ```
 
 ## The pretix pipeline
@@ -51,19 +52,26 @@ stamp live availability on top. No API token ever reaches the browser.
 - **Renaming products in pretix** (the only thing here that writes to the shop)
   is documented in `.github/workflows/pretix-rename.yml`.
 
-## The schedule page is public
+## The clinics page is public
 
-It is indexed and linked from the home page in two places: the "Clinics &
-Workshops" card under *What is GunksFest?*, and the clinics line in the Stay &
-Play pass list. The `noindex` tag it carried while unlisted is gone.
+`clinics.html` is indexed and reachable from the home page four ways: the nav
+bar, the burger menu, the footer, and two contextual links in the copy — the
+"Clinics & Workshops" card under *What is GunksFest?*, and the clinics line in
+the Stay & Play pass list.
 
-Note the home page's nav bar does **not** carry a Schedule link, while the
-schedule page's own nav does — so the nav gains an item when you move between
-them. Adding `<a href="schedule.html">Schedule</a>` to the header nav, burger
-menu and footer in `index.html` is the fix if that inconsistency is unwanted.
+It was called `schedule.html` until it was renamed. `schedule.html` is now a
+meta-refresh stub pointing here, since that URL was public before the rename;
+delete it once nothing links to it. Internal names still say "schedule"
+(`css/schedule.css`, `js/schedule.js`, `data/schedule.json`, the
+`.schedule-*` classes) because they describe the schedule the page renders,
+which is still what they are.
 
-If it ever needs hiding again, put back the `<meta name="robots"
-content="noindex, nofollow">` tag and drop the two links. Don't reach for a
+The nav reads **Tickets** where the section is titled **Stay & Play** — the
+label is deliberately not the section heading, so the nav names what a visitor
+is looking for rather than what the section is called.
+
+If the page ever needs hiding again, put back the `<meta name="robots"
+content="noindex, nofollow">` tag and drop the links. Don't reach for a
 `robots.txt` `Disallow` instead: a disallowed page is never fetched, so the
 crawler never reads the `noindex` — and can still list the bare URL if anyone
 links it. `noindex` needs the crawler let in to work.

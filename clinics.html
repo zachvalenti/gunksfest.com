@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clinics — GunksFest V (2026)</title>
+  <meta name="description" content="The full GunksFest 2026 clinic and workshop schedule — four days of clinics, workshops, and evening programming in the Shawangunks. October 9–12, 2026." />
+
+  <!-- Open Graph / social preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Clinics — GunksFest V (2026)" />
+  <meta property="og:description" content="Clinics, workshops, and the evening program for GunksFest 2026. October 9–12 in the Shawangunks." />
+  <meta property="og:url" content="https://gunksfest.com/clinics.html" />
+  <meta property="og:image" content="https://gunksfest.com/assets/img/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/img/favicon.png" />
+  <!-- Two stylesheets, in this order: the shared site styles, then the
+       page-specific ones. Order is the tiebreak when two rules have equal
+       specificity, so schedule.css can override style.css simply by coming
+       second — no !important, no more-specific selectors invented to win. -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/schedule.css" />
+  <!-- Warm up the connection the availability fetch lands on.
+       Opening an HTTPS connection means a DNS lookup, a TCP handshake and a
+       TLS handshake — easily 200-300ms before a single byte of the actual
+       request moves. preconnect gets all of that out of the way while the page
+       is still rendering, so js/schedule.js's fetch starts paying off
+       immediately. Worth adding for any third-party origin you know you'll
+       hit; not worth adding speculatively, since each one holds a connection
+       open. crossorigin is required here because the fetch is a CORS request —
+       without it the browser warms up a connection the fetch can't reuse. -->
+  <link rel="preconnect" href="https://pretix.eu" crossorigin />
+</head>
+<body class="page-schedule">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Shared kernmantle-weave fleck patterns for the rope dividers.
+       Two dashed line-sets rotated in opposite directions = woven fleck. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <pattern id="fleckA" width="7" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(48)">
+        <line x1="0" y1="-1" x2="0" y2="9" stroke="#d6ecfd" stroke-width="2.3" stroke-dasharray="3.2 4" stroke-linecap="round" />
+      </pattern>
+      <pattern id="fleckB" width="7" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-48)">
+        <line x1="0" y1="-1" x2="0" y2="9" stroke="#7cc47f" stroke-width="2" stroke-dasharray="2.6 4.4" stroke-linecap="round" />
+      </pattern>
+    </defs>
+  </svg>
+
+  <!-- ============ HEADER / NAV ============ -->
+  <header class="site-header" id="top">
+    <div class="container nav-bar">
+      <nav class="nav-desktop" aria-label="Primary">
+        <a href="index.html#about">About</a>
+        <a href="index.html#partners">Partners</a>
+        <a href="index.html#venue">Venue</a>
+        <a href="clinics.html" aria-current="page">Clinics</a>
+        <a href="index.html#stay-play">Tickets</a>
+        <a href="index.html#evening">Evening</a>
+        <a class="nav-cta" href="index.html#stay-play">Get Updates</a>
+      </nav>
+    </div>
+  </header>
+
+  <button class="menu-fab" aria-expanded="false" aria-controls="menu-panel" aria-label="Open menu">
+    <span class="menu-fab-bar"></span>
+    <span class="menu-fab-bar"></span>
+    <span class="menu-fab-bar"></span>
+  </button>
+  <nav class="menu-panel" id="menu-panel" aria-label="Menu">
+    <div class="menu-brand"><span class="brand-mark">GunksFest</span> <span class="brand-year">V (2026)</span></div>
+    <a href="index.html#about">About</a>
+    <a href="index.html#partners">Partners</a>
+    <a href="index.html#venue">Venue</a>
+    <a href="clinics.html">Clinics</a>
+    <a href="index.html#stay-play">Tickets</a>
+    <a href="index.html#evening">Evening Program</a>
+    <a class="menu-cta" href="index.html#stay-play">Get Updates</a>
+  </nav>
+
+  <main id="main">
+    <!-- ============ PAGE HEAD ============ -->
+    <!-- section-photo is the hook js/main.js looks for: it parallaxes the
+         .section-bg inside every one. The photo has to live on its own layer
+         rather than on the section, because a background painted on the
+         section cannot be moved independently of the text on top of it. -->
+    <section class="schedule-head section-photo" aria-labelledby="schedule-title">
+      <div class="section-bg" aria-hidden="true"></div>
+      <div class="schedule-head-scrim" aria-hidden="true"></div>
+      <div class="container">
+        <p class="eyebrow">October 9–12, 2026 · Shawangunks, New Paltz NY</p>
+        <h1 id="schedule-title">Clinics &amp; Schedule</h1>
+        <p class="lead">
+          Four days of clinics, workshops, and evening programming. Anything marked
+          <strong>Included</strong> comes with your weekend or day pass; a <strong>+</strong>
+          price is added on top of it. Tickets go on sale soon.
+          All times are Eastern.
+        </p>
+      </div>
+    </section>
+
+    <div class="rope-divider" role="presentation"><svg class="rope" width="100%" height="90" aria-hidden="true" focusable="false"><path class="rope-body" d="M-20,45 L3200,45"/><path class="rope-fleck" fill="none" stroke="url(#fleckA)" d="M-20,45 L3200,45"/><path class="rope-fleck" fill="none" stroke="url(#fleckB)" d="M-20,45 L3200,45"/></svg></div>
+
+    <!-- ============ SCHEDULE ============ -->
+    <section class="section schedule-section" aria-labelledby="lineup-title">
+      <div class="container">
+        <h2 id="lineup-title" class="visually-hidden">Line-up</h2>
+
+        <!-- These three containers are empty on purpose: js/schedule.js fills
+             them from data/schedule.json. The markup that ships is the shell
+             plus a loading message, and everything inside is built at runtime.
+
+             role="group" + aria-label bundles the buttons inside into one
+             named set, so they're announced as "Filter by day, group" rather
+             than as five unrelated buttons.
+
+             `hidden` is the HTML attribute, not a class — it hides the element
+             from sight AND from assistive software, and JS flips it with
+             el.hidden = false once there's something to show. Preferable to
+             a .is-hidden class for exactly that reason: display:none in a
+             stylesheet is easy to accidentally override, `hidden` isn't. -->
+        <div class="schedule-controls">
+          <div class="day-tabs" id="schedule-nav" role="group" aria-label="Filter by day" hidden></div>
+          <div class="filter-pills" id="schedule-filters" role="group" aria-label="Filter by price and level" hidden></div>
+        </div>
+
+        <!-- Static copy, not a live region: this says the list is incomplete
+             by design, which is true on every load and so belongs in the
+             markup rather than being written by JS. -->
+        <p class="schedule-upcoming">
+          This is the line-up so far. <strong>More clinics and the full film
+          program are still to come</strong> — the page updates itself as they
+          are announced, so it is worth another look before you book.
+        </p>
+
+        <!-- A live region. Anything JS writes in here is announced by a screen
+             reader without moving focus — which is how you communicate an
+             asynchronous change ("couldn't load the schedule") to someone who
+             can't see it appear. "polite" waits for a pause in speech;
+             "assertive" interrupts and should be reserved for genuine errors.
+             The element must exist in the DOM from the start: a live region
+             added and populated in the same breath usually doesn't announce. -->
+        <p class="schedule-status" id="schedule-status" role="status" aria-live="polite" hidden></p>
+
+        <div id="schedule-root" class="schedule-root">
+          <!-- Rendered by js/schedule.js from data/schedule.json -->
+          <p class="schedule-loading">Loading the line-up…</p>
+        </div>
+
+        <p class="schedule-updated" id="schedule-updated" hidden></p>
+      </div>
+    </section>
+
+    <div class="rope-divider rope-divider--lower" role="presentation"><svg class="rope" data-amp="7" data-wavelength="700" width="100%" height="90" aria-hidden="true" focusable="false"><path class="rope-body" d="M-20,45 L3200,45"/><path class="rope-fleck" fill="none" stroke="url(#fleckA)" d="M-20,45 L3200,45"/><path class="rope-fleck" fill="none" stroke="url(#fleckB)" d="M-20,45 L3200,45"/></svg></div>
+
+    <!-- ============ CTA ============ -->
+    <section class="section section-cta schedule-cta section-photo" aria-labelledby="schedule-cta-title">
+      <div class="section-bg" aria-hidden="true"></div>
+      <div class="schedule-cta-scrim" aria-hidden="true"></div>
+      <div class="container narrow">
+        <h2 id="schedule-cta-title">Questions about a clinic?</h2>
+        <p class="lead">
+          Skill prerequisites, gear lists, and guide bios are on each clinic's
+          registration page. Still stuck? We're happy to help you pick.
+        </p>
+        <a class="btn btn-primary btn-lg" href="mailto:events@gunksclimbers.org?subject=GunksFest%202026%20clinic%20question">
+          Email Us
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="brand-mark">GunksFest</span>
+        <p>Shawangunks · New Paltz, NY</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="index.html#about">About</a>
+        <a href="index.html#venue">Venue</a>
+        <a href="clinics.html">Clinics</a>
+        <a href="index.html#stay-play">Tickets</a>
+        <a href="index.html#evening">Evening Program</a>
+        <a href="index.html#updates">Updates</a>
+        <a href="https://gunksclimbers.org/" target="_blank" rel="noopener">Gunks Climbers Coalition</a>
+        <a href="mailto:events@gunksclimbers.org">Contact</a>
+      </nav>
+      <p class="footer-meta">
+        &copy; <span id="year">2026</span> GunksFest. Presented by the Gunks Climbers Coalition.<br />
+        gunksfest.org redirects here to gunksfest.com.
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/schedule.js"></script>
+</body>
+</html>

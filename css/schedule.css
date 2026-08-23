@@ -98,7 +98,7 @@
    of it. Any nudge must ride on the whole divider rather than the rope alone,
    since the feather band has to travel with the rope to keep doing its half of
    the job — which is why the modifier class stays on the wrapper in
-   schedule.html even with no declaration left in this rule. */
+   clinics.html even with no declaration left in this rule. */
 
 /* The lower divider uses the shared band from style.css, unmodified: 46px of
    fade either side of the seam. That symmetry is right whenever both sides of
