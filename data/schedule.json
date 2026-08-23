@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-22T18:51:36.599Z",
+  "generated": "2026-08-23T02:02:29.986Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -428,6 +428,29 @@
           "location": "Meet at the afternoon clinic meeting location."
         },
         {
+          "id": 1128515,
+          "name": "Mushroom Foraging",
+          "rawName": "Mushroom Foraging (Saturday 12pm-3pm)",
+          "description": "<p><em>Guide: Jannette Pazer, GCC</em></p><p>Do you love mushrooms? Have you always wanted to learn how to forage for mushrooms but were afraid to try? This clinic is meant for beginner foragers who what to learn how to identify wild mushrooms, as well as learning about some local edible mushrooms and some deadly ones as well.</p><p>Clinic will consist of a 1 hour presentation, then at least 1 hour of foraging and trying to identify our finds.</p><p>Note: we’re scheduled for 2 hours, but we can continue foraging for another hour for those who are interested.</p><p><strong>Prerequisites: None</strong><br /><strong>Required gear: Hiking gear - sturdy shoes, water and snacks</strong></p>",
+          "category": "Saturday Clinics",
+          "categoryId": 282660,
+          "price": "0.00",
+          "priceFrom": false,
+          "freePrice": false,
+          "hasVariations": false,
+          "allowWaitinglist": true,
+          "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1128515-0ba3205d-de91-4a71-bd95-cecd6e806bbb.b9ca84402e85b0.jpg",
+          "isAddon": true,
+          "meta": {
+            "difficulty": "All Levels"
+          },
+          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
+          "slotId": "1128515-59423",
+          "start": "2026-10-10T16:00:00.000Z",
+          "end": "2026-10-10T19:00:00.000Z",
+          "location": "Meet at Mohonk Preserve Visitor Center."
+        },
+        {
           "id": 1118556,
           "name": "Cams: From Soup to Nuts",
           "rawName": "Cams: From Soup to Nuts (Saturday 1pm - 3pm)",
@@ -501,6 +524,29 @@
           "start": "2026-10-11T13:00:00.000Z",
           "end": "2026-10-11T20:00:00.000Z",
           "location": "This clinic meets at the Mohonk Preserve Visitor Center."
+        },
+        {
+          "id": 1128514,
+          "name": "Big Wall Bound",
+          "rawName": "Big Wall Bound (Sunday 9am-4pm)",
+          "description": "<p><em>With: Chad Silva, Alpine Endeavors</em></p><p>Have dreams of really big walls? Spend some time with Chad and see what kind of a journey that looks like for an East Coast climber! Chad's got multiple big wall ascents under his belt, and would be stoked to help you get exposure to some of the skills needed to make your way up the big stone, especially when your local training grounds don't offer ideal terrain.</p><h4>Prerequisites: Trad leaders will get the most out of this class. Ability to top rope belay required</h4><h4>Required Gear: Helmet &amp; Harness, plus any other trad/aid gear you want to get scuffed up</h4>",
+          "category": "Sunday Clinics",
+          "categoryId": 282661,
+          "price": "150.00",
+          "priceFrom": false,
+          "freePrice": false,
+          "hasVariations": false,
+          "allowWaitinglist": true,
+          "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1128514-46556624-a857-4e7f-a4c8-50cffa4f219a.e93be1be603b62.jpg",
+          "isAddon": true,
+          "meta": {
+            "difficulty": "Advanced"
+          },
+          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
+          "slotId": "1128514-59422",
+          "start": "2026-10-11T13:00:00.000Z",
+          "end": "2026-10-11T20:00:00.000Z",
+          "location": "Meet at Mohonk Preserve Visitor Center."
         },
         {
           "id": 1119384,
