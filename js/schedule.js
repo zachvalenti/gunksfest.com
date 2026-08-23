@@ -204,7 +204,7 @@
     if (filterEl) filterEl.hidden = true;
     setStatus(
       "<strong>The 2026 clinic line-up isn't published yet.</strong><br />" +
-      "Clinic schedules and tickets go live in early September — this page fills in " +
+      "Clinic schedules and tickets go live soon — this page fills in " +
       "automatically the moment they do. " +
       '<a href="index.html#updates">Get on the updates list</a> and we\'ll tell you when.',
       "empty"

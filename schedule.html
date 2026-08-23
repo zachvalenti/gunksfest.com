@@ -92,7 +92,12 @@
 
   <main id="main">
     <!-- ============ PAGE HEAD ============ -->
-    <section class="schedule-head" aria-labelledby="schedule-title">
+    <!-- section-photo is the hook js/main.js looks for: it parallaxes the
+         .section-bg inside every one. The photo has to live on its own layer
+         rather than on the section, because a background painted on the
+         section cannot be moved independently of the text on top of it. -->
+    <section class="schedule-head section-photo" aria-labelledby="schedule-title">
+      <div class="section-bg" aria-hidden="true"></div>
       <div class="schedule-head-scrim" aria-hidden="true"></div>
       <div class="container">
         <p class="eyebrow">October 9–12, 2026 · Shawangunks, New Paltz NY</p>
@@ -100,7 +105,7 @@
         <p class="lead">
           Four days of clinics, workshops, and evening programming. Anything marked
           <strong>Included</strong> comes with your weekend or day pass; a <strong>+</strong>
-          price is added on top of it. Tickets go on sale in early September.
+          price is added on top of it. Tickets go on sale soon.
           All times are Eastern.
         </p>
       </div>
@@ -131,6 +136,15 @@
           <div class="filter-pills" id="schedule-filters" role="group" aria-label="Filter by price and level" hidden></div>
         </div>
 
+        <!-- Static copy, not a live region: this says the list is incomplete
+             by design, which is true on every load and so belongs in the
+             markup rather than being written by JS. -->
+        <p class="schedule-upcoming">
+          This is the line-up so far. <strong>More clinics and the full film
+          program are still to come</strong> — the page updates itself as they
+          are announced, so it is worth another look before you book.
+        </p>
+
         <!-- A live region. Anything JS writes in here is announced by a screen
              reader without moving focus — which is how you communicate an
              asynchronous change ("couldn't load the schedule") to someone who
@@ -152,7 +166,8 @@
     <div class="rope-divider rope-divider--lower" role="presentation"><svg class="rope" data-amp="7" data-wavelength="700" width="100%" height="90" aria-hidden="true" focusable="false"><path class="rope-body" d="M-20,45 L3200,45"/><path class="rope-fleck" fill="none" stroke="url(#fleckA)" d="M-20,45 L3200,45"/><path class="rope-fleck" fill="none" stroke="url(#fleckB)" d="M-20,45 L3200,45"/></svg></div>
 
     <!-- ============ CTA ============ -->
-    <section class="section section-cta schedule-cta" aria-labelledby="schedule-cta-title">
+    <section class="section section-cta schedule-cta section-photo" aria-labelledby="schedule-cta-title">
+      <div class="section-bg" aria-hidden="true"></div>
       <div class="schedule-cta-scrim" aria-hidden="true"></div>
       <div class="container narrow">
         <h2 id="schedule-cta-title">Questions about a clinic?</h2>

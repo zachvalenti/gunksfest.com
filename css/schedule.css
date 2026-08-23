@@ -8,20 +8,34 @@
   position: relative; isolation: isolate; overflow: hidden;
   color: #fff;
   padding: clamp(6rem, 12vw, 9rem) 0 clamp(3.5rem, 7vw, 5.5rem);
-  /* Photo first, brand gradient underneath. If the file is missing the layer
-     simply doesn't paint and the gradient carries the section on its own. */
+}
+/* The photo sits on its own absolutely-positioned layer so js/main.js can
+   translate it independently of the copy — that is the whole of the parallax.
+   .section-bg in style.css already supplies the position, the fill and the
+   z-index; this only names the picture and frames it. The shared
+   `html.js .section-photo .section-bg` rule bleeds the layer 90px past the
+   section top and bottom, so the photo can lag behind the scroll without ever
+   pulling a section edge into view.
+
+   Photo first, brand gradient underneath. If the file is missing the layer
+   simply doesn't paint and the gradient carries the section on its own. */
+.schedule-head .section-bg {
   background-image:
     url("../assets/img/2025-08-gunksfest-sarah-karbachinskiy-5350.jpg"),
     linear-gradient(165deg, var(--color-forest) 0%, var(--color-forest-dk) 100%);
   background-size: cover, auto;
-  /* Crop is set by where the group lands, not by the horizon. At 60% the photo
-     rides high enough to show the whole group — heads down to feet, standing on
-     the ledge — which is the point of this picture. The trade is that the heads
-     come up beside the headline rather than sitting below it; they clear it
-     horizontally, since the copy is left-aligned and the group is centre-right.
-     Drop toward 12% to buy the headline clean sky again, at the cost of cutting
-     everyone off around the waist. */
-  background-position: center 60%, center;
+  /* Crop is set by where the group lands, not by the horizon: high enough to
+     show the whole group, heads down to feet on the ledge, which is the point
+     of this picture. The trade is that the heads come up beside the headline
+     rather than below it; they clear it horizontally, since the copy is
+     left-aligned and the group is centre-right. Lower the percentage to buy
+     the headline clean sky again, at the cost of cutting everyone off around
+     the waist.
+
+     Re-tuned when the layer gained its parallax bleed: `cover` fills the
+     layer's box, and that box is now 180px taller than the section, so the
+     same percentage no longer frames the same crop. */
+  background-position: center 52%, center;
   background-repeat: no-repeat;
 }
 /* A summit photo, so the scrim can be lighter than a shaded one needs: enough
@@ -32,10 +46,10 @@
    further (0.66 at the top) measures 4.8:1, which is too close to the 4.5
    line to be safe. */
 .schedule-head-scrim {
-  position: absolute; inset: 0; z-index: -1;
+  position: absolute; inset: 0; z-index: 1;
   background: linear-gradient(170deg, rgba(20,37,31,0.74) 0%, rgba(20,37,31,0.58) 45%, rgba(20,37,31,0.84) 100%);
 }
-.schedule-head .container { position: relative; z-index: 1; }
+.schedule-head .container { position: relative; z-index: 2; }
 .schedule-head h1,
 .schedule-head .eyebrow,
 .schedule-head .lead { text-shadow: 0 2px 10px rgba(0,0,0,0.55); }
@@ -162,6 +176,20 @@
 .day-tab:focus-visible, .filter-pill:focus-visible, .filter-clear:focus-visible {
   outline: 3px solid var(--color-accent-dk); outline-offset: 2px;
 }
+
+/* The "more to come" note. Sits between the controls and the list because it
+   qualifies the list: it is the answer to "is this everything?", which is the
+   question a half-published line-up invites. Bordered rather than boxed, so it
+   reads as an aside on the schedule rather than as the alert that
+   .schedule-status is. */
+.schedule-upcoming {
+  margin: 0 0 2rem;
+  padding: 0.1rem 0 0.1rem 1rem;
+  border-left: 3px solid var(--color-accent);
+  color: rgba(255, 255, 255, 0.78);
+  max-width: 60ch;
+}
+.schedule-upcoming strong { color: #fff; font-weight: 700; }
 
 /* ---------- Status / empty states ---------- */
 .schedule-loading, .schedule-none {
@@ -301,15 +329,18 @@ html.js .session.is-visible { opacity: 1; transform: none; }
 /* ---------- CTA photo background ---------- */
 .schedule-cta {
   position: relative; isolation: isolate; overflow: hidden;
+}
+/* Same split as the head: photo on its own layer so it can parallax. */
+.schedule-cta .section-bg {
   background-image:
     url("../assets/img/2025-08-gunksfest-chris-vultaggio-2097.JPG"),
     linear-gradient(165deg, var(--color-forest) 0%, var(--color-forest-dk) 100%);
   background-size: cover, auto;
-  background-position: center 30%, center;   /* the demo and the ring of climbers around it */
+  background-position: center 34%, center;   /* the demo and the ring of climbers around it */
   background-repeat: no-repeat;
 }
 .schedule-cta-scrim {
-  position: absolute; inset: 0; z-index: -1;
+  position: absolute; inset: 0; z-index: 1;
   /* An even wash rather than a ramp. The ramp this replaced started at 0.30,
      which was right when the photo here was a sky: nothing bright sat high in
      the frame, so the top could stay open. A dappled forest has no such
@@ -321,5 +352,5 @@ html.js .session.is-visible { opacity: 1; transform: none; }
   background: linear-gradient(to bottom,
     rgba(20,37,31,0.78) 0%, rgba(20,37,31,0.70) 45%, rgba(20,37,31,0.90) 100%);
 }
-.schedule-cta .container { position: relative; z-index: 1; }
+.schedule-cta .container { position: relative; z-index: 2; }
 .schedule-cta h2, .schedule-cta .lead { text-shadow: 0 2px 10px rgba(0,0,0,0.55); }
