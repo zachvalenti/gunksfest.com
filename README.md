@@ -24,6 +24,7 @@ data/schedule.json  The clinic line-up, committed by the pretix sync workflow.
 data/schedule.example.json   Sample data — see clinics.html?demo=1
 scripts/fetch-pretix.mjs     Pulls the line-up from pretix. Run by the workflow.
 scripts/pretix-rename.mjs    One-off: strips "2026_" off product names IN pretix.
+scripts/free-seat-capacity.mjs  Free-clinic seats per time block — how many volunteers fit.
 assets/img/         Photos, logos, og-image.
 CNAME               The custom domain for GitHub Pages. Don't delete.
 .nojekyll           Serve files as-is, no Jekyll processing.

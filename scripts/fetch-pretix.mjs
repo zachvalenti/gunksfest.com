@@ -40,6 +40,12 @@
  *      Times without a zone are read as wall-clock time in the event's own
  *      timezone (see parseMetaDate below).
  *
+ * SEAT COUNTS come from quotas, not from the product: in pretix a quota is the
+ * thing that holds a number, and it can gate several products at once. Each
+ * session carries a `capacity` object ({seats, available, quotas}) so anyone
+ * asking "how many people fit in the 9am block" can add up the free clinics
+ * without silently counting one shared pool five times. See capacityByItem.
+ *
  * `difficulty` is the one the schedule page reads directly and cannot infer:
  * js/schedule.js will never guess a level from a title or description, so a
  * clinic without this property set simply doesn't appear under any level pill.
@@ -316,6 +322,57 @@ function displayName(name) {
     .trim();
 }
 
+/**
+ * Maps every item id to the quotas that gate it, and reduces those to one
+ * seat count per item.
+ *
+ * Two things about pretix quotas make this less obvious than "read item.size":
+ *
+ *  - A quota covers a LIST of items, not one. If the five Trapps tours all sit
+ *    in a single quota of 40, the festival has 40 seats across all five, not
+ *    200 — the pool is shared, so seats are NOT additive. `sharedWith` records
+ *    how many items each quota covers so a reader downstream can tell a private
+ *    pool (1) from a shared one (>1) and avoid double-counting.
+ *  - An item can sit in SEVERAL quotas at once, which is how pretix expresses
+ *    "at most 12 in this clinic, and at most 60 across the whole morning". Every
+ *    one of them has to have room, so the binding number is the SMALLEST, not
+ *    the sum and not the first one found.
+ *
+ * `size: null` in pretix means unlimited, which is why the reduce below skips
+ * nulls rather than treating them as zero — an unlimited quota constrains
+ * nothing, and an item gated only by unlimited quotas reports seats: null.
+ */
+function capacityByItem(quotas) {
+  const byItem = new Map();
+  for (const q of quotas) {
+    const entry = {
+      id: q.id,
+      name: i18n(q.name),
+      // null means unlimited in pretix, so keep it null rather than coercing.
+      size: q.size == null ? null : Number(q.size),
+      // Only present when the list was asked for with_availability; it is the
+      // number still unsold, which is what "will a paying buyer get a seat"
+      // actually turns on.
+      available: q.available_number == null ? null : Number(q.available_number),
+      sharedWith: (q.items || []).length,
+    };
+    for (const itemId of q.items || []) {
+      if (!byItem.has(itemId)) byItem.set(itemId, []);
+      byItem.get(itemId).push(entry);
+    }
+  }
+
+  const out = new Map();
+  for (const [itemId, list] of byItem) {
+    const min = (key) => {
+      const ns = list.map((q) => q[key]).filter((n) => n != null);
+      return ns.length ? Math.min(...ns) : null;
+    };
+    out.set(itemId, { seats: min("size"), available: min("available"), quotas: list });
+  }
+  return out;
+}
+
 async function main() {
   const event = await get(`${api}/`);
   const tz = event.timezone || "America/New_York";
@@ -335,6 +392,13 @@ async function main() {
   const items = (await getAll(`${api}/items/`))
     .filter((i) => i.active)
     .sort((a, b) => (a.position ?? 0) - (b.position ?? 0));
+
+  // Seat counts. with_availability makes pretix compute how many are left,
+  // which costs it real work per quota, so ask once for the whole event rather
+  // than per item. Quotas are an event-level resource: one call covers every
+  // clinic. If the install is old enough not to know the flag it just ignores
+  // it and we still get sizes, so there is nothing to fall back to here.
+  const capacity = capacityByItem(await getAll(`${api}/quotas/?with_availability=true`));
 
   // program_times is a newer pretix resource. Older installs 404 it, in which
   // case every item falls through to its meta_data.
@@ -360,6 +424,10 @@ async function main() {
       freePrice: !!item.free_price,
       hasVariations: !!item.has_variations,
       allowWaitinglist: item.allow_waitinglist !== false,
+      // How many seats this clinic has, and how many are still unsold. Null
+      // seats means no quota caps it. See capacityByItem for why this is a
+      // minimum across quotas rather than a sum.
+      capacity: capacity.get(item.id) || null,
       picture: item.picture || null,
       isAddon,
       meta,
