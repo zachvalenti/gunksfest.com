@@ -52,6 +52,9 @@ stamp live availability on top. No API token ever reaches the browser.
   of `scripts/fetch-pretix.mjs`.
 - **Renaming products in pretix** (the only thing here that writes to the shop)
   is documented in `.github/workflows/pretix-rename.yml`.
+- **How many free-clinic seats there are, and when** — run the *Free clinic seat
+  capacity* workflow from the Actions tab. It pulls a fresh snapshot, reports the
+  seats per time block on the run summary, and commits nothing.
 
 ## The clinics page is public
 

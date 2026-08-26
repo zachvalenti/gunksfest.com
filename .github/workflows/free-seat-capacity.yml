@@ -1,0 +1,105 @@
+# Reports how many free ($0.00) clinic seats stand open in each time block, and
+# how many volunteers that leaves room for without crowding out paying buyers.
+#
+# Run it from the Actions tab: pick "Free clinic seat capacity", press "Run
+# workflow", adjust the two inputs if you want, and read the result on the run's
+# summary page. Nothing is committed — this only reads.
+#
+# It pulls a FRESH snapshot from pretix rather than reading the committed
+# data/schedule.json, so the seat counts are whatever the shop says right now.
+# The snapshot is written to a scratch file and attached to the run as an
+# artifact; the repo is left untouched.
+#
+# Setup: none beyond the PRETIX_TOKEN secret the sync workflow already needs
+# (see .github/workflows/pretix-sync.yml). If seats come back as "assumed", the
+# quotas aren't set in pretix yet — that's a pretix data gap, not a bug here.
+name: Free clinic seat capacity
+
+on:
+  workflow_dispatch:
+    inputs:
+      seats:
+        description: "Assumed seats per clinic — used ONLY where pretix has no quota set"
+        required: false
+        default: "10"
+      reserve:
+        description: "Percent of free seats to hold for paying buyers (0-100)"
+        required: false
+        default: "50"
+
+# Read-only on purpose: a report must never be able to rewrite the schedule.
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      # Inputs are attacker-controllable in the general case, so they travel as
+      # environment variables and are validated before anything interpolates
+      # them into a command. Never paste ${{ inputs.* }} straight into a run
+      # block — that is a shell injection waiting to happen.
+      - name: Check the inputs
+        env:
+          SEATS: ${{ inputs.seats }}
+          RESERVE: ${{ inputs.reserve }}
+        run: |
+          case "$SEATS" in
+            ''|*[!0-9]*) echo "::error::seats must be a whole number, got '$SEATS'"; exit 1 ;;
+          esac
+          case "$RESERVE" in
+            ''|*[!0-9]*) echo "::error::reserve must be a whole number 0-100, got '$RESERVE'"; exit 1 ;;
+          esac
+          if [ "$RESERVE" -gt 100 ]; then
+            echo "::error::reserve is a percent, so it cannot exceed 100 (got $RESERVE)"; exit 1
+          fi
+
+      - name: Pull a fresh snapshot from pretix
+        env:
+          PRETIX_TOKEN: ${{ secrets.PRETIX_TOKEN }}
+          PRETIX_URL: ${{ vars.PRETIX_URL || 'https://pretix.eu' }}
+          PRETIX_ORGANIZER: ${{ vars.PRETIX_ORGANIZER || 'gunksclimbers' }}
+          PRETIX_EVENT: ${{ vars.PRETIX_EVENT || 'gunksfest2026' }}
+          # Outside the working tree, so a report run can never dirty the repo.
+          PRETIX_OUT: ${{ runner.temp }}/schedule.json
+        run: node scripts/fetch-pretix.mjs
+
+      - name: Work out the seat capacity
+        env:
+          SEATS: ${{ inputs.seats }}
+          RESERVE: ${{ inputs.reserve }}
+          SNAPSHOT: ${{ runner.temp }}/schedule.json
+        run: |
+          # The script takes a fraction; the input is a percent because that is
+          # how people say it. awk rather than $(( )) — this needs decimals.
+          fraction=$(awk -v p="$RESERVE" 'BEGIN { printf "%.4f", p / 100 }')
+
+          node scripts/free-seat-capacity.mjs \
+            --data "$SNAPSHOT" \
+            --seats "$SEATS" \
+            --reserve "$fraction" | tee "$RUNNER_TEMP/report.txt"
+
+          # Put it on the run's summary page so the answer is readable without
+          # opening the log or downloading anything.
+          {
+            echo "## Free clinic seat capacity"
+            echo
+            echo "Assumed **$SEATS seats** per clinic where pretix has no quota · **$RESERVE%** held for paying buyers"
+            echo
+            echo '```'
+            cat "$RUNNER_TEMP/report.txt"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Attach the snapshot it was computed from
+        uses: actions/upload-artifact@v4
+        with:
+          name: schedule-snapshot
+          path: ${{ runner.temp }}/schedule.json
+          retention-days: 14

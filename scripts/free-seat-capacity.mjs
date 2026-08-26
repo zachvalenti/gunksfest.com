@@ -6,6 +6,12 @@
  *   node scripts/free-seat-capacity.mjs                # uses real quota data
  *   node scripts/free-seat-capacity.mjs --seats 12     # assume 12 seats/clinic
  *   node scripts/free-seat-capacity.mjs --reserve 0.5  # keep 50% for buyers
+ *   node scripts/free-seat-capacity.mjs --data /tmp/s.json   # read another snapshot
+ *
+ * --data is what lets a CI job report on a FRESH pull without committing it:
+ * point fetch-pretix.mjs at a scratch file via PRETIX_OUT, then point this at
+ * the same path. Relative paths resolve against the working directory, not the
+ * script, so it behaves like every other CLI tool the caller already knows.
  *
  * WHY BLOCKS AND NOT A TOTAL
  *
@@ -25,17 +31,46 @@
 import { readFile } from "node:fs/promises";
 
 const argv = process.argv.slice(2);
-const arg = (name, fallback) => {
+const raw = (name) => {
   const i = argv.indexOf(`--${name}`);
-  return i > -1 && argv[i + 1] != null ? Number(argv[i + 1]) : fallback;
+  return i > -1 && argv[i + 1] != null ? argv[i + 1] : null;
 };
-// The share of each free clinic's seats to hold back for paying buyers.
+const arg = (name, fallback) => {
+  const v = raw(name);
+  if (v == null) return fallback;
+  const n = Number(v);
+  if (!Number.isFinite(n)) {
+    console.error(`--${name} needs a number, got "${v}".`);
+    process.exit(2);
+  }
+  return n;
+};
+
+// The share of each free clinic's seats to hold back for paying buyers. A
+// fraction, not a percentage — 0.5 means half. Guarded because --reserve 50 is
+// the obvious slip, and left unchecked it silently reports a NEGATIVE headroom
+// rather than failing.
 const RESERVE = arg("reserve", 0.5);
+if (RESERVE < 0 || RESERVE > 1) {
+  console.error(`--reserve is a fraction between 0 and 1 (0.5 = half). Got ${RESERVE}.`);
+  process.exit(2);
+}
 // Used only for clinics with no quota set in pretix, so the report still has a
 // shape before the seat counts are filled in. Null means "leave it unknown".
 const ASSUME = arg("seats", null);
 
-const data = JSON.parse(await readFile(new URL("../data/schedule.json", import.meta.url), "utf8"));
+// Default to the committed snapshot; --data overrides, resolved against cwd.
+const source = raw("data")
+  ? new URL(raw("data"), `file://${process.cwd()}/`)
+  : new URL("../data/schedule.json", import.meta.url);
+
+let data;
+try {
+  data = JSON.parse(await readFile(source, "utf8"));
+} catch (err) {
+  console.error(`Could not read the schedule at ${decodeURIComponent(source.pathname)} — ${err.message}`);
+  process.exit(1);
+}
 const tz = data.shop?.timezone || "America/New_York";
 
 const fmt = (iso, opts) =>
