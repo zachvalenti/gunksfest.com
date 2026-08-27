@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-23T02:02:29.986Z",
+  "generated": "2026-08-27T21:09:47.323Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -45,6 +45,13 @@
     {
       "id": 290461,
       "name": "Friday Programming",
+      "description": null,
+      "position": 0,
+      "isAddon": true
+    },
+    {
+      "id": 291463,
+      "name": "Monday Clinics",
       "description": null,
       "position": 0,
       "isAddon": true
@@ -173,6 +180,29 @@
           "start": "2026-10-10T13:00:00.000Z",
           "end": "2026-10-10T20:00:00.000Z",
           "location": "This clinic meets at the Mohonk Preserve Visitor Center."
+        },
+        {
+          "id": 1134227,
+          "name": "Not Your Typical CPR: Adult + Child CPR/AED for Climbers",
+          "rawName": "Not Your Typical CPR: Adult + Child CPR/AED for Climbers (Saturday 9am-2pm)",
+          "description": "<p><em>Instructors: Raquel Sapp + Brittany Leavitt, Backcountry Pulse</em></p><p>CERTIFICATION COURSE</p><p>CPR classes can feel clinical and disconnected from the places where emergencies actually happen. This one is built for climbers, and just may be the most important skill you ever bring to the crag.</p><p>In this hands-on course, participants will learn and practice rescuer psychological preparedness, adult and child CPR, AED use, choking care, and the early actions that can make a meaningful difference while help is on the way. </p><p>We will place those skills in situations that feel familiar to climbers: working in an outdoor setting, making use of the resources available, and figuring out what needs to happen next.</p><p>Participant Benefit:  Certification - Everyone who completes the course and exam will receive a Backcountry Pulse Adult + Child CPR/AED certification!</p><p><strong>Prerequisites:  None</strong><br /><strong>Required Gear: None. Backcountry Pulse will provide CPR manikins, AED trainers, and course equipment</strong></p>",
+          "category": "Saturday Clinics",
+          "categoryId": 282660,
+          "price": "150.00",
+          "priceFrom": false,
+          "freePrice": false,
+          "hasVariations": false,
+          "allowWaitinglist": true,
+          "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1134227-28dedbfb-d347-4710-9192-d196de1c4999.bee495af6f6abf.png",
+          "isAddon": true,
+          "meta": {
+            "difficulty": "All Levels"
+          },
+          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
+          "slotId": "1134227-61353",
+          "start": "2026-10-10T13:00:00.000Z",
+          "end": "2026-10-10T18:00:00.000Z",
+          "location": "Meet at Mohonk Preserve Visitor Center."
         },
         {
           "id": 1119446,
@@ -503,6 +533,29 @@
           "location": "Meet at the Mohonk Preserve Visitor Center."
         },
         {
+          "id": 1134276,
+          "name": "Antlion Tour",
+          "rawName": "Antlion Tour (Monday 9am-1pm)",
+          "description": "<p>Join us for a guided walking tour of the Antlion cliff. You'll be guided by Peter Cody, Chairman of the GCC and one of the cliff's developers with many first ascents to his name.</p><p>Pete will point out classics, hidden gems, routes with great protection, good for breaking into the grade routes, and notorious sandbags, as well as provide some history behind this wilderness crag.</p><p>Please note this tour requires a long uphill approach, approximately 1hr of hiking each way with significant elevation gain. </p><p>You will be responsible for setting up your own ropes, but time will be allotted for climbing.</p><p>Come prepared for a day of climbing: snacks, plenty of water, sturdy hiking shoes, and your full climbing kit!</p><p>This clinic departs from the Campground and will require personal transportation!</p>",
+          "category": "Monday Clinics",
+          "categoryId": 291463,
+          "price": "0.00",
+          "priceFrom": false,
+          "freePrice": false,
+          "hasVariations": false,
+          "allowWaitinglist": true,
+          "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1134276-966a5dec-812a-4a7f-90a3-d56c9c5180ac.85d53adcc16e33.jpg",
+          "isAddon": true,
+          "meta": {
+            "difficulty": "All Levels"
+          },
+          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
+          "slotId": "1134276-61382",
+          "start": "2026-10-11T13:00:00.000Z",
+          "end": "2026-10-11T18:00:00.000Z",
+          "location": "This clinic departs from the Campground and will require personal transportation!"
+        },
+        {
           "id": 1119444,
           "name": "Because Things Happen: Self Rescue",
           "rawName": "Because Things Happen: Self Rescue (Sunday 9am-4pm)",
@@ -593,6 +646,29 @@
           "start": "2026-10-11T13:00:00.000Z",
           "end": "2026-10-11T15:00:00.000Z",
           "location": "This clinic meets at the Mohonk Preserve visitor center."
+        },
+        {
+          "id": 1134242,
+          "name": "Cragside First Aid: Climbing Injuries, Bleeding Control & Improvised Care",
+          "rawName": "Cragside First Aid: Climbing Injuries, Bleeding Control & Improvised Care (Sunday 9-1pm)",
+          "description": "<p><em>Instructors: Raquel Sapp + Brittany Leavitt, Backcountry Pulse</em></p><p>This hands-on clinic focuses on what you can do in those first moments with the skills, people, and equipment around you. </p><p>We will work through the traumatic injuries most relevant to climbing falls and accidents, including head and spinal trauma, ankle and lower-extremity injuries, fractures and dislocations, significant bleeding and wounds, and shoulder and upper-extremity injuries.</p><p>Rather than focusing on making a perfect diagnosis, we will practice slowing things down enough to notice what matters: what happened, what injuries are most concerning, whether mental or neurologic status is changing, whether circulation and sensation are intact, and what can safely be treated or supported while additional help is on the way.</p><p>Participants will practice bleeding control, neurologic and injury assessment, stabilization, and ongoing reassessment. Bring your creative thinking caps! We will explore practical ways to support injuries and improvise care when fully stocked medical kits are not available. We will leave time at the end to strategically plan your personal first aid kit! </p><p>Participant Benefit:  First Aid Swag!</p><p><strong>Prerequisites:  None</strong><br /><strong>Required Gear: Participants should bring the equipment they would normally have for a day at the crag so that improvisation practice reflects what they actually carry</strong></p><p>Suggested items include:<br />Day-climbing pack<br />Climbing helmet<br />Harness<br />Climbing gear<br />Extra layer or jacket</p><p>Backcountry Pulse will provide medical training equipment and additional scenario and improvisation materials.<br />.</p>",
+          "category": "Sunday Clinics",
+          "categoryId": 282661,
+          "price": "100.00",
+          "priceFrom": false,
+          "freePrice": false,
+          "hasVariations": false,
+          "allowWaitinglist": true,
+          "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-None-0733d147-5162-475e-8b5c-16162a05f1ab.bee495af6f6abf.png",
+          "isAddon": true,
+          "meta": {
+            "difficulty": "All Levels"
+          },
+          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
+          "slotId": "1134242-61358",
+          "start": "2026-10-11T13:00:00.000Z",
+          "end": "2026-10-11T17:00:00.000Z",
+          "location": "Meet at Mohonk Preserve Visitor Center."
         },
         {
           "id": 1119372,
@@ -938,6 +1014,35 @@
           "start": "2026-10-11T18:00:00.000Z",
           "end": "2026-10-11T22:00:00.000Z",
           "location": "Meet at afternoon clinic meeting location."
+        }
+      ]
+    },
+    {
+      "date": "2026-10-12",
+      "label": "Monday, October 12",
+      "sessions": [
+        {
+          "id": 1134260,
+          "name": "The First 30 Minutes: Climbing Scenario Lab & SAR Handoff",
+          "rawName": "The First 30 Minutes: Climbing Scenario Lab & SAR Handoff (Monday 9am-1pm)",
+          "description": "<p><em>Instructors: Raquel Sapp + Brittany Leavitt, Backcountry Pulse</em></p><p>Part III in our inaugural Climbing First Aid series, led by the amazing team at Backcountry Pulse!</p><p>The first few minutes after a climbing accident rarely feel organized. There may be several people trying to help, incomplete information, an injured partner who is scared or in pain, and no obvious answer to what should happen first.</p><p>This workshop is a chance to practice that part before you ever have to do it for real.</p><p>Working in small groups, participants will respond to realistic climbing accident scenarios informed by incident patterns reported in the Gunks and Accidents in North American Climbing. Scenarios may involve a leader fall with head trauma, a significant lower-extremity injury, or a fall with possible spinal or neurologic concerns.</p><p>Rather than being told exactly what to do, each group will work through the situation together: assessing the scene and patient, identifying priorities, providing initial care, using the people and resources available, activating help, communicating location and patient information, and continuing to reassess as the situation changes.</p><p>Throughout the scenarios, participants will document patient information, assessments, treatments, vital signs, and changes over time. Each scenario ends with an often-overlooked part of climbing emergency response: organizing what you know and providing a clear, useful patient handoff to Search and Rescue so the next team can build on the care already underway.</p><p>Participant Benefit: Rescue Ally App - Everyone who participates in The First 30 Minutes will receive an exclusive workshop offer for lifetime access to Rescue Ally for $25,  a $75 value!</p><h4>Prerequisites:  None. However, it is best suited for participants with some wilderness medicine training/experience</h4><h4>Required Gear:</h4><p>Participants should bring:<br />Day-climbing pack<br />Climbing helmet<br />Harness<br />Smartphone with Rescue Ally free trial downloaded<br />Climbing Gear<br />Extra layer or jacket</p><p>Backcountry Pulse will provide all equipment, medical training materials, and scenario supplies.</p><p>.</p>",
+          "category": "Monday Clinics",
+          "categoryId": 291463,
+          "price": "100.00",
+          "priceFrom": false,
+          "freePrice": false,
+          "hasVariations": false,
+          "allowWaitinglist": true,
+          "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-None-7a9053a4-ef34-46c9-83dd-b2cdf3757947.bee495af6f6abf.png",
+          "isAddon": true,
+          "meta": {
+            "difficulty": "Intermediate"
+          },
+          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
+          "slotId": "1134260-61373",
+          "start": "2026-10-12T13:00:00.000Z",
+          "end": "2026-10-12T17:00:00.000Z",
+          "location": "New Paltz, NY"
         }
       ]
     }
