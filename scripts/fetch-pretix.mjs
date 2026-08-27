@@ -219,6 +219,37 @@ function dayLabel(iso, tz) {
   }).format(new Date(iso));
 }
 
+/** The weekday an instant falls on, in the event's timezone. "Monday". */
+function weekday(iso, tz) {
+  return new Intl.DateTimeFormat("en-US", { timeZone: tz, weekday: "long" }).format(new Date(iso));
+}
+
+/**
+ * Warns when a product's name disagrees with the time it is scheduled at.
+ *
+ * Clinic names in pretix carry the day in a trailing "(Monday 9am-1pm)", and
+ * the program time is entered separately — so the two can drift apart, and one
+ * of them is then wrong on a page people plan a trip around. Nothing here can
+ * say which one: the name is written by a human and the time is the bookable
+ * slot, and either could be the mistake. So this only points at the pair and
+ * leaves the fix in pretix, where both live.
+ *
+ * A warning, not an error: a wrong day is worth shouting about, but it is not
+ * worth refusing to publish the other 40 clinics over.
+ */
+function warnOnDayMismatch(sessions, tz) {
+  for (const s of sessions) {
+    const named = String(s.rawName || "").match(/\((Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*\b[^)]*\)\s*$/i);
+    if (!named) continue;
+    const actual = weekday(s.start, tz);
+    if (actual.toLowerCase().startsWith(named[1].toLowerCase())) continue;
+    console.warn(
+      `Day mismatch: "${s.rawName}" is scheduled on ${actual}, ` +
+      `${dayKey(s.start, tz)}. Fix the program time or the name in pretix.`
+    );
+  }
+}
+
 /**
  * pretix stores item descriptions as Markdown and only renders them in its own
  * storefront — the REST API hands back the raw source. Convert a safe subset
@@ -270,7 +301,12 @@ function mdToHtml(src) {
   const blocks = src.replace(/\r\n?/g, "\n").trim().split(/\n{2,}/);
   const out = [];
   for (const block of blocks) {
-    const lines = block.split("\n").filter((l) => l.trim());
+    // Blank lines go, and so do lines that are nothing but punctuation. Authors
+    // in the pretix editor leave a stray "." or a "---" behind at the end of a
+    // description often enough to be worth handling: the line carries no words,
+    // so it can only render as a lone full stop hanging under the last
+    // paragraph. A block left with no lines at all is dropped entirely.
+    const lines = block.split("\n").filter((l) => l.trim() && !/^[.\u2026,;:!?*_\-]+$/.test(l.trim()));
     if (!lines.length) continue;
 
     const heading = lines[0].match(/^(#{1,6})\s+(.*)$/);
@@ -415,6 +451,7 @@ async function main() {
   }
 
   sessions.sort((a, b) => a.start.localeCompare(b.start) || (a.name || "").localeCompare(b.name || ""));
+  warnOnDayMismatch(sessions, tz);
 
   const days = [];
   for (const s of sessions) {
