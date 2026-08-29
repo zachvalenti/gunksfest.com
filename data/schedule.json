@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-27T21:35:02.525Z",
+  "generated": "2026-08-29T16:45:56.987Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -9,7 +9,7 @@
     "name": "GunksFest 2026",
     "currency": "USD",
     "timezone": "US/Eastern",
-    "live": false,
+    "live": true,
     "dateFrom": "2026-10-09T10:00:00+02:00",
     "dateTo": "2026-10-12T17:00:00+02:00"
   },
