@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-29T16:45:56.987Z",
+  "generated": "2026-08-29T20:58:10.591Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -604,7 +604,7 @@
         {
           "id": 1122747,
           "name": "Climbing Psychology and Mindset Workshop",
-          "rawName": "Climbing Psychology and Mindset Workshop",
+          "rawName": "Climbing Psychology and Mindset Workshop (Sunday 9am-11am)",
           "description": "<p>Instructor: Jane Bishow-Semevolos, Guide, Genuine Climbing</p><p>Join Jane for an incredibly unique journey through the mental planes of climbing.</p><p>Elevate your climbing experience by building a stronger, more intentional mindset. Whether your goal is to push higher grades, find flow state more consistently, or simply bring more purpose to your sessions, this workshop will give you the tools to get there.</p><p>What We'll Cover:</p><p>Key Concepts: Growth mindset, flow state, expanding comfort zones, and understanding motivation.</p><p>Practical Tools: Visualization techniques, cultivating curiosity, and actionable goal setting.</p><p>What to Expect:<br />This is an interactive, experiential workshop—not a lecture. Come ready to move, try new approaches, and learn through doing.</p><p>Prerequisites: None<br />Required Gear: None</p>",
           "category": "Sunday Clinics",
           "categoryId": 282661,
