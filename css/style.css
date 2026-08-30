@@ -702,6 +702,17 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
 .tickets-fallback a, .tickets-note a { color: #fff; font-weight: 600; }
 
 /* ---------- Volunteer ---------- */
+/* The section sits over a photo now, so the two things .section-photo doesn't
+   already handle — the ticked list and the note under the button — need the
+   white-on-dark treatment the rest of the section gets for free. The white
+   side card needs nothing: it brings its own background. */
+.section-volunteer .pass-list li { color: rgba(255, 255, 255, 0.92); text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5); }
+.section-volunteer .pass-note { color: rgba(255, 255, 255, 0.85); text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5); }
+.section-volunteer .pass-note a { color: #fff; }
+/* The tick marks are drawn in leaf green, which is too dark against the scrim
+   — see .pass-list li::before for how the mark itself is made. */
+.section-volunteer .pass-list li::before { border-color: var(--color-accent-light); }
+
 .volunteer-layout { display: grid; gap: 1.5rem; grid-template-columns: 1fr; align-items: start; }
 @media (min-width: 820px) {
   .volunteer-layout { grid-template-columns: 1.4fr 1fr; gap: 2.5rem; }
