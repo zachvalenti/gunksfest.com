@@ -700,6 +700,17 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
 }
 .tickets-fallback a, .tickets-note a { color: #fff; font-weight: 600; }
+/* Only ever seen on a file:// preview, never by a visitor — see js/tickets.js.
+   Styled to look like a warning rather than like copy, so nobody mistakes it
+   for something the page meant to say. */
+.tickets-fallback.is-devnote {
+  padding: 0.9rem 1.1rem; border-left: 3px solid #f0b429;
+  background: rgba(0, 0, 0, 0.45); border-radius: 0 var(--radius) var(--radius) 0;
+}
+.tickets-fallback.is-devnote code {
+  display: inline-block; margin-top: 0.3rem; padding: 0.15rem 0.45rem;
+  background: rgba(255, 255, 255, 0.15); border-radius: 4px; font-size: 0.9em;
+}
 
 /* ---------- Volunteer ---------- */
 /* The section sits over a photo now, so the two things .section-photo doesn't

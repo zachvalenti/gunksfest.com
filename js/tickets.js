@@ -65,11 +65,21 @@
       GunksPretix.loadAvailability(shop, function (byId) { stamp(byId); });
     })
     .catch(function (err) {
-      // The shipped markup already names the pass and links to the shop, so
-      // there is nothing to apologise for on screen — but say something useful
-      // in the console, because the overwhelmingly likely cause is the local
-      // preview trap below rather than anything wrong with the site.
       if (window.console) console.warn("tickets: " + err.message + fileProtocolHint());
+
+      /* A visitor gets no apology — the pass above still has its real price and
+         a working buy link, which is the whole point of putting them in the
+         markup. But file:// can only ever be someone previewing from disk, so
+         that one case gets the answer on the page rather than buried in a
+         console nobody has open. A diagnostic you have to go looking for is a
+         diagnostic that doesn't get read. */
+      if (window.location.protocol === "file:" && fallbackEl) {
+        fallbackEl.innerHTML =
+          "<strong>This page is open from disk.</strong> Browsers block a file:// " +
+          "page from fetching its own data, so the ticket list can't load. " +
+          "Serve the folder instead: <code>npx http-server -p 8080 -c-1 .</code>";
+        fallbackEl.className = "tickets-fallback is-devnote";
+      }
     });
 
   /* Opening index.html straight off disk gives the page a file:// origin, and
