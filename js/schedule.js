@@ -21,6 +21,11 @@
  * call: what does the visitor see if this never comes back? If the answer is
  * "nothing", move it off the critical path.
  *
+ * The pretix-facing half of that — asking the widget endpoint what is still on
+ * sale, sanitising descriptions, formatting money — lives in js/pretix.js,
+ * because index.html's ticket list needs exactly the same three things. This
+ * file loads after it and reads it as GunksPretix.
+ *
  * The rendering approach is the other half: state lives in one `state` object,
  * render() rebuilds the list from it, and every interaction changes state and
  * calls render() again rather than reaching in to patch individual elements.
@@ -44,9 +49,6 @@
   // ?demo=1 renders the bundled sample line-up — handy for checking the layout
   // before the real shop exists. Never used on a normal page load.
   if (/[?&]demo=1\b/.test(window.location.search)) DATA_URL = "data/schedule.example.json";
-
-  // pretix Quota availability states (pretix/base/models/items.py)
-  var AVAIL_GONE = 0, AVAIL_ORDERED = 10, AVAIL_RESERVED = 20, AVAIL_OK = 100;
 
   // Filters are two facets: cost (Free / Paid) and level (Beginner /
   // Intermediate / Advanced), ANDed together — pick Free and Beginner and you
@@ -77,7 +79,12 @@
     .then(function (data) {
       state.data = data;
       render();
-      if (hasSessions(data) && data.shop && data.shop.widget) loadAvailability(data.shop);
+      if (hasSessions(data)) {
+        GunksPretix.loadAvailability(data.shop, function (byId) {
+          state.avail = byId;
+          applyAvailability(byId);
+        });
+      }
     })
     .catch(function (err) {
       setStatus(
@@ -466,31 +473,18 @@
     }
   }
 
-  /* ---------- live availability from the pretix widget endpoint ---------- */
+  /* ---------- live availability ---------- */
 
-  function loadAvailability(shop) {
-    var url = shop.widget + (shop.widget.indexOf("?") > -1 ? "&" : "?") + "lang=en";
-    fetch(url, { mode: "cors", credentials: "omit" })
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (widget) {
-        if (!widget || widget.error || !widget.items_by_category) return;
-        var byId = {};
-        widget.items_by_category.forEach(function (group) {
-          (group.items || []).forEach(function (item) { byId[item.id] = item; });
-        });
-        state.avail = byId;
-        applyAvailability(byId);
-      })
-      .catch(function () { /* snapshot prices and links are still fine */ });
-  }
-
+  /* The fetching and the "what does this quota state mean" reading both live in
+     js/pretix.js; what stays here is the part that is about this page — finding
+     the card for an item id and stamping the badge onto it. */
   function applyAvailability(byId) {
     Array.prototype.forEach.call(root.querySelectorAll(".session"), function (card) {
       var item = byId[card.dataset.itemId];
       var badge = card.querySelector(".session-badge");
       if (!item || !badge) return;
 
-      var info = describeAvailability(item);
+      var info = GunksPretix.describeAvailability(item);
       if (!info) return;
 
       badge.textContent = info.text;
@@ -498,33 +492,6 @@
       badge.hidden = false;
       card.classList.toggle("is-gone", info.tone === "gone");
     });
-  }
-
-  function describeAvailability(item) {
-    // Variations each carry their own availability; the item is open if any is.
-    var states = item.has_variations && item.variations && item.variations.length
-      ? item.variations.map(function (v) { return v.avail; })
-      : [item.avail];
-    states = states.filter(Boolean);
-    if (!states.length) {
-      return item.current_unavailability_reason ? { text: "Not on sale", tone: "gone" } : null;
-    }
-
-    var best = Math.max.apply(null, states.map(function (a) { return a[0]; }));
-    if (best === AVAIL_OK) {
-      // avail[1] is the number left, but only when the shop is set to show it.
-      var left = states.reduce(function (sum, a) {
-        return a[0] === AVAIL_OK && typeof a[1] === "number" ? sum + a[1] : sum;
-      }, 0);
-      if (left > 0 && left <= 5) return { text: left === 1 ? "1 spot left" : left + " spots left", tone: "low" };
-      return { text: "Open", tone: "open" };
-    }
-    if (best === AVAIL_RESERVED || best === AVAIL_ORDERED) {
-      return { text: "Currently reserved", tone: "low" };
-    }
-    return item.allow_waitinglist
-      ? { text: "Waiting list", tone: "gone" }
-      : { text: "Sold out", tone: "gone" };
   }
 
   /* ---------- formatting helpers ---------- */
@@ -569,86 +536,14 @@
         ? { text: "Pay what you can", included: false }
         : { text: "Included", included: true };
     }
-    var currency = (state.data.shop && state.data.shop.currency) || "USD";
-    var text;
-    try {
-      text = new Intl.NumberFormat("en-US", {
-        style: "currency", currency: currency,
-        minimumFractionDigits: n % 1 ? 2 : 0,
-      }).format(n);
-    } catch (e) {
-      text = "$" + n.toFixed(2);
-    }
+    var text = GunksPretix.money(n, state.data.shop && state.data.shop.currency);
     // Leading "+" because every clinic is an add-on: the fee is on top of a day
     // or weekend pass, never the whole cost of attending.
     return { text: (s.priceFrom ? "from " : "") + "+" + text, included: false };
   }
 
-  function esc(str) {
-    return String(str).replace(/[&<>"']/g, function (c) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
-    });
-  }
-
-  /* pretix hands back rendered HTML for descriptions. It comes from our own
-     backend, but this page is public, so keep it to a boring tag allowlist
-     rather than trusting the string wholesale.
-
-     The principle, which generalises well beyond HTML: allowlist, never
-     blocklist. A blocklist ("strip <script>") requires you to have thought of
-     every dangerous case in advance, and attackers are in the business of
-     finding the one you missed — an onerror attribute, an SVG, a javascript:
-     URL, a nested tag that survives the first pass. An allowlist requires you
-     to have thought of the safe cases, and anything you forget merely fails to
-     render. Getting it wrong is a missing <em>, not a stolen session.
-
-     Note also that this is the second check, not the only one: the sync script
-     already escaped the text before converting Markdown. Layering two
-     independent defences means a mistake in either one alone isn't a hole. */
-  var ALLOWED = {
-    P: 1, BR: 1, STRONG: 1, B: 1, EM: 1, I: 1, UL: 1, OL: 1, LI: 1, A: 1, SPAN: 1,
-    // Descriptions are Markdown converted at sync time; these are what it emits.
-    H4: 1, H5: 1, H6: 1, CODE: 1
-  };
-  // Unwrapping these would spill code or alt text into the page as prose, so
-  // they get removed outright, contents and all.
-  var DROP = { SCRIPT: 1, STYLE: 1, IFRAME: 1, OBJECT: 1, EMBED: 1, TEMPLATE: 1, NOSCRIPT: 1, SVG: 1 };
-
-  function sanitize(html) {
-    // Parse into a <template>, whose contents are an inert fragment: images
-    // don't load and no handler runs, so a hostile `onerror` never fires while
-    // we're still scrubbing. A plain detached <div> is NOT safe here.
-    var tpl = document.createElement("template");
-    tpl.innerHTML = String(html);
-    scrub(tpl.content);
-    var out = document.createElement("div");
-    out.appendChild(tpl.content);
-    return out.innerHTML;
-  }
-
-  function scrub(node) {
-    Array.prototype.slice.call(node.children).forEach(function (el) {
-      // SVG/MathML keep their original case in tagName, so normalise first.
-      var tag = el.tagName.toUpperCase();
-      if (DROP[tag]) {
-        node.removeChild(el);
-        return;
-      }
-      if (!ALLOWED[tag]) {
-        // Keep the words, drop the tag.
-        while (el.firstChild) node.insertBefore(el.firstChild, el);
-        node.removeChild(el);
-        return;
-      }
-      Array.prototype.slice.call(el.attributes).forEach(function (attr) {
-        var ok = tag === "A" && attr.name === "href" && /^(https?:|mailto:|\/|#)/i.test(attr.value);
-        if (!ok) el.removeAttribute(attr.name);
-      });
-      if (tag === "A") {
-        el.setAttribute("target", "_blank");
-        el.setAttribute("rel", "noopener nofollow");
-      }
-      scrub(el);
-    });
-  }
+  /* esc() and sanitize() are GunksPretix's — see js/pretix.js for why the
+     description HTML goes through a tag allowlist before it reaches the page. */
+  function esc(str) { return GunksPretix.esc(str); }
+  function sanitize(html) { return GunksPretix.sanitize(html); }
 })();

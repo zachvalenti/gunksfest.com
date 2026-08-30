@@ -165,6 +165,10 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; letter-spacing:
 .btn-ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,0.7); }
 .btn-ghost:hover { background: rgba(255,255,255,0.12); }
 .btn-lg { padding: 1rem 2.2rem; font-size: 1.05rem; }
+/* The other direction: a button small enough to repeat nine times down a list
+   without shouting. Same .btn shape, less of it. */
+.btn-small { padding: 0.5rem 1.2rem; font-size: 0.9rem; background: var(--color-accent-dk); color: #fff; }
+.btn-small:hover { background: var(--color-accent); }
 
 /* ---------- Header / Nav ---------- */
 /* Transparent overlay on the hero (only ever visible near the very top).
@@ -213,7 +217,13 @@ body.scrolled .site-header { transform: translateY(-100%); opacity: 0; pointer-e
 .brand-mark { font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; letter-spacing: -0.02em; }
 .brand-year { color: #fff; font-weight: 800; font-size: 1.4rem; }
 
-.nav-desktop { display: flex; gap: 1.6rem; align-items: center; }
+/* flex-wrap is the backstop, not the plan: the gap shrinks with the viewport
+   first, and only if the links still don't fit do they drop to a second row.
+   Without both, a nav that grows by one link some day silently pushes a
+   horizontal scrollbar onto every tablet — the kind of breakage nobody sees
+   because nobody browses their own site at 780px. */
+.nav-desktop { display: flex; flex-wrap: wrap; justify-content: flex-end;
+  gap: clamp(0.85rem, 2vw, 1.6rem); align-items: center; row-gap: 0.5rem; }
 .nav-desktop a { text-decoration: none; color: rgba(255, 255, 255, 0.92); font-weight: 600;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45); }
 .nav-desktop a:hover { color: var(--color-accent-light); }
@@ -627,6 +637,83 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
   color: var(--color-ink-soft); font-weight: 600;
 }
 .amenity-list li:last-child { border-bottom: 0; }
+
+/* The live badge on the headline pass card. It shares the .is-open / .is-low /
+   .is-gone tones with the clinic badges on the schedule page, because they are
+   stamped from the same pretix reading — see js/pretix.js. */
+.pass-badge {
+  display: inline-block; margin: -0.6rem 0 1rem; padding: 0.25rem 0.7rem;
+  border-radius: 999px; font-size: 0.78rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+
+/* ---------- The rest of the ticket line-up ---------- */
+/* Rendered by js/tickets.js from data/schedule.json. Nine products is too many
+   for the card treatment the headline pass gets, so these are rows: name and
+   price on one line, the pretix description under it, the action on the right. */
+.tickets { margin-top: 2.5rem; }
+.tickets-title {
+  margin: 0 0 1rem; font-size: 1.35rem; color: #fff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
+.ticket-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.9rem; }
+.ticket {
+  background: var(--color-cream); border-radius: var(--radius);
+  padding: 1.1rem 1.25rem; box-shadow: var(--shadow);
+  border-left: 4px solid var(--color-leaf);
+}
+/* A sold-out row stays legible and stays in the list — it is information, and
+   removing it just makes someone search for a ticket that isn't there. */
+.ticket.is-gone { opacity: 0.72; border-left-color: var(--color-stone); }
+
+/* baseline, not center: the title and the price are type of very different
+   sizes, and aligning their baselines is what makes them read as one line. */
+.ticket-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1rem; }
+.ticket-title { margin: 0; flex: 1 1 16rem; font-size: 1.05rem; color: var(--color-forest); }
+.ticket-price {
+  margin: 0; font-family: var(--font-display); font-weight: 800;
+  font-size: 1.35rem; color: var(--color-forest); white-space: nowrap;
+}
+.ticket-desc { margin: 0.5rem 0 0; color: var(--color-ink-soft); font-size: 0.95rem; }
+.ticket-desc p { margin: 0 0 0.4rem; }
+.ticket-desc p:last-child { margin-bottom: 0; }
+.ticket-desc a { color: var(--color-accent-dk); }
+.ticket-foot {
+  display: flex; align-items: center; justify-content: flex-end;
+  flex-wrap: wrap; gap: 0.75rem; margin-top: 0.9rem;
+}
+.ticket-badge {
+  margin: 0; margin-right: auto;                 /* badge left, button right */
+  padding: 0.25rem 0.7rem; border-radius: 999px;
+  font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+}
+
+/* One set of tones for both badges. Green reads "go", amber "hurry", grey
+   "stop" — and none of them rely on colour alone: the words say it too, which
+   is what makes the row work for someone who can't tell the three apart. */
+.pass-badge.is-open,  .ticket-badge.is-open  { background: #e3f2e4; color: #1c5a24; }
+.pass-badge.is-low,   .ticket-badge.is-low   { background: #fdf0d5; color: #7a4b00; }
+.pass-badge.is-gone,  .ticket-badge.is-gone  { background: #ece9e4; color: #59524a; }
+
+.tickets-fallback, .tickets-note {
+  margin: 1rem 0 0; color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
+.tickets-fallback a, .tickets-note a { color: #fff; font-weight: 600; }
+
+/* ---------- Volunteer ---------- */
+.volunteer-layout { display: grid; gap: 1.5rem; grid-template-columns: 1fr; align-items: start; }
+@media (min-width: 820px) {
+  .volunteer-layout { grid-template-columns: 1.4fr 1fr; gap: 2.5rem; }
+}
+.volunteer-main .pass-list { margin-bottom: 1.6rem; }
+.volunteer-side {
+  background: var(--color-cream); border-radius: var(--radius); padding: 1.5rem;
+  box-shadow: var(--shadow); border-top: 4px solid var(--color-accent-dk);
+}
+.volunteer-side h3 { margin: 0 0 0.5rem; font-size: 1.15rem; color: var(--color-forest); }
+.volunteer-side p { margin: 0; color: var(--color-ink-soft); }
+.volunteer-side a { color: var(--color-accent-dk); }
 
 /* ---------- Evening program ---------- */
 .evening-sub {

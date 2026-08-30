@@ -39,7 +39,7 @@
   <!-- Not used for ranking, but search engines usually show it as the snippet
        under the link, so it's the page's advert. ~155 characters before it's
        cut off. -->
-  <meta name="description" content="GunksFest is the annual climbing festival in the Shawangunks, presented by the Gunks Climbers Coalition in partnership with Mohonk Preserve. Clinics, vendors, films, and four days of camping on the $250 Stay &amp; Play pass. Coming October 9th - 12th, 2026." />
+  <meta name="description" content="Tickets are on sale for GunksFest 2026, the annual climbing festival in the Shawangunks, presented by the Gunks Climbers Coalition with Mohonk Preserve. Clinics, vendors, films, and four days of camping on the $250 Stay &amp; Play pass. October 9th - 12th, 2026." />
 
   <!-- Open Graph: the card that appears when the URL is pasted into a message,
        a social post or a chat. Without these tags the platform guesses — often
@@ -48,7 +48,7 @@
        not by a browser sitting on this page. -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="GunksFest V (2026) — A Shawangunks Climbing Festival" />
-  <meta property="og:description" content="Clinics, vendors, camping, and an evening film festival in the Shawangunks. Presented by the Gunks Climbers Coalition with Mohonk Preserve. October 9th - 12th, 2026." />
+  <meta property="og:description" content="Tickets on sale now. Clinics, vendors, camping, and an evening film festival in the Shawangunks. Presented by the Gunks Climbers Coalition with Mohonk Preserve. October 9th - 12th, 2026." />
   <meta property="og:url" content="https://gunksfest.com/" />
   <meta property="og:image" content="https://gunksfest.com/assets/img/og-image.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -65,6 +65,13 @@
   <link rel="icon" type="image/png" href="assets/img/favicon.png" />
   <link rel="apple-touch-icon" href="assets/img/favicon.png" />
   <link rel="stylesheet" href="css/style.css" />
+  <!-- js/tickets.js calls pretix for live availability once the page has
+       rendered. preconnect does the DNS lookup, TCP handshake and TLS
+       negotiation for that origin now, while the browser is otherwise busy
+       laying out the page, so the fetch itself starts on a warm connection.
+       crossorigin is required because that fetch is a CORS request — without
+       it the browser warms up a connection the fetch can't reuse. -->
+  <link rel="preconnect" href="https://pretix.eu" crossorigin />
 </head>
 <body>
   <!-- First focusable thing on the page, so one Tab press offers a keyboard
@@ -109,7 +116,8 @@
         <a href="clinics.html">Clinics</a>
         <a href="#stay-play">Tickets</a>
         <a href="#evening">Evening</a>
-        <a class="nav-cta" href="#stay-play">Get Updates</a>
+        <a href="#volunteer">Volunteer</a>
+        <a class="nav-cta" href="#stay-play">Get Tickets</a>
       </nav>
     </div>
   </header>
@@ -142,7 +150,8 @@
     <a href="clinics.html">Clinics</a>
     <a href="#stay-play">Tickets</a>
     <a href="#evening">Evening Program</a>
-    <a class="menu-cta" href="#stay-play">Get Updates</a>
+    <a href="#volunteer">Volunteer</a>
+    <a class="menu-cta" href="#stay-play">Get Tickets</a>
   </nav>
 
   <!-- <main> marks the page's primary content — one per document, excluding
@@ -169,7 +178,7 @@
         <p class="hero-tagline">The fifth annual celebration of climbing, stewardship, and community in the Shawangunks.</p>
         <p class="hero-date">October 9–12, 2026</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#stay-play">Get Updates</a>
+          <a class="btn btn-primary" href="#stay-play">Get Tickets</a>
           <a class="btn btn-ghost" href="#about">Learn More</a>
         </div>
       </div>
@@ -307,14 +316,25 @@
       <div class="container">
         <h2 id="stay-play-title">Stay &amp; Play</h2>
         <p class="lead">
-          Our all-access pass puts you on the grounds for the whole festival — with the
-          film festival, vendor village, and speakers a short walk from your tent.
+          Tickets are on sale. Our all-access pass puts you on the grounds for the whole
+          festival — with the film festival, vendor village, and speakers a short walk
+          from your tent — and there are day and film-only tickets below.
         </p>
 
         <div class="pass-layout">
-          <div class="pass-card">
+          <!-- data-item-id names the pretix product this hand-written card
+               describes. js/tickets.js uses it to stamp the live "Sold out" /
+               "3 spots left" badge below the price, and warns in the console if
+               pretix no longer has that id — which is the signal that the copy
+               in this card and the product in the shop have drifted apart. The
+               id is the same one in the buy link below, and both come from
+               data/schedule.json. -->
+          <div class="pass-card" data-item-id="1088250">
             <p class="pass-eyebrow">All-Access Pass</p>
             <p class="pass-price"><span class="pass-amount">$250</span></p>
+            <!-- Empty and `hidden` until pretix answers. A badge that says
+                 nothing is better than one that guesses. -->
+            <p class="pass-badge" hidden></p>
             <ul class="pass-list">
               <li>Camp with us Friday, October 9th through Monday, October 12th at the Ulster County Fairgrounds <span class="pass-value">($120 value)</span></li>
               <li>A four-day pass to the iconic Mohonk Preserve, with climbing privileges as a non-member <span class="pass-value">($100 value)</span></li>
@@ -324,8 +344,14 @@
               <li>Easy walking access to everything, right from your tent</li>
               <li>RV hookups available for an additional fee</li>
             </ul>
-            <a class="btn btn-primary" href="#updates">Get Ticket Updates</a>
-            <p class="pass-note">Ticket sales launching soon! <a href="https://forms.gle/2vmso2S3vBQL59tCA" target="_blank" rel="noopener">Discounts will be available for volunteers.</a></p>
+            <!-- ?item= preselects this pass in the shop's own list. Checkout
+                 happens on pretix rather than in a widget embedded here — the
+                 reasoning is in README.md, "Linking out vs embedding the
+                 widget". The .pass-cta class is the handle js/tickets.js uses
+                 to send this button back to the updates list if the shop turns
+                 out not to be open yet. -->
+            <a class="btn btn-primary pass-cta" href="https://pretix.eu/gunksclimbers/gunksfest2026/?item=1088250" target="_blank" rel="noopener">Get Your Pass</a>
+            <p class="pass-note">Volunteering earns you a discount on your pass — <a href="https://script.google.com/macros/s/AKfycbxzDdPAMZbNi7ckt9Lm30IkVRR8i6zDBTN19dVXH7HfvjEkNMNFJ5MHGi5L8vicEAg/exec" target="_blank" rel="noopener">sign up on the volunteer page</a> before you buy.</p>
           </div>
 
           <div class="pass-side">
@@ -337,6 +363,79 @@
               <li>Covered pavilion space</li>
               <li>15 minutes to the cliff, even less to New Paltz</li>
             </ul>
+          </div>
+        </div>
+
+        <!-- ============ EVERY TICKET, FROM PRETIX ============ -->
+        <!-- Filled by js/tickets.js from data/schedule.json — the same
+             committed snapshot the clinics page renders, so a price here can
+             never disagree with the same price there.
+
+             What ships in the markup is what a visitor gets when scripting is
+             off or the fetch fails: the pass above, with its real price and a
+             working buy link, and this paragraph pointing at the shop. That is
+             a complete and true page on its own, which is the test worth
+             applying to anything built this way — not "does the enhancement
+             work" but "is what's left without it still the thing the visitor
+             came for". -->
+        <div class="tickets" id="tickets">
+          <h3 class="tickets-title">Other ways in</h3>
+          <ul class="ticket-list" id="tickets-list" hidden></ul>
+          <p class="tickets-fallback" id="tickets-fallback">
+            Weekend passes, single-day passes and film-only tickets are all on our
+            <a href="https://pretix.eu/gunksclimbers/gunksfest2026/" target="_blank" rel="noopener">ticket shop</a>.
+          </p>
+          <p class="tickets-note" id="tickets-note" hidden>
+            Clinics are added during checkout, on top of whichever ticket you pick —
+            <a href="clinics.html">browse the line-up</a> first if you want to plan your days.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="rope-divider" role="presentation"><svg class="rope" width="100%" height="90" aria-hidden="true" focusable="false"><path class="rope-body" d="M-20,45 L3200,45"/><path class="rope-fleck" fill="none" stroke="url(#fleckA)" d="M-20,45 L3200,45"/><path class="rope-fleck" fill="none" stroke="url(#fleckB)" d="M-20,45 L3200,45"/></svg></div>
+
+    <!-- ============ VOLUNTEER ============ -->
+    <!-- The registration page itself is a Google Apps Script web app, kept off
+         this site on purpose. It writes to the GCC's own spreadsheet and needs
+         to keep working when nobody is around to redeploy a static site, so it
+         is linked to rather than embedded: an <iframe> here would inherit this
+         page's width and none of its styling, break the back button, and hand
+         the visitor a form they can't tell is ours anyway. A link is honest
+         about crossing a boundary, and it can't take the page down with it. -->
+    <section class="section section-alt" id="volunteer" aria-labelledby="volunteer-title">
+      <div class="container">
+        <h2 id="volunteer-title">Volunteer with Us</h2>
+        <p class="lead">
+          GunksFest runs on volunteers. A few hours at registration, on the shuttle,
+          or at the film tent earns you a discount on your pass — and the best seat
+          in the house for the weekend.
+        </p>
+        <div class="volunteer-layout">
+          <div class="volunteer-main">
+            <ul class="pass-list">
+              <li>Shifts across all four days, from Friday set-up to Monday tear-down</li>
+              <li>A discount on your pass — sign up before you buy so we can send you the code</li>
+              <li>Roles for every skill set: registration, shuttle, film tent, vendor village, clean-up</li>
+              <li>Volunteer meals, and a crew to spend the weekend with</li>
+            </ul>
+            <!-- The registration page lives on script.google.com, which is
+                 visibly not this site — so the link says where it goes rather
+                 than letting the new tab be a surprise. -->
+            <a class="btn btn-primary btn-lg" href="https://script.google.com/macros/s/AKfycbxzDdPAMZbNi7ckt9Lm30IkVRR8i6zDBTN19dVXH7HfvjEkNMNFJ5MHGi5L8vicEAg/exec" target="_blank" rel="noopener">
+              Register to Volunteer
+            </a>
+            <p class="pass-note">
+              Opens our volunteer registration form. Questions first?
+              <a href="mailto:events@gunksclimbers.org?subject=GunksFest%202026%20volunteering">Email us</a>.
+            </p>
+          </div>
+          <div class="volunteer-side">
+            <h3>Already have a ticket?</h3>
+            <p>
+              Sign up anyway — we'll sort the discount out with you directly. And if you
+              are still deciding, the <a href="#stay-play">pass options</a> are just above.
+            </p>
           </div>
         </div>
       </div>
@@ -412,8 +511,8 @@
       <div class="container narrow">
         <h2 id="updates-title">Stay in the Loop</h2>
         <p class="lead">
-          Clinic schedules and tickets for GunksFest 2026 are coming soon.
-          Email us to be the first to know.
+          Tickets are on sale, and clinics are still being added to the line-up.
+          Email us and we'll tell you as new ones land.
         </p>
         <a class="btn btn-primary btn-lg" href="mailto:events@gunksclimbers.org?subject=GunksFest%202026%20updates&amp;body=Please%20add%20me%20to%20the%20GunksFest%202026%20updates%20list.">
           Email Us for Updates
@@ -438,6 +537,7 @@
         <a href="clinics.html">Clinics</a>
         <a href="#stay-play">Tickets</a>
         <a href="#evening">Evening Program</a>
+        <a href="#volunteer">Volunteer</a>
         <a href="#updates">Updates</a>
         <a href="https://gunksclimbers.org/" target="_blank" rel="noopener">Gunks Climbers Coalition</a>
         <a href="mailto:events@gunksclimbers.org">Contact</a>
@@ -457,5 +557,10 @@
        time it runs. (The modern alternative is <script defer> in the head,
        which downloads in parallel and runs at the same point.) -->
   <script src="js/main.js"></script>
+  <!-- js/pretix.js defines the GunksPretix namespace that js/tickets.js reads,
+       so it has to come first. Plain <script> tags execute in document order,
+       which is the whole of the dependency management this site needs. -->
+  <script src="js/pretix.js"></script>
+  <script src="js/tickets.js"></script>
 </body>
 </html>
