@@ -87,9 +87,20 @@
       }
     })
     .catch(function (err) {
+      /* file:// can only ever be someone previewing the site from disk — a
+         real visitor is always on https — so that one case gets the developer
+         answer on the page rather than the visitor one. Opening this file
+         straight off disk gives it an opaque origin, and the browser blocks
+         the fetch outright; nothing is wrong with the site, but it looks
+         exactly like a bug until someone tells you. */
       setStatus(
-        "We couldn't load the schedule just now. " +
-        "You can always see the full line-up on our " + shopLink() + ".",
+        window.location.protocol === "file:"
+          ? "<strong>This page is open from disk.</strong><br />" +
+            "Browsers block a file:// page from fetching its own data, so the " +
+            "line-up can't load. Serve the folder instead: " +
+            "<code>npx http-server -p 8080 -c-1 .</code>"
+          : "We couldn't load the schedule just now. " +
+            "You can always see the full line-up on our " + shopLink() + ".",
         "error"
       );
       if (window.console) console.warn("schedule: " + err.message);
