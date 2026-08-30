@@ -35,9 +35,16 @@ CNAME               The custom domain for GitHub Pages. Don't delete.
 
 ```
 npx http-server -p 8080 -c-1 .
+# http://127.0.0.1:8080/               the landing page, with the ticket list
 # http://127.0.0.1:8080/clinics.html           real data
 # http://127.0.0.1:8080/clinics.html?demo=1    sample data, to check the layout
 ```
+
+**Don't open the files straight off disk.** A `file://` page has an opaque
+origin, and browsers block it from fetching its own data — so both the ticket
+list and the clinic schedule come up empty, which looks exactly like a bug and
+isn't one. Both pages now say so when they detect it, but the answer is always
+the server above.
 
 ## Linking out vs embedding the widget
 
