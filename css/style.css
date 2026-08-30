@@ -742,19 +742,6 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
   -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
 }
 
-/* The one line on the page that is deliberately about what isn't settled yet.
-   Boxed rather than run in with the rest so it reads as a note from the
-   organisers, not as small print someone is hoping you'll skim past. */
-.evening-where {
-  max-width: 60ch; margin: 1.5rem 0 0; padding: 1rem 1.25rem;
-  border-left: 3px solid var(--color-accent-light);
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  color: rgba(255, 255, 255, 0.92); text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
-}
-.evening-where strong { color: #fff; }
-.evening-where a { color: #fff; font-weight: 600; }
-
 /* ---------- Click-to-load video ---------- */
 .video-figure { margin: 0; max-width: 760px; }
 .video-embed {
