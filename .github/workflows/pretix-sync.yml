@@ -1,5 +1,5 @@
 # Pulls the clinic line-up out of pretix and commits data/schedule.json,
-# which schedule.html renders. The API token never leaves the runner — the
+# which clinics.html renders. The API token never leaves the runner — the
 # committed file holds only what the public ticket shop already shows.
 #
 # Setup (once):

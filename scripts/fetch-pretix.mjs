@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Pulls the GunksFest clinic line-up out of pretix and writes data/schedule.json,
- * the snapshot that schedule.html renders. Run by .github/workflows/pretix-sync.yml
+ * the snapshot that clinics.html renders. Run by .github/workflows/pretix-sync.yml
  * on a schedule, or by hand:
  *
  *   PRETIX_TOKEN=xxxx node scripts/fetch-pretix.mjs
@@ -251,6 +251,43 @@ function warnOnDayMismatch(sessions, tz) {
 }
 
 /**
+ * Warns about an add-on with no time on it that sits in a category whose other
+ * products are all on the schedule.
+ *
+ * A clinic reaches the page by having a program time in pretix, and an add-on
+ * without one is dropped below — correctly, because that is also exactly what
+ * merch looks like: a t-shirt is an add-on with no time and no business on a
+ * schedule. The cost of that rule is silence in the one case that matters. A
+ * clinic somebody added to the shop and never gave a time to is dropped by the
+ * same line, never reaches data/schedule.json, and therefore cannot be noticed
+ * as missing by anyone comparing the page against the snapshot — the page and
+ * the file agree, and both are short a clinic. The only trace is in pretix.
+ *
+ * Which of the two a dropped add-on is, is not something its name can settle,
+ * but its category can. The categories here are "Saturday Clinics", "Monday
+ * Clinics", "Merch": a category that has already put clinics on the schedule is
+ * not where anyone files a t-shirt. So this warns about a timeless add-on whose
+ * category produced sessions and stays quiet about one whose category produced
+ * none — which keeps an ordinary merch run silent without hardcoding the word
+ * "merch", and starts warning by itself the day a new clinic category appears.
+ *
+ * A warning, not an error, for the same reason as warnOnDayMismatch above: the
+ * fix is a program time typed into pretix, and the clinics that do have one
+ * should publish in the meantime.
+ */
+function warnOnTimelessClinic(dropped, sessions) {
+  const scheduled = new Set(sessions.map((s) => s.categoryId));
+  for (const item of dropped) {
+    if (!scheduled.has(item.categoryId)) continue;
+    console.warn(
+      `No program time: "${item.rawName}" sits in ${item.category}, whose other ` +
+      `products are on the schedule, so it is missing from the page entirely. ` +
+      `Give it a program time in pretix, or move it to a category that isn't a clinic list.`
+    );
+  }
+}
+
+/**
  * pretix stores item descriptions as Markdown and only renders them in its own
  * storefront — the REST API hands back the raw source. Convert a safe subset
  * here so the page doesn't show literal asterisks and hashes. Everything is
@@ -377,6 +414,7 @@ async function main() {
   let programTimesSupported = true;
   const sessions = [];
   const unscheduled = [];
+  const timeless = [];
 
   for (const item of items) {
     const cat = item.category != null ? catById.get(item.category) : null;
@@ -444,14 +482,20 @@ async function main() {
       });
     } else if (!isAddon) {
       unscheduled.push({ ...base, slotId: `${item.id}-none`, start: null, end: null, location: meta.location || null });
+    } else {
+      // An add-on with no time on it is usually merch or an extra (chalk, a
+      // t-shirt), not something that belongs on a schedule — drop it. An add-on
+      // WITH a time is a clinic sold alongside a festival pass, and was kept
+      // above. Held onto only long enough for warnOnTimelessClinic() to tell
+      // the merch from the clinic nobody gave a time to; nothing here is
+      // written to the snapshot.
+      timeless.push(base);
     }
-    // An add-on with no time on it is merch or an extra (chalk, a t-shirt), not
-    // something that belongs on a schedule — drop it. An add-on WITH a time is a
-    // clinic sold alongside a festival pass, and was kept above.
   }
 
   sessions.sort((a, b) => a.start.localeCompare(b.start) || (a.name || "").localeCompare(b.name || ""));
   warnOnDayMismatch(sessions, tz);
+  warnOnTimelessClinic(timeless, sessions);
 
   const days = [];
   for (const s of sessions) {
