@@ -50,7 +50,7 @@
  * rather than mislabel them; add it to levelsOf() in js/schedule.js instead.
  * ---------------------------------------------------------------------------
  */
-import { writeFile, readFile, mkdir } from "node:fs/promises";
+import { writeFile, readFile, appendFile, mkdir } from "node:fs/promises";
 import { dirname } from "node:path";
 
 const BASE = (process.env.PRETIX_URL || "https://pretix.eu").replace(/\/+$/, "");
@@ -225,7 +225,7 @@ function weekday(iso, tz) {
 }
 
 /**
- * Warns when a product's name disagrees with the time it is scheduled at.
+ * Finds products whose name disagrees with the time they are scheduled at.
  *
  * Clinic names in pretix carry the day in a trailing "(Monday 9am-1pm)", and
  * the program time is entered separately — so the two can drift apart, and one
@@ -234,20 +234,22 @@ function weekday(iso, tz) {
  * slot, and either could be the mistake. So this only points at the pair and
  * leaves the fix in pretix, where both live.
  *
- * A warning, not an error: a wrong day is worth shouting about, but it is not
- * worth refusing to publish the other 40 clinics over.
+ * A finding, not an error: a wrong day is worth shouting about, but it is not
+ * worth refusing to publish the other 40 clinics over. See reportFindings().
  */
-function warnOnDayMismatch(sessions, tz) {
+function findDayMismatches(sessions, tz) {
+  const found = [];
   for (const s of sessions) {
     const named = String(s.rawName || "").match(/\((Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*\b[^)]*\)\s*$/i);
     if (!named) continue;
     const actual = weekday(s.start, tz);
     if (actual.toLowerCase().startsWith(named[1].toLowerCase())) continue;
-    console.warn(
+    found.push(
       `Day mismatch: "${s.rawName}" is scheduled on ${actual}, ` +
       `${dayKey(s.start, tz)}. Fix the program time or the name in pretix.`
     );
   }
+  return found;
 }
 
 /**
@@ -271,19 +273,63 @@ function warnOnDayMismatch(sessions, tz) {
  * none — which keeps an ordinary merch run silent without hardcoding the word
  * "merch", and starts warning by itself the day a new clinic category appears.
  *
- * A warning, not an error, for the same reason as warnOnDayMismatch above: the
+ * A finding, not an error, for the same reason as findDayMismatches above: the
  * fix is a program time typed into pretix, and the clinics that do have one
- * should publish in the meantime.
+ * should publish in the meantime. See reportFindings().
  */
-function warnOnTimelessClinic(dropped, sessions) {
+function findTimelessClinics(dropped, sessions) {
   const scheduled = new Set(sessions.map((s) => s.categoryId));
-  for (const item of dropped) {
-    if (!scheduled.has(item.categoryId)) continue;
-    console.warn(
-      `No program time: "${item.rawName}" sits in ${item.category}, whose other ` +
-      `products are on the schedule, so it is missing from the page entirely. ` +
-      `Give it a program time in pretix, or move it to a category that isn't a clinic list.`
+  return dropped
+    .filter((item) => scheduled.has(item.categoryId))
+    .map(
+      (item) =>
+        `No program time: "${item.rawName}" sits in ${item.category}, whose other ` +
+        `products are on the schedule, so it is missing from the page entirely. ` +
+        `Give it a program time in pretix, or move it to a category that isn't a clinic list.`
     );
+}
+
+/**
+ * Puts the findings somewhere a person will actually meet them.
+ *
+ * Both checks above describe something only a human can fix, in pretix. The
+ * trouble is where they were being said: this job runs unattended four times a
+ * day and succeeds either way, and GitHub only emails you when a workflow
+ * *fails* — so a console warning is a line in a log nobody has a reason to
+ * open. That is how the Antlion Tour sat on the page scheduled for Sunday with
+ * "Monday" in its name until somebody happened to review it.
+ *
+ * So the findings go three places, cheapest first:
+ *
+ *   - stderr, which is all a local run needs.
+ *   - a ::warning:: annotation and a line in the job summary, which put them on
+ *     the run's own page in the Actions tab without opening the log.
+ *   - a file, which .github/workflows/pretix-sync.yml turns into one GitHub
+ *     issue: opened when there is something to fix, commented when the list
+ *     changes, and closed by the first run that comes back clean. That is the
+ *     only one of the three that reaches somebody who isn't already looking.
+ *
+ * The file is written even when there is nothing wrong — an empty file is how
+ * the workflow tells "all clear" apart from "the fetch never got this far",
+ * and only the first of those should close the issue.
+ */
+async function reportFindings(findings) {
+  for (const line of findings) {
+    console.warn(line);
+    // GitHub reads ::warning:: on stdout and renders it on the run's summary
+    // page. Annotations are single-line, so newlines have to be encoded.
+    if (process.env.GITHUB_ACTIONS) console.log(`::warning::${line.replace(/\r?\n/g, "%0A")}`);
+  }
+
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    const summary = findings.length
+      ? `### Clinic line-up needs attention in pretix\n\n${findings.map((l) => `- ${l}`).join("\n")}\n`
+      : "### Clinic line-up is clean\n\nEvery clinic has a program time, and no name disagrees with its slot.\n";
+    await appendFile(process.env.GITHUB_STEP_SUMMARY, `${summary}\n`);
+  }
+
+  if (process.env.PRETIX_FINDINGS) {
+    await writeFile(process.env.PRETIX_FINDINGS, findings.map((l) => `${l}\n`).join(""));
   }
 }
 
@@ -494,8 +540,14 @@ async function main() {
   }
 
   sessions.sort((a, b) => a.start.localeCompare(b.start) || (a.name || "").localeCompare(b.name || ""));
-  warnOnDayMismatch(sessions, tz);
-  warnOnTimelessClinic(timeless, sessions);
+
+  // Reported before the no-op early return below: a line-up that hasn't changed
+  // since the last run can still be a line-up with a clinic missing its time,
+  // and that is exactly the run where nobody is looking.
+  await reportFindings([
+    ...findDayMismatches(sessions, tz),
+    ...findTimelessClinics(timeless, sessions),
+  ]);
 
   const days = [];
   for (const s of sessions) {

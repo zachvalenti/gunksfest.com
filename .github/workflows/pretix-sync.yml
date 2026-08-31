@@ -20,6 +20,7 @@ on:
 
 permissions:
   contents: write
+  issues: write     # for the findings issue raised below
 
 concurrency:
   group: pretix-sync
@@ -41,7 +42,72 @@ jobs:
           PRETIX_URL: ${{ vars.PRETIX_URL || 'https://pretix.eu' }}
           PRETIX_ORGANIZER: ${{ vars.PRETIX_ORGANIZER || 'gunksclimbers' }}
           PRETIX_EVENT: ${{ vars.PRETIX_EVENT || 'gunksfest2026' }}
+          PRETIX_FINDINGS: ${{ runner.temp }}/pretix-findings.txt
         run: node scripts/fetch-pretix.mjs
+
+      # A warning in a log nobody opens is not a warning.
+      #
+      # This job runs unattended four times a day and succeeds whether or not
+      # pretix is holding a clinic with no program time on it, and GitHub only
+      # emails you when a workflow *fails* — so anything the sync notices has to
+      # come and find you. It goes into one issue, which notifies on the way in.
+      #
+      # The issue manages itself: opened when there is something to fix, edited
+      # and commented when the list of findings changes, and closed by the first
+      # run that comes back clean. Nothing happens on a run whose findings are
+      # identical to the last one, which is what keeps a standing problem from
+      # commenting four times a day until somebody fixes it.
+      #
+      # Deliberately NOT a failing job: the fix is a program time typed into
+      # pretix, and the 43 clinics that have one should keep publishing until
+      # somebody types it. Failing here would take the whole schedule down over
+      # one misconfigured product.
+      - name: Raise or clear the findings issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FINDINGS: ${{ runner.temp }}/pretix-findings.txt
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          TITLE: Clinic line-up needs attention in pretix
+          LABEL: pretix-sync
+        run: |
+          set -euo pipefail
+
+          # The one issue this workflow owns, found by its label rather than by
+          # its title, so the title can be reworded without orphaning it.
+          number=$(gh issue list --label "$LABEL" --state open --limit 1 \
+                     --json number --jq '.[0].number // empty')
+
+          if [ ! -s "$FINDINGS" ]; then
+            if [ -n "$number" ]; then
+              gh issue comment "$number" --body \
+                "The sync came back clean in [this run]($RUN_URL) — every clinic in a clinic category has a program time, and no name disagrees with its slot. Closing."
+              gh issue close "$number"
+            fi
+            echo "No findings."
+            exit 0
+          fi
+
+          # The body is the findings and nothing else — no run number, no
+          # timestamp — so that comparing it against the open issue answers
+          # "has anything actually changed?" rather than "did the job run again?"
+          body=$(printf 'The pretix sync found something only a human can fix, in the shop rather than in this repo.\n\n%s\n\nOpened, updated and closed automatically by `.github/workflows/pretix-sync.yml`. It will close itself on the first sync that comes back clean.\n' \
+                   "$(sed 's/^/- /' "$FINDINGS")")
+
+          if [ -z "$number" ]; then
+            # --label fails on a label that doesn't exist yet, and the first run
+            # to find a problem is also the first run to need one.
+            gh label create "$LABEL" --description "Raised by the pretix sync" --color FBCA04 2>/dev/null || true
+            gh issue create --title "$TITLE" --label "$LABEL" --body "$body"
+            exit 0
+          fi
+
+          current=$(gh issue view "$number" --json body --jq .body | tr -d '\r')
+          if [ "$current" = "$body" ]; then
+            echo "Findings unchanged — issue #$number left alone."
+            exit 0
+          fi
+          gh issue edit "$number" --body "$body"
+          gh issue comment "$number" --body "The findings changed as of [this run]($RUN_URL)."
 
       - name: Commit if the line-up changed
         run: |

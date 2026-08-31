@@ -111,6 +111,15 @@ stamp live availability on top. No API token ever reaches the browser.
   of `scripts/fetch-pretix.mjs`.
 - **Renaming products in pretix** (the only thing here that writes to the shop)
   is documented in `.github/workflows/pretix-rename.yml`.
+- **When the sync finds something only pretix can fix** — a clinic with no
+  program time, so it never reaches the page at all, or a name whose trailing
+  "(Monday 9am-1pm)" disagrees with the slot it is booked at — it opens one
+  issue labelled `pretix-sync`, keeps it current, and closes it on the first run
+  that comes back clean. It never fails the job: one misconfigured product
+  shouldn't stop the other forty-odd clinics publishing. The issue is the only
+  one of these signals that reaches somebody who isn't already looking at the
+  Actions tab, which is the point — this job succeeds four times a day whether
+  or not the shop is in good shape, and GitHub only emails you about failures.
 
 Two pages read that snapshot. `clinics.html` renders the timed sessions;
 `index.html` renders everything in `unscheduled` that isn't an add-on — the
