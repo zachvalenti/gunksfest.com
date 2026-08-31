@@ -590,15 +590,40 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
    The table is close enough in height to the card that neither column trails a
    screen of empty photo behind the other, which is what put the ticket list
    here rather than in a band of its own below. */
-.pass-layout { display: grid; gap: 1.5rem; grid-template-columns: 1fr; align-items: start; }
-@media (min-width: 820px) {
-  .pass-layout { grid-template-columns: 1.15fr 1fr; gap: 2rem; }
+/* minmax(0, 1fr) rather than a bare 1fr, on both the one- and the two-column
+   form. A grid track's automatic minimum is the widest thing in it that cannot
+   be broken up, and the ticket table's is wide: three group columns that each
+   have to hold a Select button, plus the row labels. A plain 1fr never shrinks
+   below that, so on a phone the track — and the pass card sharing it — came out
+   around 367px whatever the viewport was, and .section-photo's `overflow:
+   hidden` then quietly cropped whatever stuck out past the right gutter. That
+   is what made the cards look off-centre: a full gutter down the left, none
+   down the right, and the last table column cut in half. minmax(0, …) drops the
+   floor to zero, which lets both columns be as wide as the container and no
+   wider, and hands the table the job of fitting itself (below). */
+.pass-layout { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 1fr); align-items: start; }
+/* 880px, not the 820px this started at: the table's narrower column has to be
+   at least as wide as the table's own minimum (367px with the headings and
+   prices unbroken), and a 1.15 / 1 split of the container only reaches that
+   from about 860px up. Below it the two columns were drawn as if they fitted
+   and the last one was cropped, the same failure as on the phone. Splitting one
+   column later costs a band of widths a side-by-side view; splitting it too
+   early costs them a column of the table. */
+@media (min-width: 880px) {
+  .pass-layout { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 2rem; }
 }
 
 /* The price card — the one place on the page with a filled brand header. */
+/* The padding is the phone value: on a 320px screen a 2rem inset each side
+   spends nearly a quarter of the card on white space, and the list items — the
+   longest lines on the page — break after three or four words. It goes back up
+   at the width where there is room for it. */
 .pass-card {
-  background: var(--color-cream); border-radius: var(--radius); padding: 2rem;
+  background: var(--color-cream); border-radius: var(--radius); padding: 1.5rem 1.35rem;
   box-shadow: var(--shadow); border-top: 4px solid var(--color-accent-dk);
+}
+@media (min-width: 480px) {
+  .pass-card { padding: 2rem; }
 }
 .pass-eyebrow {
   margin: 0; font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
@@ -672,21 +697,19 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
 .matrix-corner { background: none; border: 0; }
 
 .matrix-head {
-  padding: 0.7rem 0.4rem; text-align: center; vertical-align: bottom;
+  padding: 0.7rem 0.25rem; text-align: center; vertical-align: bottom;
   border-bottom: 2px solid var(--color-sand-dk);
 }
-/* nowrap is what makes the auto layout above give each column the width its
-   own heading needs, rather than the width three equal shares happen to be. */
 .matrix-group {
-  display: block; font-size: 0.9rem; line-height: 1.25;
-  font-weight: 700; color: var(--color-forest); white-space: nowrap;
+  display: block; font-size: 0.85rem; line-height: 1.25;
+  font-weight: 700; color: var(--color-forest);
 }
 /* The price is the first row, directly under the group name. The display face
    at weight 800 already reads as a price, so the size only has to be a step
    above the labels rather than the headline it was competing to be. */
 .matrix-price {
   font-family: var(--font-display); font-weight: 800;
-  font-size: 0.95rem; color: var(--color-forest); white-space: nowrap;
+  font-size: 0.95rem; color: var(--color-forest);
 }
 /* Shares the .is-open / .is-low / .is-gone tones with the pass badge further
    up, because both are stamped from the same pretix reading. Here it speaks
@@ -701,12 +724,12 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
 .matrix-head.is-gone .matrix-group { color: var(--color-stone); }
 
 .matrix-label {
-  padding: 0.6rem 0.5rem 0.6rem 1rem; text-align: left;
-  font-size: 0.875rem; font-weight: 600; color: var(--color-ink-soft);
+  padding: 0.6rem 0.3rem 0.6rem 0.65rem; text-align: left;
+  font-size: 0.82rem; font-weight: 600; color: var(--color-ink-soft);
   border-top: 1px solid var(--color-sand-dk);
 }
 .matrix-cell {
-  padding: 0.6rem 0.4rem; text-align: center;
+  padding: 0.6rem 0.25rem; text-align: center;
   border-top: 1px solid var(--color-sand-dk);
 }
 /* Zebra striping earns its place on a matrix in a way it doesn't on a short
@@ -715,7 +738,7 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
 .ticket-matrix tbody tr:nth-child(odd) .matrix-label,
 .ticket-matrix tbody tr:nth-child(odd) .matrix-cell { background: rgba(14, 144, 214, 0.05); }
 
-.matrix-text { font-size: 0.875rem; font-weight: 600; color: var(--color-ink-soft); }
+.matrix-text { font-size: 0.82rem; font-weight: 600; color: var(--color-ink-soft); }
 .matrix-cell.is-some { color: var(--color-accent-dk); }
 
 /* Tick and cross drawn in CSS, like .pass-list's ticks: no icon font, no
@@ -743,8 +766,30 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
 .mark-no::before { transform: rotate(45deg); }
 .mark-no::after  { transform: rotate(-45deg); }
 
-.matrix-cta { padding: 0.9rem 0.4rem 1rem; text-align: center; }
-.matrix-cta .btn { padding: 0.5rem 1rem; font-size: 0.85rem; }
+.matrix-cta { padding: 0.9rem 0.25rem 1rem; text-align: center; }
+.matrix-cta .btn { padding: 0.5rem 0.45rem; font-size: 0.78rem; }
+
+/* Everything above is sized for the narrowest phone the site supports, because
+   that is the width where the table's own minimum decides whether it fits: the
+   three Select buttons and the row labels are what the columns cannot shrink
+   past, and at 320px they leave nothing to spare. From 480px up there is room
+   to breathe, so the padding, the type and the buttons go back to the sizes the
+   table was drawn at, and the two headings that must not break — the group name
+   and its price — are told not to.
+
+   nowrap is also what makes the auto table layout give each column the width
+   its own heading needs rather than an equal third (see .ticket-matrix): that
+   reasoning holds from here up, where the headings share a row with a card. */
+@media (min-width: 480px) {
+  .matrix-head { padding: 0.7rem 0.4rem; }
+  .matrix-group { font-size: 0.9rem; white-space: nowrap; }
+  .matrix-price { white-space: nowrap; }
+  .matrix-label { padding: 0.6rem 0.5rem 0.6rem 1rem; font-size: 0.875rem; }
+  .matrix-cell { padding: 0.6rem 0.4rem; }
+  .matrix-text { font-size: 0.875rem; }
+  .matrix-cta { padding: 0.9rem 0.4rem 1rem; }
+  .matrix-cta .btn { padding: 0.5rem 1rem; font-size: 0.85rem; }
+}
 
 .tickets-fallback, .tickets-note {
   margin: 1rem 0 0; color: rgba(255, 255, 255, 0.92);
