@@ -642,11 +642,18 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
 }
 
+/* table-layout stays auto, deliberately. Fixed layout splits the width evenly
+   whatever the headings say, and at every desktop width below about 1100px an
+   even share left "Full Weekend" a few pixels short and broke it over two
+   lines. Auto asks each column what it needs, and with the headings set not to
+   wrap (below) that need is "one line" — so the group columns come out around
+   105/89/89 instead of a uniform 97, and the label column gives up the
+   difference. Measured from 320px to 1440px: no heading wraps, no column
+   overflows, and the page never scrolls sideways. */
 .ticket-matrix {
   width: 100%; border-collapse: collapse;
   background: var(--color-cream); border-radius: var(--radius);
   box-shadow: var(--shadow); overflow: hidden;
-  table-layout: fixed;                 /* equal columns, whatever the names */
 }
 /* A <caption> paints outside the table's own background box, so this sits on
    the photograph rather than on the panel. It gets the section's white-on-dark
@@ -659,23 +666,27 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
 }
 
 /* The corner cell heads neither axis, so it carries no rule and no tint —
-   the grid should look like it starts at the first real heading. */
-.matrix-corner { background: none; border: 0; width: 34%; }
+   the grid should look like it starts at the first real heading. It sets no
+   width either: the row labels are the one column that can afford to wrap, so
+   it takes whatever the headings leave. */
+.matrix-corner { background: none; border: 0; }
 
 .matrix-head {
   padding: 0.7rem 0.4rem; text-align: center; vertical-align: bottom;
   border-bottom: 2px solid var(--color-sand-dk);
 }
+/* nowrap is what makes the auto layout above give each column the width its
+   own heading needs, rather than the width three equal shares happen to be. */
 .matrix-group {
   display: block; font-size: 0.9rem; line-height: 1.25;
-  font-weight: 700; color: var(--color-forest);
+  font-weight: 700; color: var(--color-forest); white-space: nowrap;
 }
 /* The price is the first row, directly under the group name. The display face
    at weight 800 already reads as a price, so the size only has to be a step
    above the labels rather than the headline it was competing to be. */
 .matrix-price {
   font-family: var(--font-display); font-weight: 800;
-  font-size: 0.9rem; color: var(--color-forest); white-space: nowrap;
+  font-size: 0.95rem; color: var(--color-forest); white-space: nowrap;
 }
 /* Shares the .is-open / .is-low / .is-gone tones with the pass badge further
    up, because both are stamped from the same pretix reading. Here it speaks
