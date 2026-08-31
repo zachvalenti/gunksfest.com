@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-31T01:50:49.443Z",
+  "generated": "2026-08-31T05:43:33.647Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -613,7 +613,7 @@
           "freePrice": false,
           "hasVariations": false,
           "allowWaitinglist": true,
-          "picture": null,
+          "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1119384-d820095c-6ff1-4d0b-a378-b4ff0ebb727e.915b8127387336.jpeg",
           "isAddon": true,
           "meta": {
             "difficulty": "All Levels"
@@ -728,7 +728,7 @@
           "freePrice": false,
           "hasVariations": false,
           "allowWaitinglist": true,
-          "picture": null,
+          "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1118635-6d655f91-923b-46c4-aea8-60896ea783ad.4aa4676d67f037.png",
           "isAddon": true,
           "meta": {
             "difficulty": "Intermediate"
