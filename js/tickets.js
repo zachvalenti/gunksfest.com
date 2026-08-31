@@ -39,14 +39,17 @@
      Item meta properties, then set it per product) with one of these keys. The
      name test is then never consulted. */
   var GROUPS = [
-    { key: "weekend", title: "Full Weekend Passes", test: /weekend/i },
-    { key: "day",     title: "Day Passes",          test: /(saturday|sunday|single.?day)\s+pass/i },
-    { key: "film",    title: "Film-Only Passes",    test: /films?\s*only/i }
+    { key: "weekend", title: "Full Weekend", days: "Fri\u2013Mon", test: /weekend/i },
+    { key: "day",     title: "Single Day",   days: "One day",       test: /(saturday|sunday|single.?day)\s+pass/i },
+    { key: "film",    title: "Films Only",   days: "Evenings",      test: /films?\s*only/i }
   ];
   var OTHER_TITLE = "More tickets";
 
   var fallbackEl = document.getElementById("tickets-fallback");
   var noteEl = document.getElementById("tickets-note");
+  /* Only shown when a column actually says "Some" — a footnote explaining a
+     word that isn't on the page reads like a warning about nothing. */
+  var someEl = document.getElementById("tickets-some");
   var card = document.querySelector(".pass-card");
 
   fetch("data/schedule.json", { cache: "no-cache" })
@@ -56,18 +59,16 @@
     })
     .then(function (data) {
       var shop = data.shop || {};
-      /* The headline pass already has a card of its own beside this table,
-         so it is filtered out rather than printed twice. Which product that is
-         comes from the data-item-id on that card — the same single place the
-         card's own link and its badge already read — so there is no second
-         copy of "which one is the headline" to keep in step. If the id isn't
-         in the data at all, nothing is filtered and the visitor sees the full
-         list, which is the right way for that to fail. */
-      var headline = card && card.dataset.itemId;
+      /* The headline pass is no longer filtered out. It was, when this
+         rendered a row per product and printing it twice would have been a
+         duplicate; the table summarises whole groups now, and the headline is
+         a Full Weekend pass, so leaving it out would make that column describe
+         a range of tickets that quietly excluded the one on the card beside
+         it. It contributes to its column and is never listed on its own. */
       var tickets = (data.unscheduled || []).filter(function (item) {
         // Add-ons — clinics, merch — are chosen inside checkout, on top of a
-        // pass. Only the things you can buy on their own belong in this list.
-        return !item.isAddon && String(item.id) !== headline;
+        // pass. Only the things you can buy on their own belong in this table.
+        return !item.isAddon;
       });
       if (!tickets.length) return;
 
@@ -140,233 +141,237 @@
 
     var out = GROUPS
       .filter(function (g) { return buckets[g.key] && buckets[g.key].length; })
-      .map(function (g) { return { title: g.title, items: buckets[g.key] }; });
+      .map(function (g) { return { title: g.title, days: g.days, items: buckets[g.key] }; });
     if (other.length) out.push({ title: out.length ? OTHER_TITLE : "", items: other });
     return out;
   }
 
-  /* Every ticket in a group tends to open with the same words — the three
-     remaining weekend passes all begin "Full Weekend Pass with", the film
-     tickets all begin "Films Only -" — and in a title column barely 300px wide
-     those shared words are most of the line, pushing the part that actually
-     differs onto a second and third line. The group heading directly above already
-     says them once. So find the words a group's names start with in common and
-     let the heading carry them.
+  /* ---------- what each group includes ---------- */
 
-     Only the display is shortened. The full product name still goes on the Buy
-     link's aria-label, which is what someone listing the page's links hears,
-     and it is what pretix shows at checkout — so nobody ever has to match a
-     name here against a different one there.
+  /* These marks are read out of the product's own name and description, which
+     is worth being blunt about: pretix publishes no structured "includes
+     camping" field, so the ticks below are inferred from marketing prose
+     written by whoever last edited the shop. Rename a product or reword a
+     description and a mark can change. Three things keep that from being a
+     lie on a page about money:
 
-     The rules are deliberately timid, because getting this wrong means a row
-     that lies about what it sells: at least two tickets to compare, at least
-     two words in common, and every shortened name must keep at least two words
-     of its own. A group that fails any of them keeps its full names, which is
-     the same thing that happens to a group of one. */
-  var CONNECTORS = /^(?:with|and|for|-|–|—|:|,)$/i;
+     1. A negative is tested BEFORE a positive, always. "Full Weekend Pass with
+        NO Camping" contains the word "Camping", and a yes-first test would
+        promise the opposite of what the ticket says.
+     1b. A negative has to sit NEXT TO the word it negates — hence the {0,20}
+        style bounds rather than a loose wildcard. The Saturday Pass reads
+        "does not include camping or Mohonk Preserve Access, which you will
+        need to purchase the day of your clinic": an unbounded gap let "not
+        include" reach all the way to "clinic" and struck out the clinics the
+        ticket does include. The bound is what stops one sentence's negative
+        leaking onto a different feature.
+     2. Silence is never a yes. A feature nobody mentions comes out "unknown"
+        and is then shown as not included — the safe direction to be wrong in.
+        Claiming less than a ticket offers sends someone to ask; claiming more
+        sends them to the gate with the wrong ticket.
+     3. Anything unresolved is named in the console, so a wording change that
+        stops matching is visible to whoever runs the page rather than silent.
 
-  function shortNames(items) {
-    var full = items.map(function (it) { return String(it.name || "Ticket"); });
-    if (full.length < 2) return full;
+     The durable fix is item meta properties in pretix — the same mechanism
+     GROUPS already prefers over its name test. Set `camping`, `preserve`,
+     `films` or `clinics` on a product (Organizer → Item meta properties) to
+     "yes" or "no" and that value is taken as final, no prose consulted. */
+  var FEATURES = [
+    { key: "films", label: "Evening films & vendors",
+      no:  /no films?\b|not include\w*[^.]{0,20}films?\b/i,
+      yes: /film (festival )?pass|films?\s*(only|starting)|evening film/i },
+    { key: "clinics", label: "Daytime clinics",
+      no:  /no clinics?\b|not include\w*[^.]{0,20}clinics?\b/i,
+      yes: /clinics?\s*(are\s*)?available/i },
+    { key: "camping", label: "Camping",
+      no:  /no camping\b|not include\w*[^.]{0,30}\bcamping\b/i,
+      yes: /car\/tent camping|includes[^.]*\bcamping|with camping/i },
+    { key: "preserve", label: "Mohonk Preserve access",
+      no:  /no camping or preserve access|not include\w*[^.]{0,40}preserve|no preserve\b/i,
+      yes: /\d-day (access to the )?mohonk preserve|mohonk preserve[, ]*\d-day|\d-day mohonk preserve/i }
+  ];
 
-    var words = full.map(function (n) { return n.split(/\s+/); });
-    var n = 0;
-    while (words.every(function (w) {
-      return w.length > n && w[n].toLowerCase() === words[0][n].toLowerCase();
-    })) n++;
+  var unresolved = [];
 
-    // Never let the heading swallow a word the row needs: back off past any
-    // trailing connector, so "Full Weekend Pass with" doesn't leave "Camping"
-    // reading as though it were the whole product.
-    while (n > 0 && CONNECTORS.test(words[0][n - 1])) n--;
-    if (n < 2) return full;
-
-    var short = words.map(function (w) {
-      var rest = w.slice(n);
-      while (rest.length && CONNECTORS.test(rest[0])) rest.shift();
-      return rest.join(" ");
-    });
-    return short.every(function (s) { return s.split(/\s+/).length >= 2; }) ? short : full;
+  /* Name and description together, tags stripped. The description is where
+     most of these facts actually live — the names only carry camping and
+     preserve — so searching one without the other would lose clinics and
+     films entirely. */
+  function haystack(item) {
+    return (String(item.name || "") + " " + String(item.description || ""))
+      .replace(/<[^>]*>/g, " ")
+      .replace(/\s+/g, " ");
   }
+
+  function featureState(item, feature) {
+    var declared = item.meta && item.meta[feature.key];
+    if (declared) return /^(yes|true|1)$/i.test(String(declared)) ? "yes" : "no";
+
+    var text = haystack(item);
+    if (feature.no.test(text)) return "no";       // negatives first — see above
+    if (feature.yes.test(text)) return "yes";
+
+    unresolved.push(feature.key + " on “" + (item.name || item.id) + "”");
+    return "unknown";
+  }
+
+  /* A column is a whole group, and a group's tickets need not agree: two of
+     the four weekend passes include camping and two do not. That is a real
+     answer, not a missing one, so it gets its own state rather than being
+     rounded to a tick or a cross — either of which would be false for half
+     the tickets in the column. */
+  function groupState(items, feature) {
+    var seen = {};
+    items.forEach(function (item) { seen[featureState(item, feature)] = true; });
+    if (seen.yes && !seen.no && !seen.unknown) return "yes";
+    if (seen.yes) return "some";
+    return "no";
+  }
+
+  function priceRange(items, shop) {
+    var prices = items.map(function (i) { return Number(i.price); })
+                      .filter(function (n) { return !isNaN(n); });
+    if (!prices.length) return "";
+    var lo = Math.min.apply(null, prices), hi = Math.max.apply(null, prices);
+    return (lo === hi ? "" : "from ") + GunksPretix.money(lo, shop.currency);
+  }
+
+  /* ---------- the matrix ---------- */
 
   function render(tickets, shop) {
     listEl.innerHTML = "";
+    unresolved = [];
 
-    /* A GET form whose action is the shop, with every radio named "item",
-       submits to exactly shop.url + "?item=<id>" — byte for byte the URL the
-       per-row Buy links used to carry, and the one on the pass card above.
-       That equivalence is the whole reason this is a form and not a button
-       with a scripted href: choosing a ticket needs no JavaScript of its own
-       to become a destination, and there is no second URL scheme that has to
-       be kept working against a shop we do not control. */
-    var form = document.createElement("form");
-    form.className = "ticket-form";
-    form.action = shop.url;
-    form.method = "get";
-    form.target = "_blank";
-    form.setAttribute("rel", "noopener");
+    var groups = groupTickets(tickets);
+    if (!groups.length) return;
 
     var table = document.createElement("table");
-    table.className = "ticket-table";
+    table.className = "ticket-matrix";
 
-    /* Radios rather than checkboxes, and it is worth writing down why, because
-       the markup reads like a shopping list and isn't one. These are
-       alternatives — the section is called "Other ways in", and you take one
-       way in — so ticking three is not a thing anyone means to do. It is also
-       what the destination supports: ?item= names a single product. Checkboxes
-       would let someone tick three and then carry one, which is the kind of
-       quiet wrong answer that only shows up on the payment page. Buying for
-       two people is a quantity, and pretix asks for that at checkout. */
     var cap = document.createElement("caption");
-    cap.className = "ticket-caption";
-    cap.textContent = "Pick one, then Select.";
+    cap.className = "matrix-caption";
+    cap.textContent = "What each way in includes.";
     table.appendChild(cap);
 
+    /* The corner cell is a <td>, not a <th>: it heads neither the row of group
+       names nor the column of feature names, and calling it a header would
+       have a screen reader announce it as one for both. */
     var thead = document.createElement("thead");
     var headRow = document.createElement("tr");
-    [["Ticket", "ticket-col-name"],
-     ["Price", "ticket-col-price"],
-     ["Select", "ticket-col-select"]].forEach(function (col) {
+    headRow.appendChild(document.createElement("td")).className = "matrix-corner";
+
+    groups.forEach(function (group) {
       var th = document.createElement("th");
       th.scope = "col";
-      th.className = col[1];
-      th.textContent = col[0];
+      th.className = "matrix-head";
+      th.dataset.itemIds = group.items.map(function (i) { return i.id; }).join(",");
+
+      var name = document.createElement("span");
+      name.className = "matrix-group";
+      name.textContent = group.title;
+      th.appendChild(name);
+
+      var price = document.createElement("span");
+      price.className = "matrix-price";
+      price.textContent = priceRange(group.items, shop);
+      th.appendChild(price);
+
+      var badge = document.createElement("span");
+      badge.className = "ticket-badge";
+      badge.hidden = true;
+      th.appendChild(badge);
+
       headRow.appendChild(th);
     });
     thead.appendChild(headRow);
     table.appendChild(thead);
 
-    /* One <tbody> per group, headed by a row-group <th>. A group is a real
-       section of the table, so it gets the element that means that rather
-       than a styled row that only looks like one. */
-    groupTickets(tickets).forEach(function (group) {
-      var body = document.createElement("tbody");
-      body.className = "ticket-group";
-
-      if (group.title) {
-        var gRow = document.createElement("tr");
-        var gHead = document.createElement("th");
-        gHead.className = "ticket-group-title";
-        gHead.colSpan = 3;
-        gHead.scope = "rowgroup";
-        gHead.textContent = group.title;
-        gRow.appendChild(gHead);
-        body.appendChild(gRow);
-      }
-
-      var names = shortNames(group.items);
-      group.items.forEach(function (item, i) {
-        body.appendChild(ticketRow(item, shop, names[i]));
-      });
-      table.appendChild(body);
+    var tbody = document.createElement("tbody");
+    tbody.appendChild(featureRow("Days", groups.map(function (g) {
+      return textCell(g.days || "—");
+    })));
+    FEATURES.forEach(function (feature) {
+      tbody.appendChild(featureRow(feature.label, groups.map(function (g) {
+        return markCell(groupState(g.items, feature));
+      })));
     });
+    table.appendChild(tbody);
 
-    form.appendChild(table);
+    /* One Select per column, all pointing at the shop's own product list.
+       A column stands for several products and ?item= names exactly one, so
+       there is no honest per-column preselect to send — the choice between
+       the tickets inside a group is made on pretix, where their full names
+       and descriptions are. */
+    var tfoot = document.createElement("tfoot");
+    var footRow = document.createElement("tr");
+    footRow.appendChild(document.createElement("td")).className = "matrix-corner";
+    groups.forEach(function (group) {
+      var td = document.createElement("td");
+      td.className = "matrix-cta";
+      var a = document.createElement("a");
+      a.className = "btn btn-small";
+      a.href = shop.url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = "Select";
+      a.setAttribute("aria-label", "Select from " + group.title + " tickets");
+      td.appendChild(a);
+      footRow.appendChild(td);
+    });
+    tfoot.appendChild(footRow);
+    table.appendChild(tfoot);
 
-    var foot = document.createElement("div");
-    foot.className = "ticket-form-foot";
-    var go = document.createElement("button");
-    go.type = "submit";
-    go.className = "btn btn-primary";
-    go.textContent = "Select";
-    foot.appendChild(go);
-    form.appendChild(foot);
-
-    listEl.appendChild(form);
+    listEl.appendChild(table);
     listEl.hidden = false;
     if (fallbackEl) fallbackEl.hidden = true;
     if (noteEl) noteEl.hidden = false;
-    clampDescriptions();
-  }
+    if (someEl) someEl.hidden = !table.querySelector(".is-some");
 
-  /* A table only reads as a table if the rows are one height, so a
-     description is collapsed to nothing and opened by a button rather than
-     shown clamped. The collapse itself is in the stylesheet, applied to every
-     row up front; this only measures which ones have something to show and
-     gives those the button. The information is still one click away, which
-     matters here: "you will need a valid Mohonk Preserve pass" is exactly the
-     sort of line that belongs in front of someone before they pay, not
-     after. */
-  function clampDescriptions() {
-    Array.prototype.forEach.call(listEl.querySelectorAll(".ticket-desc"), function (desc) {
-      if (desc.scrollHeight <= desc.clientHeight + 4) return;
-      desc.classList.add("is-clamped");
-
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "ticket-more";
-      btn.textContent = "More";
-      btn.setAttribute("aria-expanded", "false");
-      btn.setAttribute("aria-controls", desc.id);
-      btn.addEventListener("click", function () {
-        var open = desc.classList.toggle("is-open");
-        btn.textContent = open ? "Less" : "More";
-        btn.setAttribute("aria-expanded", String(open));
-      });
-      desc.parentNode.insertBefore(btn, desc.nextSibling);
-    });
-  }
-
-  /* Built with createElement and textContent rather than a template string, so
-     no value out of the data file is ever parsed as markup — a product named
-     `<img onerror=...>` is simply a row with a strange title. The one place
-     markup is intended, the description, goes through GunksPretix.sanitize. */
-  function ticketRow(item, shop, displayName) {
-    var tr = document.createElement("tr");
-    tr.className = "ticket";
-    tr.dataset.itemId = String(item.id);
-
-    var inputId = "tkt-" + item.id;
-
-    var nameCell = document.createElement("td");
-    nameCell.className = "ticket-name";
-
-    /* The name is the radio's <label>, so the whole ticket title is a click
-       target for selecting it — a 12px radio on its own is a poor one. */
-    var label = document.createElement("label");
-    label.className = "ticket-title";
-    label.htmlFor = inputId;
-    label.textContent = displayName || item.name || "Ticket";
-    nameCell.appendChild(label);
-
-    if (item.description) {
-      var desc = document.createElement("div");
-      desc.className = "ticket-desc";
-      desc.id = "tdesc-" + item.id;          // what the More button controls
-      desc.innerHTML = GunksPretix.sanitize(item.description);
-      nameCell.appendChild(desc);
+    if (unresolved.length && window.console) {
+      console.warn("tickets: could not read " + unresolved.join("; ") +
+                   " from the pretix text — shown as not included. Set an item " +
+                   "meta property in pretix to say so outright.");
     }
-    tr.appendChild(nameCell);
+  }
 
-    var priceCell = document.createElement("td");
-    priceCell.className = "ticket-price";
-    var amount = document.createElement("span");
-    amount.className = "ticket-amount";
-    amount.textContent = (item.priceFrom ? "from " : "") + GunksPretix.money(item.price, shop.currency);
-    priceCell.appendChild(amount);
-
-    var badge = document.createElement("p");
-    badge.className = "ticket-badge";
-    badge.hidden = true;
-    priceCell.appendChild(badge);
-    tr.appendChild(priceCell);
-
-    var selectCell = document.createElement("td");
-    selectCell.className = "ticket-select";
-    var radio = document.createElement("input");
-    radio.type = "radio";
-    radio.name = "item";                     // the ?item= the form submits
-    radio.value = String(item.id);
-    radio.id = inputId;
-    /* The visible label may be shortened to just the words that differ from
-       its group's heading; the full product name goes here, so the control
-       announces the same thing pretix will show at checkout. The visible text
-       is always contained in it, never contradicted by it. */
-    radio.setAttribute("aria-label", item.name || "Ticket");
-    selectCell.appendChild(radio);
-    tr.appendChild(selectCell);
-
+  function featureRow(label, cells) {
+    var tr = document.createElement("tr");
+    var th = document.createElement("th");
+    th.scope = "row";
+    th.className = "matrix-label";
+    th.textContent = label;
+    tr.appendChild(th);
+    cells.forEach(function (c) { tr.appendChild(c); });
     return tr;
+  }
+
+  function textCell(text) {
+    var td = document.createElement("td");
+    td.className = "matrix-cell matrix-text";
+    td.textContent = text;
+    return td;
+  }
+
+  /* The tick and the cross are drawn in CSS, the same way .pass-list's ticks
+     are — no icon font, no image request, and they inherit colour. Which
+     means they are invisible to a screen reader, so each carries the word it
+     stands for as its accessible name. */
+  function markCell(state) {
+    var td = document.createElement("td");
+    td.className = "matrix-cell";
+
+    if (state === "some") {
+      td.className += " matrix-text is-some";
+      td.textContent = "Some";
+      return td;
+    }
+
+    var mark = document.createElement("span");
+    mark.className = "mark mark-" + state;
+    mark.setAttribute("role", "img");
+    mark.setAttribute("aria-label", state === "yes" ? "Included" : "Not included");
+    td.appendChild(mark);
+    return td;
   }
 
   /* The headline card in the markup is hand-written around one specific pretix
@@ -374,31 +379,45 @@
      If the two ever part company the badge is skipped and the console says so
      — better a missing badge than one that describes a different product. */
   function stamp(byId) {
-    var targets = [].slice.call(document.querySelectorAll(".ticket, .pass-card[data-item-id]"));
-    targets.forEach(function (el) {
-      var item = byId[el.dataset.itemId];
-      var badge = el.querySelector(".ticket-badge, .pass-badge");
-      if (!badge) return;
-      if (!item) {
-        if (el.classList.contains("pass-card") && window.console) {
-          console.warn("tickets: pretix has no item " + el.dataset.itemId +
-                       " — check the id on .pass-card against data/schedule.json");
-        }
-        return;
-      }
-
+    var item = card && byId[card.dataset.itemId];
+    var passBadge = card && card.querySelector(".pass-badge");
+    if (card && !item && window.console) {
+      console.warn("tickets: pretix has no item " + card.dataset.itemId +
+                   " — check the id on .pass-card against data/schedule.json");
+    }
+    if (item && passBadge) {
       var info = GunksPretix.describeAvailability(item);
-      if (!info) return;
-      badge.textContent = info.text;
-      badge.className = badge.className.replace(/\s*is-\w+/g, "") + " is-" + info.tone;
-      badge.hidden = false;
-      el.classList.toggle("is-gone", info.tone === "gone");
+      if (info) {
+        passBadge.textContent = info.text;
+        passBadge.className = "pass-badge is-" + info.tone;
+        passBadge.hidden = false;
+      }
+    }
 
-      /* A row you cannot buy is a row you cannot pick. Left enabled, the only
-         thing telling someone their choice is impossible would be the badge —
-         and they would find out for certain on pretix, after the click. */
-      var radio = el.querySelector('input[name="item"]');
-      if (radio) radio.disabled = info.tone === "gone";
+    /* A column's badge is the whole group's answer, so it only says something
+       when it is true of every ticket in it: "Sold out" when nothing in the
+       group is left, "Limited" when at least one is running low. Anything
+       else stays quiet — "On sale" on all three columns is not news. */
+    [].slice.call(document.querySelectorAll(".matrix-head[data-item-ids]")).forEach(function (th) {
+      var badge = th.querySelector(".ticket-badge");
+      if (!badge) return;
+
+      var states = th.dataset.itemIds.split(",").map(function (id) {
+        var found = byId[id];
+        var info = found && GunksPretix.describeAvailability(found);
+        return info ? info.tone : null;
+      }).filter(Boolean);
+      if (!states.length) return;
+
+      var tone = null;
+      if (states.every(function (t) { return t === "gone"; })) tone = "gone";
+      else if (states.indexOf("low") > -1) tone = "low";
+      if (!tone) return;
+
+      badge.textContent = tone === "gone" ? "Sold out" : "Limited";
+      badge.className = "ticket-badge is-" + tone;
+      badge.hidden = false;
+      th.classList.toggle("is-gone", tone === "gone");
     });
   }
 

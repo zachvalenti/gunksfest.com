@@ -638,140 +638,131 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
 }
 
 /* ---------- The rest of the ticket line-up ---------- */
-/* Rendered by js/tickets.js from data/schedule.json, in groups: weekend
-   passes, day passes, film passes.
-
-   A table, because that is what this is: a fixed set of products compared on
-   one attribute that decides between them. Rows of price against name, read
-   down a single column, is the form that comparison takes — and it happens to
-   be the only form that fits, since a 470px column will not hold a grid of
-   cards at a readable size. One panel, one border, one shadow for eight
-   tickets rather than eight of each is most of the height that buys back. */
+/* Rendered by js/tickets.js from data/schedule.json: a column per group of
+   tickets, a row per thing a group may include. Nine products will not fit as
+   nine columns at any readable size, and the three groups are what someone is
+   actually choosing between — a weekend, a day, or an evening of films. The
+   individual tickets inside a group are chosen on pretix, where their full
+   names and descriptions are. */
 .tickets { margin-top: 0; }
 .tickets-title {
   margin: 0 0 0.75rem; font-size: 1.25rem; color: #fff;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
 }
 
-/* The panel is the form, not the table: a table with border-collapse cannot
-   clip its own corners to a radius, and the submit button has to sit inside
-   the surface anyway. */
-.ticket-form {
+.ticket-matrix {
+  width: 100%; border-collapse: collapse;
   background: var(--color-cream); border-radius: var(--radius);
-  box-shadow: var(--shadow); border-top: 3px solid var(--color-leaf);
-  padding: 0.35rem 1.1rem 1.1rem;
+  box-shadow: var(--shadow); overflow: hidden;
+  table-layout: fixed;                 /* equal columns, whatever the names */
 }
-.ticket-table { width: 100%; border-collapse: collapse; }
-.ticket-caption {
-  caption-side: top; text-align: left; padding: 0.6rem 0 0.2rem;
-  font-size: 0.85rem; color: var(--color-ink-soft);
-}
-.ticket-table th, .ticket-table td { text-align: left; vertical-align: top; }
-
-/* The column heads earn their keep by naming the price column and the radio
-   column — a bare circle at the end of a row is the one cell whose meaning is
-   not self-evident. Small and quiet: they are a key, not a title. */
-.ticket-table thead th {
-  padding: 0.3rem 0 0.45rem; font-size: 0.66rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-stone);
-  border-bottom: 1px solid var(--color-sand-dk);
-}
-.ticket-col-price { text-align: right; }
-.ticket-col-select { text-align: center; width: 3rem; }
-
-.ticket-group-title {
-  padding: 0.9rem 0 0.2rem; font-size: 0.7rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.12em;
-  color: var(--color-stone); text-shadow: none;
+/* A <caption> paints outside the table's own background box, so this sits on
+   the photograph rather than on the panel. It gets the section's white-on-dark
+   treatment, which makes it read as a subtitle to "Other ways in" — which is
+   what it is. */
+.matrix-caption {
+  caption-side: top; text-align: left; padding: 0 0 0.5rem;
+  font-size: 0.9rem; color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
 }
 
-.ticket > td { padding: 0.6rem 0; border-top: 1px solid var(--color-sand-dk); }
-/* The first ticket of a group sits directly under its heading, which is
-   separation enough. */
-.ticket-group tr:first-child + .ticket > td,
-.ticket-group .ticket:first-child > td { border-top: 0; }
+/* The corner cell heads neither axis, so it carries no rule and no tint —
+   the grid should look like it starts at the first real heading. */
+.matrix-corner { background: none; border: 0; width: 34%; }
 
-.ticket-title {
-  display: block; font-size: 0.92rem; line-height: 1.35; font-weight: 700;
-  color: var(--color-forest); cursor: pointer;
+.matrix-head {
+  padding: 0.7rem 0.4rem; text-align: center; vertical-align: bottom;
+  border-bottom: 2px solid var(--color-sand-dk);
 }
-.ticket-title:hover { color: var(--color-accent-dk); }
-
-.ticket-price { text-align: right; padding-left: 0.6rem; white-space: nowrap; }
-.ticket-amount {
+.matrix-group {
+  display: block; font-size: 0.8rem; line-height: 1.25;
+  font-weight: 700; color: var(--color-forest);
+}
+.matrix-price {
+  display: block; margin-top: 0.15rem;
   font-family: var(--font-display); font-weight: 800;
-  font-size: 1.15rem; color: var(--color-forest);
+  font-size: 1.05rem; color: var(--color-forest); white-space: nowrap;
 }
-
-.ticket-select { text-align: center; padding-left: 0.6rem; }
-/* accent-color tints the native control, which keeps the platform's own
-   focus ring, keyboard behaviour and high-contrast rendering — all the things
-   a hand-drawn replacement has to reimplement and usually gets wrong. */
-.ticket-select input {
-  width: 1.15rem; height: 1.15rem; margin: 0.1rem 0 0;
-  accent-color: var(--color-accent-dk); cursor: pointer;
-}
-.ticket-select input:disabled { cursor: not-allowed; }
-
-/* :has() is what lets a checked radio tint the row it sits in. Where it is
-   unsupported the row simply isn't tinted and the radio still reads as
-   checked, so nothing depends on it. */
-.ticket:has(input:checked) { background: rgba(14, 144, 214, 0.08); }
-
-/* Collapsed to nothing rather than clamped to three lines: a table only reads
-   as a table if the rows are one height. The text is one button away and
-   never truncated when it opens.
-
-   max-height:0 (not display:none) is what keeps clampDescriptions() working:
-   it measures scrollHeight against clientHeight to decide which descriptions
-   have something to show, and a collapsed row overflows by definition. */
-.ticket-desc {
-  margin: 0; color: var(--color-ink-soft);
-  font-size: 0.85rem; line-height: 1.5;
-  max-height: 0; overflow: hidden;
-}
-.ticket-desc.is-open { max-height: none; margin: 0.4rem 0 0.1rem; }
-.ticket-desc p { margin: 0 0 0.35rem; }
-.ticket-desc p:last-child { margin-bottom: 0; }
-.ticket-desc a { color: var(--color-accent-dk); }
-
-.ticket-more {
-  margin: 0.15rem 0 0; padding: 0;
-  background: none; border: 0; cursor: pointer;
-  font: inherit; font-size: 0.78rem; font-weight: 700;
-  color: var(--color-accent-dk); text-decoration: underline;
-}
-.ticket-more:hover { color: var(--color-accent); }
-
+/* Shares the .is-open / .is-low / .is-gone tones with the pass badge further
+   up, because both are stamped from the same pretix reading. Here it speaks
+   for a whole column, so it only appears when the answer holds for every
+   ticket in that group — see stamp() in js/tickets.js. */
 .ticket-badge {
-  display: inline-block; margin: 0.25rem 0 0;
+  display: inline-block; margin: 0.3rem 0 0;
   padding: 0.15rem 0.5rem; border-radius: 999px;
-  font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  font-size: 0.62rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em;
 }
+.matrix-head.is-gone .matrix-group,
+.matrix-head.is-gone .matrix-price { color: var(--color-stone); }
 
-/* A sold-out row stays in the table — it is information, and removing it just
-   makes someone search for a ticket that isn't there — but it is visibly out
-   of the running, and js/tickets.js disables its radio so it cannot be picked. */
-.ticket.is-gone > td { opacity: 0.55; }
-
-.ticket-form-foot {
-  display: flex; justify-content: flex-end;
-  margin-top: 1rem; padding-top: 0.9rem;
+.matrix-label {
+  padding: 0.6rem 0.5rem 0.6rem 1rem; text-align: left;
+  font-size: 0.8rem; font-weight: 600; color: var(--color-ink-soft);
   border-top: 1px solid var(--color-sand-dk);
 }
+.matrix-cell {
+  padding: 0.6rem 0.4rem; text-align: center;
+  border-top: 1px solid var(--color-sand-dk);
+}
+/* Zebra striping earns its place on a matrix in a way it doesn't on a short
+   list: the cells are near-identical marks, and the row tint is what stops
+   the eye sliding onto the wrong feature on the way across. */
+.ticket-matrix tbody tr:nth-child(odd) .matrix-label,
+.ticket-matrix tbody tr:nth-child(odd) .matrix-cell { background: rgba(14, 144, 214, 0.05); }
+
+.matrix-text { font-size: 0.8rem; font-weight: 600; color: var(--color-ink-soft); }
+.matrix-cell.is-some { color: var(--color-accent-dk); }
+
+/* Tick and cross drawn in CSS, like .pass-list's ticks: no icon font, no
+   image request, and they inherit colour. Both sit in a tinted disc so the
+   row scans as a line of answers rather than a line of glyphs. */
+.mark {
+  display: inline-block; position: relative;
+  width: 1.35rem; height: 1.35rem; border-radius: 50%;
+}
+.mark-yes { background: #e3f2e4; }
+.mark-no  { background: #fbe9e7; }
+/* The tick: an empty box given only a left and bottom border draws an "L",
+   rotated 45° anticlockwise. */
+.mark-yes::before {
+  content: ""; position: absolute; left: 0.38rem; top: 0.42rem;
+  width: 0.42rem; height: 0.22rem;
+  border-left: 2px solid #1c5a24; border-bottom: 2px solid #1c5a24;
+  transform: rotate(-45deg);
+}
+/* The cross: one bar, then the same bar turned the other way. */
+.mark-no::before, .mark-no::after {
+  content: ""; position: absolute; left: 0.33rem; top: 0.63rem;
+  width: 0.7rem; height: 2px; background: #b3261e;
+}
+.mark-no::before { transform: rotate(45deg); }
+.mark-no::after  { transform: rotate(-45deg); }
+
+.matrix-cta { padding: 0.9rem 0.4rem 1rem; text-align: center; }
+.matrix-cta .btn { padding: 0.45rem 0.9rem; font-size: 0.78rem; }
+
+.tickets-fallback, .tickets-note, .tickets-some {
+  margin: 1rem 0 0; color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
+.tickets-some { font-size: 0.85rem; }
+.tickets-fallback a, .tickets-note a { color: #fff; font-weight: 600; }
 
 /* One set of tones for both badges. Green reads "go", amber "hurry", grey
    "stop" — and none of them rely on colour alone: the words say it too, which
    is what makes the row work for someone who can't tell the three apart. */
+/* display:inline-block overrides the browser's own [hidden] { display: none },
+   so a badge waiting on pretix — which is every badge until the availability
+   call lands, and every badge forever if it never does — held its own padding
+   and margin open as a blank gap under the price. Both badges ship hidden in
+   the markup, so both need this. */
+.pass-badge[hidden], .ticket-badge[hidden] { display: none; }
+
 .pass-badge.is-open,  .ticket-badge.is-open  { background: #e3f2e4; color: #1c5a24; }
 .pass-badge.is-low,   .ticket-badge.is-low   { background: #fdf0d5; color: #7a4b00; }
 .pass-badge.is-gone,  .ticket-badge.is-gone  { background: #ece9e4; color: #59524a; }
 
-.tickets-fallback, .tickets-note {
-  margin: 1rem 0 0; color: rgba(255, 255, 255, 0.92);
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
-}
-.tickets-fallback a, .tickets-note a { color: #fff; font-weight: 600; }
 /* Only ever seen on a file:// preview, never by a visitor — see js/tickets.js.
    Styled to look like a warning rather than like copy, so nobody mistakes it
    for something the page meant to say. */

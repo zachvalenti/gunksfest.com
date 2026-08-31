@@ -353,15 +353,6 @@
             <a class="btn btn-primary pass-cta" href="https://pretix.eu/gunksclimbers/gunksfest2026/?item=1088250" target="_blank" rel="noopener">Select</a>
             <p class="pass-note"><a href="https://script.google.com/macros/s/AKfycbxzDdPAMZbNi7ckt9Lm30IkVRR8i6zDBTN19dVXH7HfvjEkNMNFJ5MHGi5L8vicEAg/exec" target="_blank" rel="noopener">Volunteers</a> get a discount. Sign up before you buy.</p>
           </div>
-
-          <!-- Applies to every ticket on the page, the pass included, so it
-               sits under the card rather than under the table of alternatives.
-               js/tickets.js unhides it by id once the shop answers, which is
-               why moving it here changes nothing about when it appears. -->
-          <p class="tickets-note" id="tickets-note" hidden>
-            Clinics are added during checkout, on top of whichever ticket you pick —
-            <a href="clinics.html">browse the line-up</a> first if you want to plan your days.
-          </p>
           </div>
 
           <!-- ============ EVERY TICKET, FROM PRETIX ============ -->
@@ -390,6 +381,16 @@
             <p class="tickets-fallback" id="tickets-fallback">
               Weekend passes, single-day passes and film-only tickets are all on our
               <a href="https://pretix.eu/gunksclimbers/gunksfest2026/" target="_blank" rel="noopener">ticket shop</a>.
+            </p>
+            <!-- Unhidden by js/tickets.js only when a column actually reads
+                 "Some" — which happens when the tickets inside one group
+                 disagree, as the weekend passes do about camping. -->
+            <p class="tickets-some" id="tickets-some" hidden>
+              &ldquo;Some&rdquo; means that option is on some tickets in the group, not all.
+            </p>
+            <p class="tickets-note" id="tickets-note" hidden>
+              Clinics are added during checkout, on top of whichever ticket you pick —
+              <a href="clinics.html">browse the line-up</a> first if you want to plan your days.
             </p>
           </div>
         </div>
