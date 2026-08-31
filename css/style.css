@@ -665,45 +665,19 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
   color: rgba(255, 255, 255, 0.85); text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
 }
 
-/* Every other grid on this site is an auto-fit one-liner with no breakpoints,
-   and that is the right default. This one can't be, and the reason is worth
-   writing down: centring a row that doesn't fill requires knowing how many
-   columns there are, and the whole point of auto-fit/auto-fill is that nobody
-   knows — the container decides at render time. Two Day Passes in a
-   three-column grid have to sit half a track in from the left, and "half a
-   track" is not something you can name without naming the track count.
-
-   So: an explicit column count per breakpoint, with each card spanning two
-   columns of a grid that has twice as many. Six columns of span-2 is the same
-   three cards across as before, but it also gives a half-track to offset by —
-   start the first of two cards at column 2 and the pair lands dead centre,
-   at exactly the width the three cards above them have. Same trick one
-   breakpoint down: a lone third card starts at column 2 of four.
-
-   The doubling is the whole idea. A grid whose tracks are half a card wide can
-   express positions a grid of whole cards cannot. */
+/* auto-FILL, not auto-fit, and this is the one place on the site where the
+   difference is visible. Both fit as many columns as will hold; auto-fit then
+   collapses the empty tracks and lets the real cards stretch into them, while
+   auto-fill keeps them. With auto-fit the two Day Passes would grow to half the
+   row each and sit noticeably wider than the three Weekend Passes above — the
+   groups would stop looking like one set of cards. auto-fill holds the grid
+   steady, so every card is the same width whatever its group's count, and a
+   short group simply runs out partway along the row.
+   300px as the floor lands on three columns at full width, two on a tablet,
+   one on a phone, with no media query deciding it. */
 .ticket-grid {
   margin: 0; padding: 0; list-style: none;
-  display: grid; grid-template-columns: 1fr; gap: 0.85rem;
-}
-@media (min-width: 620px) {
-  .ticket-grid { grid-template-columns: repeat(4, 1fr); }   /* two cards across */
-  .ticket { grid-column: span 2; }
-  /* Three cards, two across: centre the one left over on the second row.
-     Note this sets the whole `grid-column`, not just the start. Writing
-     grid-column-start alone would override the start half of `span 2` above
-     and leave the end at auto — a card one track wide, which is half the width
-     of every other card and looks like a rendering bug rather than a CSS one.
-     Position and span travel together. */
-  .ticket-grid[data-count="3"] .ticket:last-child { grid-column: 2 / span 2; }
-}
-@media (min-width: 940px) {
-  .ticket-grid { grid-template-columns: repeat(6, 1fr); }   /* three cards across */
-  /* Three cards fill a three-across row, so undo the centring from above. */
-  .ticket-grid[data-count="3"] .ticket:last-child { grid-column: span 2; }
-  /* Two cards, three across: shift the pair half a track right and they land
-     dead centre, at exactly the width of the three cards above them. */
-  .ticket-grid[data-count="2"] .ticket:first-child { grid-column: 2 / span 2; }
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 0.85rem;
 }
 /* Cards in a row are stretched to the tallest by the grid, so make each one a
    column and push the footer down with margin-top:auto. That way the Buy

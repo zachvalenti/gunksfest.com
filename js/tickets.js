@@ -160,10 +160,6 @@
 
       var grid = document.createElement("ul");
       grid.className = "ticket-grid";
-      /* CSS can't count children without :has(), and the number is right here,
-         so hand it over. The stylesheet uses it to centre a group that doesn't
-         fill its row — see .ticket-grid[data-count] in css/style.css. */
-      grid.dataset.count = String(group.items.length);
       group.items.forEach(function (item) { grid.appendChild(ticketCard(item, shop)); });
       sec.appendChild(grid);
       listEl.appendChild(sec);
