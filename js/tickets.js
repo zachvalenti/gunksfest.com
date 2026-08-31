@@ -41,7 +41,7 @@
   var GROUPS = [
     { key: "weekend", title: "Full Weekend Passes", test: /weekend/i },
     { key: "day",     title: "Day Passes",          test: /(saturday|sunday|single.?day)\s+pass/i },
-    { key: "film",    title: "Film Passes",         test: /films?\s*only/i }
+    { key: "film",    title: "Film-Only Passes",    test: /films?\s*only/i }
   ];
   var OTHER_TITLE = "More tickets";
 
@@ -160,6 +160,10 @@
 
       var grid = document.createElement("ul");
       grid.className = "ticket-grid";
+      /* CSS can't count children without :has(), and the number is right here,
+         so hand it over. The stylesheet uses it to centre a group that doesn't
+         fill its row — see .ticket-grid[data-count] in css/style.css. */
+      grid.dataset.count = String(group.items.length);
       group.items.forEach(function (item) { grid.appendChild(ticketCard(item, shop)); });
       sec.appendChild(grid);
       listEl.appendChild(sec);
