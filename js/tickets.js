@@ -145,6 +145,50 @@
     return out;
   }
 
+  /* Every ticket in a group tends to open with the same words — the three
+     remaining weekend passes all begin "Full Weekend Pass with", the film
+     tickets all begin "Films Only -" — and in a title column barely 300px wide
+     those shared words are most of the line, pushing the part that actually
+     differs onto a second and third line. The group heading directly above already
+     says them once. So find the words a group's names start with in common and
+     let the heading carry them.
+
+     Only the display is shortened. The full product name still goes on the Buy
+     link's aria-label, which is what someone listing the page's links hears,
+     and it is what pretix shows at checkout — so nobody ever has to match a
+     name here against a different one there.
+
+     The rules are deliberately timid, because getting this wrong means a row
+     that lies about what it sells: at least two tickets to compare, at least
+     two words in common, and every shortened name must keep at least two words
+     of its own. A group that fails any of them keeps its full names, which is
+     the same thing that happens to a group of one. */
+  var CONNECTORS = /^(?:with|and|for|-|–|—|:|,)$/i;
+
+  function shortNames(items) {
+    var full = items.map(function (it) { return String(it.name || "Ticket"); });
+    if (full.length < 2) return full;
+
+    var words = full.map(function (n) { return n.split(/\s+/); });
+    var n = 0;
+    while (words.every(function (w) {
+      return w.length > n && w[n].toLowerCase() === words[0][n].toLowerCase();
+    })) n++;
+
+    // Never let the heading swallow a word the row needs: back off past any
+    // trailing connector, so "Full Weekend Pass with" doesn't leave "Camping"
+    // reading as though it were the whole product.
+    while (n > 0 && CONNECTORS.test(words[0][n - 1])) n--;
+    if (n < 2) return full;
+
+    var short = words.map(function (w) {
+      var rest = w.slice(n);
+      while (rest.length && CONNECTORS.test(rest[0])) rest.shift();
+      return rest.join(" ");
+    });
+    return short.every(function (s) { return s.split(/\s+/).length >= 2; }) ? short : full;
+  }
+
   function render(tickets, shop) {
     listEl.innerHTML = "";
     groupTickets(tickets).forEach(function (group) {
@@ -160,7 +204,8 @@
 
       var grid = document.createElement("ul");
       grid.className = "ticket-grid";
-      group.items.forEach(function (item) { grid.appendChild(ticketCard(item, shop)); });
+      var names = shortNames(group.items);
+      group.items.forEach(function (item, i) { grid.appendChild(ticketCard(item, shop, names[i])); });
       sec.appendChild(grid);
       listEl.appendChild(sec);
     });
@@ -203,7 +248,7 @@
      no value out of the data file is ever parsed as markup — a product named
      `<img onerror=...>` is simply a card with a strange title. The one place
      markup is intended, the description, goes through GunksPretix.sanitize. */
-  function ticketCard(item, shop) {
+  function ticketCard(item, shop, displayName) {
     var li = document.createElement("li");
     li.className = "ticket";
     li.dataset.itemId = String(item.id);
@@ -213,7 +258,7 @@
 
     var title = document.createElement("h4");
     title.className = "ticket-title";
-    title.textContent = item.name || "Ticket";
+    title.textContent = displayName || item.name || "Ticket";
     head.appendChild(title);
 
     var price = document.createElement("p");
