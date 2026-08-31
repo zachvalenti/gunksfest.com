@@ -177,8 +177,9 @@
         <h1 id="hero-title">GunksFest<span class="hero-year"> V</span><span class="hero-edition"> (2026)</span></h1>
         <p class="hero-tagline">The fifth annual celebration of climbing, stewardship, and community in the Shawangunks.</p>
         <p class="hero-date">October 9–12, 2026</p>
+        <!-- One call to action. .hero-actions is already centred, so removing
+             the first button leaves the second centred with no rule change. -->
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#tickets">Get Tickets</a>
           <a class="btn btn-ghost" href="#about">Learn More</a>
         </div>
       </div>
@@ -330,35 +331,44 @@
                direct child of it claims a column. -->
           <div class="pass-main">
             <!-- data-item-id names the pretix product this hand-written card
-               describes. js/tickets.js uses it to stamp the live "Sold out" /
-               "3 spots left" badge below the price, and warns in the console if
-               pretix no longer has that id — which is the signal that the copy
-               in this card and the product in the shop have drifted apart. The
-               id is the same one in the buy link below, and both come from
-               data/schedule.json. -->
+                 describes. js/tickets.js uses it to stamp the live "Sold out" /
+                 "3 spots left" badge below the price, and warns in the console
+                 if pretix no longer has that id — the signal that the copy in
+                 this card and the product in the shop have drifted apart.
+
+                 It is no longer in the link below: every Select on the page
+                 opens the shop's own product list rather than preselecting one
+                 item, so this attribute is now the only thing tying the card to
+                 a specific product. Which is why that console warning matters
+                 more than it used to — nothing else would notice. -->
             <div class="pass-card" data-item-id="1088250">
-            <p class="pass-eyebrow">All-Access Pass</p>
-            <p class="pass-price"><span class="pass-amount">$250</span></p>
-            <!-- Empty and `hidden` until pretix answers. A badge that says
-                 nothing is better than one that guesses. -->
-            <p class="pass-badge" hidden></p>
-            <ul class="pass-list">
-              <li>Camp with us Friday, October 9th through Monday, October 12th at the Ulster County Fairgrounds <span class="pass-value">($120 value)</span></li>
-              <li>A four-day pass to the iconic Mohonk Preserve, with climbing privileges as a non-member <span class="pass-value">($100 value)</span></li>
-              <li>Over a dozen <a href="clinics.html">clinics to choose from</a> across Saturday, Sunday, and Monday daytime programming, plus access to even more premium clinics</li>
-              <li>Round-trip bus transit to the cliff and back from the Fairgrounds <span class="pass-value">($50 value)</span></li>
-              <li>Our full evening program — film festival, vendor village, and guest speaker and panelist presentations</li>
-              <li>RV hookups available for an additional fee</li>
-            </ul>
-            <!-- ?item= preselects this pass in the shop's own list. Checkout
-                 happens on pretix rather than in a widget embedded here — the
-                 reasoning is in README.md, "Linking out vs embedding the
-                 widget". The .pass-cta class is the handle js/tickets.js uses
-                 to send this button back to the updates list if the shop turns
-                 out not to be open yet. -->
-            <a class="btn btn-primary pass-cta" href="https://pretix.eu/gunksclimbers/gunksfest2026/?item=1088250" target="_blank" rel="noopener">Select</a>
-            <p class="pass-note"><a href="https://script.google.com/macros/s/AKfycbxzDdPAMZbNi7ckt9Lm30IkVRR8i6zDBTN19dVXH7HfvjEkNMNFJ5MHGi5L8vicEAg/exec" target="_blank" rel="noopener">Volunteers</a> get a discount. Sign up before you buy.</p>
-          </div>
+              <p class="pass-eyebrow">All-Access Pass</p>
+              <p class="pass-price"><span class="pass-amount">$250</span></p>
+              <!-- Empty and `hidden` until pretix answers, and it stays hidden
+                   unless the answer is worth interrupting for: "Sold out" or
+                   "3 spots left", never "Open". A badge that says nothing is
+                   better than one that guesses, and one that only confirms what
+                   the price and the button already say is just noise under the
+                   biggest number on the page. -->
+              <p class="pass-badge" hidden></p>
+              <ul class="pass-list">
+                <li>Camp with us Friday, October 9th through Monday, October 12th at the Ulster County Fairgrounds <span class="pass-value">($120 value)</span></li>
+                <li>A four-day pass to the iconic Mohonk Preserve, with climbing privileges as a non-member <span class="pass-value">($100 value)</span></li>
+                <li>Over a dozen <a href="clinics.html">clinics to choose from</a> across Saturday, Sunday, and Monday daytime programming, plus access to even more premium clinics</li>
+                <li>Round-trip bus transit to the cliff and back from the Fairgrounds <span class="pass-value">($50 value)</span></li>
+                <li>Our full evening program — film festival, vendor village, and guest speaker and panelist presentations</li>
+                <li>RV hookups available for an additional fee</li>
+              </ul>
+              <!-- Straight to the shop's product list, with nothing preselected
+                   — the same destination as every Select in the table opposite.
+                   Checkout happens on pretix rather than in a widget embedded
+                   here; the reasoning is in README.md, "Linking out vs embedding
+                   the widget". The .pass-cta class is the handle js/tickets.js
+                   uses to send this button back to the updates list if the shop
+                   turns out not to be open yet. -->
+              <a class="btn btn-primary pass-cta" href="https://pretix.eu/gunksclimbers/gunksfest2026/" target="_blank" rel="noopener">Select</a>
+              <p class="pass-note"><a href="https://script.google.com/macros/s/AKfycbxzDdPAMZbNi7ckt9Lm30IkVRR8i6zDBTN19dVXH7HfvjEkNMNFJ5MHGi5L8vicEAg/exec" target="_blank" rel="noopener">Volunteers</a> get a discount. Sign up before you buy.</p>
+            </div>
           </div>
 
           <!-- ============ EVERY TICKET, FROM PRETIX ============ -->

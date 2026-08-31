@@ -299,11 +299,13 @@
     })));
     table.appendChild(tbody);
 
-    /* One Select per column, all pointing at the shop's own product list.
-       A column stands for several products and ?item= names exactly one, so
-       there is no honest per-column preselect to send — the choice between
-       the tickets inside a group is made on pretix, where their full names
-       and descriptions are. */
+    /* One Select per column, all pointing at the shop's own product list —
+       the same place the pass card's Select goes. A column stands for several
+       products and ?item= names exactly one, so there was never an honest
+       per-column preselect to send; the choice between the tickets inside a
+       group is made on pretix, where their full names and descriptions are.
+       Every Select on the page now lands in the same place, which is also the
+       one page guaranteed to list whatever the shop actually has. */
     var tfoot = document.createElement("tfoot");
     var footRow = document.createElement("tr");
     footRow.appendChild(document.createElement("td")).className = "matrix-corner";
@@ -388,7 +390,15 @@
     }
     if (item && passBadge) {
       var info = GunksPretix.describeAvailability(item);
-      if (info) {
+      /* "Open" is not news. The section says tickets are on sale, the price is
+         right there and the button is live, so a pill repeating it was three
+         words of chrome under the largest number on the page. The badge now
+         speaks only when it has something a visitor could not otherwise know
+         — that the pass is nearly gone, or gone — which is also the rule the
+         column badges follow. Dropping it entirely would have taken those
+         with it, and someone finding out on pretix that the pass they just
+         chose is sold out is exactly what this element is for. */
+      if (info && info.tone !== "open") {
         passBadge.textContent = info.text;
         passBadge.className = "pass-badge is-" + info.tone;
         passBadge.hidden = false;
