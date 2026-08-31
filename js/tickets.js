@@ -40,16 +40,13 @@
      name test is then never consulted. */
   var GROUPS = [
     { key: "weekend", title: "Full Weekend", days: "Fri\u2013Mon", test: /weekend/i },
-    { key: "day",     title: "Single Day",   days: "One day",       test: /(saturday|sunday|single.?day)\s+pass/i },
+    { key: "day",     title: "Day Pass",     days: "One day",       test: /(saturday|sunday|single.?day)\s+pass/i },
     { key: "film",    title: "Films Only",   days: "Evenings",      test: /films?\s*only/i }
   ];
   var OTHER_TITLE = "More tickets";
 
   var fallbackEl = document.getElementById("tickets-fallback");
   var noteEl = document.getElementById("tickets-note");
-  /* Only shown when a column actually says "Some" — a footnote explaining a
-     word that isn't on the page reads like a warning about nothing. */
-  var someEl = document.getElementById("tickets-some");
   var card = document.querySelector(".pass-card");
 
   fetch("data/schedule.json", { cache: "no-cache" })
@@ -217,9 +214,9 @@
 
   /* A column is a whole group, and a group's tickets need not agree: two of
      the four weekend passes include camping and two do not. That is a real
-     answer, not a missing one, so it gets its own state rather than being
-     rounded to a tick or a cross — either of which would be false for half
-     the tickets in the column. */
+     answer, not a missing one, so it gets its own state — shown as "Optional"
+     — rather than being rounded to a tick or a cross, either of which would
+     be false for half the tickets in the column. */
   function groupState(items, feature) {
     var seen = {};
     items.forEach(function (item) { seen[featureState(item, feature)] = true; });
@@ -271,11 +268,6 @@
       name.textContent = group.title;
       th.appendChild(name);
 
-      var price = document.createElement("span");
-      price.className = "matrix-price";
-      price.textContent = priceRange(group.items, shop);
-      th.appendChild(price);
-
       var badge = document.createElement("span");
       badge.className = "ticket-badge";
       badge.hidden = true;
@@ -295,6 +287,16 @@
         return markCell(groupState(g.items, feature));
       })));
     });
+
+    /* Price last, right above the Select it applies to. It reads as the total
+       of everything ticked above it that way, which is the order someone
+       comparing these actually wants: what do I get, then what does it cost. */
+    tbody.appendChild(featureRow("Price", groups.map(function (g) {
+      var td = document.createElement("td");
+      td.className = "matrix-cell matrix-price";
+      td.textContent = priceRange(g.items, shop);
+      return td;
+    })));
     table.appendChild(tbody);
 
     /* One Select per column, all pointing at the shop's own product list.
@@ -325,7 +327,6 @@
     listEl.hidden = false;
     if (fallbackEl) fallbackEl.hidden = true;
     if (noteEl) noteEl.hidden = false;
-    if (someEl) someEl.hidden = !table.querySelector(".is-some");
 
     if (unresolved.length && window.console) {
       console.warn("tickets: could not read " + unresolved.join("; ") +
@@ -362,7 +363,7 @@
 
     if (state === "some") {
       td.className += " matrix-text is-some";
-      td.textContent = "Some";
+      td.textContent = "Optional";
       return td;
     }
 

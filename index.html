@@ -114,10 +114,10 @@
         <a href="#partners">Partners</a>
         <a href="#venue">Venue</a>
         <a href="clinics.html">Clinics</a>
-        <a href="#stay-play">Tickets</a>
+        <a href="#tickets">Tickets</a>
         <a href="#evening">Evening</a>
         <a href="#volunteer">Volunteer</a>
-        <a class="nav-cta" href="#stay-play">Get Tickets</a>
+        <a class="nav-cta" href="#tickets">Get Tickets</a>
       </nav>
     </div>
   </header>
@@ -148,10 +148,10 @@
     <a href="#partners">Partners</a>
     <a href="#venue">Venue</a>
     <a href="clinics.html">Clinics</a>
-    <a href="#stay-play">Tickets</a>
+    <a href="#tickets">Tickets</a>
     <a href="#evening">Evening Program</a>
     <a href="#volunteer">Volunteer</a>
-    <a class="menu-cta" href="#stay-play">Get Tickets</a>
+    <a class="menu-cta" href="#tickets">Get Tickets</a>
   </nav>
 
   <!-- <main> marks the page's primary content — one per document, excluding
@@ -178,7 +178,7 @@
         <p class="hero-tagline">The fifth annual celebration of climbing, stewardship, and community in the Shawangunks.</p>
         <p class="hero-date">October 9–12, 2026</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#stay-play">Get Tickets</a>
+          <a class="btn btn-primary" href="#tickets">Get Tickets</a>
           <a class="btn btn-ghost" href="#about">Learn More</a>
         </div>
       </div>
@@ -307,11 +307,17 @@
     <div class="rope-divider" role="presentation"><svg class="rope" width="100%" height="90" aria-hidden="true" focusable="false"><path class="rope-body" d="M-20,45 L3200,45"/><path class="rope-fleck" fill="none" stroke="url(#fleckA)" d="M-20,45 L3200,45"/><path class="rope-fleck" fill="none" stroke="url(#fleckB)" d="M-20,45 L3200,45"/></svg></div>
 
     <!-- ============ STAY & PLAY / TICKETS ============ -->
-    <section class="section section-photo section-pass" id="stay-play" aria-labelledby="stay-play-title">
+    <!-- id="tickets" rather than "stay-play": /tickets on the site redirects
+         to this anchor (see tickets/index.html), and it should land on the
+         heading the way /volunteer lands on that section's, not part-way down
+         the section. The inner block that used to hold this id was the "Other
+         ways in" column, which would have skipped both the heading and the
+         pass card. -->
+    <section class="section section-photo section-pass" id="tickets" aria-labelledby="tickets-heading">
       <div class="section-bg" style="background-image:url('assets/img/Stephen_D_Stewart-Hill_20200521a_Undercliff_44a-copy-1024x1024.jpg')" aria-hidden="true"></div>
       <div class="slideshow-scrim" aria-hidden="true"></div>
       <div class="container">
-        <h2 id="stay-play-title">Stay &amp; Play</h2>
+        <h2 id="tickets-heading">Stay &amp; Play</h2>
         <p class="lead">
           Tickets are on sale. Our all-access pass puts you on the grounds for the whole
           festival — car or tent camping, the film festival, vendor village, and speakers
@@ -375,18 +381,12 @@
                the test worth applying to anything built this way — not "does
                the enhancement work" but "is what's left without it still the
                thing the visitor came for". -->
-          <div class="tickets" id="tickets">
+          <div class="tickets">
             <h3 class="tickets-title">Other ways in</h3>
             <div id="tickets-list" hidden></div>
             <p class="tickets-fallback" id="tickets-fallback">
               Weekend passes, single-day passes and film-only tickets are all on our
               <a href="https://pretix.eu/gunksclimbers/gunksfest2026/" target="_blank" rel="noopener">ticket shop</a>.
-            </p>
-            <!-- Unhidden by js/tickets.js only when a column actually reads
-                 "Some" — which happens when the tickets inside one group
-                 disagree, as the weekend passes do about camping. -->
-            <p class="tickets-some" id="tickets-some" hidden>
-              &ldquo;Some&rdquo; means that option is on some tickets in the group, not all.
             </p>
             <p class="tickets-note" id="tickets-note" hidden>
               Clinics are added during checkout, on top of whichever ticket you pick —
@@ -548,7 +548,7 @@
         <a href="#about">About</a>
         <a href="#venue">Venue</a>
         <a href="clinics.html">Clinics</a>
-        <a href="#stay-play">Tickets</a>
+        <a href="#tickets">Tickets</a>
         <a href="#evening">Evening Program</a>
         <a href="#volunteer">Volunteer</a>
         <a href="#updates">Updates</a>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tickets — GunksFest 2026</title>
+
+  <!-- A redirect stub. GitHub Pages serves static files and nothing else —
+       there is no server to answer /tickets with a 301 — so the redirect has to
+       happen in the page itself, and it is done twice on purpose:
+
+       location.replace() runs first and, unlike assigning to location.href,
+       leaves no entry in the history stack. That is the difference between
+       Back returning someone to where they came from and Back bouncing them
+       straight into this file again.
+
+       The meta refresh is the fallback for a visitor with scripting off, who
+       would otherwise sit on a blank page. It carries 0 seconds, so nobody
+       reads the sentence below unless both fail — and if both fail, the link
+       is there to click.
+
+       rel=canonical points at the real page so a crawler that lands here
+       credits the destination rather than treating this as a thin duplicate.
+       Fragments are ignored in a canonical URL, which is correct: the page
+       being named is the home page. -->
+  <link rel="canonical" href="https://gunksfest.com/" />
+  <meta http-equiv="refresh" content="0; url=/#tickets" />
+  <script>location.replace("/#tickets");</script>
+</head>
+<body style="font: 16px/1.6 system-ui, sans-serif; margin: 3rem auto; max-width: 40rem; padding: 0 1.25rem;">
+  <p>Taking you to <a href="/#tickets">the tickets on gunksfest.com</a>&hellip;</p>
+</body>
+</html>

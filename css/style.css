@@ -678,10 +678,11 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
   display: block; font-size: 0.8rem; line-height: 1.25;
   font-weight: 700; color: var(--color-forest);
 }
+/* The price is a row of its own now, directly above the buttons, so it is a
+   cell rather than a line under the group name. */
 .matrix-price {
-  display: block; margin-top: 0.15rem;
   font-family: var(--font-display); font-weight: 800;
-  font-size: 1.05rem; color: var(--color-forest); white-space: nowrap;
+  font-size: 1.15rem; color: var(--color-forest); white-space: nowrap;
 }
 /* Shares the .is-open / .is-low / .is-gone tones with the pass badge further
    up, because both are stamped from the same pretix reading. Here it speaks
@@ -693,8 +694,7 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
   font-size: 0.62rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.06em;
 }
-.matrix-head.is-gone .matrix-group,
-.matrix-head.is-gone .matrix-price { color: var(--color-stone); }
+.matrix-head.is-gone .matrix-group { color: var(--color-stone); }
 
 .matrix-label {
   padding: 0.6rem 0.5rem 0.6rem 1rem; text-align: left;
@@ -742,11 +742,10 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
 .matrix-cta { padding: 0.9rem 0.4rem 1rem; text-align: center; }
 .matrix-cta .btn { padding: 0.45rem 0.9rem; font-size: 0.78rem; }
 
-.tickets-fallback, .tickets-note, .tickets-some {
+.tickets-fallback, .tickets-note {
   margin: 1rem 0 0; color: rgba(255, 255, 255, 0.92);
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
 }
-.tickets-some { font-size: 0.85rem; }
 .tickets-fallback a, .tickets-note a { color: #fff; font-weight: 600; }
 
 /* One set of tones for both badges. Green reads "go", amber "hurry", grey
