@@ -56,10 +56,10 @@
     })
     .then(function (data) {
       var shop = data.shop || {};
-      /* The headline pass already has a card of its own above this list, so
-         it is filtered out rather than printed twice. Which product that is
+      /* The headline pass already has a card of its own beside this table,
+         so it is filtered out rather than printed twice. Which product that is
          comes from the data-item-id on that card — the same single place the
-         card's buy link and its badge already read — so there is no second
+         card's own link and its badge already read — so there is no second
          copy of "which one is the headline" to keep in step. If the id isn't
          in the data at all, nothing is filtered and the visitor sees the full
          list, which is the right way for that to fail. */
@@ -191,39 +191,102 @@
 
   function render(tickets, shop) {
     listEl.innerHTML = "";
+
+    /* A GET form whose action is the shop, with every radio named "item",
+       submits to exactly shop.url + "?item=<id>" — byte for byte the URL the
+       per-row Buy links used to carry, and the one on the pass card above.
+       That equivalence is the whole reason this is a form and not a button
+       with a scripted href: choosing a ticket needs no JavaScript of its own
+       to become a destination, and there is no second URL scheme that has to
+       be kept working against a shop we do not control. */
+    var form = document.createElement("form");
+    form.className = "ticket-form";
+    form.action = shop.url;
+    form.method = "get";
+    form.target = "_blank";
+    form.setAttribute("rel", "noopener");
+
+    var table = document.createElement("table");
+    table.className = "ticket-table";
+
+    /* Radios rather than checkboxes, and it is worth writing down why, because
+       the markup reads like a shopping list and isn't one. These are
+       alternatives — the section is called "Other ways in", and you take one
+       way in — so ticking three is not a thing anyone means to do. It is also
+       what the destination supports: ?item= names a single product. Checkboxes
+       would let someone tick three and then carry one, which is the kind of
+       quiet wrong answer that only shows up on the payment page. Buying for
+       two people is a quantity, and pretix asks for that at checkout. */
+    var cap = document.createElement("caption");
+    cap.className = "ticket-caption";
+    cap.textContent = "Pick one, then Select.";
+    table.appendChild(cap);
+
+    var thead = document.createElement("thead");
+    var headRow = document.createElement("tr");
+    [["Ticket", "ticket-col-name"],
+     ["Price", "ticket-col-price"],
+     ["Select", "ticket-col-select"]].forEach(function (col) {
+      var th = document.createElement("th");
+      th.scope = "col";
+      th.className = col[1];
+      th.textContent = col[0];
+      headRow.appendChild(th);
+    });
+    thead.appendChild(headRow);
+    table.appendChild(thead);
+
+    /* One <tbody> per group, headed by a row-group <th>. A group is a real
+       section of the table, so it gets the element that means that rather
+       than a styled row that only looks like one. */
     groupTickets(tickets).forEach(function (group) {
-      var sec = document.createElement("section");
-      sec.className = "ticket-group";
+      var body = document.createElement("tbody");
+      body.className = "ticket-group";
 
       if (group.title) {
-        var h = document.createElement("h4");
-        h.className = "ticket-group-title";
-        h.textContent = group.title;
-        sec.appendChild(h);
+        var gRow = document.createElement("tr");
+        var gHead = document.createElement("th");
+        gHead.className = "ticket-group-title";
+        gHead.colSpan = 3;
+        gHead.scope = "rowgroup";
+        gHead.textContent = group.title;
+        gRow.appendChild(gHead);
+        body.appendChild(gRow);
       }
 
-      var grid = document.createElement("ul");
-      grid.className = "ticket-grid";
       var names = shortNames(group.items);
-      group.items.forEach(function (item, i) { grid.appendChild(ticketCard(item, shop, names[i])); });
-      sec.appendChild(grid);
-      listEl.appendChild(sec);
+      group.items.forEach(function (item, i) {
+        body.appendChild(ticketRow(item, shop, names[i]));
+      });
+      table.appendChild(body);
     });
 
+    form.appendChild(table);
+
+    var foot = document.createElement("div");
+    foot.className = "ticket-form-foot";
+    var go = document.createElement("button");
+    go.type = "submit";
+    go.className = "btn btn-primary";
+    go.textContent = "Select";
+    foot.appendChild(go);
+    form.appendChild(foot);
+
+    listEl.appendChild(form);
     listEl.hidden = false;
     if (fallbackEl) fallbackEl.hidden = true;
     if (noteEl) noteEl.hidden = false;
     clampDescriptions();
   }
 
-  /* Cards sit side by side now, so a five-line pretix description on one of
-     them sets the height of its whole row. Clamp anything taller than three
-     lines and offer a toggle. The clamp itself is in the stylesheet, applied
-     to every card up front; this only measures which ones overflowed it and
-     gives those a button. A card whose text already fits never grows one. The information is
-     still there for whoever wants it, which matters here: "you will need a
-     valid Mohonk Preserve pass" is exactly the sort of line that belongs in
-     front of someone before they pay, not after. */
+  /* A table only reads as a table if the rows are one height, so a
+     description is collapsed to nothing and opened by a button rather than
+     shown clamped. The collapse itself is in the stylesheet, applied to every
+     row up front; this only measures which ones have something to show and
+     gives those the button. The information is still one click away, which
+     matters here: "you will need a valid Mohonk Preserve pass" is exactly the
+     sort of line that belongs in front of someone before they pay, not
+     after. */
   function clampDescriptions() {
     Array.prototype.forEach.call(listEl.querySelectorAll(".ticket-desc"), function (desc) {
       if (desc.scrollHeight <= desc.clientHeight + 4) return;
@@ -246,60 +309,64 @@
 
   /* Built with createElement and textContent rather than a template string, so
      no value out of the data file is ever parsed as markup — a product named
-     `<img onerror=...>` is simply a card with a strange title. The one place
+     `<img onerror=...>` is simply a row with a strange title. The one place
      markup is intended, the description, goes through GunksPretix.sanitize. */
-  function ticketCard(item, shop, displayName) {
-    var li = document.createElement("li");
-    li.className = "ticket";
-    li.dataset.itemId = String(item.id);
+  function ticketRow(item, shop, displayName) {
+    var tr = document.createElement("tr");
+    tr.className = "ticket";
+    tr.dataset.itemId = String(item.id);
 
-    var head = document.createElement("div");
-    head.className = "ticket-head";
+    var inputId = "tkt-" + item.id;
 
-    var title = document.createElement("h4");
-    title.className = "ticket-title";
-    title.textContent = displayName || item.name || "Ticket";
-    head.appendChild(title);
+    var nameCell = document.createElement("td");
+    nameCell.className = "ticket-name";
 
-    var price = document.createElement("p");
-    price.className = "ticket-price";
-    price.textContent = (item.priceFrom ? "from " : "") + GunksPretix.money(item.price, shop.currency);
-    head.appendChild(price);
-    li.appendChild(head);
+    /* The name is the radio's <label>, so the whole ticket title is a click
+       target for selecting it — a 12px radio on its own is a poor one. */
+    var label = document.createElement("label");
+    label.className = "ticket-title";
+    label.htmlFor = inputId;
+    label.textContent = displayName || item.name || "Ticket";
+    nameCell.appendChild(label);
 
     if (item.description) {
       var desc = document.createElement("div");
       desc.className = "ticket-desc";
       desc.id = "tdesc-" + item.id;          // what the More button controls
       desc.innerHTML = GunksPretix.sanitize(item.description);
-      li.appendChild(desc);
+      nameCell.appendChild(desc);
     }
+    tr.appendChild(nameCell);
 
-    var foot = document.createElement("div");
-    foot.className = "ticket-foot";
+    var priceCell = document.createElement("td");
+    priceCell.className = "ticket-price";
+    var amount = document.createElement("span");
+    amount.className = "ticket-amount";
+    amount.textContent = (item.priceFrom ? "from " : "") + GunksPretix.money(item.price, shop.currency);
+    priceCell.appendChild(amount);
 
     var badge = document.createElement("p");
     badge.className = "ticket-badge";
     badge.hidden = true;
-    foot.appendChild(badge);
+    priceCell.appendChild(badge);
+    tr.appendChild(priceCell);
 
-    var buy = document.createElement("a");
-    buy.className = "btn btn-small";
-    // ?item= preselects this product in pretix's own list. An id pretix no
-    // longer knows is ignored rather than erroring, so the worst case of a
-    // stale snapshot is landing on the shop with nothing ticked.
-    buy.href = item.url || shop.url;
-    buy.target = "_blank";
-    buy.rel = "noopener";
-    buy.textContent = "Buy";
-    // The visible label is the same word on every row, so name each link by
-    // what it actually buys — a screen reader user listing the page's links
-    // otherwise gets nine identical "Buy"s and no way to tell them apart.
-    buy.setAttribute("aria-label", "Buy " + (item.name || "ticket"));
-    foot.appendChild(buy);
+    var selectCell = document.createElement("td");
+    selectCell.className = "ticket-select";
+    var radio = document.createElement("input");
+    radio.type = "radio";
+    radio.name = "item";                     // the ?item= the form submits
+    radio.value = String(item.id);
+    radio.id = inputId;
+    /* The visible label may be shortened to just the words that differ from
+       its group's heading; the full product name goes here, so the control
+       announces the same thing pretix will show at checkout. The visible text
+       is always contained in it, never contradicted by it. */
+    radio.setAttribute("aria-label", item.name || "Ticket");
+    selectCell.appendChild(radio);
+    tr.appendChild(selectCell);
 
-    li.appendChild(foot);
-    return li;
+    return tr;
   }
 
   /* The headline card in the markup is hand-written around one specific pretix
@@ -307,8 +374,8 @@
      If the two ever part company the badge is skipped and the console says so
      — better a missing badge than one that describes a different product. */
   function stamp(byId) {
-    var cards = [].slice.call(document.querySelectorAll(".ticket, .pass-card[data-item-id]"));
-    cards.forEach(function (el) {
+    var targets = [].slice.call(document.querySelectorAll(".ticket, .pass-card[data-item-id]"));
+    targets.forEach(function (el) {
       var item = byId[el.dataset.itemId];
       var badge = el.querySelector(".ticket-badge, .pass-badge");
       if (!badge) return;
@@ -326,6 +393,12 @@
       badge.className = badge.className.replace(/\s*is-\w+/g, "") + " is-" + info.tone;
       badge.hidden = false;
       el.classList.toggle("is-gone", info.tone === "gone");
+
+      /* A row you cannot buy is a row you cannot pick. Left enabled, the only
+         thing telling someone their choice is impossible would be the badge —
+         and they would find out for certain on pretix, after the click. */
+      var radio = el.querySelector('input[name="item"]');
+      if (radio) radio.disabled = info.tone === "gone";
     });
   }
 

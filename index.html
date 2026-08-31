@@ -289,8 +289,9 @@
                  wrong for the hero image, which you want fetched immediately. -->
             <img class="venue-photo" src="assets/img/df7b7300-e033-4e14-a859-f91136d7badc.jpg"
                  alt="The Ulster County Fairgrounds from the air, with the Shawangunk ridge rising behind it." loading="lazy" />
-            <p>Camping, vendors, and home base for the weekend. A short 15-minute drive
-              from the cliff, and an even shorter one into New Paltz.</p>
+            <p>Camping, vendors, and home base for the weekend — with flush toilets,
+              hot showers, and covered pavilion space. A short 15-minute drive from
+              the cliff, and an even shorter one into New Paltz.</p>
           </div>
           <div class="venue-card">
             <h3>Mohonk Preserve</h3>
@@ -313,58 +314,54 @@
         <h2 id="stay-play-title">Stay &amp; Play</h2>
         <p class="lead">
           Tickets are on sale. Our all-access pass puts you on the grounds for the whole
-          festival — with the film festival, vendor village, and speakers all included —
-          and there are weekend, day and film-only tickets as well.
+          festival — car or tent camping, the film festival, vendor village, and speakers
+          all included — and there are weekend, day and film-only tickets as well.
         </p>
 
         <div class="pass-layout">
-          <!-- The left column: the headline pass, and immediately under it the
-               list of what the grounds have. That list describes what this pass
-               buys you, so it belongs with the pass rather than opposite it —
-               and putting it here is also what lets the two columns finish at
-               roughly the same height, with the whole ticket line-up filling
-               the right. -->
+          <!-- The left column. Two children, so they need a wrapper of their
+               own: .pass-layout is a two-column grid, and anything that is a
+               direct child of it claims a column. -->
           <div class="pass-main">
             <!-- data-item-id names the pretix product this hand-written card
-                 describes. js/tickets.js uses it to stamp the live "Sold out" /
-                 "3 spots left" badge below the price, and warns in the console if
-                 pretix no longer has that id — which is the signal that the copy
-                 in this card and the product in the shop have drifted apart. The
-                 id is the same one in the buy link below, and both come from
-                 data/schedule.json. -->
+               describes. js/tickets.js uses it to stamp the live "Sold out" /
+               "3 spots left" badge below the price, and warns in the console if
+               pretix no longer has that id — which is the signal that the copy
+               in this card and the product in the shop have drifted apart. The
+               id is the same one in the buy link below, and both come from
+               data/schedule.json. -->
             <div class="pass-card" data-item-id="1088250">
-              <p class="pass-eyebrow">All-Access Pass</p>
-              <p class="pass-price"><span class="pass-amount">$250</span></p>
-              <!-- Empty and `hidden` until pretix answers. A badge that says
-                   nothing is better than one that guesses. -->
-              <p class="pass-badge" hidden></p>
-              <ul class="pass-list">
-                <li>Camp with us Friday, October 9th through Monday, October 12th at the Ulster County Fairgrounds <span class="pass-value">($120 value)</span></li>
-                <li>A four-day pass to the iconic Mohonk Preserve, with climbing privileges as a non-member <span class="pass-value">($100 value)</span></li>
-                <li>Over a dozen <a href="clinics.html">clinics to choose from</a> across Saturday, Sunday, and Monday daytime programming, plus access to even more premium clinics</li>
-                <li>Round-trip bus transit to the cliff and back from the Fairgrounds <span class="pass-value">($50 value)</span></li>
-                <li>Our full evening program — film festival, vendor village, and guest speaker and panelist presentations</li>
-                <li>RV hookups available for an additional fee</li>
-              </ul>
-              <!-- ?item= preselects this pass in the shop's own list. Checkout
-                   happens on pretix rather than in a widget embedded here — the
-                   reasoning is in README.md, "Linking out vs embedding the
-                   widget". The .pass-cta class is the handle js/tickets.js uses
-                   to send this button back to the updates list if the shop turns
-                   out not to be open yet. -->
-              <a class="btn btn-primary pass-cta" href="https://pretix.eu/gunksclimbers/gunksfest2026/?item=1088250" target="_blank" rel="noopener">Get Your Pass</a>
-              <p class="pass-note"><a href="https://script.google.com/macros/s/AKfycbxzDdPAMZbNi7ckt9Lm30IkVRR8i6zDBTN19dVXH7HfvjEkNMNFJ5MHGi5L8vicEAg/exec" target="_blank" rel="noopener">Volunteers</a> get a discount. Sign up before you buy.</p>
-            </div>
+            <p class="pass-eyebrow">All-Access Pass</p>
+            <p class="pass-price"><span class="pass-amount">$250</span></p>
+            <!-- Empty and `hidden` until pretix answers. A badge that says
+                 nothing is better than one that guesses. -->
+            <p class="pass-badge" hidden></p>
+            <ul class="pass-list">
+              <li>Camp with us Friday, October 9th through Monday, October 12th at the Ulster County Fairgrounds <span class="pass-value">($120 value)</span></li>
+              <li>A four-day pass to the iconic Mohonk Preserve, with climbing privileges as a non-member <span class="pass-value">($100 value)</span></li>
+              <li>Over a dozen <a href="clinics.html">clinics to choose from</a> across Saturday, Sunday, and Monday daytime programming, plus access to even more premium clinics</li>
+              <li>Round-trip bus transit to the cliff and back from the Fairgrounds <span class="pass-value">($50 value)</span></li>
+              <li>Our full evening program — film festival, vendor village, and guest speaker and panelist presentations</li>
+              <li>RV hookups available for an additional fee</li>
+            </ul>
+            <!-- ?item= preselects this pass in the shop's own list. Checkout
+                 happens on pretix rather than in a widget embedded here — the
+                 reasoning is in README.md, "Linking out vs embedding the
+                 widget". The .pass-cta class is the handle js/tickets.js uses
+                 to send this button back to the updates list if the shop turns
+                 out not to be open yet. -->
+            <a class="btn btn-primary pass-cta" href="https://pretix.eu/gunksclimbers/gunksfest2026/?item=1088250" target="_blank" rel="noopener">Select</a>
+            <p class="pass-note"><a href="https://script.google.com/macros/s/AKfycbxzDdPAMZbNi7ckt9Lm30IkVRR8i6zDBTN19dVXH7HfvjEkNMNFJ5MHGi5L8vicEAg/exec" target="_blank" rel="noopener">Volunteers</a> get a discount. Sign up before you buy.</p>
+          </div>
 
-            <div class="pass-side">
-              <h3>What&rsquo;s on the grounds</h3>
-              <ul class="amenity-list">
-                <li>Plenty of car and tent camping space</li>
-                <li>Flush toilets and hot showers</li>
-                <li>Covered pavilion space</li>
-                <li>15 minutes to the cliff, even less to New Paltz</li>
-              </ul>
-            </div>
+          <!-- Applies to every ticket on the page, the pass included, so it
+               sits under the card rather than under the table of alternatives.
+               js/tickets.js unhides it by id once the shop answers, which is
+               why moving it here changes nothing about when it appears. -->
+          <p class="tickets-note" id="tickets-note" hidden>
+            Clinics are added during checkout, on top of whichever ticket you pick —
+            <a href="clinics.html">browse the line-up</a> first if you want to plan your days.
+          </p>
           </div>
 
           <!-- ============ EVERY TICKET, FROM PRETIX ============ -->
@@ -372,32 +369,27 @@
                committed snapshot the clinics page renders, so a price here can
                never disagree with the same price there.
 
-               This list sits in the side column, under the amenities, rather
-               than in a band of its own below. The headline pass is a tall
-               card and the amenity list is a short one, so a full-width row
-               of ticket cards underneath left a screen-and-a-half of empty
-               photo beside the pass — the page's largest hole sitting exactly
-               where a visitor comparing prices would look next. Stacked here
-               the two columns end at roughly the same place, and every way in
-               is on one screen with the pass it is an alternative to.
+               This table is the right-hand column, opposite the pass, rather
+               than a band of its own below it. A full-width row of ticket
+               cards underneath used to leave most of a screen of empty photo
+               beside the pass — the page's largest hole sitting exactly where
+               a visitor comparing prices would look next. Side by side the two
+               columns end at roughly the same place, and every way in is on
+               one screen with the pass it is an alternative to.
 
                What ships in the markup is what a visitor gets when scripting
                is off or the fetch fails: the pass alongside, with its real
-               price and a working buy link, and this paragraph pointing at
-               the shop. That is a complete and true page on its own, which is
+               price and a working link into the shop, and this paragraph
+               pointing at the same shop. That is a complete and true page on its own, which is
                the test worth applying to anything built this way — not "does
                the enhancement work" but "is what's left without it still the
                thing the visitor came for". -->
           <div class="tickets" id="tickets">
             <h3 class="tickets-title">Other ways in</h3>
-            <div class="ticket-groups" id="tickets-list" hidden></div>
+            <div id="tickets-list" hidden></div>
             <p class="tickets-fallback" id="tickets-fallback">
               Weekend passes, single-day passes and film-only tickets are all on our
               <a href="https://pretix.eu/gunksclimbers/gunksfest2026/" target="_blank" rel="noopener">ticket shop</a>.
-            </p>
-            <p class="tickets-note" id="tickets-note" hidden>
-              Clinics are added during checkout, on top of whichever ticket you pick —
-              <a href="clinics.html">browse the line-up</a> first if you want to plan your days.
             </p>
           </div>
         </div>
