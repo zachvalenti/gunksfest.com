@@ -331,26 +331,16 @@
                direct child of it claims a column. -->
           <div class="pass-main">
             <!-- data-item-id names the pretix product this hand-written card
-                 describes. js/tickets.js uses it to stamp the live "Sold out" /
-                 "3 spots left" badge below the price, and warns in the console
-                 if pretix no longer has that id — the signal that the copy in
-                 this card and the product in the shop have drifted apart.
-
-                 It is no longer in the link below: every Select on the page
-                 opens the shop's own product list rather than preselecting one
-                 item, so this attribute is now the only thing tying the card to
-                 a specific product. Which is why that console warning matters
-                 more than it used to — nothing else would notice. -->
+                 describes. Nothing on the page is drawn from it any more — the
+                 card shows no availability badge, its price is hand-written,
+                 and its button goes to the shop's front page like every other
+                 Select. What it still buys is one console warning: if pretix
+                 stops knowing this id, the card is advertising a product the
+                 shop no longer sells, and this is the only thing that would
+                 say so. Keep it in step with data/schedule.json. -->
             <div class="pass-card" data-item-id="1088250">
               <p class="pass-eyebrow">All-Access Pass</p>
               <p class="pass-price"><span class="pass-amount">$250</span></p>
-              <!-- Empty and `hidden` until pretix answers, and it stays hidden
-                   unless the answer is worth interrupting for: "Sold out" or
-                   "3 spots left", never "Open". A badge that says nothing is
-                   better than one that guesses, and one that only confirms what
-                   the price and the button already say is just noise under the
-                   biggest number on the page. -->
-              <p class="pass-badge" hidden></p>
               <ul class="pass-list">
                 <li>Camp with us Friday, October 9th through Monday, October 12th at the Ulster County Fairgrounds <span class="pass-value">($120 value)</span></li>
                 <li>A four-day pass to the iconic Mohonk Preserve, with climbing privileges as a non-member <span class="pass-value">($100 value)</span></li>

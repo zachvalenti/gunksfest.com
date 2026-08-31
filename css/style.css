@@ -628,14 +628,6 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
 .pass-value { color: var(--color-leaf); font-weight: 700; white-space: nowrap; }
 .pass-note { margin: 1rem 0 0; font-size: 0.9rem; color: var(--color-stone); font-style: italic; }
 
-/* The live badge on the headline pass card. It shares the .is-open / .is-low /
-   .is-gone tones with the clinic badges on the schedule page, because they are
-   stamped from the same pretix reading — see js/pretix.js. */
-.pass-badge {
-  display: inline-block; margin: -0.6rem 0 1rem; padding: 0.25rem 0.7rem;
-  border-radius: 999px; font-size: 0.78rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.06em;
-}
 
 /* ---------- The rest of the ticket line-up ---------- */
 /* Rendered by js/tickets.js from data/schedule.json: a column per group of
@@ -678,11 +670,12 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
   display: block; font-size: 0.9rem; line-height: 1.25;
   font-weight: 700; color: var(--color-forest);
 }
-/* The price is a row of its own now, directly above the buttons, so it is a
-   cell rather than a line under the group name. */
+/* The price is the first row, directly under the group name. The display face
+   at weight 800 already reads as a price, so the size only has to be a step
+   above the labels rather than the headline it was competing to be. */
 .matrix-price {
   font-family: var(--font-display); font-weight: 800;
-  font-size: 1rem; color: var(--color-forest); white-space: nowrap;
+  font-size: 0.9rem; color: var(--color-forest); white-space: nowrap;
 }
 /* Shares the .is-open / .is-low / .is-gone tones with the pass badge further
    up, because both are stamped from the same pretix reading. Here it speaks
@@ -756,11 +749,11 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
    call lands, and every badge forever if it never does — held its own padding
    and margin open as a blank gap under the price. Both badges ship hidden in
    the markup, so both need this. */
-.pass-badge[hidden], .ticket-badge[hidden] { display: none; }
+.ticket-badge[hidden] { display: none; }
 
-.pass-badge.is-open,  .ticket-badge.is-open  { background: #e3f2e4; color: #1c5a24; }
-.pass-badge.is-low,   .ticket-badge.is-low   { background: #fdf0d5; color: #7a4b00; }
-.pass-badge.is-gone,  .ticket-badge.is-gone  { background: #ece9e4; color: #59524a; }
+.ticket-badge.is-open { background: #e3f2e4; color: #1c5a24; }
+.ticket-badge.is-low  { background: #fdf0d5; color: #7a4b00; }
+.ticket-badge.is-gone { background: #ece9e4; color: #59524a; }
 
 /* Only ever seen on a file:// preview, never by a visitor — see js/tickets.js.
    Styled to look like a warning rather than like copy, so nobody mistakes it

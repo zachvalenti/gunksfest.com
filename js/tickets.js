@@ -279,6 +279,18 @@
     table.appendChild(thead);
 
     var tbody = document.createElement("tbody");
+
+    /* Price first, directly under the group name it belongs to, so a column
+       reads as a heading and its cost before it starts listing what is in it.
+       The Select at the foot is then the end of a column someone has already
+       priced rather than the first place the number appears. */
+    tbody.appendChild(featureRow("Price", groups.map(function (g) {
+      var td = document.createElement("td");
+      td.className = "matrix-cell matrix-price";
+      td.textContent = priceRange(g.items, shop);
+      return td;
+    })));
+
     tbody.appendChild(featureRow("Days", groups.map(function (g) {
       return textCell(g.days || "—");
     })));
@@ -287,16 +299,6 @@
         return markCell(groupState(g.items, feature));
       })));
     });
-
-    /* Price last, right above the Select it applies to. It reads as the total
-       of everything ticked above it that way, which is the order someone
-       comparing these actually wants: what do I get, then what does it cost. */
-    tbody.appendChild(featureRow("Price", groups.map(function (g) {
-      var td = document.createElement("td");
-      td.className = "matrix-cell matrix-price";
-      td.textContent = priceRange(g.items, shop);
-      return td;
-    })));
     table.appendChild(tbody);
 
     /* One Select per column, all pointing at the shop's own product list —
@@ -377,32 +379,20 @@
     return td;
   }
 
-  /* The headline card in the markup is hand-written around one specific pretix
-     product, so its id is written down in the HTML rather than guessed here.
-     If the two ever part company the badge is skipped and the console says so
-     — better a missing badge than one that describes a different product. */
+  /* Stamps the live availability read from pretix onto the table's column
+     heads. The headline card is hand-written around one specific product, so
+     its id is written down in the HTML rather than guessed here. */
   function stamp(byId) {
-    var item = card && byId[card.dataset.itemId];
-    var passBadge = card && card.querySelector(".pass-badge");
-    if (card && !item && window.console) {
+    /* The pass card carries no badge any more, so nothing here draws on it.
+       data-item-id stays anyway, for this one check: the card is hand-written
+       around a specific product, and if pretix stops knowing that id the card
+       is advertising something the shop no longer sells. Nothing on the page
+       would show that — the price is from the committed snapshot and the
+       button goes to the shop's front page either way — so the console is
+       the only place it can surface. */
+    if (card && card.dataset.itemId && !byId[card.dataset.itemId] && window.console) {
       console.warn("tickets: pretix has no item " + card.dataset.itemId +
                    " — check the id on .pass-card against data/schedule.json");
-    }
-    if (item && passBadge) {
-      var info = GunksPretix.describeAvailability(item);
-      /* "Open" is not news. The section says tickets are on sale, the price is
-         right there and the button is live, so a pill repeating it was three
-         words of chrome under the largest number on the page. The badge now
-         speaks only when it has something a visitor could not otherwise know
-         — that the pass is nearly gone, or gone — which is also the rule the
-         column badges follow. Dropping it entirely would have taken those
-         with it, and someone finding out on pretix that the pass they just
-         chose is sold out is exactly what this element is for. */
-      if (info && info.tone !== "open") {
-        passBadge.textContent = info.text;
-        passBadge.className = "pass-badge is-" + info.tone;
-        passBadge.hidden = false;
-      }
     }
 
     /* A column's badge is the whole group's answer, so it only says something
