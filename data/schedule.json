@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-31T01:50:49.443Z",
+  "generated": "2026-08-31T14:00:08.162Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -604,7 +604,7 @@
         {
           "id": 1119384,
           "name": "Bonticou Ecology Tour with a Mohonk Preserve Ranger",
-          "rawName": "Bonticou Ecology Tour with a Mohonk Preserve Ranger (Sunday 9am-Noon)",
+          "rawName": "Bonticou Ecology Tour with a Mohonk Preserve Ranger (Sunday 9am-12pm)",
           "description": "<p><em>With: Evan Timony, Mohonk Forestry Specialist and Preserve Ranger</em></p><p>Participate in a 5 mile hike throughout the Mohonk Preserve's Spring Farm area. We will be hiking into the Dwarf Pitch Pines and discussing the Mohonk Preserve's long term monitoring projects, approach to conservation as well the uniqueness that gives this area its character. </p><p>We will plan on hiking to the top of Bonticou Crag via the Bonticou Scramble, down the North East Trial with a potential visit to Table Rocks. This will total in mileage around 5 miles and includes a proper scramble, be prepared to use your hands and feet. An alternate route is available around the scramble. </p><p>Please note car transportation will be required to access Spring Farm Trailhead, and although it is a short drive carpooling is encouraged.</p><p><strong>Prerequisites: None</strong><br /><strong>Required Gear: Sturdy hiking shoes, water and snack</strong></p>",
           "category": "Sunday Clinics",
           "categoryId": 282661,
@@ -613,7 +613,7 @@
           "freePrice": false,
           "hasVariations": false,
           "allowWaitinglist": true,
-          "picture": null,
+          "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1119384-d820095c-6ff1-4d0b-a378-b4ff0ebb727e.915b8127387336.jpeg",
           "isAddon": true,
           "meta": {
             "difficulty": "All Levels"
@@ -728,7 +728,7 @@
           "freePrice": false,
           "hasVariations": false,
           "allowWaitinglist": true,
-          "picture": null,
+          "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1118635-6d655f91-923b-46c4-aea8-60896ea783ad.4aa4676d67f037.png",
           "isAddon": true,
           "meta": {
             "difficulty": "Intermediate"

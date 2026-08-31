@@ -16,12 +16,14 @@ Hosted free on GitHub Pages at **gunksfest.com** (gunksfest.org redirects here).
 index.html          Landing page
 clinics.html        The clinics page — schedule rendered from data/schedule.json
 schedule.html       Redirect stub left behind when clinics.html was renamed
+tickets/index.html    Redirect stub: gunksfest.com/tickets   -> /#tickets
+volunteer/index.html  Redirect stub: gunksfest.com/volunteer -> /#volunteer
 css/style.css       All shared styling. Theme colours/fonts are the :root variables at the top.
 css/schedule.css    Schedule-page styles only.
 js/main.js          Nav, slideshows, parallax, rope dividers. No frameworks.
 js/pretix.js        Shared with both pages: availability, description sanitising, money.
 js/schedule.js      Renders the schedule and stamps live availability from pretix.
-js/tickets.js       Renders the ticket line-up in Stay & Play on the landing page.
+js/tickets.js       Renders the ticket comparison matrix in Stay & Play.
 data/schedule.json  The clinic line-up, committed by the pretix sync workflow.
 data/schedule.example.json   Sample data — see clinics.html?demo=1
 scripts/fetch-pretix.mjs     Pulls the line-up from pretix. Run by the workflow.
@@ -137,6 +139,25 @@ false, `js/tickets.js` puts the page back into "tickets aren't on sale yet"
 and points the buttons at the updates list. It can be up to six hours stale,
 which matters in one direction only: a shop taken offline stays advertised
 here until the next sync.
+
+## Short URLs
+
+`gunksfest.com/tickets` and `/volunteer` are printable, sayable addresses for
+two sections of a one-page site. GitHub Pages serves static files and runs no
+server, so neither can answer with a 301 — the redirect is a stub page at
+`tickets/index.html` that moves the browser itself.
+
+Each stub redirects twice on purpose. `location.replace()` goes first: unlike
+setting `location.href` it leaves no history entry, so Back returns someone to
+wherever they came from instead of bouncing them through the stub again. A
+`<meta http-equiv="refresh">` at 0 seconds catches anyone with scripting off.
+If both somehow fail there is a visible link, which is the only thing on the
+page.
+
+The anchors they point at are section ids, so `/tickets` lands on the "Stay &
+Play" heading rather than part-way down it. That is why the tickets section is
+`id="tickets"` and not `id="stay-play"` — worth knowing before renaming it
+again, since these two files hard-code the fragment.
 
 ## The clinics page is public
 
