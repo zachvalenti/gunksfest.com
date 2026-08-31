@@ -62,7 +62,8 @@
         <a href="clinics.html" aria-current="page">Clinics</a>
         <a href="index.html#stay-play">Tickets</a>
         <a href="index.html#evening">Evening</a>
-        <a class="nav-cta" href="index.html#stay-play">Get Updates</a>
+        <a href="index.html#volunteer">Volunteer</a>
+        <a class="nav-cta" href="index.html#stay-play">Get Tickets</a>
       </nav>
     </div>
   </header>
@@ -81,7 +82,8 @@
     <a href="clinics.html">Clinics</a>
     <a href="index.html#stay-play">Tickets</a>
     <a href="index.html#evening">Evening Program</a>
-    <a class="menu-cta" href="index.html#stay-play">Get Updates</a>
+    <a href="index.html#volunteer">Volunteer</a>
+    <a class="menu-cta" href="index.html#stay-play">Get Tickets</a>
   </nav>
 
   <main id="main">
@@ -99,8 +101,8 @@
         <p class="lead">
           Four days of clinics, workshops, and evening programming. Anything marked
           <strong>Included</strong> comes with your weekend or day pass; a <strong>+</strong>
-          price is added on top of it. Tickets go on sale soon.
-          All times are Eastern.
+          price is added on top of it. Clinics are booked as part of checkout, so
+          <a href="index.html#stay-play">start with a pass</a>. All times are Eastern.
         </p>
       </div>
     </section>
@@ -169,9 +171,10 @@
           Skill prerequisites, gear lists, and guide bios are on each clinic's
           registration page. Still stuck? We're happy to help you pick.
         </p>
-        <a class="btn btn-primary btn-lg" href="mailto:events@gunksclimbers.org?subject=GunksFest%202026%20clinic%20question">
-          Email Us
-        </a>
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-lg" href="index.html#stay-play">Get Tickets</a>
+          <a class="btn btn-ghost btn-lg" href="mailto:events@gunksclimbers.org?subject=GunksFest%202026%20clinic%20question">Email Us</a>
+        </div>
       </div>
     </section>
   </main>
@@ -189,6 +192,7 @@
         <a href="clinics.html">Clinics</a>
         <a href="index.html#stay-play">Tickets</a>
         <a href="index.html#evening">Evening Program</a>
+        <a href="index.html#volunteer">Volunteer</a>
         <a href="index.html#updates">Updates</a>
         <a href="https://gunksclimbers.org/" target="_blank" rel="noopener">Gunks Climbers Coalition</a>
         <a href="mailto:events@gunksclimbers.org">Contact</a>
@@ -201,6 +205,9 @@
   </footer>
 
   <script src="js/main.js"></script>
+  <!-- js/pretix.js defines GunksPretix, which js/schedule.js reads, so order
+       matters: plain <script> tags run in document order. -->
+  <script src="js/pretix.js"></script>
   <script src="js/schedule.js"></script>
 </body>
 </html>

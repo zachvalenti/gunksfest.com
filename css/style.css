@@ -165,6 +165,10 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; letter-spacing:
 .btn-ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,0.7); }
 .btn-ghost:hover { background: rgba(255,255,255,0.12); }
 .btn-lg { padding: 1rem 2.2rem; font-size: 1.05rem; }
+/* The other direction: a button small enough to repeat nine times down a list
+   without shouting. Same .btn shape, less of it. */
+.btn-small { padding: 0.5rem 1.2rem; font-size: 0.9rem; background: var(--color-accent-dk); color: #fff; }
+.btn-small:hover { background: var(--color-accent); }
 
 /* ---------- Header / Nav ---------- */
 /* Transparent overlay on the hero (only ever visible near the very top).
@@ -213,7 +217,13 @@ body.scrolled .site-header { transform: translateY(-100%); opacity: 0; pointer-e
 .brand-mark { font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; letter-spacing: -0.02em; }
 .brand-year { color: #fff; font-weight: 800; font-size: 1.4rem; }
 
-.nav-desktop { display: flex; gap: 1.6rem; align-items: center; }
+/* flex-wrap is the backstop, not the plan: the gap shrinks with the viewport
+   first, and only if the links still don't fit do they drop to a second row.
+   Without both, a nav that grows by one link some day silently pushes a
+   horizontal scrollbar onto every tablet — the kind of breakage nobody sees
+   because nobody browses their own site at 780px. */
+.nav-desktop { display: flex; flex-wrap: wrap; justify-content: flex-end;
+  gap: clamp(0.85rem, 2vw, 1.6rem); align-items: center; row-gap: 0.5rem; }
 .nav-desktop a { text-decoration: none; color: rgba(255, 255, 255, 0.92); font-weight: 600;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45); }
 .nav-desktop a:hover { color: var(--color-accent-light); }
@@ -627,6 +637,166 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
   color: var(--color-ink-soft); font-weight: 600;
 }
 .amenity-list li:last-child { border-bottom: 0; }
+
+/* The live badge on the headline pass card. It shares the .is-open / .is-low /
+   .is-gone tones with the clinic badges on the schedule page, because they are
+   stamped from the same pretix reading — see js/pretix.js. */
+.pass-badge {
+  display: inline-block; margin: -0.6rem 0 1rem; padding: 0.25rem 0.7rem;
+  border-radius: 999px; font-size: 0.78rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+
+/* ---------- The rest of the ticket line-up ---------- */
+/* Rendered by js/tickets.js from data/schedule.json, in groups: weekend
+   passes, day passes, film passes. Cards sit side by side rather than stacking
+   into one long column — eight full-width rows pushed the shop link most of a
+   screen below the pass, and a price list you have to scroll is a price list
+   that doesn't get compared. */
+.tickets { margin-top: 2.5rem; }
+.tickets-title {
+  margin: 0 0 1rem; font-size: 1.35rem; color: #fff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
+.ticket-group + .ticket-group { margin-top: 1.5rem; }
+.ticket-group-title {
+  margin: 0 0 0.6rem; font-size: 0.75rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.85); text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* auto-FILL, not auto-fit, and this is the one place on the site where the
+   difference is visible. Both fit as many columns as will hold; auto-fit then
+   collapses the empty tracks and lets the real cards stretch into them, while
+   auto-fill keeps them. With auto-fit the two Day Passes would grow to half the
+   row each and sit noticeably wider than the three Weekend Passes above — the
+   groups would stop looking like one set of cards. auto-fill holds the grid
+   steady, so every card is the same width whatever its group's count, and a
+   short group simply runs out partway along the row.
+   300px as the floor lands on three columns at full width, two on a tablet,
+   one on a phone, with no media query deciding it. */
+.ticket-grid {
+  margin: 0; padding: 0; list-style: none;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 0.85rem;
+}
+/* Cards in a row are stretched to the tallest by the grid, so make each one a
+   column and push the footer down with margin-top:auto. That way the Buy
+   buttons line up along the bottom of the row instead of floating at whatever
+   height each card's text happens to end. */
+.ticket {
+  display: flex; flex-direction: column;
+  background: var(--color-cream); border-radius: var(--radius);
+  padding: 1rem 1.1rem; box-shadow: var(--shadow);
+  border-top: 3px solid var(--color-leaf);
+}
+/* A sold-out card stays legible and stays in the grid — it is information, and
+   removing it just makes someone search for a ticket that isn't there. */
+.ticket.is-gone { opacity: 0.72; border-top-color: var(--color-stone); }
+
+.ticket-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.75rem; }
+.ticket-title {
+  margin: 0; flex: 1 1 9rem; font-size: 0.95rem; line-height: 1.35;
+  color: var(--color-forest);
+}
+.ticket-price {
+  margin: 0; font-family: var(--font-display); font-weight: 800;
+  font-size: 1.25rem; color: var(--color-forest); white-space: nowrap;
+}
+/* Clamped by default, the same way .session-desc is on the clinics page, and
+   for the same reason: JS can only tell that text overflows if something is
+   already holding it back. Measure an unclamped element and scrollHeight
+   always equals clientHeight, so nothing ever looks like it needs a button.
+   Three lines at this line-height is 4.5em. */
+.ticket-desc {
+  margin: 0.5rem 0 0; color: var(--color-ink-soft);
+  font-size: 0.85rem; line-height: 1.5;
+  position: relative; max-height: 4.5em; overflow: hidden;
+}
+.ticket-desc.is-open { max-height: none; }
+/* Descriptions are several <p>s, so the inter-paragraph margins mean the clamp
+   rarely lands exactly on a line boundary — a two-paragraph card cuts partway
+   through its third line. Rather than fight that with arithmetic that breaks
+   the moment someone edits a description in pretix, fade the cut edge so a
+   half-line reads as "continues" instead of as damage. Short enough (0.9em) to
+   veil the tail of a line without swallowing a whole one, and only while
+   collapsed. .is-clamped is added by the script, so cards that fit get none. */
+.ticket-desc.is-clamped:not(.is-open)::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 0.9em;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), var(--color-cream));
+}
+.ticket-desc p { margin: 0 0 0.35rem; }
+.ticket-desc p:last-child { margin-bottom: 0; }
+.ticket-desc a { color: var(--color-accent-dk); }
+/* line-clamp is the one property that truncates by line rather than by height,
+   so it stays right whatever the font size ends up being. The -webkit- prefix
+   is not legacy cruft here: it is still how every engine ships this. */
+.ticket-more {
+  align-self: flex-start; margin-top: 0.3rem; padding: 0;
+  background: none; border: 0; cursor: pointer;
+  font: inherit; font-size: 0.8rem; font-weight: 700;
+  color: var(--color-accent-dk); text-decoration: underline;
+}
+.ticket-more:hover { color: var(--color-accent); }
+
+/* margin-top:auto is what pins this to the bottom of a stretched card. */
+.ticket-foot {
+  display: flex; align-items: center; justify-content: flex-end;
+  flex-wrap: wrap; gap: 0.5rem; margin-top: auto; padding-top: 0.8rem;
+}
+.ticket-badge {
+  margin: 0; margin-right: auto;                 /* badge left, button right */
+  padding: 0.2rem 0.6rem; border-radius: 999px;
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+}
+
+/* One set of tones for both badges. Green reads "go", amber "hurry", grey
+   "stop" — and none of them rely on colour alone: the words say it too, which
+   is what makes the row work for someone who can't tell the three apart. */
+.pass-badge.is-open,  .ticket-badge.is-open  { background: #e3f2e4; color: #1c5a24; }
+.pass-badge.is-low,   .ticket-badge.is-low   { background: #fdf0d5; color: #7a4b00; }
+.pass-badge.is-gone,  .ticket-badge.is-gone  { background: #ece9e4; color: #59524a; }
+
+.tickets-fallback, .tickets-note {
+  margin: 1rem 0 0; color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
+.tickets-fallback a, .tickets-note a { color: #fff; font-weight: 600; }
+/* Only ever seen on a file:// preview, never by a visitor — see js/tickets.js.
+   Styled to look like a warning rather than like copy, so nobody mistakes it
+   for something the page meant to say. */
+.tickets-fallback.is-devnote {
+  padding: 0.9rem 1.1rem; border-left: 3px solid #f0b429;
+  background: rgba(0, 0, 0, 0.45); border-radius: 0 var(--radius) var(--radius) 0;
+}
+.tickets-fallback.is-devnote code {
+  display: inline-block; margin-top: 0.3rem; padding: 0.15rem 0.45rem;
+  background: rgba(255, 255, 255, 0.15); border-radius: 4px; font-size: 0.9em;
+}
+
+/* ---------- Volunteer ---------- */
+/* The section sits over a photo now, so the two things .section-photo doesn't
+   already handle — the ticked list and the note under the button — need the
+   white-on-dark treatment the rest of the section gets for free. The white
+   side card needs nothing: it brings its own background. */
+.section-volunteer .pass-list li { color: rgba(255, 255, 255, 0.92); text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5); }
+.section-volunteer .pass-note { color: rgba(255, 255, 255, 0.85); text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5); }
+.section-volunteer .pass-note a { color: #fff; }
+/* The tick marks are drawn in leaf green, which is too dark against the scrim
+   — see .pass-list li::before for how the mark itself is made. */
+.section-volunteer .pass-list li::before { border-color: var(--color-accent-light); }
+
+.volunteer-layout { display: grid; gap: 1.5rem; grid-template-columns: 1fr; align-items: start; }
+@media (min-width: 820px) {
+  .volunteer-layout { grid-template-columns: 1.4fr 1fr; gap: 2.5rem; }
+}
+.volunteer-main .pass-list { margin-bottom: 1.6rem; }
+.volunteer-side {
+  background: var(--color-cream); border-radius: var(--radius); padding: 1.5rem;
+  box-shadow: var(--shadow); border-top: 4px solid var(--color-accent-dk);
+}
+.volunteer-side h3 { margin: 0 0 0.5rem; font-size: 1.15rem; color: var(--color-forest); }
+.volunteer-side p { margin: 0; color: var(--color-ink-soft); }
+.volunteer-side a { color: var(--color-accent-dk); }
 
 /* ---------- Evening program ---------- */
 .evening-sub {
