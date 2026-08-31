@@ -25,6 +25,26 @@
   var listEl = document.getElementById("tickets-list");
   if (!listEl) return;
 
+  /* Which bucket a ticket belongs in. pretix puts every one of these in a
+     single "Tickets" category, so the grouping has to come from somewhere else:
+     first an item meta property called `group`, and failing that the product
+     name. Reading the name is a compromise and worth naming as one — rename a
+     product in pretix and it silently lands in the wrong bucket. What keeps
+     that from being a real bug is the last rule in groupTickets(): anything
+     matching nothing still gets rendered, under its own heading. A
+     misclassified ticket is a cosmetic problem; a disappeared one is a lost
+     sale, and the code is arranged so the second can't happen.
+
+     To make it exact, add an item meta property `group` in pretix (Organizer →
+     Item meta properties, then set it per product) with one of these keys. The
+     name test is then never consulted. */
+  var GROUPS = [
+    { key: "weekend", title: "Full Weekend Passes", test: /weekend/i },
+    { key: "day",     title: "Day Passes",          test: /(saturday|sunday|single.?day)\s+pass/i },
+    { key: "film",    title: "Film Passes",         test: /films?\s*only/i }
+  ];
+  var OTHER_TITLE = "More tickets";
+
   var fallbackEl = document.getElementById("tickets-fallback");
   var noteEl = document.getElementById("tickets-note");
   var card = document.querySelector(".pass-card");
@@ -98,15 +118,85 @@
 
   /* ---------- rendering ---------- */
 
-  /* Order comes from pretix and is not second-guessed here. Whoever arranges
-     the products in the backend is deciding what a visitor should see first,
-     and re-sorting in the browser would quietly overrule them. */
+  /* Groups run in GROUPS order; within a group, pretix's own order is kept.
+     Whoever arranges the products in the backend is deciding what a visitor
+     should see first, and re-sorting inside a group would quietly overrule
+     them. */
+  function groupTickets(tickets) {
+    var buckets = {};
+    var other = [];
+    tickets.forEach(function (item) {
+      var declared = item.meta && item.meta.group;
+      var match = null;
+      if (declared) {
+        match = GROUPS.filter(function (g) { return g.key === String(declared).toLowerCase(); })[0];
+      }
+      if (!match) {
+        match = GROUPS.filter(function (g) { return g.test.test(item.name || ""); })[0];
+      }
+      if (!match) { other.push(item); return; }   // never dropped, just unsorted
+      (buckets[match.key] = buckets[match.key] || []).push(item);
+    });
+
+    var out = GROUPS
+      .filter(function (g) { return buckets[g.key] && buckets[g.key].length; })
+      .map(function (g) { return { title: g.title, items: buckets[g.key] }; });
+    if (other.length) out.push({ title: out.length ? OTHER_TITLE : "", items: other });
+    return out;
+  }
+
   function render(tickets, shop) {
     listEl.innerHTML = "";
-    tickets.forEach(function (item) { listEl.appendChild(ticketCard(item, shop)); });
+    groupTickets(tickets).forEach(function (group) {
+      var sec = document.createElement("section");
+      sec.className = "ticket-group";
+
+      if (group.title) {
+        var h = document.createElement("h4");
+        h.className = "ticket-group-title";
+        h.textContent = group.title;
+        sec.appendChild(h);
+      }
+
+      var grid = document.createElement("ul");
+      grid.className = "ticket-grid";
+      group.items.forEach(function (item) { grid.appendChild(ticketCard(item, shop)); });
+      sec.appendChild(grid);
+      listEl.appendChild(sec);
+    });
+
     listEl.hidden = false;
     if (fallbackEl) fallbackEl.hidden = true;
     if (noteEl) noteEl.hidden = false;
+    clampDescriptions();
+  }
+
+  /* Cards sit side by side now, so a five-line pretix description on one of
+     them sets the height of its whole row. Clamp anything taller than three
+     lines and offer a toggle. The clamp itself is in the stylesheet, applied
+     to every card up front; this only measures which ones overflowed it and
+     gives those a button. A card whose text already fits never grows one. The information is
+     still there for whoever wants it, which matters here: "you will need a
+     valid Mohonk Preserve pass" is exactly the sort of line that belongs in
+     front of someone before they pay, not after. */
+  function clampDescriptions() {
+    Array.prototype.forEach.call(listEl.querySelectorAll(".ticket-desc"), function (desc) {
+      if (desc.scrollHeight <= desc.clientHeight + 4) return;
+      desc.classList.add("is-clamped");
+
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "ticket-more";
+      btn.textContent = "More";
+      btn.setAttribute("aria-expanded", "false");
+      btn.setAttribute("aria-controls", desc.id);
+      btn.addEventListener("click", function () {
+        var open = desc.classList.toggle("is-open");
+        btn.textContent = open ? "Less" : "More";
+        btn.setAttribute("aria-expanded", String(open));
+      });
+      desc.parentNode.insertBefore(btn, desc.nextSibling);
+    });
   }
 
   /* Built with createElement and textContent rather than a template string, so
@@ -135,6 +225,7 @@
     if (item.description) {
       var desc = document.createElement("div");
       desc.className = "ticket-desc";
+      desc.id = "tdesc-" + item.id;          // what the More button controls
       desc.innerHTML = GunksPretix.sanitize(item.description);
       li.appendChild(desc);
     }

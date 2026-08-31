@@ -648,44 +648,104 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
 }
 
 /* ---------- The rest of the ticket line-up ---------- */
-/* Rendered by js/tickets.js from data/schedule.json. Nine products is too many
-   for the card treatment the headline pass gets, so these are rows: name and
-   price on one line, the pretix description under it, the action on the right. */
+/* Rendered by js/tickets.js from data/schedule.json, in groups: weekend
+   passes, day passes, film passes. Cards sit side by side rather than stacking
+   into one long column — eight full-width rows pushed the shop link most of a
+   screen below the pass, and a price list you have to scroll is a price list
+   that doesn't get compared. */
 .tickets { margin-top: 2.5rem; }
 .tickets-title {
   margin: 0 0 1rem; font-size: 1.35rem; color: #fff;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
 }
-.ticket-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.9rem; }
-.ticket {
-  background: var(--color-cream); border-radius: var(--radius);
-  padding: 1.1rem 1.25rem; box-shadow: var(--shadow);
-  border-left: 4px solid var(--color-leaf);
+.ticket-group + .ticket-group { margin-top: 1.5rem; }
+.ticket-group-title {
+  margin: 0 0 0.6rem; font-size: 0.75rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.85); text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
 }
-/* A sold-out row stays legible and stays in the list — it is information, and
-   removing it just makes someone search for a ticket that isn't there. */
-.ticket.is-gone { opacity: 0.72; border-left-color: var(--color-stone); }
 
-/* baseline, not center: the title and the price are type of very different
-   sizes, and aligning their baselines is what makes them read as one line. */
-.ticket-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1rem; }
-.ticket-title { margin: 0; flex: 1 1 16rem; font-size: 1.05rem; color: var(--color-forest); }
+/* auto-FILL, not auto-fit, and this is the one place on the site where the
+   difference is visible. Both fit as many columns as will hold; auto-fit then
+   collapses the empty tracks and lets the real cards stretch into them, while
+   auto-fill keeps them. With auto-fit the two Day Passes would grow to half the
+   row each and sit noticeably wider than the three Weekend Passes above — the
+   groups would stop looking like one set of cards. auto-fill holds the grid
+   steady, so every card is the same width whatever its group's count.
+   300px as the floor lands on three columns at full width, two on a tablet,
+   one on a phone, with no media query deciding it. */
+.ticket-grid {
+  margin: 0; padding: 0; list-style: none;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 0.85rem;
+}
+/* Cards in a row are stretched to the tallest by the grid, so make each one a
+   column and push the footer down with margin-top:auto. That way the Buy
+   buttons line up along the bottom of the row instead of floating at whatever
+   height each card's text happens to end. */
+.ticket {
+  display: flex; flex-direction: column;
+  background: var(--color-cream); border-radius: var(--radius);
+  padding: 1rem 1.1rem; box-shadow: var(--shadow);
+  border-top: 3px solid var(--color-leaf);
+}
+/* A sold-out card stays legible and stays in the grid — it is information, and
+   removing it just makes someone search for a ticket that isn't there. */
+.ticket.is-gone { opacity: 0.72; border-top-color: var(--color-stone); }
+
+.ticket-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.75rem; }
+.ticket-title {
+  margin: 0; flex: 1 1 9rem; font-size: 0.95rem; line-height: 1.35;
+  color: var(--color-forest);
+}
 .ticket-price {
   margin: 0; font-family: var(--font-display); font-weight: 800;
-  font-size: 1.35rem; color: var(--color-forest); white-space: nowrap;
+  font-size: 1.25rem; color: var(--color-forest); white-space: nowrap;
 }
-.ticket-desc { margin: 0.5rem 0 0; color: var(--color-ink-soft); font-size: 0.95rem; }
-.ticket-desc p { margin: 0 0 0.4rem; }
+/* Clamped by default, the same way .session-desc is on the clinics page, and
+   for the same reason: JS can only tell that text overflows if something is
+   already holding it back. Measure an unclamped element and scrollHeight
+   always equals clientHeight, so nothing ever looks like it needs a button.
+   Three lines at this line-height is 4.5em. */
+.ticket-desc {
+  margin: 0.5rem 0 0; color: var(--color-ink-soft);
+  font-size: 0.85rem; line-height: 1.5;
+  position: relative; max-height: 4.5em; overflow: hidden;
+}
+.ticket-desc.is-open { max-height: none; }
+/* Descriptions are several <p>s, so the inter-paragraph margins mean the clamp
+   rarely lands exactly on a line boundary — a two-paragraph card cuts partway
+   through its third line. Rather than fight that with arithmetic that breaks
+   the moment someone edits a description in pretix, fade the cut edge so a
+   half-line reads as "continues" instead of as damage. Short enough (0.9em) to
+   veil the tail of a line without swallowing a whole one, and only while
+   collapsed. .is-clamped is added by the script, so cards that fit get none. */
+.ticket-desc.is-clamped:not(.is-open)::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 0.9em;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), var(--color-cream));
+}
+.ticket-desc p { margin: 0 0 0.35rem; }
 .ticket-desc p:last-child { margin-bottom: 0; }
 .ticket-desc a { color: var(--color-accent-dk); }
+/* line-clamp is the one property that truncates by line rather than by height,
+   so it stays right whatever the font size ends up being. The -webkit- prefix
+   is not legacy cruft here: it is still how every engine ships this. */
+.ticket-more {
+  align-self: flex-start; margin-top: 0.3rem; padding: 0;
+  background: none; border: 0; cursor: pointer;
+  font: inherit; font-size: 0.8rem; font-weight: 700;
+  color: var(--color-accent-dk); text-decoration: underline;
+}
+.ticket-more:hover { color: var(--color-accent); }
+
+/* margin-top:auto is what pins this to the bottom of a stretched card. */
 .ticket-foot {
   display: flex; align-items: center; justify-content: flex-end;
-  flex-wrap: wrap; gap: 0.75rem; margin-top: 0.9rem;
+  flex-wrap: wrap; gap: 0.5rem; margin-top: auto; padding-top: 0.8rem;
 }
 .ticket-badge {
   margin: 0; margin-right: auto;                 /* badge left, button right */
-  padding: 0.25rem 0.7rem; border-radius: 999px;
-  font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  padding: 0.2rem 0.6rem; border-radius: 999px;
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
 }
 
 /* One set of tones for both badges. Green reads "go", amber "hurry", grey
