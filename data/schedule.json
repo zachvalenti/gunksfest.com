@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-29T20:58:10.591Z",
+  "generated": "2026-08-31T01:50:49.443Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -10,8 +10,8 @@
     "currency": "USD",
     "timezone": "US/Eastern",
     "live": true,
-    "dateFrom": "2026-10-09T10:00:00+02:00",
-    "dateTo": "2026-10-12T17:00:00+02:00"
+    "dateFrom": "2026-10-09T22:00:00+02:00",
+    "dateTo": "2026-10-12T20:00:00+02:00"
   },
   "categories": [
     {
@@ -502,6 +502,29 @@
           "start": "2026-10-10T17:00:00.000Z",
           "end": "2026-10-10T19:00:00.000Z",
           "location": "MP Visitor Center Classroom"
+        },
+        {
+          "id": 1118586,
+          "name": "Living Anchors: Tree Anatomy, Preservation, and Risk Management",
+          "rawName": "Living Anchors: Tree Anatomy, Preservation, and Risk Management (Saturday 3-5pm)",
+          "description": "<p><em>Instructor: Jeremy Sabol, Mohonk Preserve Field Operations Coordinator, Arborist, Climber</em></p><p>Trees have been used in rock climbing on the Shawangunk Ridge since Fritz Wiessner first approached the white face of Millbrook. While they play a critical role in climber safety and risk management, trees are also essential components of the ridge's unique ecosystems. </p><p>Join the Mohonk Preserve's Field Operations Coordinator for a hands-on clinic exploring the history of fixed anchors in the Gunks and the continued importance of natural anchors in modern climbing. </p><p>Through a combination of discussion and field instruction, participants will learn to identify common regional tree species and gain an understanding of tree anatomy, growth, and the characteristics that influence a tree's strength and stability. </p><p>Participants will also learn techniques for assessing trees as climbing anchors, recognizing potential hazards, and applying Low Impact Climbing practices to support conservation. </p><p><strong>Prerequisites: None</strong><br /><strong>Required Gear: Attendees are encouraged to bring the anchor-building equipment and soft goods they normally climb with to practice building anchor systems and discuss their application in a variety of real-world climbing scenarios</strong></p>",
+          "category": "Saturday Clinics",
+          "categoryId": 282660,
+          "price": "0.00",
+          "priceFrom": false,
+          "freePrice": false,
+          "hasVariations": false,
+          "allowWaitinglist": true,
+          "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1118586-478d0431-1ffb-4120-95ce-321bde4db00a.57ced5cf1f2d75.jpg",
+          "isAddon": true,
+          "meta": {
+            "difficulty": "All Levels"
+          },
+          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
+          "slotId": "1118586-62251",
+          "start": "2026-10-10T19:00:00.000Z",
+          "end": "2026-10-10T21:00:00.000Z",
+          "location": "New Paltz, NY"
         }
       ]
     },
@@ -1178,7 +1201,7 @@
       "id": 1088253,
       "name": "Films Only - Both Nights",
       "rawName": "Films Only - Both Nights",
-      "description": "<p>Join us for vendors, contests, and films starting at 5PM!</p><p>Saturday night Keynote speaker: Jonna Bragg.</p><p>              Doors – 5pm<br />              Jonna Bragg 7pm<br />              Films 8pm       </p><p>Our keynote presenter will be Jonna Bragg, historic Gunks first ascensionist of such groundbreaking lines as Fat City Direct, Kansas City, Gravity’s Rainbow, Enduro Man, Erect Direction, and more. </p><p>Not to mention her 1976 legendary first ascent of Patagonia’s towering Torre Egger. </p><p>Bragg has been counted among the world’s best climbers of the 1970s, as one quarter of the dream team of her, John Stannard, Henry Barber, and Steve Wunsch.</p><p>Come hear her tales of what it took to push grades into the hard 5.11-12 range, then get psyched for our feature film presentation: The Queen Swing.</p>",
+      "description": "<p>Join us for vendors, contests, and films starting at 5PM!</p><p>Saturday night Keynote speaker: Jonna Bragg.</p><p>Our keynote presenter will be Jonna Bragg, historic Gunks first ascensionist of such groundbreaking lines as Fat City Direct, Kansas City, Gravity’s Rainbow, Enduro Man, Erect Direction, and more. </p><p>Not to mention her 1976 legendary first ascent of Patagonia’s towering Torre Egger. </p><p>Bragg has been counted among the world’s best climbers of the 1970s, as one quarter of the dream team of her, John Stannard, Henry Barber, and Steve Wunsch.</p><p>Come hear her tales of what it took to push grades into the hard 5.11-12 range, then get psyched for our feature film presentation: The Queen Swing.</p>",
       "category": "Tickets",
       "categoryId": 282659,
       "price": "30.00",
