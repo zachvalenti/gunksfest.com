@@ -34,6 +34,24 @@
        open. crossorigin is required here because the fetch is a CORS request —
        without it the browser warms up a connection the fetch can't reuse. -->
   <link rel="preconnect" href="https://pretix.eu" crossorigin />
+  <!-- Google Analytics (GA4, gtag.js). Loaded from <head> so a visitor who
+       leaves before the page finishes is still counted, and async so the
+       request never blocks parsing or rendering — the tag sits outside the
+       critical path entirely.
+
+       dataLayer is the queue gtag() pushes into. It is created here rather
+       than by the library because these calls run before the async script has
+       arrived; the library drains whatever it finds waiting. gtag('js', new
+       Date()) stamps the session start, and 'config' fires the page_view for
+       this page against the G-NNXPX4NHLL property. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNXPX4NHLL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-NNXPX4NHLL');
+  </script>
 </head>
 <body class="page-schedule">
   <a class="skip-link" href="#main">Skip to content</a>
