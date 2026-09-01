@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-31T14:00:08.162Z",
+  "generated": "2026-09-01T21:06:22.574Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -269,6 +269,29 @@
           },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1119426-56062",
+          "start": "2026-10-10T13:00:00.000Z",
+          "end": "2026-10-10T20:00:00.000Z",
+          "location": "This clinic meets at the Mohonk Preserve Visitor Center."
+        },
+        {
+          "id": 1138735,
+          "name": "Trad Anchors & Gear Placements",
+          "rawName": "Trad Anchors & Gear Placements (Saturday 9am-4pm)",
+          "description": "<p><em>Guide: Noah Kleiner, Equinox </em></p><p>This clinic will focus on building efficient and reliable traditional anchors using a variety of gear and techniques that will be applicable in the Gunks and beyond!</p><p>We’ll work on evaluating placements, using passive and active protection, opposing pieces, equalization, the Static-X, and different strategies for building anchors based on the available rock and gear. </p><p>The goal is to give participants more tools and confidence when evaluating placements and building trad anchors in real-world situations.</p><p><strong>Prerequisites:  Some previous outdoor climbing experience is helpful but not required</strong><br /><strong>Required Gear: Personal climbing gear</strong></p>",
+          "category": "Saturday Clinics",
+          "categoryId": 282660,
+          "price": "150.00",
+          "priceFrom": false,
+          "freePrice": false,
+          "hasVariations": false,
+          "allowWaitinglist": true,
+          "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1138735-ea3615f5-65a4-4eb6-9638-50eb91a6f1aa.e3886799f955f1.jpg",
+          "isAddon": true,
+          "meta": {
+            "difficulty": "Intermediate"
+          },
+          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
+          "slotId": "1138735-62826",
           "start": "2026-10-10T13:00:00.000Z",
           "end": "2026-10-10T20:00:00.000Z",
           "location": "This clinic meets at the Mohonk Preserve Visitor Center."
