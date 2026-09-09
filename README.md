@@ -112,10 +112,13 @@ stamp live availability on top. No API token ever reaches the browser.
 - **Renaming products in pretix** (the only thing here that writes to the shop)
   is documented in `.github/workflows/pretix-rename.yml`.
 - **When the sync finds something only pretix can fix** — a clinic with no
-  program time, so it never reaches the page at all, or a name whose trailing
-  "(Monday 9am-1pm)" disagrees with the slot it is booked at — it opens one
+  program time, so it never reaches the page at all, or one booked at a slot
+  that disagrees with the day it is filed under, in its category ("Friday
+  Clinics") or in the trailing "(Monday 9am-1pm)" of its name — it opens one
   issue labelled `pretix-sync`, keeps it current, and closes it on the first run
-  that comes back clean. It never fails the job: one misconfigured product
+  that comes back clean. Only the program time moves a clinic between days: a
+  clinic whose category says Friday and whose slot says Saturday publishes on
+  Saturday, and looks perfectly healthy until something compares the two. It never fails the job: one misconfigured product
   shouldn't stop the other forty-odd clinics publishing. The issue is the only
   one of these signals that reaches somebody who isn't already looking at the
   Actions tab, which is the point — this job succeeds four times a day whether
