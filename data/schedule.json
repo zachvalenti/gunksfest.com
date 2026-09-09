@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-09T04:48:59.902Z",
+  "generated": "2026-09-09T20:48:35.735Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -97,29 +97,6 @@
       "label": "Saturday, October 10",
       "sessions": [
         {
-          "id": 1145468,
-          "name": "Cragging Rock Skills",
-          "rawName": "Cragging Rock Skills",
-          "description": "<p><em>Guide: Alpine Endeavors</em></p><p>Looking to kick off GunksFest a bit early?</p><p>For climbers who have some previous experience and want to take it to a higher level, we'll show you more of the skills you need to climb more efficiently such as: improved climbing techniques for crack, face, overhangs, etc., seconding a lead - cleaning the gear, etc., knots for anchoring, basic rope management, rappelling with a back up, and provide you with as much rock climbing as possible</p><p>This clinic will require personal transportation!</p><p><strong>Prerequisites: Some climbing experience</strong><br /><strong>Required gear: Personal climbing kit</strong></p>",
-          "category": "Friday Clinics",
-          "categoryId": 293760,
-          "price": "175.00",
-          "priceFrom": false,
-          "freePrice": false,
-          "hasVariations": false,
-          "allowWaitinglist": true,
-          "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1145468-f328686a-91da-4be9-acc5-c3d101da1d3c.d91d1471314419.jpg",
-          "isAddon": true,
-          "meta": {
-            "difficulty": "Beginner"
-          },
-          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
-          "slotId": "1145468-64997",
-          "start": "2026-10-10T12:00:00.000Z",
-          "end": "2026-10-10T16:00:00.000Z",
-          "location": "This clinic will require personal transportation!"
-        },
-        {
           "id": 1118628,
           "name": "Multipitch Strategies for Efficiency and Safety",
           "rawName": "Multipitch Strategies for Efficiency and Safety (Saturday 8am - 12pm)",
@@ -187,6 +164,29 @@
           "start": "2026-10-10T13:00:00.000Z",
           "end": "2026-10-10T20:00:00.000Z",
           "location": "Meet at Mohonk Preserve Visitor Center."
+        },
+        {
+          "id": 1145468,
+          "name": "Cragging Rock Skills",
+          "rawName": "Cragging Rock Skills (Friday 9am-4pm)",
+          "description": "<p><em>Guide: Alpine Endeavors</em></p><p>Looking to kick off GunksFest a bit early?</p><p>For climbers who have some previous experience and want to take it to a higher level, we'll show you more of the skills you need to climb more efficiently such as: improved climbing techniques for crack, face, overhangs, etc., seconding a lead - cleaning the gear, etc., knots for anchoring, basic rope management, rappelling with a back up, and provide you with as much rock climbing as possible</p><p>This clinic will require personal transportation!</p><p><strong>Prerequisites: Some climbing experience</strong><br /><strong>Required gear: Personal climbing kit</strong></p>",
+          "category": "Friday Programming",
+          "categoryId": 290461,
+          "price": "175.00",
+          "priceFrom": false,
+          "freePrice": false,
+          "hasVariations": false,
+          "allowWaitinglist": true,
+          "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1145468-f328686a-91da-4be9-acc5-c3d101da1d3c.d91d1471314419.jpg",
+          "isAddon": true,
+          "meta": {
+            "difficulty": "Beginner"
+          },
+          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
+          "slotId": "1145468-64997",
+          "start": "2026-10-10T13:00:00.000Z",
+          "end": "2026-10-10T20:00:00.000Z",
+          "location": "This clinic will require personal transportation!"
         },
         {
           "id": 1119354,
