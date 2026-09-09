@@ -48,6 +48,12 @@
  * rather than under one of its own. Anything else is treated as unset, so a
  * new wording invented in pretix will quietly drop clinics out of the filter
  * rather than mislabel them; add it to levelsOf() in js/schedule.js instead.
+ *
+ * The program time is the only thing that decides which day a clinic lands on.
+ * The category ("Friday Clinics") and the trailing "(Friday 9am-1pm)" in the
+ * name are labels a human types, and neither moves the clinic — so when one of
+ * them disagrees with the slot, the clinic publishes on the day the slot says
+ * and looks fine from here. findDayMismatches() below is what notices.
  * ---------------------------------------------------------------------------
  */
 import { writeFile, readFile, appendFile, mkdir } from "node:fs/promises";
@@ -224,15 +230,52 @@ function weekday(iso, tz) {
   return new Intl.DateTimeFormat("en-US", { timeZone: tz, weekday: "long" }).format(new Date(iso));
 }
 
+const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
 /**
- * Finds products whose name disagrees with the time they are scheduled at.
+ * The weekday a piece of text names, as a full name — "Fri", "Friday" and
+ * "Friday Clinics" all give "Friday". Null when it names none.
  *
- * Clinic names in pretix carry the day in a trailing "(Monday 9am-1pm)", and
- * the program time is entered separately — so the two can drift apart, and one
- * of them is then wrong on a page people plan a trip around. Nothing here can
- * say which one: the name is written by a human and the time is the bookable
- * slot, and either could be the mistake. So this only points at the pair and
- * leaves the fix in pretix, where both live.
+ * Matching is by prefix on whole words, which is what keeps it from seeing
+ * days that aren't there: "Sat" and "Satur" are prefixes of Saturday, but
+ * "Satellite" is not a prefix of anything, and neither is "Sunset". A bare
+ * two-letter word is skipped — too short to be meant as a day, and "Mo" or
+ * "Tu" turning a category into a Monday is exactly the kind of false alarm
+ * that teaches people to ignore the warnings.
+ */
+function namedWeekday(text) {
+  const words = String(text || "").match(/[A-Za-z]+/g) || [];
+  for (const word of words) {
+    const w = word.toLowerCase();
+    if (w.length < 3) continue;
+    const day = WEEKDAYS.find((d) => d.toLowerCase().startsWith(w));
+    if (day) return day;
+  }
+  return null;
+}
+
+/**
+ * Finds sessions whose scheduled day disagrees with the day they are filed
+ * under, in the product name or in the category the product sits in.
+ *
+ * Two places in pretix say what day a clinic runs, and neither of them is the
+ * program time that actually decides where it lands on the page. Names carry
+ * the day in a trailing "(Monday 9am-1pm)", and the categories are one per
+ * day: "Friday Programming", "Saturday Clinics", "Monday Clinics". Either can
+ * drift from the slot the product is booked at, and the result is a clinic
+ * sitting on the wrong day of a page people plan a trip around.
+ *
+ * The category is read as well as the name because the name is so often
+ * silent. A product added straight into "Friday Clinics" and given a Saturday
+ * program time carries no "(Friday ...)" to disagree with, so a check that
+ * reads only the name comes back clean while the clinic publishes on the wrong
+ * day — which is how Cragging Rock Skills, the Friday clinic, spent its first
+ * day on this page under Saturday, October 10, with every signal green.
+ *
+ * Nothing here can say which side is wrong: the name and the category are
+ * written by a human, the program time is the bookable slot, and any of the
+ * three could be the mistake. So this only points at the disagreement and
+ * leaves the fix in pretix, where all three live.
  *
  * A finding, not an error: a wrong day is worth shouting about, but it is not
  * worth refusing to publish the other 40 clinics over. See reportFindings().
@@ -240,13 +283,26 @@ function weekday(iso, tz) {
 function findDayMismatches(sessions, tz) {
   const found = [];
   for (const s of sessions) {
-    const named = String(s.rawName || "").match(/\((Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*\b[^)]*\)\s*$/i);
-    if (!named) continue;
     const actual = weekday(s.start, tz);
-    if (actual.toLowerCase().startsWith(named[1].toLowerCase())) continue;
+
+    // Only the trailing parenthesis is read as a day, not the whole name: a
+    // clinic can legitimately be called "Sun Salutations for Climbers", and
+    // the "(Saturday 9am-1pm)" suffix is the convention that actually means a
+    // day. The category has no such ambiguity — it is a short controlled list
+    // the organisers write once — so all of it is fair game.
+    const suffix = String(s.rawName || "").match(/\(([^)]*)\)\s*$/);
+    const named = suffix ? namedWeekday(suffix[1]) : null;
+    const filed = namedWeekday(s.category);
+
+    const disagrees = [];
+    if (named && named !== actual) disagrees.push(`its name says ${named}`);
+    if (filed && filed !== actual) disagrees.push(`it sits in ${s.category}`);
+    if (!disagrees.length) continue;
+
     found.push(
-      `Day mismatch: "${s.rawName}" is scheduled on ${actual}, ` +
-      `${dayKey(s.start, tz)}. Fix the program time or the name in pretix.`
+      `Day mismatch: "${s.rawName}" is scheduled on ${actual}, ${dayKey(s.start, tz)}, ` +
+      `but ${disagrees.join(" and ")}. Fix the program time, the name or the ` +
+      `category in pretix — whichever of them is the wrong one.`
     );
   }
   return found;
