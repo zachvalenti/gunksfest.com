@@ -168,9 +168,10 @@
       updatedEl.hidden = false;
     }
 
-    // Re-stamp live badges: render() rebuilt every card, so whatever we already
-    // know from the widget endpoint has to be applied again.
-    if (state.avail) applyAvailability(state.avail);
+    // Re-stamp badges: render() rebuilt every card, so whatever we know has to
+    // be applied again. Called unconditionally — the snapshot always has an
+    // answer for the clinics, whether or not the widget fetch ever lands.
+    applyAvailability(state.avail || {});
     clampDescriptions();
     reveal();
   }
@@ -519,14 +520,63 @@
   /* The fetching and the "what does this quota state mean" reading both live in
      js/pretix.js; what stays here is the part that is about this page — finding
      the card for an item id and stamping the badge onto it. */
+  /* Item id → the session it came from, so a card can find its own snapshot
+     record from the id already sitting on the element. Rebuilt per call rather
+     than cached, which costs nothing at 47 sessions and removes a whole class
+     of stale-lookup bug. */
+  function indexSessions() {
+    var out = {};
+    var d = state.data || {};
+    (d.days || []).forEach(function (day) {
+      day.sessions.forEach(function (s) { out[s.id] = s; });
+    });
+    (d.unscheduled || []).forEach(function (s) { out[s.id] = s; });
+    return out;
+  }
+
+  /* The badge from the committed snapshot.
+
+     For a clinic this is not a fallback, it is the only source there is. Every
+     clinic is a pretix add-on, and the public widget endpoint runs its product
+     list through `filter_available(allow_addons=False)`, which drops add-ons
+     outright — so the live call this page makes returns the weekend passes and
+     has never once carried a clinic. That is why the availability now travels
+     in data/schedule.json, read from the authenticated quota API by
+     scripts/fetch-pretix.mjs where the token is.
+
+     The wording matches GunksPretix.describeAvailability() on purpose: two
+     sources, one vocabulary, so a sold-out pass and a sold-out clinic read the
+     same. Returning "Open" rather than null keeps the decision about what is
+     worth saying in one place — the caller drops it. */
+  function snapshotBadge(s) {
+    var a = s && s.availability;
+    if (!a) return null;
+    if (!a.available) {
+      return s.allowWaitinglist
+        ? { text: "Waiting list", tone: "gone" }
+        : { text: "Sold out", tone: "gone" };
+    }
+    if (typeof a.left === "number" && a.left > 0 && a.left <= 5) {
+      return { text: a.left === 1 ? "1 spot left" : a.left + " spots left", tone: "low" };
+    }
+    return { text: "Open", tone: "open" };
+  }
+
   function applyAvailability(byId) {
+    var snap = indexSessions();
     Array.prototype.forEach.call(root.querySelectorAll(".session"), function (card) {
       var item = byId[card.dataset.itemId];
       var badge = card.querySelector(".session-badge");
-      if (!item || !badge) return;
+      if (!badge) return;
 
-      var info = GunksPretix.describeAvailability(item);
-      if (!info) return;
+      var info = item ? GunksPretix.describeAvailability(item) : snapshotBadge(snap[card.dataset.itemId]);
+      // Only badge a card when there is something worth saying. An "Open" pill
+      // on every available clinic means all 47 cards carry a badge, and the
+      // handful that are sold out stop standing out — the badge stops being a
+      // signal and becomes part of the furniture. So available says nothing,
+      // and a badge on a card always means news. The home page's ticket list
+      // has worked this way all along (js/tickets.js).
+      if (!info || info.tone === "open") return;
 
       badge.textContent = info.text;
       badge.className = "session-badge is-" + info.tone;

@@ -502,6 +502,69 @@ function displayName(name) {
     .trim();
 }
 
+/**
+ * Item id → { available, left } for every item the event sells.
+ *
+ * This exists because the public widget endpoint cannot answer the question for
+ * a clinic. pretix's shop product list runs every item through
+ * `filter_available(allow_addons=False)`, which drops anything sitting in an
+ * add-on category:
+ *
+ *     if not allow_addons:
+ *         q &= Q(Q(category__isnull=True) | Q(category__is_addon=False))
+ *
+ * Every clinic here is an add-on — that is what "sold alongside a festival
+ * pass" means in pretix — so `widget/product_list` returns the passes and
+ * nothing else, and a browser has no way to ask. The quota API is the
+ * authenticated one, which is why this runs on the CI runner where the token
+ * already lives rather than in the page.
+ *
+ * `?with_availability=true` is what adds `available` and `available_number`;
+ * without it the quota objects come back describing only size and membership.
+ * The docs flag it as slower and warn the numbers may be slightly stale, which
+ * is the right trade here — nothing is booked off this file, it only decides
+ * whether a card says "Sold out".
+ *
+ * An item can sit under several quotas (a per-clinic cap and an overall event
+ * cap, say), and pretix sells it only while EVERY one of them has room. So the
+ * item is available only if all its quotas are, and the spots left is the
+ * smallest of them — the most restrictive wins, exactly as the checkout would
+ * decide. An unlimited quota reports `available_number: null` and constrains
+ * nothing.
+ *
+ * Failure is soft on purpose. A token without quota permission, or an older
+ * pretix, should cost us the badges and not the schedule — the line-up is the
+ * thing people came for.
+ */
+async function loadAvailability() {
+  const byId = new Map();
+  let quotas;
+  try {
+    quotas = await getAll(`${api}/quotas/?with_availability=true`);
+  } catch (err) {
+    console.warn(`Could not read quotas (${err.message}) — availability omitted.`);
+    return byId;
+  }
+
+  for (const q of quotas) {
+    // A closed quota sells nothing regardless of the seats behind it.
+    const open = !!q.available && !q.closed;
+    const left = typeof q.available_number === "number" ? q.available_number : null;
+
+    for (const id of q.items || []) {
+      const prev = byId.get(id);
+      if (!prev) {
+        byId.set(id, { available: open, left });
+        continue;
+      }
+      prev.available = prev.available && open;
+      // null is unlimited, so it never lowers the count.
+      if (left !== null) prev.left = prev.left === null ? left : Math.min(prev.left, left);
+    }
+  }
+  return byId;
+}
+
 async function main() {
   const event = await get(`${api}/`);
   const tz = event.timezone || "America/New_York";
@@ -522,6 +585,8 @@ async function main() {
     .filter((i) => i.active)
     .sort((a, b) => (a.position ?? 0) - (b.position ?? 0));
 
+  const availById = await loadAvailability();
+
   // program_times is a newer pretix resource. Older installs 404 it, in which
   // case every item falls through to its meta_data.
   let programTimesSupported = true;
@@ -537,6 +602,9 @@ async function main() {
     const meta = item.meta_data || {};
     const base = {
       id: item.id,
+      // null when we could not read the quotas at all, so the page can tell
+      // "nothing to say" apart from "on sale".
+      availability: availById.get(item.id) ?? null,
       name: displayName(i18n(item.name, lang)),
       rawName: i18n(item.name, lang),
       description: mdToHtml(i18n(item.description, lang)),

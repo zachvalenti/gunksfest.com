@@ -15,7 +15,11 @@ name: Sync pretix schedule
 
 on:
   schedule:
-    - cron: "17 */6 * * *"   # four times a day, off the hour to dodge the rush
+    # Hourly, because data/schedule.json now carries availability: how stale
+    # this cron is, is how stale "Sold out" is on the page. Off the hour to
+    # dodge the rush. Free on a public repo, and the script no-ops when the
+    # line-up has not changed, so this does not fill history with commits.
+    - cron: "17 * * * *"
   workflow_dispatch:          # and on demand, right after you edit the shop
 
 permissions:
