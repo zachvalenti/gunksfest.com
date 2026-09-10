@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-10T01:42:56.740Z",
+  "generated": "2026-09-10T01:49:41.664Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -69,6 +69,29 @@
       "date": "2026-10-09",
       "label": "Friday, October 9",
       "sessions": [
+        {
+          "id": 1145468,
+          "name": "Cragging Rock Skills",
+          "rawName": "Cragging Rock Skills (Friday 9am-4pm)",
+          "description": "<p><em>Guide: Alpine Endeavors</em></p><p>Looking to kick off GunksFest a bit early?</p><p>For climbers who have some previous experience and want to take it to a higher level, we'll show you more of the skills you need to climb more efficiently such as: improved climbing techniques for crack, face, overhangs, etc., seconding a lead - cleaning the gear, etc., knots for anchoring, basic rope management, rappelling with a back up, and provide you with as much rock climbing as possible</p><p>This clinic will require personal transportation!</p><p><strong>Prerequisites: Some climbing experience</strong><br /><strong>Required gear: Personal climbing kit</strong></p>",
+          "category": "Friday Programming",
+          "categoryId": 290461,
+          "price": "175.00",
+          "priceFrom": false,
+          "freePrice": false,
+          "hasVariations": false,
+          "allowWaitinglist": true,
+          "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1145468-f328686a-91da-4be9-acc5-c3d101da1d3c.d91d1471314419.jpg",
+          "isAddon": true,
+          "meta": {
+            "difficulty": "Beginner"
+          },
+          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
+          "slotId": "1145468-64997",
+          "start": "2026-10-09T13:00:00.000Z",
+          "end": "2026-10-09T20:00:00.000Z",
+          "location": "This clinic will require personal transportation!"
+        },
         {
           "id": 1126451,
           "name": "Friday Night Welcome Reception",
@@ -164,29 +187,6 @@
           "start": "2026-10-10T13:00:00.000Z",
           "end": "2026-10-10T20:00:00.000Z",
           "location": "Meet at Mohonk Preserve Visitor Center."
-        },
-        {
-          "id": 1145468,
-          "name": "Cragging Rock Skills",
-          "rawName": "Cragging Rock Skills (Friday 9am-4pm)",
-          "description": "<p><em>Guide: Alpine Endeavors</em></p><p>Looking to kick off GunksFest a bit early?</p><p>For climbers who have some previous experience and want to take it to a higher level, we'll show you more of the skills you need to climb more efficiently such as: improved climbing techniques for crack, face, overhangs, etc., seconding a lead - cleaning the gear, etc., knots for anchoring, basic rope management, rappelling with a back up, and provide you with as much rock climbing as possible</p><p>This clinic will require personal transportation!</p><p><strong>Prerequisites: Some climbing experience</strong><br /><strong>Required gear: Personal climbing kit</strong></p>",
-          "category": "Friday Programming",
-          "categoryId": 290461,
-          "price": "175.00",
-          "priceFrom": false,
-          "freePrice": false,
-          "hasVariations": false,
-          "allowWaitinglist": true,
-          "picture": "https://cdn.pretix.cloud/2/pub/gunksclimbers/gunksfest2026/item-1145468-f328686a-91da-4be9-acc5-c3d101da1d3c.d91d1471314419.jpg",
-          "isAddon": true,
-          "meta": {
-            "difficulty": "Beginner"
-          },
-          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
-          "slotId": "1145468-64997",
-          "start": "2026-10-10T13:00:00.000Z",
-          "end": "2026-10-10T20:00:00.000Z",
-          "location": "This clinic will require personal transportation!"
         },
         {
           "id": 1146649,
@@ -601,6 +601,29 @@
           "start": "2026-10-10T19:00:00.000Z",
           "end": "2026-10-10T21:00:00.000Z",
           "location": "New Paltz, NY"
+        },
+        {
+          "id": 1146648,
+          "name": "PSAR (Preventative Search-and-Rescue) with the Mohonk Preserve Rangers",
+          "rawName": "PSAR (Preventative Search-and-Rescue) with the Mohonk Preserve Rangers (Saturday 3-5pm)",
+          "description": "<p><em>With: Dan Gorski, Mohonk Preserve Ranger</em></p><p>When accidents happen at the cliff, most often climbers are the first responders on-scene, and often those first few moments can be critical.</p><p>Learn from the rangers themselves on how to start a decision-making matrix to best triage any accident.</p><p>A good response begins with taking the right steps in the right order, a process that can be crucial to the best possible outcome.</p><p>Whether a seasoned veteran or new climber, first-responder skills will help you become an asset at the cliff in managing accidents – both on and off the cliff.</p><p><strong>Prerequisites: None</strong><br /><strong>Required Gear: None</strong></p>",
+          "category": "Saturday Clinics",
+          "categoryId": 282660,
+          "price": "0.00",
+          "priceFrom": false,
+          "freePrice": false,
+          "hasVariations": false,
+          "allowWaitinglist": true,
+          "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1146648-c97f4560-6128-40f4-b571-d489ed653acc.88c6852551a801.jpg",
+          "isAddon": true,
+          "meta": {
+            "difficulty": "All Levels"
+          },
+          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
+          "slotId": "1146648-65419",
+          "start": "2026-10-10T19:00:00.000Z",
+          "end": "2026-10-10T21:00:00.000Z",
+          "location": "Meet at Afternoon Meetup Spot."
         }
       ]
     },
@@ -1090,29 +1113,6 @@
           "start": "2026-10-11T18:00:00.000Z",
           "end": "2026-10-11T22:00:00.000Z",
           "location": "Meet at afternoon clinic meeting location."
-        },
-        {
-          "id": 1146648,
-          "name": "PSAR (Preventative Search-and-Rescue) with the Mohonk Preserve Rangers",
-          "rawName": "PSAR (Preventative Search-and-Rescue) with the Mohonk Preserve Rangers (Saturday 3-5pm)",
-          "description": "<p><em>With: Dan Gorski, Mohonk Preserve Ranger</em></p><p>When accidents happen at the cliff, most often climbers are the first responders on-scene, and often those first few moments can be critical.</p><p>Learn from the rangers themselves on how to start a decision-making matrix to best triage any accident.</p><p>A good response begins with taking the right steps in the right order, a process that can be crucial to the best possible outcome.</p><p>Whether a seasoned veteran or new climber, first-responder skills will help you become an asset at the cliff in managing accidents – both on and off the cliff.</p><p><strong>Prerequisites: None</strong><br /><strong>Required Gear: None</strong></p>",
-          "category": "Saturday Clinics",
-          "categoryId": 282660,
-          "price": "0.00",
-          "priceFrom": false,
-          "freePrice": false,
-          "hasVariations": false,
-          "allowWaitinglist": true,
-          "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1146648-c97f4560-6128-40f4-b571-d489ed653acc.88c6852551a801.jpg",
-          "isAddon": true,
-          "meta": {
-            "difficulty": "All Levels"
-          },
-          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
-          "slotId": "1146648-65419",
-          "start": "2026-10-11T19:00:00.000Z",
-          "end": "2026-10-11T21:00:00.000Z",
-          "location": "Meet at Afternoon Meetup Spot."
         }
       ]
     },
