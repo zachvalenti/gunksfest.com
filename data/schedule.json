@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-10T01:49:41.664Z",
+  "generated": "2026-09-10T14:40:43.186Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -187,29 +187,6 @@
           "start": "2026-10-10T13:00:00.000Z",
           "end": "2026-10-10T20:00:00.000Z",
           "location": "Meet at Mohonk Preserve Visitor Center."
-        },
-        {
-          "id": 1146649,
-          "name": "Gear Placements and Anchor Building",
-          "rawName": "Gear Placements and Anchor Building (Saturday 9am-4pm)",
-          "description": "<p><em>Guide: Noah Kleiner, Equinox Guides</em></p><p>Stoked to start leading but don't know where to begin?</p><p>This clinic is a great diving board into the world of traditional climbing, during which you will get tons of hands-on experience placing and removing gear, as well as some gentle exposure to taking some of the intimidation out of anchor building.</p><p><strong>Prerequisites:  Some previous outdoor climbing experience is helpful but not required</strong><br /><strong>Required Gear: Personal climbing gear</strong></p>",
-          "category": "Saturday Clinics",
-          "categoryId": 282660,
-          "price": "150.00",
-          "priceFrom": false,
-          "freePrice": false,
-          "hasVariations": false,
-          "allowWaitinglist": true,
-          "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1146649-52b1fc7c-8a0d-4121-bdc9-144540a046fc.e3886799f955f1.jpg",
-          "isAddon": true,
-          "meta": {
-            "difficulty": "Beginner"
-          },
-          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
-          "slotId": "1146649-65420",
-          "start": "2026-10-10T13:00:00.000Z",
-          "end": "2026-10-10T20:00:00.000Z",
-          "location": "This clinic meets at the Mohonk Preserve Visitor Center."
         },
         {
           "id": 1119354,
