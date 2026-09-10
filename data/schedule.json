@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-10T14:40:43.186Z",
+  "generated": "2026-09-10T20:52:36.075Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -22,45 +22,38 @@
       "isAddon": false
     },
     {
+      "id": 290461,
+      "name": "Friday Programming",
+      "description": null,
+      "position": 2,
+      "isAddon": true
+    },
+    {
       "id": 282660,
       "name": "Saturday Clinics",
       "description": null,
-      "position": 0,
+      "position": 3,
       "isAddon": true
     },
     {
       "id": 282661,
       "name": "Sunday Clinics",
       "description": null,
-      "position": 0,
+      "position": 4,
       "isAddon": true
     },
     {
       "id": 290233,
       "name": "Merch",
       "description": null,
-      "position": 0,
-      "isAddon": true
-    },
-    {
-      "id": 290461,
-      "name": "Friday Programming",
-      "description": null,
-      "position": 0,
+      "position": 5,
       "isAddon": true
     },
     {
       "id": 291463,
       "name": "Monday Clinics",
       "description": null,
-      "position": 0,
-      "isAddon": true
-    },
-    {
-      "id": 293760,
-      "name": "Friday Clinics",
-      "description": null,
-      "position": 0,
+      "position": 6,
       "isAddon": true
     }
   ],
@@ -318,7 +311,7 @@
           "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1138735-ea3615f5-65a4-4eb6-9638-50eb91a6f1aa.e3886799f955f1.jpg",
           "isAddon": true,
           "meta": {
-            "difficulty": "Intermediate"
+            "difficulty": "Beginner/Intermediate"
           },
           "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
           "slotId": "1138735-62826",
