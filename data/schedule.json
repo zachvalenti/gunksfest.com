@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-09T20:48:35.735Z",
+  "generated": "2026-09-10T01:42:56.740Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -187,6 +187,29 @@
           "start": "2026-10-10T13:00:00.000Z",
           "end": "2026-10-10T20:00:00.000Z",
           "location": "This clinic will require personal transportation!"
+        },
+        {
+          "id": 1146649,
+          "name": "Gear Placements and Anchor Building",
+          "rawName": "Gear Placements and Anchor Building (Saturday 9am-4pm)",
+          "description": "<p><em>Guide: Noah Kleiner, Equinox Guides</em></p><p>Stoked to start leading but don't know where to begin?</p><p>This clinic is a great diving board into the world of traditional climbing, during which you will get tons of hands-on experience placing and removing gear, as well as some gentle exposure to taking some of the intimidation out of anchor building.</p><p><strong>Prerequisites:  Some previous outdoor climbing experience is helpful but not required</strong><br /><strong>Required Gear: Personal climbing gear</strong></p>",
+          "category": "Saturday Clinics",
+          "categoryId": 282660,
+          "price": "150.00",
+          "priceFrom": false,
+          "freePrice": false,
+          "hasVariations": false,
+          "allowWaitinglist": true,
+          "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1146649-52b1fc7c-8a0d-4121-bdc9-144540a046fc.e3886799f955f1.jpg",
+          "isAddon": true,
+          "meta": {
+            "difficulty": "Beginner"
+          },
+          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
+          "slotId": "1146649-65420",
+          "start": "2026-10-10T13:00:00.000Z",
+          "end": "2026-10-10T20:00:00.000Z",
+          "location": "This clinic meets at the Mohonk Preserve Visitor Center."
         },
         {
           "id": 1119354,
@@ -1067,6 +1090,29 @@
           "start": "2026-10-11T18:00:00.000Z",
           "end": "2026-10-11T22:00:00.000Z",
           "location": "Meet at afternoon clinic meeting location."
+        },
+        {
+          "id": 1146648,
+          "name": "PSAR (Preventative Search-and-Rescue) with the Mohonk Preserve Rangers",
+          "rawName": "PSAR (Preventative Search-and-Rescue) with the Mohonk Preserve Rangers (Saturday 3-5pm)",
+          "description": "<p><em>With: Dan Gorski, Mohonk Preserve Ranger</em></p><p>When accidents happen at the cliff, most often climbers are the first responders on-scene, and often those first few moments can be critical.</p><p>Learn from the rangers themselves on how to start a decision-making matrix to best triage any accident.</p><p>A good response begins with taking the right steps in the right order, a process that can be crucial to the best possible outcome.</p><p>Whether a seasoned veteran or new climber, first-responder skills will help you become an asset at the cliff in managing accidents – both on and off the cliff.</p><p><strong>Prerequisites: None</strong><br /><strong>Required Gear: None</strong></p>",
+          "category": "Saturday Clinics",
+          "categoryId": 282660,
+          "price": "0.00",
+          "priceFrom": false,
+          "freePrice": false,
+          "hasVariations": false,
+          "allowWaitinglist": true,
+          "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1146648-c97f4560-6128-40f4-b571-d489ed653acc.88c6852551a801.jpg",
+          "isAddon": true,
+          "meta": {
+            "difficulty": "All Levels"
+          },
+          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
+          "slotId": "1146648-65419",
+          "start": "2026-10-11T19:00:00.000Z",
+          "end": "2026-10-11T21:00:00.000Z",
+          "location": "Meet at Afternoon Meetup Spot."
         }
       ]
     },
