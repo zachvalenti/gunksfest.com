@@ -43,11 +43,22 @@
  * `difficulty` is the one the schedule page reads directly and cannot infer:
  * js/schedule.js will never guess a level from a title or description, so a
  * clinic without this property set simply doesn't appear under any level pill.
- * The four values it understands are Beginner, Intermediate, Advanced, and
- * All Levels — the last meaning the clinic is listed under all three pills
- * rather than under one of its own. Anything else is treated as unset, so a
- * new wording invented in pretix will quietly drop clinics out of the filter
- * rather than mislabel them; add it to levelsOf() in js/schedule.js instead.
+ * It is a dropdown in pretix, not free text — the choices live on the property
+ * itself, under Organizer settings, not on the product — and it offers:
+ *
+ *     Beginner            Beginner/Intermediate
+ *     Intermediate        Intermediate/Advanced
+ *     Advanced            All Levels
+ *
+ * A pairing is read as an and: the clinic is listed under both pills it names.
+ * There is no pill for the pairing itself, by design — nobody browses for "the
+ * beginner/intermediate ones", they press Beginner or Intermediate, and the
+ * clinic belongs in both lists. All Levels lists it under all three.
+ *
+ * Adding a choice to that dropdown needs no change here, as long as it names
+ * the rungs it means. A value naming no rung at all is treated as unset, so an
+ * invented word quietly drops clinics out of the filter rather than
+ * mislabelling them; add it to levelsOf() in js/schedule.js instead.
  *
  * The program time is the only thing that decides which day a clinic lands on.
  * The category ("Friday Clinics") and the trailing "(Friday 9am-1pm)" in the

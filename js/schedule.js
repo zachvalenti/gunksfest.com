@@ -367,19 +367,49 @@
 
      A clinic with no difficulty set, or one carrying a word this doesn't
      recognise, returns nothing and simply isn't offered under a level pill —
-     the same deliberate silence as before. */
+     the same deliberate silence as before.
+
+     A clinic can straddle two rungs. pretix offers Beginner/Intermediate and
+     Intermediate/Advanced alongside the three single rungs, because that is
+     how guides actually answer the question, and both halves are meant: the
+     slash is an and, not a new level. So the clinic is listed under both pills
+     it names, and no pill is added for the pairing itself. There is nothing to
+     press for "the beginner/intermediate ones", and there shouldn't be — the
+     climber deciding whether this clinic is for them is pressing Beginner or
+     Intermediate, and it belongs in both lists.
+
+     Which makes the thing to avoid a half-match. Reading the first rung and
+     stopping would file Beginner/Intermediate under Beginner alone, and lose
+     the clinic for the intermediate the second half was written to include —
+     worse than the clean miss above, because a miss is silent and a
+     half-match is a wrong answer.
+
+     So every rung named is collected, and any gap between them filled, which
+     only matters if a pairing spanning the whole ladder is ever added to the
+     dropdown. One that does is All Levels by another name and is returned as
+     one, its own pill included. */
+  var LEVEL_RUNGS = ["beginner", "intermediate", "advanced"];
+
   function levelsOf(s) {
     var raw = s.meta && s.meta.difficulty;
     if (!raw) return [];
     var key = String(raw).trim().toLowerCase();
-    if (key.indexOf("all") === 0) {
-      return LEVEL_PILLS.map(function (p) { return p.key; });
+    if (key.indexOf("all") === 0) return everyLevel();
+
+    // Word-anchored, so a rung is found next to a slash, a dash or a space,
+    // and "Beginners" reads as "Beginner".
+    var named = [];
+    for (var i = 0; i < LEVEL_RUNGS.length; i++) {
+      if (new RegExp("\\b" + LEVEL_RUNGS[i]).test(key)) named.push(i);
     }
-    for (var i = 0; i < LEVEL_PILLS.length; i++) {
-      var k = LEVEL_PILLS[i].key;
-      if (k !== "all" && key.indexOf(k) === 0) return [k];
-    }
-    return [];
+    if (!named.length) return [];
+
+    var span = LEVEL_RUNGS.slice(named[0], named[named.length - 1] + 1);
+    return span.length === LEVEL_RUNGS.length ? everyLevel() : span;
+  }
+
+  function everyLevel() {
+    return LEVEL_PILLS.map(function (p) { return p.key; });
   }
 
   function keysFor(facet, s) {
