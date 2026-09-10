@@ -526,7 +526,13 @@
       if (!item || !badge) return;
 
       var info = GunksPretix.describeAvailability(item);
-      if (!info) return;
+      // Only badge a card when there is something worth saying. An "Open" pill
+      // on every available clinic means all 47 cards carry a badge, and the
+      // handful that are sold out stop standing out — the badge stops being a
+      // signal and becomes part of the furniture. So available says nothing,
+      // and a badge on a card always means news. The home page's ticket list
+      // has worked this way all along (js/tickets.js).
+      if (!info || info.tone === "open") return;
 
       badge.textContent = info.text;
       badge.className = "session-badge is-" + info.tone;
