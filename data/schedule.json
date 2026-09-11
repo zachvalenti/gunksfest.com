@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-10T22:41:00.762Z",
+  "generated": "2026-09-11T01:08:57.889Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -778,7 +778,7 @@
           "id": 1119384,
           "availability": {
             "available": true,
-            "left": 5
+            "left": 4
           },
           "name": "Bonticou Ecology Tour with a Mohonk Preserve Ranger",
           "rawName": "Bonticou Ecology Tour with a Mohonk Preserve Ranger (Sunday 9am-12pm)",
@@ -1156,7 +1156,7 @@
           "id": 1119492,
           "availability": {
             "available": true,
-            "left": 11
+            "left": 10
           },
           "name": "Climbing Photography Masterclass",
           "rawName": "Climbing Photography Masterclass (Sunday 12-4pm)",
