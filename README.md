@@ -28,6 +28,7 @@ data/schedule.json  The clinic line-up, committed by the pretix sync workflow.
 data/schedule.example.json   Sample data — see clinics.html?demo=1
 scripts/fetch-pretix.mjs     Pulls the line-up from pretix. Run by the workflow.
 scripts/pretix-rename.mjs    One-off: strips "2026_" off product names IN pretix.
+scripts/check-links.mjs      Opens every outbound link and reads what came back. Run by the workflow.
 assets/img/         Photos, logos, og-image.
 CNAME               The custom domain for GitHub Pages. Don't delete.
 .nojekyll           Serve files as-is, no Jekyll processing.
@@ -96,6 +97,48 @@ keep working with nobody around to redeploy a static site; an `<iframe>` would
 inherit this page's width and none of its styling, break the back button, and
 hand a visitor a form they can't tell is ours anyway. The URL lives in
 `index.html` and nowhere else — search for `script.google.com` to find it.
+
+It is a deployment URL, not a permanent one. Redeploying the script hands you a
+new `/exec` address and quietly leaves the old one dead, which is exactly what
+happened once: the link in `index.html` pointed at a revoked deployment, and
+every volunteer who clicked it got Google Drive's "Sorry, unable to open the
+file at this time" until somebody stumbled on it by accident. So if you redeploy
+in Apps Script, paste the new URL here — and see below for what now notices when
+you forget.
+
+## The daily link check
+
+`.github/workflows/link-check.yml` opens every outbound link on the site once a
+day, logged out, the way a visitor does. If the volunteer form or the ticket
+shop doesn't load, it opens one issue labelled `link-check`, keeps it current,
+and closes it on the first run that comes back clean. The issue is the alert:
+GitHub emails you about a new issue on your own repo, and nothing else here
+would.
+
+It reads the page rather than the status code, because the failure it was built
+for doesn't show up in a status code. Google serves "unable to open the file"
+with a perfectly cheerful **HTTP 200** — a status-code link checker goes green
+on it. Same for a web app deployed to "Anyone within gunksclimbers.org" instead
+of "Anyone": 200 OK, and a sign-in wall no volunteer can get past. Both are
+caught by looking at what came back.
+
+Worth doing once, in Settings → Secrets and variables → Actions → Variables: set
+**`VOLUNTEER_MARKER`** to a phrase the real form contains — a question it asks,
+say. The check then passes only when the form's own words come back, which
+catches error pages Google hasn't invented yet, rather than only the ones listed
+in `scripts/check-links.mjs`. Without it the known error pages are still caught,
+and every run prints the form's title and byte size so there's an obvious thing
+to paste in.
+
+Only the sign-up form and the ticket shop can raise an issue. Every other link —
+Mohonk, the GCC, Instagram — is checked and reported on the run's own page, and
+never emails anybody: a sponsor's site being down for an afternoon isn't ours to
+fix, and an alarm that goes off for it stops meaning anything. To check by hand:
+
+```
+node scripts/check-links.mjs                    # every link in our HTML
+node scripts/check-links.mjs https://…          # just this one
+```
 
 ## The pretix pipeline
 
