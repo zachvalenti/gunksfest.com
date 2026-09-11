@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-11T01:08:57.889Z",
+  "generated": "2026-09-11T06:03:52.899Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -178,7 +178,7 @@
           "id": 1118780,
           "availability": {
             "available": true,
-            "left": 6
+            "left": 5
           },
           "name": "Anchor Power: Advanced Anchoring for Women & Non-Binary",
           "rawName": "Anchor Power: Advanced Anchoring for Women & Non-Binary (Saturday 9am-4pm)",
@@ -313,7 +313,7 @@
           "id": 1119426,
           "availability": {
             "available": true,
-            "left": 3
+            "left": 1
           },
           "name": "Top Rope Anchors: Anchoring Fundamentals",
           "rawName": "Top Rope Anchors: Anchoring Fundamentals (Saturday 9am-4pm)",
@@ -778,7 +778,7 @@
           "id": 1119384,
           "availability": {
             "available": true,
-            "left": 4
+            "left": 5
           },
           "name": "Bonticou Ecology Tour with a Mohonk Preserve Ranger",
           "rawName": "Bonticou Ecology Tour with a Mohonk Preserve Ranger (Sunday 9am-12pm)",
@@ -1156,7 +1156,7 @@
           "id": 1119492,
           "availability": {
             "available": true,
-            "left": 10
+            "left": 11
           },
           "name": "Climbing Photography Masterclass",
           "rawName": "Climbing Photography Masterclass (Sunday 12-4pm)",
