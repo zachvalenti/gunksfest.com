@@ -7,6 +7,7 @@
  *
  *   node scripts/check-links.mjs                 every http(s) link in our HTML
  *   node scripts/check-links.mjs https://…       just these, nothing else
+ *   node scripts/check-links.mjs --show https://…  print the HTML it read, and stop guessing
  *   node scripts/check-links.mjs --strict        exit 1 on a finding (see below)
  *
  * Config comes from the environment (see the workflow):
@@ -107,6 +108,16 @@ const HEADERS = {
 };
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * --show prints the exact bytes the checks are run against — the page plus the
+ * frame it loads — which is the only honest way to pick a VOLUNTEER_MARKER.
+ * Chrome's Elements panel shows the DOM *after* JavaScript has had its way with
+ * it, and text that only exists there is text this check will never find:
+ *
+ *   node scripts/check-links.mjs --show "https://script.google.com/…/exec" | grep -i shift
+ */
+const SHOW = process.argv.includes("--show");
 
 /** Every .html file in the repo, so a page added later is checked without anyone remembering to. */
 async function htmlFiles() {
@@ -217,6 +228,7 @@ async function checkLink(url, { critical, what, expect, fix }) {
 
     const print = fingerprint(page);
     console.log(`  ${url}\n    ${print}`);
+    if (SHOW) console.log(`\n----- what the check read from ${url} -----\n${page.text}\n----- end -----\n`);
 
     if (page.status >= 400) {
       last = `returned HTTP ${page.status}`;

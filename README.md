@@ -145,7 +145,16 @@ fix, and an alarm that goes off for it stops meaning anything. To check by hand:
 ```
 node scripts/check-links.mjs                    # every link in our HTML
 node scripts/check-links.mjs https://…          # just this one
+node scripts/check-links.mjs --show https://…   # print the HTML it read
 ```
+
+`--show` is how to pick a marker without guessing: it prints the exact bytes the
+checks run against, shell and frame together, so `--show <the /exec URL> | grep
+-i shift` answers "would this phrase match?" outright. Chrome's Elements panel
+can't answer it — that shows the DOM after JavaScript has rearranged it, and
+text that only exists there is text this check will never see. The Network tab's
+**Response** pane for the `echo?user_content_key=…` request is the same bytes,
+if you'd rather look in a browser.
 
 ## The pretix pipeline
 
