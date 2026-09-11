@@ -133,8 +133,41 @@ function linksIn(html) {
 }
 
 /** One line describing what actually came back, for the log and the job summary. */
-function fingerprint({ status, finalUrl, title, bytes }) {
-  return `HTTP ${status}, ${bytes} bytes, title ${JSON.stringify(title || "(none)")}, landed on ${finalUrl}`;
+function fingerprint({ status, finalUrl, title, bytes, framed }) {
+  return `HTTP ${status}, ${bytes} bytes${framed ? " including its embedded frame" : ""}, title ${JSON.stringify(title || "(none)")}, landed on ${finalUrl}`;
+}
+
+/**
+ * An Apps Script web app does not serve its own form at /exec. What comes back
+ * is a shell page whose job is to load the real thing in a sandboxed iframe from
+ * script.googleusercontent.com — so the form's own words are one hop further
+ * down than they look, and a marker checked against the shell alone would never
+ * match no matter how healthy the form is. This follows that hop.
+ *
+ * Only googleusercontent.com is followed, and only one level: the point is to
+ * finish loading the page we asked for, not to start crawling the web.
+ */
+async function fetchFramed(body) {
+  const raw = body
+    .replace(/&amp;/g, "&")
+    .replace(/\\x26/g, "&")
+    .replace(/\\u0026/gi, "&")
+    .replace(/\\\//g, "/");
+  const inner = raw.match(/https:\/\/[\w.-]*googleusercontent\.com\/[^\s"'\\<>]+/)?.[0];
+  if (!inner) return { text: "", url: "" };
+
+  try {
+    const res = await fetch(inner, {
+      headers: HEADERS,
+      redirect: "follow",
+      signal: AbortSignal.timeout(20_000),
+    });
+    return { text: await res.text(), url: res.url || inner };
+  } catch {
+    // Not a finding on its own: the outer page still gets judged, and a marker
+    // that then fails to match says so in words a person can act on.
+    return { text: "", url: "" };
+  }
 }
 
 async function fetchPage(url) {
@@ -144,11 +177,17 @@ async function fetchPage(url) {
     signal: AbortSignal.timeout(20_000),
   });
   const body = await res.text();
+  const framed = await fetchFramed(body);
+
   return {
     status: res.status,
     finalUrl: res.url || url,
     body,
-    bytes: body.length,
+    // What the checks read: the page plus whatever it loads itself, because to a
+    // visitor those are one page.
+    text: body + framed.text,
+    framed: Boolean(framed.text),
+    bytes: body.length + framed.text.length,
     title: (body.match(/<title[^>]*>([^<]*)<\/title>/i)?.[1] || "").trim(),
   };
 }
@@ -188,7 +227,7 @@ async function checkLink(url, { critical, what, expect, fix }) {
     // so only the links we have expectations for get judged on content.
     if (!critical) return null;
 
-    const haystack = page.body.toLowerCase();
+    const haystack = page.text.toLowerCase();
     const bad = BROKEN_PAGE.find(([text]) => haystack.includes(text));
     if (bad) {
       // Not retried: an error page is a considered answer, not a blip, and
@@ -201,7 +240,7 @@ async function checkLink(url, { critical, what, expect, fix }) {
       return `${what} redirected to a Google sign-in page (${print}) — so a logged-out volunteer cannot use it. ${fix}`;
     }
 
-    if (expect && !page.body.includes(expect)) {
+    if (expect && !page.text.includes(expect)) {
       return `${what} loaded but does not contain ${JSON.stringify(expect)}, the text we expect on it (${print}). ${fix}`;
     }
 

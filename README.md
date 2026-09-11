@@ -130,6 +130,13 @@ in `scripts/check-links.mjs`. Without it the known error pages are still caught,
 and every run prints the form's title and byte size so there's an obvious thing
 to paste in.
 
+Pick that phrase from the form itself, not from the page around it: an Apps
+Script web app serves a near-empty shell at `/exec` and loads the actual form
+into a sandboxed iframe from `script.googleusercontent.com`. The check follows
+that hop and searches both documents, so a marker taken from a question the form
+asks will match — but it has to be text the form really contains, not something
+you'd only see rendered.
+
 Only the sign-up form and the ticket shop can raise an issue. Every other link —
 Mohonk, the GCC, Instagram — is checked and reported on the run's own page, and
 never emails anybody: a sponsor's site being down for an afternoon isn't ours to
