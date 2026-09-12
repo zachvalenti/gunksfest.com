@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-12T17:13:42.177Z",
+  "generated": "2026-09-12T22:21:06.939Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -556,7 +556,7 @@
           "id": 1118640,
           "availability": {
             "available": true,
-            "left": 10
+            "left": 9
           },
           "name": "Beyond the Onsight: Broadening your Trad Climbing Horizons",
           "rawName": "Beyond the Onsight: Broadening your Trad Climbing Horizons (Saturday 12pm-2pm)",
