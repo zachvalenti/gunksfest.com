@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-12T01:10:27.409Z",
+  "generated": "2026-09-12T05:51:53.855Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -312,8 +312,8 @@
         {
           "id": 1119426,
           "availability": {
-            "available": true,
-            "left": 1
+            "available": false,
+            "left": 0
           },
           "name": "Top Rope Anchors: Anchoring Fundamentals",
           "rawName": "Top Rope Anchors: Anchoring Fundamentals (Saturday 9am-4pm)",
@@ -913,7 +913,7 @@
           "id": 1118635,
           "availability": {
             "available": true,
-            "left": 3
+            "left": 2
           },
           "name": "Top Rope Rescue Tactics",
           "rawName": "Top Rope Rescue Tactics (Sunday 9am - 1pm)",
