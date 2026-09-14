@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-14T06:22:22.881Z",
+  "generated": "2026-09-14T19:25:24.322Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -1237,7 +1237,7 @@
           "id": 1119409,
           "availability": {
             "available": true,
-            "left": 3
+            "left": 2
           },
           "name": "Wilderness Survival for the Outdoor Recreator",
           "rawName": "Wilderness Survival for the Outdoor Recreator (Sunday 2pm-6pm)",
