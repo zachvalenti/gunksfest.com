@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-13T22:26:55.595Z",
+  "generated": "2026-09-14T06:22:22.881Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -340,7 +340,7 @@
           "id": 1138735,
           "availability": {
             "available": true,
-            "left": 2
+            "left": 1
           },
           "name": "Trad Anchors & Gear Placements",
           "rawName": "Trad Anchors & Gear Placements (Saturday 9am-4pm)",
@@ -529,7 +529,7 @@
           "id": 1118555,
           "availability": {
             "available": true,
-            "left": 23
+            "left": 22
           },
           "name": "How to be a Good Second",
           "rawName": "How to be a Good Second (Saturday 10am - 12pm)",
@@ -610,7 +610,7 @@
           "id": 1118556,
           "availability": {
             "available": true,
-            "left": 22
+            "left": 21
           },
           "name": "Cams: From Soup to Nuts",
           "rawName": "Cams: From Soup to Nuts (Saturday 1pm - 3pm)",
@@ -664,7 +664,7 @@
           "id": 1146648,
           "availability": {
             "available": true,
-            "left": 25
+            "left": 24
           },
           "name": "PSAR (Preventative Search-and-Rescue) with the Mohonk Preserve Rangers",
           "rawName": "PSAR (Preventative Search-and-Rescue) with the Mohonk Preserve Rangers (Saturday 3-5pm)",
@@ -913,7 +913,7 @@
           "id": 1118635,
           "availability": {
             "available": true,
-            "left": 2
+            "left": 1
           },
           "name": "Top Rope Rescue Tactics",
           "rawName": "Top Rope Rescue Tactics (Sunday 9am - 1pm)",
@@ -1237,7 +1237,7 @@
           "id": 1119409,
           "availability": {
             "available": true,
-            "left": 4
+            "left": 3
           },
           "name": "Wilderness Survival for the Outdoor Recreator",
           "rawName": "Wilderness Survival for the Outdoor Recreator (Sunday 2pm-6pm)",
