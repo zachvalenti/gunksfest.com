@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-14T19:25:24.322Z",
+  "generated": "2026-09-15T21:28:39.193Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -610,7 +610,7 @@
           "id": 1118556,
           "availability": {
             "available": true,
-            "left": 21
+            "left": 20
           },
           "name": "Cams: From Soup to Nuts",
           "rawName": "Cams: From Soup to Nuts (Saturday 1pm - 3pm)",
@@ -637,7 +637,7 @@
           "id": 1118586,
           "availability": {
             "available": true,
-            "left": 8
+            "left": 7
           },
           "name": "Living Anchors: Tree Anatomy, Preservation, and Risk Management",
           "rawName": "Living Anchors: Tree Anatomy, Preservation, and Risk Management (Saturday 3-5pm)",
@@ -805,7 +805,7 @@
           "id": 1122747,
           "availability": {
             "available": true,
-            "left": 9
+            "left": 8
           },
           "name": "Climbing Psychology and Mindset Workshop",
           "rawName": "Climbing Psychology and Mindset Workshop (Sunday 9am-11am)",
@@ -1210,7 +1210,7 @@
           "id": 1118638,
           "availability": {
             "available": true,
-            "left": 3
+            "left": 2
           },
           "name": "Multipitching in Party of Three",
           "rawName": "Multipitching in Party of Three (Sunday 1pm - 5pm)",
@@ -1270,7 +1270,7 @@
           "id": 1134276,
           "availability": {
             "available": true,
-            "left": 9
+            "left": 8
           },
           "name": "Antlion Tour",
           "rawName": "Antlion Tour (Monday 9am-1pm)",
