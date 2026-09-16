@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-16T06:05:25.334Z",
+  "generated": "2026-09-16T11:42:14.180Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -583,7 +583,7 @@
           "id": 1128515,
           "availability": {
             "available": true,
-            "left": 7
+            "left": 6
           },
           "name": "Mushroom Foraging",
           "rawName": "Mushroom Foraging (Saturday 12pm-3pm)",
