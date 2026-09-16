@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-16T11:42:14.180Z",
+  "generated": "2026-09-16T17:03:08.710Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -93,7 +93,7 @@
           "id": 1126451,
           "availability": {
             "available": true,
-            "left": 74
+            "left": 73
           },
           "name": "Friday Night Welcome Reception",
           "rawName": "Friday Night Welcome Reception",
@@ -556,7 +556,7 @@
           "id": 1118640,
           "availability": {
             "available": true,
-            "left": 8
+            "left": 7
           },
           "name": "Beyond the Onsight: Broadening your Trad Climbing Horizons",
           "rawName": "Beyond the Onsight: Broadening your Trad Climbing Horizons (Saturday 12pm-2pm)",
@@ -583,7 +583,7 @@
           "id": 1128515,
           "availability": {
             "available": true,
-            "left": 6
+            "left": 7
           },
           "name": "Mushroom Foraging",
           "rawName": "Mushroom Foraging (Saturday 12pm-3pm)",
@@ -637,7 +637,7 @@
           "id": 1118586,
           "availability": {
             "available": true,
-            "left": 7
+            "left": 6
           },
           "name": "Living Anchors: Tree Anatomy, Preservation, and Risk Management",
           "rawName": "Living Anchors: Tree Anatomy, Preservation, and Risk Management (Saturday 3-5pm)",
@@ -724,7 +724,7 @@
           "id": 1119444,
           "availability": {
             "available": true,
-            "left": 3
+            "left": 2
           },
           "name": "Because Things Happen: Self Rescue",
           "rawName": "Because Things Happen: Self Rescue (Sunday 9am-4pm)",
@@ -1270,7 +1270,7 @@
           "id": 1134276,
           "availability": {
             "available": true,
-            "left": 8
+            "left": 7
           },
           "name": "Antlion Tour",
           "rawName": "Antlion Tour (Monday 9am-1pm)",
