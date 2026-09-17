@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-17T07:44:17.738Z",
+  "generated": "2026-09-17T18:19:47.489Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -205,7 +205,7 @@
           "id": 1119354,
           "availability": {
             "available": true,
-            "left": 4
+            "left": 3
           },
           "name": "Glacier Travel and Crevasse Rescue",
           "rawName": "Glacier Travel and Crevasse Rescue (Saturday 9am-4pm)",
@@ -312,8 +312,8 @@
         {
           "id": 1119426,
           "availability": {
-            "available": false,
-            "left": 0
+            "available": true,
+            "left": 1
           },
           "name": "Top Rope Anchors: Anchoring Fundamentals",
           "rawName": "Top Rope Anchors: Anchoring Fundamentals (Saturday 9am-4pm)",
@@ -637,7 +637,7 @@
           "id": 1118586,
           "availability": {
             "available": true,
-            "left": 6
+            "left": 5
           },
           "name": "Living Anchors: Tree Anatomy, Preservation, and Risk Management",
           "rawName": "Living Anchors: Tree Anatomy, Preservation, and Risk Management (Saturday 3-5pm)",
