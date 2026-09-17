@@ -3,6 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Google Tag Manager, placed as high in <head> as it can go — directly
+       after the two meta tags that must come first. GTM is the container that
+       loads every other tag, so anything it misses in those first
+       milliseconds is a measurement nothing downstream can make up.
+
+       The snippet is one IIFE. It seeds window.dataLayer, pushes a gtm.js
+       event stamped with the current time (that timestamp is the zero point
+       the container measures page-load timings from), then builds a <script>
+       element for the container and inserts it ahead of the first script
+       already in the document. async=true keeps the fetch off the critical
+       path, so parsing and rendering never wait on it.
+
+       This replaces the GA4 gtag.js snippet that used to sit at the bottom of
+       this <head>. The GA4 tag is configured inside the container now, so
+       pageviews still reach the same property — and custom tracking, like the
+       pretix ticket-button clicks, can be added from the GTM interface
+       without editing and redeploying these files. -->
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-KR999LR');</script>
+  <!-- End Google Tag Manager -->
   <title>Clinics — GunksFest V (2026)</title>
   <meta name="description" content="The full GunksFest 2026 clinic and workshop schedule — four days of clinics, workshops, and evening programming in the Shawangunks. October 9–12, 2026." />
 
@@ -34,26 +58,18 @@
        open. crossorigin is required here because the fetch is a CORS request —
        without it the browser warms up a connection the fetch can't reuse. -->
   <link rel="preconnect" href="https://pretix.eu" crossorigin />
-  <!-- Google Analytics (GA4, gtag.js). Loaded from <head> so a visitor who
-       leaves before the page finishes is still counted, and async so the
-       request never blocks parsing or rendering — the tag sits outside the
-       critical path entirely.
-
-       dataLayer is the queue gtag() pushes into. It is created here rather
-       than by the library because these calls run before the async script has
-       arrived; the library drains whatever it finds waiting. gtag('js', new
-       Date()) stamps the session start, and 'config' fires the page_view for
-       this page against the G-NNXPX4NHLL property. -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNXPX4NHLL"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-NNXPX4NHLL');
-  </script>
 </head>
 <body class="page-schedule">
+  <!-- Google Tag Manager (noscript): the fallback for a visitor with
+       scripting turned off. The container can't run, but this iframe request
+       still records the pageview. It belongs immediately after the opening
+       <body> tag, and is hidden two ways — display:none takes it out of
+       layout, visibility:hidden covers anything that might override that — so
+       it never reserves a line of space. -->
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KR999LR"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
   <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- Shared kernmantle-weave fleck patterns for the rope dividers.
