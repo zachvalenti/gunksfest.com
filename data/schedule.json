@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-17T22:13:40.040Z",
+  "generated": "2026-09-18T11:21:46.069Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -178,7 +178,7 @@
           "id": 1118780,
           "availability": {
             "available": true,
-            "left": 5
+            "left": 4
           },
           "name": "Anchor Power: Advanced Anchoring for Women & Non-Binary",
           "rawName": "Anchor Power: Advanced Anchoring for Women & Non-Binary (Saturday 9am-4pm)",
