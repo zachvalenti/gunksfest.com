@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-18T16:28:25.042Z",
+  "generated": "2026-09-20T16:50:27.152Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -339,8 +339,8 @@
         {
           "id": 1138735,
           "availability": {
-            "available": true,
-            "left": 1
+            "available": false,
+            "left": 0
           },
           "name": "Trad Anchors & Gear Placements",
           "rawName": "Trad Anchors & Gear Placements (Saturday 9am-4pm)",
