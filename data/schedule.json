@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-20T16:50:27.152Z",
+  "generated": "2026-09-21T01:09:55.524Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -286,7 +286,7 @@
           "id": 1118643,
           "availability": {
             "available": true,
-            "left": 9
+            "left": 8
           },
           "name": "Ropecraft 101: Knots and hitches every climber should know",
           "rawName": "Ropecraft 101: Knots and hitches every climber should know (Saturday 9-11am)",
@@ -556,7 +556,7 @@
           "id": 1118640,
           "availability": {
             "available": true,
-            "left": 7
+            "left": 6
           },
           "name": "Beyond the Onsight: Broadening your Trad Climbing Horizons",
           "rawName": "Beyond the Onsight: Broadening your Trad Climbing Horizons (Saturday 12pm-2pm)",
@@ -610,7 +610,7 @@
           "id": 1118556,
           "availability": {
             "available": true,
-            "left": 20
+            "left": 19
           },
           "name": "Cams: From Soup to Nuts",
           "rawName": "Cams: From Soup to Nuts (Saturday 1pm - 3pm)",
@@ -664,7 +664,7 @@
           "id": 1146648,
           "availability": {
             "available": true,
-            "left": 23
+            "left": 22
           },
           "name": "PSAR (Preventative Search-and-Rescue) with the Mohonk Preserve Rangers",
           "rawName": "PSAR (Preventative Search-and-Rescue) with the Mohonk Preserve Rangers (Saturday 3-5pm)",
@@ -805,7 +805,7 @@
           "id": 1122747,
           "availability": {
             "available": true,
-            "left": 8
+            "left": 6
           },
           "name": "Climbing Psychology and Mindset Workshop",
           "rawName": "Climbing Psychology and Mindset Workshop (Sunday 9am-11am)",
@@ -1129,7 +1129,7 @@
           "id": 1118631,
           "availability": {
             "available": true,
-            "left": 4
+            "left": 3
           },
           "name": "Safe Rappelling Practices",
           "rawName": "Safe Rappelling Practices (Sunday 11-1pm)",
@@ -1156,7 +1156,7 @@
           "id": 1119492,
           "availability": {
             "available": true,
-            "left": 11
+            "left": 10
           },
           "name": "Climbing Photography Masterclass",
           "rawName": "Climbing Photography Masterclass (Sunday 12-4pm)",
@@ -1270,7 +1270,7 @@
           "id": 1134276,
           "availability": {
             "available": true,
-            "left": 6
+            "left": 5
           },
           "name": "Antlion Tour",
           "rawName": "Antlion Tour (Monday 9am-1pm)",
