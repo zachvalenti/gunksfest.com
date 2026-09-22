@@ -63,7 +63,7 @@
   <!-- Not used for ranking, but search engines usually show it as the snippet
        under the link, so it's the page's advert. ~155 characters before it's
        cut off. -->
-  <meta name="description" content="Tickets are on sale for GunksFest 2026, the annual climbing festival in the Shawangunks, presented by the Gunks Climbers Coalition with Mohonk Preserve. Clinics, vendors, films, and four days of camping on the $250 Stay &amp; Play pass. October 9th - 12th, 2026." />
+  <meta name="description" content="Tickets on sale for GunksFest 2026, the annual Shawangunks climbing festival — clinics, vendors, films, and camping. October 9–12, 2026, New Paltz, NY." />
 
   <!-- Open Graph: the card that appears when the URL is pasted into a message,
        a social post or a chat. Without these tags the platform guesses — often
@@ -564,8 +564,16 @@
         <a class="btn btn-primary btn-lg" href="mailto:events@gunksclimbers.org?subject=GunksFest%202026%20updates&amp;body=Please%20add%20me%20to%20the%20GunksFest%202026%20updates%20list.">
           Email Us for Updates
         </a>
+        <!-- Site convention: links that stay on gunksfest.com keep the tab
+             they are in, links that leave it open a new one, so the festival
+             page is still sitting there when someone is done scrolling
+             Instagram. rel="noopener" goes with every target="_blank": without
+             it the page being opened gets a window.opener handle back to this
+             one, which it can use to navigate this tab somewhere else. -->
         <p class="cta-note">
-          Or follow along on <a href="https://www.instagram.com/gunksclimbers">Instagram</a>
+          Or follow along on
+          <a href="https://www.instagram.com/gunksclimbers" target="_blank" rel="noopener">Instagram</a>
+          and <a href="https://www.facebook.com/gunksclimbers" target="_blank" rel="noopener">Facebook</a>
         </p>
       </div>
     </section>
