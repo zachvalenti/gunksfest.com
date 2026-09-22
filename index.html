@@ -75,7 +75,31 @@
   <meta property="og:description" content="Tickets on sale now. Clinics, vendors, camping, and an evening film festival in the Shawangunks. Presented by the Gunks Climbers Coalition with Mohonk Preserve. October 9th - 12th, 2026." />
   <meta property="og:url" content="https://gunksfest.com/" />
   <meta property="og:image" content="https://gunksfest.com/assets/img/og-image.jpg" />
+  <meta property="og:site_name" content="GunksFest" />
+  <meta property="og:locale" content="en_US" />
+  <!-- Dimensions let a platform reserve the right space before the image has
+       downloaded, so the card doesn't reflow. og:image:alt is the alt text for
+       the card itself, which is the only description a screen reader gets when
+       the link is read out in a feed. -->
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Climbers and the GunksFest banner below the Shawangunk ridge." />
+  <!-- Twitter/X falls back to the og: tags for anything it can't find under
+       twitter:, so these three are belt and braces rather than new
+       information — stated because the fallback is a courtesy, not a spec. -->
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="GunksFest V (2026) — A Shawangunks Climbing Festival" />
+  <meta name="twitter:description" content="Tickets on sale now. Climbing clinics, vendors, films, and camping in the Shawangunks. October 9–12, 2026." />
+  <meta name="twitter:image" content="https://gunksfest.com/assets/img/og-image.jpg" />
+
+  <!-- gunksfest.com and gunksfest.com/index.html are the same bytes, and a
+       search engine that finds both has to decide whether they are one page or
+       two. Left alone it splits whatever authority the page has earned across
+       the pair. This names the winner. GitHub Pages serves static files and
+       runs no server, so there is no 301 to be had here (same constraint as
+       the /tickets and /volunteer stubs — see README.md, "Short URLs"); the
+       nearest thing is the normaliser further down this head. -->
+  <link rel="canonical" href="https://gunksfest.com/" />
 
   <!-- Sets html.js before the first paint, so CSS can hide the elements it
        intends to animate in without any flicker. Deliberately inline and
@@ -84,7 +108,81 @@
        scripting is off this never runs, the class is never added, and every
        `html.js` rule in the stylesheet quietly stops applying — which leaves
        the page fully readable. See css/style.css, "Reveal cards on scroll". -->
+  <!-- Structured data: the same facts the page states in prose, restated in
+       the vocabulary a search engine parses rather than reads. It is what lets
+       Google show the dates, the venue and a price range in the result itself
+       instead of a plain blue link, and what feeds event listings elsewhere.
+
+       Every value here has to keep matching the visible page — structured data
+       that disagrees with the page is worse than none, and is the one thing
+       Google penalises outright. Two of them are generated, not invented:
+       startDate/endDate and the offers range both come from
+       data/schedule.json, the committed pretix snapshot (`shop.dateFrom`,
+       `shop.dateTo`, and the price field of every item in the "Tickets"
+       category). When that file is re-synced and either moves, this block is
+       the second place to change. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "@id": "https://gunksfest.com/",
+    "name": "GunksFest V (2026)",
+    "description": "GunksFest is the annual festival of the Gunks Climbers Coalition, an education-first gathering in the Shawangunks built around climbing clinics and workshops led by experienced local guides. The 2026 festival includes climbing clinics and workshops, adventure films, guest speakers, panels, a vendor village, camping, and community activities.",
+    "url": "https://gunksfest.com/",
+    "image": [
+      "https://gunksfest.com/assets/img/og-image.jpg"
+    ],
+    "startDate": "2026-10-09T16:00:00-04:00",
+    "endDate": "2026-10-12T14:00:00-04:00",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "location": {
+      "@type": "Place",
+      "name": "Ulster County Fairgrounds",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "249 Libertyville Road",
+        "addressLocality": "New Paltz",
+        "addressRegion": "NY",
+        "postalCode": "12561",
+        "addressCountry": "US"
+      }
+    },
+    "organizer": {
+      "@type": "Organization",
+      "name": "Gunks Climbers Coalition",
+      "url": "https://gunksclimbers.org/"
+    },
+    "offers": {
+      "@type": "AggregateOffer",
+      "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
+      "priceCurrency": "USD",
+      "lowPrice": "25.00",
+      "highPrice": "250.00",
+      "availability": "https://schema.org/InStock"
+    }
+  }
+  </script>
+
   <script>document.documentElement.classList.add('js');</script>
+  <!-- The static-hosting stand-in for the 301 the canonical tag above wishes
+       it had: anyone who arrives at /index.html is moved to / before they have
+       read anything, so the address they copy, bookmark or paste is the one
+       the canonical names. location.replace leaves no history entry, so Back
+       still goes where they came from rather than bouncing off this line.
+
+       Guarded on protocol, not hostname, so it stays inert on file:// — where
+       pathname also ends in index.html and "/" is the root of the disk. The
+       search and hash ride along; dropping them would strip ?demo=1 and land
+       anyone following a /index.html#tickets link at the top of the page. -->
+  <script>
+    (function () {
+      var path = location.pathname;
+      if (location.protocol.indexOf('http') === 0 && path.slice(-11) === '/index.html') {
+        location.replace(path.slice(0, -10) + location.search + location.hash);
+      }
+    })();
+  </script>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="icon" type="image/png" href="assets/img/favicon.png" />
   <link rel="apple-touch-icon" href="assets/img/favicon.png" />

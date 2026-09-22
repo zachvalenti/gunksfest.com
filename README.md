@@ -138,7 +138,7 @@ asks will match — but it has to be text the form really contains, not somethin
 you'd only see rendered.
 
 Only the sign-up form and the ticket shop can raise an issue. Every other link —
-Mohonk, the GCC, Instagram — is checked and reported on the run's own page, and
+Mohonk, the GCC, Instagram, Facebook — is checked and reported on the run's own page, and
 never emails anybody: a sponsor's site being down for an afternoon isn't ours to
 fix, and an alarm that goes off for it stops meaning anything. To check by hand:
 
@@ -220,6 +220,54 @@ The anchors they point at are section ids, so `/tickets` lands on the "Stay &
 Play" heading rather than part-way down it. That is why the tickets section is
 `id="tickets"` and not `id="stay-play"` — worth knowing before renaming it
 again, since these two files hard-code the fragment.
+
+## One URL per page
+
+`gunksfest.com` and `gunksfest.com/index.html` are the same bytes. A search
+engine that meets both has to guess whether that is one page or two, and left
+to guess it splits the page's accumulated authority across the pair. Three
+things settle it, in descending order of how much they matter:
+
+1. **`rel="canonical"` in the `<head>` of both pages.** This is the one that
+   does the work: it names the URL that counts, and the other is credited to
+   it rather than competing with it.
+2. **Nothing inside the site links to `index.html` any more.** The clinics page
+   used to, twenty-four times over — its nav, its menu panel and its footer all
+   pointed at `index.html#tickets` and friends. Those are now `/#tickets`.
+   Canonical cleans up after a duplicate; not linking to it is what stops
+   making one.
+3. **A normaliser at the end of the home page's `<head>`**, which moves anyone
+   arriving at `/index.html` to `/` with `location.replace`. It is the static
+   host's stand-in for the 301 this would otherwise be — same constraint as the
+   short URLs above, and the same `location.replace` for the same reason. It is
+   guarded on `location.protocol`, so it does nothing on `file://`, where the
+   path also ends in `index.html` and `/` is the root of the disk.
+
+Note the root-relative links this commits to: the site has to be served from
+the root of a domain, which the `CNAME` already assumes. Serving it from a
+subdirectory would break every link in that list.
+
+## Structured data
+
+The home page carries a `schema.org` `Event` block as JSON-LD. It restates what
+the page already says in prose — dates, venue, organiser, price range — in the
+vocabulary a search engine parses rather than reads, which is what lets a
+result carry the dates and a price instead of being a plain blue link, and what
+lets event aggregators pick the festival up.
+
+**It has to keep agreeing with the visible page.** Structured data that
+contradicts the page is the one thing Google penalises outright, so it is worth knowing
+that two of its fields are derived rather than typed:
+
+- `startDate` / `endDate` come from `shop.dateFrom` and `shop.dateTo` in
+  `data/schedule.json`, converted to Eastern.
+- `offers` is an `AggregateOffer` whose range is the cheapest and dearest item
+  in the `Tickets` category of that same file — $25 for a single film night,
+  $250 for the All-Access pass.
+
+Both are a snapshot. When the pretix sync moves either, this block is the
+second place to change. Paste the page into
+<https://search.google.com/test/rich-results> after any edit to it.
 
 ## The clinics page is public
 
