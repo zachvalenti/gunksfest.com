@@ -844,7 +844,8 @@ html.js .feature:nth-child(4), html.js .logo-card:nth-child(4) { transition-dela
   background: var(--color-cream); border-radius: var(--radius); padding: 1.5rem;
   box-shadow: var(--shadow); border-top: 4px solid var(--color-accent-dk);
 }
-.volunteer-side h3 { margin: 0 0 0.5rem; font-size: 1.15rem; color: var(--color-forest); }
+.volunteer-side h3 { margin: 1.25rem 0 0.5rem; font-size: 1.15rem; color: var(--color-forest); }
+.volunteer-side h3:first-child { margin-top: 0; }
 .volunteer-side p { margin: 0; color: var(--color-ink-soft); }
 .volunteer-side a { color: var(--color-accent-dk); }
 
