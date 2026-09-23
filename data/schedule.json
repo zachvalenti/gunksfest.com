@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-21T23:20:05.659Z",
+  "generated": "2026-09-22T22:13:48.353Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -205,7 +205,7 @@
           "id": 1119354,
           "availability": {
             "available": true,
-            "left": 3
+            "left": 2
           },
           "name": "Glacier Travel and Crevasse Rescue",
           "rawName": "Glacier Travel and Crevasse Rescue (Saturday 9am-4pm)",
