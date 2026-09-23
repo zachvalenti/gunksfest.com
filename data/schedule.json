@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-22T22:13:48.353Z",
+  "generated": "2026-09-23T17:07:25.114Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -93,7 +93,7 @@
           "id": 1126451,
           "availability": {
             "available": true,
-            "left": 71
+            "left": 72
           },
           "name": "Friday Night Welcome Reception",
           "rawName": "Friday Night Welcome Reception",
@@ -205,7 +205,7 @@
           "id": 1119354,
           "availability": {
             "available": true,
-            "left": 2
+            "left": 3
           },
           "name": "Glacier Travel and Crevasse Rescue",
           "rawName": "Glacier Travel and Crevasse Rescue (Saturday 9am-4pm)",
@@ -227,33 +227,6 @@
           "start": "2026-10-10T13:00:00.000Z",
           "end": "2026-10-10T20:00:00.000Z",
           "location": "This clinic meets at the Mohonk Preserve Visitor Center."
-        },
-        {
-          "id": 1134227,
-          "availability": {
-            "available": true,
-            "left": 24
-          },
-          "name": "Not Your Typical CPR: Adult + Child CPR/AED for Climbers",
-          "rawName": "Not Your Typical CPR: Adult + Child CPR/AED for Climbers (Saturday 9am-2pm)",
-          "description": "<p><em>Instructors: Raquel Sapp + Brittany Leavitt, Backcountry Pulse</em></p><p>CERTIFICATION COURSE</p><p>CPR classes can feel clinical and disconnected from the places where emergencies actually happen. This one is built for climbers, and just may be the most important skill you ever bring to the crag.</p><p>In this hands-on course, participants will learn and practice rescuer psychological preparedness, adult and child CPR, AED use, choking care, and the early actions that can make a meaningful difference while help is on the way. </p><p>We will place those skills in situations that feel familiar to climbers: working in an outdoor setting, making use of the resources available, and figuring out what needs to happen next.</p><p>Participant Benefit:  Certification - Everyone who completes the course and exam will receive a Backcountry Pulse Adult + Child CPR/AED certification!</p><p><strong>Prerequisites:  None</strong><br /><strong>Required Gear: None. Backcountry Pulse will provide CPR manikins, AED trainers, and course equipment</strong></p>",
-          "category": "Saturday Clinics",
-          "categoryId": 282660,
-          "price": "150.00",
-          "priceFrom": false,
-          "freePrice": false,
-          "hasVariations": false,
-          "allowWaitinglist": true,
-          "picture": "https://cdn.pretix.cloud/1/pub/gunksclimbers/gunksfest2026/item-1134227-28dedbfb-d347-4710-9192-d196de1c4999.bee495af6f6abf.png",
-          "isAddon": true,
-          "meta": {
-            "difficulty": "All Levels"
-          },
-          "url": "https://pretix.eu/gunksclimbers/gunksfest2026/",
-          "slotId": "1134227-61353",
-          "start": "2026-10-10T13:00:00.000Z",
-          "end": "2026-10-10T18:00:00.000Z",
-          "location": "Meet at Mohonk Preserve Visitor Center."
         },
         {
           "id": 1119446,
@@ -859,7 +832,7 @@
           "id": 1119372,
           "availability": {
             "available": true,
-            "left": 5
+            "left": 6
           },
           "name": "Map and Compass Navigation",
           "rawName": "Map and Compass Navigation (Sunday 9-1pm)",
@@ -1183,7 +1156,7 @@
           "id": 1118581,
           "availability": {
             "available": true,
-            "left": 21
+            "left": 22
           },
           "name": "Half Rope Usage: Techniques, Pros, and Cons",
           "rawName": "Half Rope Usage: Techniques, Pros, and Cons (Sunday 1pm-3pm)",
