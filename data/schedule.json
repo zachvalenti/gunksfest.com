@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-23T17:07:25.114Z",
+  "generated": "2026-09-24T04:57:17.759Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -93,7 +93,7 @@
           "id": 1126451,
           "availability": {
             "available": true,
-            "left": 72
+            "left": 71
           },
           "name": "Friday Night Welcome Reception",
           "rawName": "Friday Night Welcome Reception",
@@ -421,7 +421,7 @@
           "id": 1118609,
           "availability": {
             "available": true,
-            "left": 7
+            "left": 6
           },
           "name": "Trapps Climbing Tour: 5.6-5.8",
           "rawName": "Trapps Climbing Tour: 5.6-5.8 (Saturday 9-11am)",
@@ -583,7 +583,7 @@
           "id": 1118556,
           "availability": {
             "available": true,
-            "left": 19
+            "left": 18
           },
           "name": "Cams: From Soup to Nuts",
           "rawName": "Cams: From Soup to Nuts (Saturday 1pm - 3pm)",
@@ -610,7 +610,7 @@
           "id": 1118586,
           "availability": {
             "available": true,
-            "left": 5
+            "left": 4
           },
           "name": "Living Anchors: Tree Anatomy, Preservation, and Risk Management",
           "rawName": "Living Anchors: Tree Anatomy, Preservation, and Risk Management (Saturday 3-5pm)",
@@ -1048,7 +1048,7 @@
           "id": 1118618,
           "availability": {
             "available": true,
-            "left": 10
+            "left": 9
           },
           "name": "Trapps Climbing Tour: 5.9-5.10",
           "rawName": "Trapps Climbing Tour: 5.9-5.10 (Sunday 9-11am)",
@@ -1102,7 +1102,7 @@
           "id": 1118631,
           "availability": {
             "available": true,
-            "left": 3
+            "left": 2
           },
           "name": "Safe Rappelling Practices",
           "rawName": "Safe Rappelling Practices (Sunday 11-1pm)",
@@ -1210,7 +1210,7 @@
           "id": 1119409,
           "availability": {
             "available": true,
-            "left": 2
+            "left": 1
           },
           "name": "Wilderness Survival for the Outdoor Recreator",
           "rawName": "Wilderness Survival for the Outdoor Recreator (Sunday 2pm-6pm)",
