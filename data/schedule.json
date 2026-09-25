@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-24T04:57:17.759Z",
+  "generated": "2026-09-25T01:34:03.181Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -93,7 +93,7 @@
           "id": 1126451,
           "availability": {
             "available": true,
-            "left": 71
+            "left": 70
           },
           "name": "Friday Night Welcome Reception",
           "rawName": "Friday Night Welcome Reception",
@@ -151,7 +151,7 @@
           "id": 1118547,
           "availability": {
             "available": true,
-            "left": 24
+            "left": 23
           },
           "name": "Yoga For Climbers - PreClimb Warm Up Class",
           "rawName": "Yoga For Climbers - PreClimb Warm Up Class (Saturday 8am - 8:45am)",
@@ -502,7 +502,7 @@
           "id": 1118555,
           "availability": {
             "available": true,
-            "left": 22
+            "left": 21
           },
           "name": "How to be a Good Second",
           "rawName": "How to be a Good Second (Saturday 10am - 12pm)",
@@ -556,7 +556,7 @@
           "id": 1128515,
           "availability": {
             "available": true,
-            "left": 5
+            "left": 4
           },
           "name": "Mushroom Foraging",
           "rawName": "Mushroom Foraging (Saturday 12pm-3pm)",
@@ -610,7 +610,7 @@
           "id": 1118586,
           "availability": {
             "available": true,
-            "left": 4
+            "left": 3
           },
           "name": "Living Anchors: Tree Anatomy, Preservation, and Risk Management",
           "rawName": "Living Anchors: Tree Anatomy, Preservation, and Risk Management (Saturday 3-5pm)",
@@ -751,7 +751,7 @@
           "id": 1119384,
           "availability": {
             "available": true,
-            "left": 2
+            "left": 1
           },
           "name": "Bonticou Ecology Tour with a Mohonk Preserve Ranger",
           "rawName": "Bonticou Ecology Tour with a Mohonk Preserve Ranger (Sunday 9am-12pm)",
@@ -1156,7 +1156,7 @@
           "id": 1118581,
           "availability": {
             "available": true,
-            "left": 22
+            "left": 21
           },
           "name": "Half Rope Usage: Techniques, Pros, and Cons",
           "rawName": "Half Rope Usage: Techniques, Pros, and Cons (Sunday 1pm-3pm)",
