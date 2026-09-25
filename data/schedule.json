@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-25T01:34:03.181Z",
+  "generated": "2026-09-25T18:40:24.680Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -66,7 +66,7 @@
           "id": 1145468,
           "availability": {
             "available": true,
-            "left": 7
+            "left": 6
           },
           "name": "Cragging Rock Skills",
           "rawName": "Cragging Rock Skills (Friday 9am-4pm)",
@@ -178,7 +178,7 @@
           "id": 1118780,
           "availability": {
             "available": true,
-            "left": 4
+            "left": 3
           },
           "name": "Anchor Power: Advanced Anchoring for Women & Non-Binary",
           "rawName": "Anchor Power: Advanced Anchoring for Women & Non-Binary (Saturday 9am-4pm)",
@@ -697,7 +697,7 @@
           "id": 1119444,
           "availability": {
             "available": true,
-            "left": 2
+            "left": 1
           },
           "name": "Because Things Happen: Self Rescue",
           "rawName": "Because Things Happen: Self Rescue (Sunday 9am-4pm)",
@@ -1270,7 +1270,7 @@
           "id": 1145465,
           "availability": {
             "available": true,
-            "left": 7
+            "left": 6
           },
           "name": "Skytop Climbing",
           "rawName": "Skytop Climbing (Monday 9am-4pm)",
