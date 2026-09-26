@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-25T18:40:24.680Z",
+  "generated": "2026-09-26T01:37:15.582Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -93,7 +93,7 @@
           "id": 1126451,
           "availability": {
             "available": true,
-            "left": 70
+            "left": 71
           },
           "name": "Friday Night Welcome Reception",
           "rawName": "Friday Night Welcome Reception",
@@ -421,7 +421,7 @@
           "id": 1118609,
           "availability": {
             "available": true,
-            "left": 6
+            "left": 7
           },
           "name": "Trapps Climbing Tour: 5.6-5.8",
           "rawName": "Trapps Climbing Tour: 5.6-5.8 (Saturday 9-11am)",
@@ -610,7 +610,7 @@
           "id": 1118586,
           "availability": {
             "available": true,
-            "left": 3
+            "left": 4
           },
           "name": "Living Anchors: Tree Anatomy, Preservation, and Risk Management",
           "rawName": "Living Anchors: Tree Anatomy, Preservation, and Risk Management (Saturday 3-5pm)",
@@ -751,7 +751,7 @@
           "id": 1119384,
           "availability": {
             "available": true,
-            "left": 1
+            "left": 2
           },
           "name": "Bonticou Ecology Tour with a Mohonk Preserve Ranger",
           "rawName": "Bonticou Ecology Tour with a Mohonk Preserve Ranger (Sunday 9am-12pm)",
@@ -1129,7 +1129,7 @@
           "id": 1119492,
           "availability": {
             "available": true,
-            "left": 10
+            "left": 11
           },
           "name": "Climbing Photography Masterclass",
           "rawName": "Climbing Photography Masterclass (Sunday 12-4pm)",
@@ -1243,7 +1243,7 @@
           "id": 1134276,
           "availability": {
             "available": true,
-            "left": 4
+            "left": 5
           },
           "name": "Antlion Tour",
           "rawName": "Antlion Tour (Monday 9am-1pm)",
