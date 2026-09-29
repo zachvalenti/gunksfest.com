@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-29T02:01:21.772Z",
+  "generated": "2026-09-29T08:36:33.277Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -87,7 +87,7 @@
           "slotId": "1145468-64997",
           "start": "2026-10-09T13:00:00.000Z",
           "end": "2026-10-09T20:00:00.000Z",
-          "location": "This clinic will require personal transportation!"
+          "location": "This clinic will require personal transportation and meet at the Visitor Center at the Mohonk Preserve."
         },
         {
           "id": 1126451,
@@ -1264,7 +1264,7 @@
           "slotId": "1145465-64996",
           "start": "2026-10-12T13:00:00.000Z",
           "end": "2026-10-12T19:00:00.000Z",
-          "location": "This clinic will require personal transportation!"
+          "location": "This clinic will require personal transportation and meet at the Mohonk Mountain House gatehouse at 8:45am."
         }
       ]
     }
