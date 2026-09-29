@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-29T08:36:33.277Z",
+  "generated": "2026-09-29T20:51:35.347Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -610,7 +610,7 @@
           "id": 1118586,
           "availability": {
             "available": true,
-            "left": 3
+            "left": 1
           },
           "name": "Living Anchors: Tree Anatomy, Preservation, and Risk Management",
           "rawName": "Living Anchors: Tree Anatomy, Preservation, and Risk Management (Saturday 3-5pm)",
