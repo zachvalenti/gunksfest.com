@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-29T20:51:35.347Z",
+  "generated": "2026-09-30T13:48:37.081Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -583,7 +583,7 @@
           "id": 1118556,
           "availability": {
             "available": true,
-            "left": 18
+            "left": 17
           },
           "name": "Cams: From Soup to Nuts",
           "rawName": "Cams: From Soup to Nuts (Saturday 1pm - 3pm)",
