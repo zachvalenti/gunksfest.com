@@ -18,6 +18,7 @@ clinics.html        The clinics page — schedule rendered from data/schedule.js
 schedule.html       Redirect stub left behind when clinics.html was renamed
 tickets/index.html    Redirect stub: gunksfest.com/tickets   -> /#tickets
 volunteer/index.html  Redirect stub: gunksfest.com/volunteer -> /#volunteer
+movement/index.html   Redirect stub: gunksfest.com/movement  -> pretix voucher redemption (Movement members)
 css/style.css       All shared styling. Theme colours/fonts are the :root variables at the top.
 css/schedule.css    Schedule-page styles only.
 js/main.js          Nav, slideshows, parallax, rope dividers. No frameworks.
