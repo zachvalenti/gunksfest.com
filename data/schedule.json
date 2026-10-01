@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-30T19:25:13.870Z",
+  "generated": "2026-10-01T06:02:11.171Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -93,7 +93,7 @@
           "id": 1126451,
           "availability": {
             "available": true,
-            "left": 70
+            "left": 69
           },
           "name": "Friday Night Welcome Reception",
           "rawName": "Friday Night Welcome Reception",
@@ -556,7 +556,7 @@
           "id": 1128515,
           "availability": {
             "available": true,
-            "left": 4
+            "left": 3
           },
           "name": "Mushroom Foraging",
           "rawName": "Mushroom Foraging (Saturday 12pm-3pm)",
@@ -724,7 +724,7 @@
           "id": 1128514,
           "availability": {
             "available": true,
-            "left": 2
+            "left": 1
           },
           "name": "Big Wall Bound",
           "rawName": "Big Wall Bound (Sunday 9am-4pm)",
@@ -1216,7 +1216,7 @@
           "id": 1134276,
           "availability": {
             "available": true,
-            "left": 4
+            "left": 3
           },
           "name": "Antlion Tour",
           "rawName": "Antlion Tour (Monday 9am-1pm)",
