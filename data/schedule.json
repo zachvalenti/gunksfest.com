@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-01T19:34:50.969Z",
+  "generated": "2026-10-01T23:55:17.251Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -750,8 +750,8 @@
         {
           "id": 1119384,
           "availability": {
-            "available": true,
-            "left": 1
+            "available": false,
+            "left": 0
           },
           "name": "Bonticou Ecology Tour with a Mohonk Preserve Ranger",
           "rawName": "Bonticou Ecology Tour with a Mohonk Preserve Ranger (Sunday 9am-12pm)",
@@ -1129,7 +1129,7 @@
           "id": 1118581,
           "availability": {
             "available": true,
-            "left": 20
+            "left": 19
           },
           "name": "Half Rope Usage: Techniques, Pros, and Cons",
           "rawName": "Half Rope Usage: Techniques, Pros, and Cons (Sunday 1pm-3pm)",
@@ -1243,7 +1243,7 @@
           "id": 1145465,
           "availability": {
             "available": true,
-            "left": 6
+            "left": 4
           },
           "name": "Skytop Climbing",
           "rawName": "Skytop Climbing (Monday 9am-4pm)",
