@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-01T06:02:11.171Z",
+  "generated": "2026-10-01T19:34:50.969Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -93,7 +93,7 @@
           "id": 1126451,
           "availability": {
             "available": true,
-            "left": 69
+            "left": 68
           },
           "name": "Friday Night Welcome Reception",
           "rawName": "Friday Night Welcome Reception",
@@ -340,7 +340,7 @@
           "id": 1118598,
           "availability": {
             "available": true,
-            "left": 10
+            "left": 9
           },
           "name": "Trapps Bouldering Tour",
           "rawName": "Trapps Bouldering Tour (Saturday 9am-11am)",
@@ -556,7 +556,7 @@
           "id": 1128515,
           "availability": {
             "available": true,
-            "left": 3
+            "left": 2
           },
           "name": "Mushroom Foraging",
           "rawName": "Mushroom Foraging (Saturday 12pm-3pm)",
@@ -751,7 +751,7 @@
           "id": 1119384,
           "availability": {
             "available": true,
-            "left": 2
+            "left": 1
           },
           "name": "Bonticou Ecology Tour with a Mohonk Preserve Ranger",
           "rawName": "Bonticou Ecology Tour with a Mohonk Preserve Ranger (Sunday 9am-12pm)",
@@ -1216,7 +1216,7 @@
           "id": 1134276,
           "availability": {
             "available": true,
-            "left": 3
+            "left": 2
           },
           "name": "Antlion Tour",
           "rawName": "Antlion Tour (Monday 9am-1pm)",
