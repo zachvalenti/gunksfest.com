@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-01T23:55:17.251Z",
+  "generated": "2026-10-02T05:44:53.510Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -340,7 +340,7 @@
           "id": 1118598,
           "availability": {
             "available": true,
-            "left": 9
+            "left": 8
           },
           "name": "Trapps Bouldering Tour",
           "rawName": "Trapps Bouldering Tour (Saturday 9am-11am)",
@@ -556,7 +556,7 @@
           "id": 1128515,
           "availability": {
             "available": true,
-            "left": 2
+            "left": 1
           },
           "name": "Mushroom Foraging",
           "rawName": "Mushroom Foraging (Saturday 12pm-3pm)",
