@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-02T18:27:41.341Z",
+  "generated": "2026-10-02T23:00:19.459Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -93,7 +93,7 @@
           "id": 1126451,
           "availability": {
             "available": true,
-            "left": 67
+            "left": 66
           },
           "name": "Friday Night Welcome Reception",
           "rawName": "Friday Night Welcome Reception",
@@ -205,7 +205,7 @@
           "id": 1119354,
           "availability": {
             "available": true,
-            "left": 3
+            "left": 2
           },
           "name": "Glacier Travel and Crevasse Rescue",
           "rawName": "Glacier Travel and Crevasse Rescue (Saturday 9am-4pm)",
@@ -723,8 +723,8 @@
         {
           "id": 1128514,
           "availability": {
-            "available": true,
-            "left": 1
+            "available": false,
+            "left": 0
           },
           "name": "Big Wall Bound",
           "rawName": "Big Wall Bound (Sunday 9am-4pm)",
