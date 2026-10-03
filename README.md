@@ -24,6 +24,7 @@ css/style.css       All shared styling. Theme colours/fonts are the :root variab
 css/schedule.css    Schedule-page styles only.
 css/maps.css        Maps-page styles only, including how the pins scale with the map.
 js/main.js          Nav, slideshows, parallax, rope dividers. No frameworks.
+js/maps.js          Maps page: links the key, legend and pins so picking one highlights the rest.
 js/pretix.js        Shared with both pages: availability, description sanitising, money.
 js/schedule.js      Renders the schedule and stamps live availability from pretix.
 js/tickets.js       Renders the ticket comparison matrix in Stay & Play.
