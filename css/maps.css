@@ -38,6 +38,19 @@
 .maps-head .eyebrow { color: var(--color-accent-light); text-shadow: 0 2px 10px rgba(0,0,0,0.55); }
 .maps-head .lead { margin-bottom: 1.75rem; text-wrap: pretty; }
 .maps-jump { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+/* The offline note under the jump buttons. A small sand pill with a dot that
+   turns green once the maps are saved on the phone. */
+.maps-offline {
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  margin: 1.25rem 0 0; padding: 0.5rem 0.9rem; border-radius: 10px;
+  background: rgba(20, 37, 31, 0.72); border: 1px solid rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.92); font-size: 0.9rem; line-height: 1.4; max-width: 60ch;
+}
+.maps-offline::before {
+  content: ""; flex: none; width: 9px; height: 9px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+}
+.maps-offline.is-saved::before { background: #7cc47f; }
 
 .page-maps .rope-divider { z-index: 3; }
 
@@ -122,6 +135,24 @@
   font-family: "Playfair Display", Georgia, serif; font-style: italic; font-weight: 700;
   font-size: 1.15rem; line-height: 1.2; color: var(--sky-text);
 }
+
+/* Directions: one solid button for Google Maps, which opens the app on any
+   phone that has it and the website otherwise, and a quieter link for Apple
+   Maps, which iPhone users will want. White on the site's deep sky is 5.9:1. */
+.map-directions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+.map-dir {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  min-height: 44px; padding: 0 1.1rem; border-radius: 999px;
+  font-weight: 700; font-size: 0.9rem; text-decoration: none;
+  background: var(--color-accent-dk); color: #fff;
+  border: 1px solid var(--color-accent-dk);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.map-dir:hover { background: var(--color-accent-darker); border-color: var(--color-accent-darker); }
+.map-dir--alt { background: transparent; color: var(--cream); border-color: rgba(244, 239, 230, 0.35); }
+.map-dir--alt:hover { background: rgba(244, 239, 230, 0.08); border-color: var(--cream); }
+.map-dir:focus-visible { outline: 3px solid var(--sky-text); outline-offset: 2px; }
+.map-dir-icon { width: 18px; height: 18px; fill: currentColor; flex: none; }
 
 /* ---------- The key ---------- */
 .map-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }

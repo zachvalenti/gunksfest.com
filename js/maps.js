@@ -157,4 +157,43 @@
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") each(clearers, function (clear) { clear(); });
   });
+
+  // --- Offline copy ---
+  // maps/sw.js saves this page and everything it loads on the first visit, so
+  // it opens with no signal afterwards. This registers it and keeps the note
+  // in the page head honest about whether that has happened yet.
+  //
+  // A service worker needs HTTPS (or localhost) and a browser that has them;
+  // anywhere else the note stays hidden and the page works exactly as before.
+  var note = document.getElementById("maps-offline");
+  if (!("serviceWorker" in navigator) || !window.isSecureContext) return;
+
+  function say(text, saved) {
+    if (!note) return;
+    note.textContent = text;
+    note.classList.toggle("is-saved", !!saved);
+    note.hidden = false;
+  }
+
+  if (!navigator.onLine) {
+    say("You're offline. These are the maps saved on this device.", true);
+  } else if (!navigator.serviceWorker.controller) {
+    // First visit (or first since the cache was cleared): nothing saved yet.
+    say("Signal at the cliff is patchy. Keep this page open a moment and it will be saved to use offline.", false);
+  }
+
+  // Registered after the page has loaded, so saving the aerials never
+  // competes with showing them.
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("/maps/sw.js", { scope: "/maps/" })
+      .then(function () { return navigator.serviceWorker.ready; })
+      .then(function () {
+        if (navigator.onLine) say("Saved for offline use. These maps will open on this device even with no signal.", true);
+      })
+      .catch(function () {
+        // Registration refused (private mode, storage full, a sandbox): say
+        // nothing rather than promise something that won't happen.
+        if (note) note.hidden = true;
+      });
+  });
 })();

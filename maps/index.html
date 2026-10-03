@@ -31,6 +31,12 @@
   <meta name="twitter:description" content="Where everything is at the Ulster County Fairgrounds and Mohonk Preserve. October 9–12 in the Shawangunks." />
   <meta name="twitter:image" content="https://gunksfest.com/assets/img/og-image.jpg" />
 
+  <!-- The maps are for attendees, handed out by link (emails, the bus,
+       signs at registration), and nothing on the site links here. noindex
+       keeps the page out of search results too, so it doesn't turn up for
+       people who aren't coming. It is not a lock: anyone with the link can
+       open it, which is the point. -->
+  <meta name="robots" content="noindex" />
   <link rel="canonical" href="https://gunksfest.com/maps/" />
 
   <script>document.documentElement.classList.add('js');</script>
@@ -86,9 +92,7 @@
         <a href="/#about">About</a>
         <a href="/#partners">Partners</a>
         <a href="/#venue">Venue</a>
-        <a href="/maps/" aria-current="page">Maps</a>
         <a href="/clinics.html">Clinics</a>
-        <a href="/#tickets">Tickets</a>
         <a href="/#evening">Evening</a>
         <a href="/#volunteer">Volunteer</a>
         <a class="nav-cta" href="/#tickets">Get Tickets</a>
@@ -107,9 +111,7 @@
     <a href="/#about">About</a>
     <a href="/#partners">Partners</a>
     <a href="/#venue">Venue</a>
-    <a href="/maps/">Maps</a>
     <a href="/clinics.html">Clinics</a>
-    <a href="/#tickets">Tickets</a>
     <a href="/#evening">Evening Program</a>
     <a href="/#volunteer">Volunteer</a>
     <a class="menu-cta" href="/#tickets">Get Tickets</a>
@@ -132,6 +134,10 @@
           <a class="btn btn-primary" href="#fairgrounds">Ulster County Fairgrounds</a>
           <a class="btn btn-ghost" href="#mohonk">Mohonk Preserve</a>
         </nav>
+        <!-- Filled in by js/maps.js, and only where the browser can save the page
+             for offline use: phone signal at the cliff is patchy, so the point
+             is to get people to open this once while they still have some. -->
+        <p class="maps-offline" id="maps-offline" role="status" hidden></p>
       </div>
     </section>
 
@@ -164,6 +170,10 @@
             <p class="map-eyebrow">GunksFest V · Oct 9–12 · Basecamp</p>
             <h2 class="map-title" id="fairgrounds-title">Ulster County<br />Fairgrounds</h2>
             <p class="map-sub">249 Libertyville Rd, New Paltz</p>
+            <div class="map-directions">
+              <a class="map-dir" href="https://www.google.com/maps/dir/?api=1&amp;destination=Ulster+County+Fairgrounds%2C+249+Libertyville+Rd%2C+New+Paltz%2C+NY+12561" target="_blank" rel="noopener" aria-label="Directions to the Ulster County Fairgrounds in Google Maps"><svg class="map-dir-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M12.7 2.3a1 1 0 0 0-1.4 0l-9 9a1 1 0 0 0 0 1.4l9 9a1 1 0 0 0 1.4 0l9-9a1 1 0 0 0 0-1.4zM14 14.5V12h-3.5a1 1 0 0 0-1 1v2.5H8V13a2.5 2.5 0 0 1 2.5-2.5H14V8l3.5 3.25z"/></svg>Directions</a>
+              <a class="map-dir map-dir--alt" href="https://maps.apple.com/?daddr=Ulster+County+Fairgrounds%2C+249+Libertyville+Rd%2C+New+Paltz%2C+NY+12561&amp;dirflg=d" target="_blank" rel="noopener" aria-label="Directions to the Ulster County Fairgrounds in Apple Maps">Apple Maps</a>
+            </div>
           </header>
 
           <div class="map-view">
@@ -242,6 +252,10 @@
             <p class="map-eyebrow">GunksFest V · Oct 9–12 · Clinics</p>
             <h2 class="map-title" id="mohonk-title">Mohonk<br />Preserve</h2>
             <p class="map-sub">Visitor Center to West Trapps</p>
+            <div class="map-directions">
+              <a class="map-dir" href="https://www.google.com/maps/dir/?api=1&amp;destination=Mohonk+Preserve+Visitor+Center%2C+3197+US-44%2C+Gardiner%2C+NY+12525" target="_blank" rel="noopener" aria-label="Directions to the Mohonk Preserve Visitor Center in Google Maps"><svg class="map-dir-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M12.7 2.3a1 1 0 0 0-1.4 0l-9 9a1 1 0 0 0 0 1.4l9 9a1 1 0 0 0 1.4 0l9-9a1 1 0 0 0 0-1.4zM14 14.5V12h-3.5a1 1 0 0 0-1 1v2.5H8V13a2.5 2.5 0 0 1 2.5-2.5H14V8l3.5 3.25z"/></svg>Directions</a>
+              <a class="map-dir map-dir--alt" href="https://maps.apple.com/?daddr=Mohonk+Preserve+Visitor+Center%2C+3197+US-44%2C+Gardiner%2C+NY+12525&amp;dirflg=d" target="_blank" rel="noopener" aria-label="Directions to the Mohonk Preserve Visitor Center in Apple Maps">Apple Maps</a>
+            </div>
           </header>
 
           <div class="map-view">
@@ -311,7 +325,6 @@
       <nav class="footer-links" aria-label="Footer">
         <a href="/#about">About</a>
         <a href="/#venue">Venue</a>
-        <a href="/maps/">Maps</a>
         <a href="/clinics.html">Clinics</a>
         <a href="/#tickets">Tickets</a>
         <a href="/#evening">Evening Program</a>
