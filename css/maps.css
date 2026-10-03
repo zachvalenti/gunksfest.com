@@ -228,6 +228,11 @@
   position: relative;
   container-type: inline-size;
   aspect-ratio: var(--map-w) / var(--map-h);
+  /* An explicit width, not left to the layout. On desktop the map sits in a
+     flex column, where auto margins turn off stretching and size the box to
+     its content — and a size container's content counts as zero, so without
+     this the map collapses to nothing. */
+  width: 100%;
   max-width: calc(var(--map-w) * 1px);
   margin: 0 auto;
   overflow: hidden;
