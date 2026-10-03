@@ -2,11 +2,11 @@
    GunksFest 2026 — maps page (maps/index.html)
    Loaded after style.css, so it only carries what the maps page adds.
 
-   The two map cards keep the look they were designed in — warm ink ground,
-   amber pins, blue amenity badges, Archivo over Playfair Display — rather than
-   the site's forest green. They are a self-contained object, like a printed
-   trail map pinned to the page, and the site's palette around them is what
-   says they belong to it.
+   The map cards keep their own typefaces (Archivo over Playfair Display, as
+   drawn) but take their colours from the site: a deep forest ground, the
+   site's sky blue for the numbered pins, GCC leaf green for the amenity
+   badges, and the sand off-white for text. The pins are the one loud thing on
+   each card, which is why they get the accent.
    ============================================================ */
 
 /* ---------- Page head ---------- */
@@ -55,14 +55,15 @@
 
 /* ---------- Map card ---------- */
 .map-card {
-  --ink: #17140f;
-  --cream: #f5eedc;
-  --amber: #f2a33a;
-  --orange: #ff7945;
-  --muted: #c3b8a1;
-  --faint: #a2988a;
-  --badge: #2458a6;
-  --rule: rgba(245, 238, 220, 0.14);
+  --ink: #0f1d17;                    /* card ground: darker than the section around it */
+  --cream: var(--color-sand);        /* #f4efe6, all text and rings */
+  --pin: var(--color-accent);        /* #0e90d6 — ink numbers on it are 4.9:1 */
+  --sky-text: #5bb8ec;               /* lighter sky for small type on ink, 7.6:1 */
+  --muted: #b7c4ba;
+  --faint: #8fa196;
+  --badge: var(--color-leaf);        /* #27692b — white icons on it are 6.6:1 */
+  --rule: rgba(244, 239, 230, 0.14);
+  --halo: rgba(15, 29, 23, 0.9);
 
   /* Scrolling to #fairgrounds or #mohonk shouldn't tuck the heading under the
      floating menu button. */
@@ -73,7 +74,7 @@
   grid-template-areas: "head" "map" "key";
   background: var(--ink); color: var(--cream);
   font-family: Archivo, system-ui, sans-serif;
-  border: 1px solid rgba(245, 238, 220, 0.1);
+  border: 1px solid rgba(244, 239, 230, 0.1);
   border-radius: var(--radius);
   box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
   overflow: hidden;
@@ -91,7 +92,7 @@
   /* The key can run taller than the aerial; centre the map in its column
      rather than leaving an empty band under it. */
   .map-view {
-    border-left: 1px solid rgba(245, 238, 220, 0.1);
+    border-left: 1px solid rgba(244, 239, 230, 0.1);
     display: flex; flex-direction: column; justify-content: center;
   }
 }
@@ -106,7 +107,7 @@
 .map-eyebrow {
   margin: 0; font-family: inherit;
   font-weight: 700; font-size: 0.66rem; line-height: 1.2;
-  letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange);
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--sky-text);
 }
 /* Two classes deep to beat `.section h2` in style.css, which would otherwise
    paint this forest green on the ink ground. */
@@ -119,23 +120,27 @@
 .map-sub {
   margin: 0.5rem 0 0;
   font-family: "Playfair Display", Georgia, serif; font-style: italic; font-weight: 700;
-  font-size: 1.15rem; line-height: 1.2; color: var(--amber);
+  font-size: 1.15rem; line-height: 1.2; color: var(--sky-text);
 }
 
 /* ---------- The key ---------- */
 .map-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
 /* Number, name, badges — a three-column grid rather than flex, so that on a
    phone the badges can drop under the name (below) instead of squeezing it. */
-.map-list li {
+.map-list li { border-bottom: 1px solid var(--rule); }
+.map-list li:last-child { border-bottom: 0; }
+.map-row {
   display: grid; grid-template-columns: auto minmax(0, 1fr) auto;
   column-gap: 0.85rem; align-items: start;
-  padding: 0.85rem 0; border-bottom: 1px solid var(--rule);
+  width: 100%; margin: 0; padding: 0.85rem 0.5rem;
+  font: inherit; color: inherit; text-align: left;
+  background: transparent; border: 0; border-radius: 8px; cursor: pointer;
+  transition: background-color 0.15s ease, opacity 0.2s ease;
 }
-.map-list li:last-child { border-bottom: 0; }
 .map-num {
   flex: none; width: 28px; height: 28px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  background: var(--amber); color: var(--ink);
+  background: var(--pin); color: var(--ink);
   font-weight: 800; font-size: 13px; line-height: 1;
 }
 .map-place { flex: 1; min-width: 0; padding-top: 3px; }
@@ -151,15 +156,15 @@
 
 /* The fairgrounds key has ten rows, so they go single-line with the note
    trailing the name, as in the design. */
-.map-list--compact li { align-items: center; padding: 0.55rem 0; min-height: 42px; }
+.map-list--compact .map-row { align-items: center; padding: 0.55rem 0.5rem; min-height: 44px; }
 .map-list--compact .map-num { width: 24px; height: 24px; font-size: 12px; }
 .map-list--compact .map-place { padding-top: 0; }
 .map-list--compact .map-place strong { font-size: 0.95rem; }
 .map-list--compact .map-note { display: inline; margin: 0; font-size: 0.75rem; }
 .map-list--compact .map-icons { padding-top: 0; }
 
-/* Blue amenity badge. One rule for every size it comes in; the svg inside
-   always fills ~70% of it. Badge blue on white is 7.5:1. */
+/* Green amenity badge. One rule for every size it comes in; the svg inside
+   always fills ~70% of it. */
 .map-icon {
   display: inline-flex; flex: none; align-items: center; justify-content: center;
   width: 22px; height: 22px; border-radius: 5px; background: var(--badge);
@@ -173,19 +178,28 @@
 
 .map-legs { margin: 0.5rem 0 1.25rem; }
 .map-legs div { display: flex; gap: 0.75rem; align-items: baseline; padding: 0.4rem 0; }
-.map-legs dt { flex: none; width: 62px; font-weight: 800; font-size: 0.75rem; letter-spacing: 0.04em; color: var(--amber); }
+.map-legs dt { flex: none; width: 62px; font-weight: 800; font-size: 0.75rem; letter-spacing: 0.04em; color: var(--sky-text); }
 .map-legs dd { margin: 0; font-weight: 500; font-size: 0.8rem; line-height: 1.4; color: var(--cream); }
 
 .map-legend {
-  list-style: none; margin: 0; padding: 0;
-  display: flex; flex-wrap: wrap; gap: 0.5rem 1rem;
+  list-style: none; margin: 0 -0.5rem; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 0.25rem;
   font-weight: 500; font-size: 0.75rem; line-height: 1.2;
 }
-.map-legend li { display: flex; align-items: center; gap: 7px; }
+/* Each legend entry is a button: pick "Restrooms" and every pin with a
+   restroom lights up. */
+.map-chip {
+  display: flex; align-items: center; gap: 7px;
+  margin: 0; padding: 0.45rem 0.6rem; min-height: 36px;
+  font: inherit; color: var(--cream);
+  background: transparent; border: 1px solid transparent; border-radius: 999px;
+  cursor: pointer; transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.map-chip:hover { border-color: var(--rule); }
 .map-legend .map-icon { width: 18px; height: 18px; border-radius: 4px; }
 .map-legend-area {
   display: inline-block; width: 18px; height: 12px; border-radius: 3px;
-  background: rgba(242, 163, 58, 0.25); border: 2px solid var(--amber);
+  background: rgba(14, 144, 214, 0.25); border: 2px solid var(--sky-text);
 }
 .map-legend-path path {
   fill: none; stroke: var(--cream); stroke-width: 3.6;
@@ -241,25 +255,29 @@
 }
 .map-overlay { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 
-/* Event areas on the fairgrounds: a dark halo under an amber line. */
-.map-area-halo path { fill: #f2a33a; fill-opacity: 0.17; stroke: #17140f; stroke-opacity: 0.5; stroke-width: 6; stroke-linejoin: round; }
-.map-area-line path { fill: none; stroke: #f2a33a; stroke-width: 2.5; stroke-linejoin: round; }
+/* Event areas on the fairgrounds: a dark halo under a sky-blue line. */
+.map-overlay { transition: opacity 0.2s ease; }
+.map-area-halo path { fill: #0e90d6; fill-opacity: 0.18; stroke: #0f1d17; stroke-opacity: 0.5; stroke-width: 6; stroke-linejoin: round; }
+.map-area-line path { fill: none; stroke: #5bb8ec; stroke-width: 2.5; stroke-linejoin: round; }
 
 /* The Mohonk foot path: round dots, in cream over a dark halo. */
 .map-route-halo, .map-route { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 0 11; }
-.map-route-halo { stroke: #17140f; stroke-opacity: 0.75; stroke-width: 8.5; }
-.map-route { stroke: #f5eedc; stroke-width: 4.6; }
+.map-route-halo { stroke: #0f1d17; stroke-opacity: 0.75; stroke-width: 8.5; }
+.map-route { stroke: #f4efe6; stroke-width: 4.6; }
 
 /* Numbered pin. left/top in the HTML are its centre. */
 .map-pin {
-  --pin: max(22px, calc(28 * var(--u)));
+  --pin-size: max(22px, calc(28 * var(--u)));
   position: absolute; transform: translate(-50%, -50%);
-  width: var(--pin); height: var(--pin);
+  width: var(--pin-size); height: var(--pin-size);
   display: flex; align-items: center; justify-content: center;
-  border-radius: 50%; background: var(--amber); color: var(--ink);
+  margin: 0; padding: 0;
+  border-radius: 50%; background: var(--pin); color: var(--ink);
   border: 2px solid var(--ink);
   box-shadow: 0 0 0 2px var(--cream), 0 3px 8px rgba(0, 0, 0, 0.55);
-  font-weight: 800; font-size: max(11px, calc(13 * var(--u))); line-height: 1; letter-spacing: -0.02em;
+  font-family: inherit; font-weight: 800; font-size: max(11px, calc(13 * var(--u))); line-height: 1; letter-spacing: -0.02em;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.2s ease, box-shadow 0.15s ease;
 }
 .map-pin--2digit { font-size: max(10px, calc(12 * var(--u))); }
 /* The amenity badges ride up and to the right of their pin, just overlapping
@@ -280,7 +298,7 @@
   font-weight: 700; font-size: max(8px, calc(var(--size, 10) * var(--u)));
   line-height: 1; letter-spacing: 0.2em; text-transform: uppercase; white-space: nowrap;
   color: var(--cream); opacity: 0.9;
-  text-shadow: 0 0 3px rgba(23,20,15,.95), 0 0 6px rgba(23,20,15,.7), 0 1px 1px rgba(23,20,15,.9);
+  text-shadow: 0 0 3px rgba(15,29,23,.95), 0 0 6px rgba(15,29,23,.7), 0 1px 1px rgba(15,29,23,.9);
 }
 /* Anchored at its right-hand end instead of its middle (see the HTML). */
 .map-road--end { transform: translateY(-50%) rotate(var(--rot)); transform-origin: 100% 50%; }
@@ -301,8 +319,8 @@
   position: absolute; right: 14px; bottom: 14px;
   display: flex; align-items: center; gap: 14px;
   padding: 9px 14px 9px 10px;
-  background: rgba(23, 20, 15, 0.88);
-  border: 1px solid rgba(245, 238, 220, 0.16); border-radius: 8px;
+  background: rgba(15, 29, 23, 0.88);
+  border: 1px solid rgba(244, 239, 230, 0.16); border-radius: 8px;
 }
 .map-north { display: flex; flex-direction: column; align-items: center; gap: 1px; }
 .map-north span { font-weight: 800; font-size: 10px; line-height: 1; letter-spacing: 0.06em; color: var(--cream); }
@@ -311,13 +329,13 @@
 .map-scale-bar {
   position: relative; width: var(--bar); height: 7px;
   border-bottom: 1.5px solid var(--cream);
-  /* Three ticks and the amber half, painted as backgrounds so the bar is one
+  /* Three ticks and the blue half, painted as backgrounds so the bar is one
      element: a tick at 0, the middle and the end, then the fill. */
   background:
     linear-gradient(var(--cream), var(--cream)) left top / 1.5px 100% no-repeat,
     linear-gradient(var(--cream), var(--cream)) center top / 1.5px 100% no-repeat,
     linear-gradient(var(--cream), var(--cream)) right top / 1.5px 100% no-repeat,
-    linear-gradient(var(--amber), var(--amber)) left bottom / 50% 4px no-repeat;
+    linear-gradient(var(--pin), var(--pin)) left bottom / 50% 4px no-repeat;
 }
 .map-scale-labels {
   display: flex; justify-content: space-between;
@@ -328,4 +346,53 @@
 
 @media (max-width: 599px) {
   .map-compass { right: 8px; bottom: 8px; gap: 10px; padding: 7px 12px 7px 8px; }
+}
+
+/* ---------- Highlighting ---------- */
+/* js/maps.js puts .has-selection on the card while something is picked, and
+   .is-selected on every pin, row, legend entry and overlay that matches it.
+   The rule is the same in every direction: what matches gets bigger and
+   brighter, everything else on the card steps back. Hover does a lighter
+   version of the same between a row and its pin, so you can see which pin a
+   row means before committing to a click. */
+.map-row:hover { background: rgba(244, 239, 230, 0.05); }
+.map-row.is-hover { background: rgba(244, 239, 230, 0.05); }
+.map-row.is-selected { background: rgba(14, 144, 214, 0.16); opacity: 1; }
+.map-row.is-selected .map-num { box-shadow: 0 0 0 2px var(--ink), 0 0 0 4px var(--pin); }
+.has-selection .map-row:not(.is-selected) { opacity: 0.5; }
+
+.map-chip.is-selected { background: rgba(14, 144, 214, 0.16); border-color: var(--pin); }
+
+.map-pin.is-hover { transform: translate(-50%, -50%) scale(1.12); z-index: 2; }
+.map-pin.is-selected {
+  transform: translate(-50%, -50%) scale(1.22); z-index: 3;
+  box-shadow: 0 0 0 2px var(--cream), 0 0 0 7px rgba(14, 144, 214, 0.55), 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+.has-selection .map-pin:not(.is-selected) { opacity: 0.35; }
+.has-selection .map-overlay:not(.is-selected) { opacity: 0.45; }
+.map-overlay.is-selected .map-area-halo path { fill-opacity: 0.32; }
+.map-overlay.is-selected .map-area-line path { stroke: var(--cream); stroke-width: 3.5; }
+.map-overlay.is-selected .map-route { stroke-width: 6; }
+
+/* The name tag that appears beside a picked pin, so on a phone — where the
+   key is a scroll away — the map still says what you tapped. js/maps.js sets
+   its left/top to the pin's and a class for which side it hangs off. */
+.map-callout {
+  position: absolute; z-index: 4; pointer-events: none;
+  --tx: -50%; --ty: calc(max(22px, 28 * var(--u)) / 2 + 12px);
+  transform: translate(var(--tx), var(--ty));
+  padding: 0.4rem 0.65rem; border-radius: 6px;
+  background: var(--cream); color: var(--ink);
+  font-weight: 700; font-size: 0.8rem; line-height: 1.2; white-space: nowrap;
+  box-shadow: 0 0 0 1.5px var(--ink), 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+.map-callout.is-above { --ty: calc(-100% - max(22px, 28 * var(--u)) / 2 - 12px); }
+.map-callout.is-start { --tx: -16px; }
+.map-callout.is-end   { --tx: calc(-100% + 16px); }
+
+.map-pin:focus-visible, .map-row:focus-visible, .map-chip:focus-visible {
+  outline: 3px solid var(--sky-text); outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .map-pin, .map-row, .map-chip, .map-overlay { transition: none; }
 }

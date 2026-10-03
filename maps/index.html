@@ -71,7 +71,7 @@
       </pattern>
     </defs>
     <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="5.2" r="2.2"/><path d="M9.2 9.5h4.6v9.3h1.9v2.7H8.3v-2.7h1.9v-6.6h-1z"/></symbol>
-    <symbol id="i-bus" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6.5 2.8h11a3 3 0 0 1 3 3v12.2a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5V5.8a3 3 0 0 1 3-3zM6 6.4v5.6h12V6.4z"/><circle cx="7.6" cy="15.6" r="1.25" fill="#2458a6"/><circle cx="16.4" cy="15.6" r="1.25" fill="#2458a6"/><rect x="5.5" y="19" width="3.2" height="3" rx="1"/><rect x="15.3" y="19" width="3.2" height="3" rx="1"/></symbol>
+    <symbol id="i-bus" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6.5 2.8h11a3 3 0 0 1 3 3v12.2a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5V5.8a3 3 0 0 1 3-3zM6 6.4v5.6h12V6.4z"/><circle cx="7.6" cy="15.6" r="1.25" fill="#27692b"/><circle cx="16.4" cy="15.6" r="1.25" fill="#27692b"/><rect x="5.5" y="19" width="3.2" height="3" rx="1"/><rect x="15.3" y="19" width="3.2" height="3" rx="1"/></symbol>
     <symbol id="i-wifi" viewBox="0 0 24 24"><circle cx="12" cy="18" r="1.9"/><g fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M8.46 14.46a5 5 0 0 1 7.08 0"/><path d="M5.28 11.28a9.5 9.5 0 0 1 13.44 0"/><path d="M2.1 8.1a14 14 0 0 1 19.8 0"/></g></symbol>
     <symbol id="i-restrooms" viewBox="0 0 24 24"><circle cx="6" cy="3.7" r="2.1"/><path d="M2.9 7.2h6.2a1.6 1.6 0 0 1 1.6 1.6v5.4a.9.9 0 0 1-1.8 0V9.6h-.4V21a1.1 1.1 0 0 1-2.2 0v-6.2h-.6V21a1.1 1.1 0 0 1-2.2 0V9.6h-.4v4.6a.9.9 0 0 1-1.8 0V8.8a1.6 1.6 0 0 1 1.6-1.6z"/><rect x="11.6" y="1.5" width=".8" height="21" rx=".4"/><circle cx="18" cy="3.7" r="2.1"/><path d="M16.4 7.2h3.2a1.6 1.6 0 0 1 1.5 1.1l1.9 5.6a.85.85 0 0 1-1.6.55l-1.5-4.15h-.3l2.3 7.1h-2v3.6a.8.8 0 0 1-1.6 0v-3.6h-.6v3.6a.8.8 0 0 1-1.6 0v-3.6h-2l2.3-7.1h-.3l-1.5 4.15a.85.85 0 0 1-1.6-.55l1.9-5.6a1.6 1.6 0 0 1 1.5-1.1z"/></symbol>
     <symbol id="i-water" viewBox="0 0 24 24"><path d="M12 2.2c.4.5 6.6 7.6 6.6 12.3a6.6 6.6 0 0 1-13.2 0C5.4 9.8 11.6 2.7 12 2.2z"/></symbol>
@@ -147,6 +147,14 @@
              labels into one description, so a screen reader hears the summary
              once and then the key, not every pin twice.
 
+             The two halves are linked: pick a row in the key, an amenity in
+             the legend, or a pin on the map, and js/maps.js highlights the
+             matching pins and rows. data-place ties a pin to its row, and
+             data-amenities lists the badges each carries. The key and legend
+             buttons are the keyboard route; the pins are a pointer shortcut
+             to the same thing, so they stay out of the tab order (tabindex=-1)
+             and out of the accessibility tree.
+
              Pin, label and scale-bar positions are percentages of the aerial,
              taken from the design's 960×760 (and 840×840) artboards, so they
              stay on their spot at any width. See maps.css for how their size
@@ -165,7 +173,7 @@
                    aria-label="Aerial photo of the Ulster County Fairgrounds with the ten numbered places in the key below marked on it. Parking and the bus stop are at the north end off Libertyville Road; the camping field, RV sites and registration sit in the middle; the pavilion, Youth Building, contests and showers are clustered at the south end."
                    style="--map-w: 960; --map-h: 760; --ft300: 166.3; --map-min: 720px;">
                 <img class="map-aerial" src="/assets/img/maps/fairgrounds-aerial.jpg" width="1920" height="1520" alt="" />
-                <svg class="map-overlay" viewBox="0 0 960 760" aria-hidden="true" focusable="false">
+                <svg class="map-overlay" data-layer="areas" viewBox="0 0 960 760" aria-hidden="true" focusable="false">
                   <g class="map-area-halo">
                     <path d="M211.2 91.2 C214.4 85.3 199.2 70.1 232.0 65.6 C264.8 61.1 368.0 59.7 408.0 64.0 C448.0 68.3 448.8 79.2 472.0 91.2 C495.2 103.2 526.7 124.0 547.2 136.0 C567.7 148.0 585.9 156.0 595.2 163.2 C604.5 170.4 605.1 170.9 603.2 179.2 C601.3 187.5 592.5 199.2 584.0 212.8 C575.5 226.4 564.5 245.6 552.0 260.8 C539.5 276.0 521.3 292.0 508.8 304.0 C496.3 316.0 489.1 332.8 476.8 332.8 C464.5 332.8 450.1 317.6 435.2 304.0 C420.3 290.4 403.2 265.3 387.2 251.2 C371.2 237.1 352.5 230.9 339.2 219.2 C325.9 207.5 318.9 193.9 307.2 180.8 C295.5 167.7 281.3 151.5 268.8 140.8 C256.3 130.1 241.3 123.5 232.0 116.8 C222.7 110.1 216.3 105.1 212.8 100.8 C209.3 96.5 208.0 97.1 211.2 91.2 Z"/>
                     <path d="M584.0 212.8 C591.5 203.7 585.3 207.2 596.8 206.4 C608.3 205.6 641.6 203.2 652.8 208.0 C664.0 212.8 668.3 225.1 664.0 235.2 C659.7 245.3 642.4 256.5 627.2 268.8 C612.0 281.1 586.7 298.7 572.8 308.8 C558.9 318.9 554.7 330.4 544.0 329.6 C533.3 328.8 507.5 315.5 508.8 304.0 C510.1 292.5 539.5 276.0 552.0 260.8 C564.5 245.6 576.5 221.9 584.0 212.8 Z"/>
@@ -184,19 +192,20 @@
                 <span class="map-road map-road--end" style="right: 2.5%; top: 14.5%; --rot: -28.5deg;">Libertyville Rd · to New Paltz →</span>
                 <span class="map-road" style="left: 6.83%; top: 90.11%; --rot: -35deg;">← Gardiner</span>
 
-                <span class="map-pin" style="left: 42.83%; top: 21.89%;">1<span class="map-pin-icons"><span class="map-icon"><svg><use href="#i-bus"/></svg></span></span></span>
-                <span class="map-pin" style="left: 64.5%; top: 32%;">2</span>
-                <span class="map-pin" style="left: 42%; top: 46.32%;">3<span class="map-pin-icons"><span class="map-icon"><svg><use href="#i-restrooms"/></svg></span></span></span>
-                <span class="map-pin" style="left: 16.83%; top: 39.16%;">4</span>
-                <span class="map-pin" style="left: 50.33%; top: 53.89%;">5</span>
-                <span class="map-pin" style="left: 30.83%; top: 74.74%;">6</span>
-                <span class="map-pin" style="left: 55%; top: 73.05%;">7</span>
-                <span class="map-pin" style="left: 63%; top: 76%;">8<span class="map-pin-icons"><span class="map-icon"><svg><use href="#i-restrooms"/></svg></span></span></span>
-                <span class="map-pin" style="left: 60.67%; top: 82.11%;">9</span>
-                <span class="map-pin map-pin--2digit" style="left: 70.5%; top: 80%;">10<span class="map-pin-icons"><span class="map-icon"><svg><use href="#i-restrooms"/></svg></span><span class="map-icon"><svg><use href="#i-showers"/></svg></span></span></span>
+                <button type="button" class="map-pin" data-place="fg-1" data-amenities="bus" data-name="Parking &amp; Bus Pickup / Drop-Off" tabindex="-1" aria-hidden="true" style="left: 42.83%; top: 21.89%;">1<span class="map-pin-icons"><span class="map-icon"><svg><use href="#i-bus"/></svg></span></span></button>
+                <button type="button" class="map-pin" data-place="fg-2" data-amenities="" data-name="RV sites" tabindex="-1" aria-hidden="true" style="left: 64.5%; top: 32%;">2</button>
+                <button type="button" class="map-pin" data-place="fg-3" data-amenities="restrooms" data-name="Registration" tabindex="-1" aria-hidden="true" style="left: 42%; top: 46.32%;">3<span class="map-pin-icons"><span class="map-icon"><svg><use href="#i-restrooms"/></svg></span></span></button>
+                <button type="button" class="map-pin" data-place="fg-4" data-amenities="" data-name="Camping" tabindex="-1" aria-hidden="true" style="left: 16.83%; top: 39.16%;">4</button>
+                <button type="button" class="map-pin" data-place="fg-5" data-amenities="" data-name="Arched entrance" tabindex="-1" aria-hidden="true" style="left: 50.33%; top: 53.89%;">5</button>
+                <button type="button" class="map-pin" data-place="fg-6" data-amenities="" data-name="Fairgrounds office" tabindex="-1" aria-hidden="true" style="left: 30.83%; top: 74.74%;">6</button>
+                <button type="button" class="map-pin" data-place="fg-7" data-amenities="" data-name="Picnic pavilion" tabindex="-1" aria-hidden="true" style="left: 55%; top: 73.05%;">7</button>
+                <button type="button" class="map-pin" data-place="fg-8" data-amenities="restrooms" data-name="Youth Building" tabindex="-1" aria-hidden="true" style="left: 63%; top: 76%;">8<span class="map-pin-icons"><span class="map-icon"><svg><use href="#i-restrooms"/></svg></span></span></button>
+                <button type="button" class="map-pin" data-place="fg-9" data-amenities="" data-name="Contests" tabindex="-1" aria-hidden="true" style="left: 60.67%; top: 82.11%;">9</button>
+                <button type="button" class="map-pin map-pin--2digit" data-place="fg-10" data-amenities="restrooms showers" data-name="Restrooms &amp; showers" tabindex="-1" aria-hidden="true" style="left: 70.5%; top: 80%;">10<span class="map-pin-icons"><span class="map-icon"><svg><use href="#i-restrooms"/></svg></span><span class="map-icon"><svg><use href="#i-showers"/></svg></span></span></button>
+                <span class="map-callout" aria-hidden="true" hidden></span>
 
                 <div class="map-compass" aria-hidden="true">
-                  <div class="map-north"><span>N</span><svg width="14" height="22" viewBox="0 0 14 22"><path d="M7 1 L13 21 L7 16.5Z" fill="#f2a33a"/><path d="M7 1 L1 21 L7 16.5Z" fill="#f5eedc"/></svg></div>
+                  <div class="map-north"><span>N</span><svg width="14" height="22" viewBox="0 0 14 22"><path d="M7 1 L13 21 L7 16.5Z" fill="#0e90d6"/><path d="M7 1 L1 21 L7 16.5Z" fill="#f4efe6"/></svg></div>
                   <div class="map-scale"><div class="map-scale-bar"></div><div class="map-scale-labels"><span>0</span><span>150</span><span>300 ft</span></div></div>
                 </div>
               </div>
@@ -205,24 +214,24 @@
 
           <div class="map-key">
             <ol class="map-list map-list--compact">
-              <li><span class="map-num">1</span><span class="map-place"><strong>Parking &amp; Bus Pickup / Drop-Off</strong></span><span class="map-icons"><span class="map-icon"><svg role="img" aria-label="Bus"><use href="#i-bus"/></svg></span></span></li>
-              <li><span class="map-num">2</span><span class="map-place"><strong>RV sites</strong></span></li>
-              <li><span class="map-num">3</span><span class="map-place"><strong>Registration</strong> <span class="map-note">· camping entrance</span></span><span class="map-icons"><span class="map-icon"><svg role="img" aria-label="Restrooms"><use href="#i-restrooms"/></svg></span></span></li>
-              <li><span class="map-num">4</span><span class="map-place"><strong>Camping</strong> <span class="map-note">· Field of Dreams</span></span></li>
-              <li><span class="map-num">5</span><span class="map-place"><strong>Arched entrance</strong></span></li>
-              <li><span class="map-num">6</span><span class="map-place"><strong>Fairgrounds office</strong></span></li>
-              <li><span class="map-num">7</span><span class="map-place"><strong>Picnic pavilion</strong> <span class="map-note">· vendors &amp; covered seating</span></span></li>
-              <li><span class="map-num">8</span><span class="map-place"><strong>Youth Building</strong> <span class="map-note">· film program</span></span><span class="map-icons"><span class="map-icon"><svg role="img" aria-label="Restrooms"><use href="#i-restrooms"/></svg></span></span></li>
-              <li><span class="map-num">9</span><span class="map-place"><strong>Contests</strong></span></li>
-              <li><span class="map-num">10</span><span class="map-place"><strong>Restrooms &amp; showers</strong></span><span class="map-icons"><span class="map-icon"><svg role="img" aria-label="Restrooms"><use href="#i-restrooms"/></svg></span><span class="map-icon"><svg role="img" aria-label="Showers"><use href="#i-showers"/></svg></span></span></li>
+              <li><button type="button" class="map-row" data-place="fg-1" data-amenities="bus" aria-pressed="false"><span class="map-num">1</span><span class="map-place"><strong>Parking &amp; Bus Pickup / Drop-Off</strong></span><span class="map-icons"><span class="map-icon"><svg role="img" aria-label="Bus"><use href="#i-bus"/></svg></span></span></button></li>
+              <li><button type="button" class="map-row" data-place="fg-2" data-amenities="" aria-pressed="false"><span class="map-num">2</span><span class="map-place"><strong>RV sites</strong></span></button></li>
+              <li><button type="button" class="map-row" data-place="fg-3" data-amenities="restrooms" aria-pressed="false"><span class="map-num">3</span><span class="map-place"><strong>Registration</strong> <span class="map-note">· camping entrance</span></span><span class="map-icons"><span class="map-icon"><svg role="img" aria-label="Restrooms"><use href="#i-restrooms"/></svg></span></span></button></li>
+              <li><button type="button" class="map-row" data-place="fg-4" data-amenities="" aria-pressed="false"><span class="map-num">4</span><span class="map-place"><strong>Camping</strong> <span class="map-note">· Field of Dreams</span></span></button></li>
+              <li><button type="button" class="map-row" data-place="fg-5" data-amenities="" aria-pressed="false"><span class="map-num">5</span><span class="map-place"><strong>Arched entrance</strong></span></button></li>
+              <li><button type="button" class="map-row" data-place="fg-6" data-amenities="" aria-pressed="false"><span class="map-num">6</span><span class="map-place"><strong>Fairgrounds office</strong></span></button></li>
+              <li><button type="button" class="map-row" data-place="fg-7" data-amenities="" aria-pressed="false"><span class="map-num">7</span><span class="map-place"><strong>Picnic pavilion</strong> <span class="map-note">· vendors &amp; covered seating</span></span></button></li>
+              <li><button type="button" class="map-row" data-place="fg-8" data-amenities="restrooms" aria-pressed="false"><span class="map-num">8</span><span class="map-place"><strong>Youth Building</strong> <span class="map-note">· film program</span></span><span class="map-icons"><span class="map-icon"><svg role="img" aria-label="Restrooms"><use href="#i-restrooms"/></svg></span></span></button></li>
+              <li><button type="button" class="map-row" data-place="fg-9" data-amenities="" aria-pressed="false"><span class="map-num">9</span><span class="map-place"><strong>Contests</strong></span></button></li>
+              <li><button type="button" class="map-row" data-place="fg-10" data-amenities="restrooms showers" aria-pressed="false"><span class="map-num">10</span><span class="map-place"><strong>Restrooms &amp; showers</strong></span><span class="map-icons"><span class="map-icon"><svg role="img" aria-label="Restrooms"><use href="#i-restrooms"/></svg></span><span class="map-icon"><svg role="img" aria-label="Showers"><use href="#i-showers"/></svg></span></span></button></li>
             </ol>
 
             <div class="map-key-foot">
-              <ul class="map-legend" aria-label="Legend">
-                <li><span class="map-icon"><svg aria-hidden="true"><use href="#i-restrooms"/></svg></span>Restrooms</li>
-                <li><span class="map-icon"><svg aria-hidden="true"><use href="#i-showers"/></svg></span>Showers</li>
-                <li><span class="map-icon"><svg aria-hidden="true"><use href="#i-bus"/></svg></span>Bus</li>
-                <li><span class="map-legend-area" aria-hidden="true"></span>Event areas</li>
+              <ul class="map-legend" aria-label="Legend — select one to highlight it on the map">
+                <li><button type="button" class="map-chip" data-amenity="restrooms" aria-pressed="false"><span class="map-icon"><svg aria-hidden="true"><use href="#i-restrooms"/></svg></span>Restrooms</button></li>
+                <li><button type="button" class="map-chip" data-amenity="showers" aria-pressed="false"><span class="map-icon"><svg aria-hidden="true"><use href="#i-showers"/></svg></span>Showers</button></li>
+                <li><button type="button" class="map-chip" data-amenity="bus" aria-pressed="false"><span class="map-icon"><svg aria-hidden="true"><use href="#i-bus"/></svg></span>Bus</button></li>
+                <li><button type="button" class="map-chip" data-layer="areas" aria-pressed="false"><span class="map-legend-area" aria-hidden="true"></span>Event areas</button></li>
               </ul>
               <p class="map-note-small">Temporary tents from a past event have been removed from the photo.</p>
               <p class="map-credit">Imagery: Apple Maps</p>
@@ -246,7 +255,7 @@
                 <img class="map-aerial" src="/assets/img/maps/mohonk-aerial.jpg" width="1680" height="1680" alt="" loading="lazy" />
                 <span class="map-road" style="left: 52.38%; top: 40.06%; --rot: -9.6deg;">US 44 / 55</span>
                 <span class="map-road" style="left: 14.05%; top: 84.05%; --rot: -40deg; --size: 9;">← Rt 299 · New Paltz</span>
-                <svg class="map-overlay" viewBox="0 0 840 840" aria-hidden="true" focusable="false">
+                <svg class="map-overlay" data-layer="route" viewBox="0 0 840 840" aria-hidden="true" focusable="false">
                   <path class="map-route-halo" d="M310.7 691.9 C311.8 691.3 317.8 687.8 319.9 687.0 C322.0 686.2 325.1 686.9 328.7 685.2 C332.3 683.5 345.8 676.4 350.4 672.2 C355.0 668.0 364.2 653.5 367.9 649.5 C371.6 645.5 377.2 640.8 382.0 637.9 C386.8 635.0 404.7 626.3 409.1 624.5 C413.5 622.7 416.4 623.4 419.8 622.2 C423.2 621.0 428.8 620.5 438.2 614.6 C447.6 608.7 490.1 577.8 500.1 571.6 C510.1 565.4 520.2 562.9 524.2 561.5 C528.2 560.1 532.3 559.8 534.5 559.8 C536.7 559.8 540.9 566.5 542.9 561.6 C544.9 556.7 549.8 526.2 551.7 518.0 C553.6 509.8 556.9 497.5 559.6 491.4 C562.3 485.3 571.4 471.6 574.7 465.4 C578.0 459.2 584.2 444.3 587.7 438.3 C591.2 432.3 600.9 420.6 604.7 414.3 C608.5 408.0 616.7 390.8 620.4 384.4 C624.1 378.0 634.6 363.6 636.7 359.2 C638.8 354.8 638.7 349.8 638.1 346.8 C637.5 343.8 631.0 337.6 631.6 333.3 C632.2 329.0 638.0 318.2 643.2 310.0 C648.4 301.8 672.7 269.3 676.0 263.2 C679.3 257.1 671.9 259.5 671.4 258.0 C670.9 256.5 670.7 254.4 671.9 250.7 C673.1 247.0 680.3 230.1 682.1 226.3 C683.9 222.5 684.1 222.1 687.5 218.4 C690.9 214.7 707.1 199.3 711.1 194.2 C715.1 189.1 719.4 179.7 721.5 174.7 C723.6 169.7 727.6 158.4 729.4 151.0 C731.2 143.6 735.8 118.6 736.7 111.6 C737.6 104.6 736.6 94.5 737.0 91.3 C737.4 88.1 739.6 86.0 739.9 84.0 C740.2 82.0 740.4 77.4 739.8 73.8 C739.2 70.2 736.0 56.6 734.6 53.4 C733.2 50.2 729.0 47.2 727.6 46.2 C726.2 45.2 726.3 44.0 722.2 44.6 C718.1 45.2 699.0 48.9 692.6 51.0 C686.2 53.1 672.5 60.5 667.7 62.4 C662.9 64.3 654.0 67.3 651.5 66.9 C649.0 66.5 647.4 60.2 645.9 58.9 C644.4 57.6 643.3 51.4 638.6 55.4 C633.9 59.4 617.2 81.1 605.5 92.9 C593.8 104.7 549.7 145.3 538.3 156.7 C526.9 168.1 513.5 185.0 507.7 190.9 C501.9 196.8 497.9 201.4 488.9 207.3 C479.9 213.2 445.4 235.0 430.4 241.5 C415.4 248.0 374.4 257.8 360.1 262.9 C345.8 268.0 323.0 280.0 307.8 284.9 C292.6 289.8 238.7 302.6 229.6 304.9"/>
                   <path class="map-route" d="M310.7 691.9 C311.8 691.3 317.8 687.8 319.9 687.0 C322.0 686.2 325.1 686.9 328.7 685.2 C332.3 683.5 345.8 676.4 350.4 672.2 C355.0 668.0 364.2 653.5 367.9 649.5 C371.6 645.5 377.2 640.8 382.0 637.9 C386.8 635.0 404.7 626.3 409.1 624.5 C413.5 622.7 416.4 623.4 419.8 622.2 C423.2 621.0 428.8 620.5 438.2 614.6 C447.6 608.7 490.1 577.8 500.1 571.6 C510.1 565.4 520.2 562.9 524.2 561.5 C528.2 560.1 532.3 559.8 534.5 559.8 C536.7 559.8 540.9 566.5 542.9 561.6 C544.9 556.7 549.8 526.2 551.7 518.0 C553.6 509.8 556.9 497.5 559.6 491.4 C562.3 485.3 571.4 471.6 574.7 465.4 C578.0 459.2 584.2 444.3 587.7 438.3 C591.2 432.3 600.9 420.6 604.7 414.3 C608.5 408.0 616.7 390.8 620.4 384.4 C624.1 378.0 634.6 363.6 636.7 359.2 C638.8 354.8 638.7 349.8 638.1 346.8 C637.5 343.8 631.0 337.6 631.6 333.3 C632.2 329.0 638.0 318.2 643.2 310.0 C648.4 301.8 672.7 269.3 676.0 263.2 C679.3 257.1 671.9 259.5 671.4 258.0 C670.9 256.5 670.7 254.4 671.9 250.7 C673.1 247.0 680.3 230.1 682.1 226.3 C683.9 222.5 684.1 222.1 687.5 218.4 C690.9 214.7 707.1 199.3 711.1 194.2 C715.1 189.1 719.4 179.7 721.5 174.7 C723.6 169.7 727.6 158.4 729.4 151.0 C731.2 143.6 735.8 118.6 736.7 111.6 C737.6 104.6 736.6 94.5 737.0 91.3 C737.4 88.1 739.6 86.0 739.9 84.0 C740.2 82.0 740.4 77.4 739.8 73.8 C739.2 70.2 736.0 56.6 734.6 53.4 C733.2 50.2 729.0 47.2 727.6 46.2 C726.2 45.2 726.3 44.0 722.2 44.6 C718.1 45.2 699.0 48.9 692.6 51.0 C686.2 53.1 672.5 60.5 667.7 62.4 C662.9 64.3 654.0 67.3 651.5 66.9 C649.0 66.5 647.4 60.2 645.9 58.9 C644.4 57.6 643.3 51.4 638.6 55.4 C633.9 59.4 617.2 81.1 605.5 92.9 C593.8 104.7 549.7 145.3 538.3 156.7 C526.9 168.1 513.5 185.0 507.7 190.9 C501.9 196.8 497.9 201.4 488.9 207.3 C479.9 213.2 445.4 235.0 430.4 241.5 C415.4 248.0 374.4 257.8 360.1 262.9 C345.8 268.0 323.0 280.0 307.8 284.9 C292.6 289.8 238.7 302.6 229.6 304.9"/>
                 </svg>
@@ -254,12 +263,13 @@
                 <span class="map-distance" style="left: 65.37%; top: 63.19%;">0.25 mi</span>
                 <span class="map-distance" style="left: 69.77%; top: 13.25%;">0.35 mi</span>
 
-                <span class="map-pin" style="left: 38.75%; top: 84.46%;">1<span class="map-pin-icons"><span class="map-icon"><svg><use href="#i-info"/></svg></span><span class="map-icon"><svg><use href="#i-bus"/></svg></span><span class="map-icon"><svg><use href="#i-wifi"/></svg></span><span class="map-icon"><svg><use href="#i-restrooms"/></svg></span><span class="map-icon"><svg><use href="#i-water"/></svg></span></span></span>
-                <span class="map-pin" style="left: 80.48%; top: 31.33%;">2</span>
-                <span class="map-pin" style="left: 28.3%; top: 36.71%;">3<span class="map-pin-icons"><span class="map-icon"><svg><use href="#i-info"/></svg></span><span class="map-icon"><svg><use href="#i-restrooms"/></svg></span></span></span>
+                <button type="button" class="map-pin" data-place="mo-1" data-amenities="info bus wifi restrooms water" data-name="Visitor Center" tabindex="-1" aria-hidden="true" style="left: 38.75%; top: 84.46%;">1<span class="map-pin-icons"><span class="map-icon"><svg><use href="#i-info"/></svg></span><span class="map-icon"><svg><use href="#i-bus"/></svg></span><span class="map-icon"><svg><use href="#i-wifi"/></svg></span><span class="map-icon"><svg><use href="#i-restrooms"/></svg></span><span class="map-icon"><svg><use href="#i-water"/></svg></span></span></button>
+                <button type="button" class="map-pin" data-place="mo-2" data-amenities="" data-name="Stair Master" tabindex="-1" aria-hidden="true" style="left: 80.48%; top: 31.33%;">2</button>
+                <button type="button" class="map-pin" data-place="mo-3" data-amenities="info restrooms" data-name="West Trapps" tabindex="-1" aria-hidden="true" style="left: 28.3%; top: 36.71%;">3<span class="map-pin-icons"><span class="map-icon"><svg><use href="#i-info"/></svg></span><span class="map-icon"><svg><use href="#i-restrooms"/></svg></span></span></button>
+                <span class="map-callout" aria-hidden="true" hidden></span>
 
                 <div class="map-compass" aria-hidden="true">
-                  <div class="map-north"><span>N</span><svg width="14" height="22" viewBox="0 0 14 22"><path d="M7 1 L13 21 L7 16.5Z" fill="#f2a33a"/><path d="M7 1 L1 21 L7 16.5Z" fill="#f5eedc"/></svg></div>
+                  <div class="map-north"><span>N</span><svg width="14" height="22" viewBox="0 0 14 22"><path d="M7 1 L13 21 L7 16.5Z" fill="#0e90d6"/><path d="M7 1 L1 21 L7 16.5Z" fill="#f4efe6"/></svg></div>
                   <div class="map-scale"><div class="map-scale-bar"></div><div class="map-scale-labels"><span>0</span><span>150</span><span>300 ft</span></div></div>
                 </div>
               </div>
@@ -268,9 +278,9 @@
 
           <div class="map-key">
             <ol class="map-list">
-              <li><span class="map-num">1</span><span class="map-place"><strong>Visitor Center</strong><span class="map-note">Bus drop-off &amp; pickup<br />Hours TBC</span></span><span class="map-icons"><span class="map-icon"><svg role="img" aria-label="Information booth"><use href="#i-info"/></svg></span><span class="map-icon"><svg role="img" aria-label="Bus"><use href="#i-bus"/></svg></span><span class="map-icon"><svg role="img" aria-label="Wi-Fi"><use href="#i-wifi"/></svg></span><span class="map-icon"><svg role="img" aria-label="Restrooms"><use href="#i-restrooms"/></svg></span><span class="map-icon"><svg role="img" aria-label="Drinking water"><use href="#i-water"/></svg></span></span></li>
-              <li><span class="map-num">2</span><span class="map-place"><strong>Stair Master</strong><span class="map-note">Steps up from the hairpin pull-off</span></span></li>
-              <li><span class="map-num">3</span><span class="map-place"><strong>West Trapps</strong><span class="map-note">Undercliff Carriage Rd · climbing</span></span><span class="map-icons"><span class="map-icon"><svg role="img" aria-label="Information booth"><use href="#i-info"/></svg></span><span class="map-icon"><svg role="img" aria-label="Restrooms"><use href="#i-restrooms"/></svg></span></span></li>
+              <li><button type="button" class="map-row" data-place="mo-1" data-amenities="info bus wifi restrooms water" aria-pressed="false"><span class="map-num">1</span><span class="map-place"><strong>Visitor Center</strong><span class="map-note">Bus drop-off &amp; pickup<br />Hours TBC</span></span><span class="map-icons"><span class="map-icon"><svg role="img" aria-label="Information booth"><use href="#i-info"/></svg></span><span class="map-icon"><svg role="img" aria-label="Bus"><use href="#i-bus"/></svg></span><span class="map-icon"><svg role="img" aria-label="Wi-Fi"><use href="#i-wifi"/></svg></span><span class="map-icon"><svg role="img" aria-label="Restrooms"><use href="#i-restrooms"/></svg></span><span class="map-icon"><svg role="img" aria-label="Drinking water"><use href="#i-water"/></svg></span></span></button></li>
+              <li><button type="button" class="map-row" data-place="mo-2" data-amenities="" aria-pressed="false"><span class="map-num">2</span><span class="map-place"><strong>Stair Master</strong><span class="map-note">Steps up from the hairpin pull-off</span></span></button></li>
+              <li><button type="button" class="map-row" data-place="mo-3" data-amenities="info restrooms" aria-pressed="false"><span class="map-num">3</span><span class="map-place"><strong>West Trapps</strong><span class="map-note">Undercliff Carriage Rd · climbing</span></span><span class="map-icons"><span class="map-icon"><svg role="img" aria-label="Information booth"><use href="#i-info"/></svg></span><span class="map-icon"><svg role="img" aria-label="Restrooms"><use href="#i-restrooms"/></svg></span></span></button></li>
             </ol>
 
             <div class="map-key-foot">
@@ -279,13 +289,13 @@
                 <div><dt>1 → 2</dt><dd><strong>0.25 mi</strong> · East Trapps Connector trail</dd></div>
                 <div><dt>2 → 3</dt><dd><strong>0.35 mi</strong> · up the Stair Master, then west on the Undercliff</dd></div>
               </dl>
-              <ul class="map-legend" aria-label="Legend">
-                <li><span class="map-icon"><svg aria-hidden="true"><use href="#i-info"/></svg></span>Info booth</li>
-                <li><span class="map-icon"><svg aria-hidden="true"><use href="#i-bus"/></svg></span>Bus</li>
-                <li><span class="map-icon"><svg aria-hidden="true"><use href="#i-wifi"/></svg></span>Wi-Fi</li>
-                <li><span class="map-icon"><svg aria-hidden="true"><use href="#i-restrooms"/></svg></span>Restrooms</li>
-                <li><span class="map-icon"><svg aria-hidden="true"><use href="#i-water"/></svg></span>Water</li>
-                <li><svg class="map-legend-path" width="18" height="8" viewBox="0 0 18 8" aria-hidden="true"><path d="M2 4H17"/></svg>Foot path</li>
+              <ul class="map-legend" aria-label="Legend — select one to highlight it on the map">
+                <li><button type="button" class="map-chip" data-amenity="info" aria-pressed="false"><span class="map-icon"><svg aria-hidden="true"><use href="#i-info"/></svg></span>Info booth</button></li>
+                <li><button type="button" class="map-chip" data-amenity="bus" aria-pressed="false"><span class="map-icon"><svg aria-hidden="true"><use href="#i-bus"/></svg></span>Bus</button></li>
+                <li><button type="button" class="map-chip" data-amenity="wifi" aria-pressed="false"><span class="map-icon"><svg aria-hidden="true"><use href="#i-wifi"/></svg></span>Wi-Fi</button></li>
+                <li><button type="button" class="map-chip" data-amenity="restrooms" aria-pressed="false"><span class="map-icon"><svg aria-hidden="true"><use href="#i-restrooms"/></svg></span>Restrooms</button></li>
+                <li><button type="button" class="map-chip" data-amenity="water" aria-pressed="false"><span class="map-icon"><svg aria-hidden="true"><use href="#i-water"/></svg></span>Water</button></li>
+                <li><button type="button" class="map-chip" data-layer="route" aria-pressed="false"><svg class="map-legend-path" width="18" height="8" viewBox="0 0 18 8" aria-hidden="true"><path d="M2 4H17"/></svg>Foot path</button></li>
               </ul>
               <p class="map-credit">Imagery: USGS aerial, Sept 2019 · Trail lines: © OpenStreetMap contributors</p>
             </div>
@@ -323,12 +333,6 @@
   </footer>
 
   <script src="/js/main.js"></script>
-  <!-- A map wider than the phone it's on opens scrolled to its middle, which
-       is where most of the pins are, rather than to its left edge. -->
-  <script>
-    Array.prototype.forEach.call(document.querySelectorAll(".map-scroll"), function (box) {
-      box.scrollLeft = (box.scrollWidth - box.clientWidth) / 2;
-    });
-  </script>
+  <script src="/js/maps.js"></script>
 </body>
 </html>
