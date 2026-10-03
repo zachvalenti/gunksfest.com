@@ -15,12 +15,14 @@ Hosted free on GitHub Pages at **gunksfest.com** (gunksfest.org redirects here).
 ```
 index.html          Landing page
 clinics.html        The clinics page — schedule rendered from data/schedule.json
+maps/index.html     The maps page (gunksfest.com/maps) — both venues, pins over aerial photos
 schedule.html       Redirect stub left behind when clinics.html was renamed
 tickets/index.html    Redirect stub: gunksfest.com/tickets   -> /#tickets
 volunteer/index.html  Redirect stub: gunksfest.com/volunteer -> /#volunteer
 movement/index.html   Redirect stub: gunksfest.com/movement  -> pretix voucher redemption (Movement members)
 css/style.css       All shared styling. Theme colours/fonts are the :root variables at the top.
 css/schedule.css    Schedule-page styles only.
+css/maps.css        Maps-page styles only, including how the pins scale with the map.
 js/main.js          Nav, slideshows, parallax, rope dividers. No frameworks.
 js/pretix.js        Shared with both pages: availability, description sanitising, money.
 js/schedule.js      Renders the schedule and stamps live availability from pretix.
@@ -31,6 +33,7 @@ scripts/fetch-pretix.mjs     Pulls the line-up from pretix. Run by the workflow.
 scripts/pretix-rename.mjs    One-off: strips "2026_" off product names IN pretix.
 scripts/check-links.mjs      Opens every outbound link and reads what came back. Run by the workflow.
 assets/img/         Photos, logos, og-image.
+assets/img/maps/    The two aerial base images the maps are drawn on.
 CNAME               The custom domain for GitHub Pages. Don't delete.
 .nojekyll           Serve files as-is, no Jekyll processing.
 ```
@@ -42,6 +45,7 @@ npx http-server -p 8080 -c-1 .
 # http://127.0.0.1:8080/               the landing page, with the ticket list
 # http://127.0.0.1:8080/clinics.html           real data
 # http://127.0.0.1:8080/clinics.html?demo=1    sample data, to check the layout
+# http://127.0.0.1:8080/maps/                the venue maps
 ```
 
 **Don't open the files straight off disk.** A `file://` page has an opaque

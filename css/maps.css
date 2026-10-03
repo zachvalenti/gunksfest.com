@@ -1,0 +1,331 @@
+/* ============================================================
+   GunksFest 2026 — maps page (maps/index.html)
+   Loaded after style.css, so it only carries what the maps page adds.
+
+   The two map cards keep the look they were designed in — warm ink ground,
+   amber pins, blue amenity badges, Archivo over Playfair Display — rather than
+   the site's forest green. They are a self-contained object, like a printed
+   trail map pinned to the page, and the site's palette around them is what
+   says they belong to it.
+   ============================================================ */
+
+/* ---------- Page head ---------- */
+/* Same construction as the clinics page head: photo on its own layer so
+   js/main.js can parallax it, a scrim over it, copy on top. */
+.maps-head {
+  position: relative; isolation: isolate; overflow: hidden;
+  color: #fff;
+  padding: clamp(6rem, 12vw, 9rem) 0 clamp(3.5rem, 7vw, 5.5rem);
+}
+.maps-head .section-bg {
+  background-image:
+    url("../assets/img/df7b7300-e033-4e14-a859-f91136d7badc.jpg"),
+    linear-gradient(165deg, var(--color-forest) 0%, var(--color-forest-dk) 100%);
+  background-size: cover, auto;
+  background-position: center 40%, center;
+  background-repeat: no-repeat;
+}
+.maps-head-scrim {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(170deg, rgba(20,37,31,0.80) 0%, rgba(20,37,31,0.66) 45%, rgba(20,37,31,0.88) 100%);
+}
+.maps-head .container { position: relative; z-index: 2; }
+.maps-head h1 {
+  font-size: clamp(2.2rem, 6vw, 3.6rem);
+  margin: 0 0 0.75rem; color: #fff;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.55);
+}
+.maps-head .eyebrow { color: var(--color-accent-light); text-shadow: 0 2px 10px rgba(0,0,0,0.55); }
+.maps-head .lead { margin-bottom: 1.75rem; text-wrap: pretty; }
+.maps-jump { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+.page-maps .rope-divider { z-index: 3; }
+
+/* ---------- Section shell ---------- */
+/* Pinned to #14251f top and bottom for the same reason as the clinics list:
+   it is the colour of the rope's feather band, so the seams disappear. */
+.maps-section {
+  position: relative; z-index: 1;
+  background: linear-gradient(to bottom, #14251f 0%, #1b3128 20%, #1b3128 80%, #14251f 100%);
+  padding-top: clamp(3.5rem, 7vw, 5rem);
+}
+/* Wider than the site's 1080px column: the design puts a 380px key beside a
+   960px aerial, and squeezing that into 1080 would shrink every pin. */
+.maps-container { max-width: 1400px; display: grid; gap: clamp(2.5rem, 6vw, 4.5rem); }
+
+/* ---------- Map card ---------- */
+.map-card {
+  --ink: #17140f;
+  --cream: #f5eedc;
+  --amber: #f2a33a;
+  --orange: #ff7945;
+  --muted: #c3b8a1;
+  --faint: #a2988a;
+  --badge: #2458a6;
+  --rule: rgba(245, 238, 220, 0.14);
+
+  /* Scrolling to #fairgrounds or #mohonk shouldn't tuck the heading under the
+     floating menu button. */
+  scroll-margin-top: 1.5rem;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "head" "map" "key";
+  background: var(--ink); color: var(--cream);
+  font-family: Archivo, system-ui, sans-serif;
+  border: 1px solid rgba(245, 238, 220, 0.1);
+  border-radius: var(--radius);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+/* Side by side once there's room for the key beside a decent-sized map:
+   heading and key stacked in the left column, the aerial filling the right.
+   Below that the order is heading, map, key — so on a phone you see what you
+   are looking at, then the map, then what the numbers mean. */
+@media (min-width: 1000px) {
+  .map-card {
+    grid-template-columns: 400px minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    grid-template-areas: "head map" "key map";
+  }
+  /* The key can run taller than the aerial; centre the map in its column
+     rather than leaving an empty band under it. */
+  .map-view {
+    border-left: 1px solid rgba(245, 238, 220, 0.1);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+}
+
+.map-head { grid-area: head; padding: 2rem 1.5rem 1.25rem; }
+.map-key  { grid-area: key;  padding: 0 1.5rem 1.75rem; display: flex; flex-direction: column; }
+@media (min-width: 1000px) {
+  .map-head { padding: 2.25rem 2.25rem 1rem; }
+  .map-key  { padding: 0 2.25rem 1.75rem; }
+}
+
+.map-eyebrow {
+  margin: 0; font-family: inherit;
+  font-weight: 700; font-size: 0.66rem; line-height: 1.2;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange);
+}
+/* Two classes deep to beat `.section h2` in style.css, which would otherwise
+   paint this forest green on the ink ground. */
+.map-card .map-title {
+  margin: 0.8rem 0 0;
+  font-family: "Playfair Display", Georgia, serif; font-weight: 900;
+  font-size: clamp(2.1rem, 4vw, 2.6rem); line-height: 1; letter-spacing: -0.015em;
+  color: var(--cream);
+}
+.map-sub {
+  margin: 0.5rem 0 0;
+  font-family: "Playfair Display", Georgia, serif; font-style: italic; font-weight: 700;
+  font-size: 1.15rem; line-height: 1.2; color: var(--amber);
+}
+
+/* ---------- The key ---------- */
+.map-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+/* Number, name, badges — a three-column grid rather than flex, so that on a
+   phone the badges can drop under the name (below) instead of squeezing it. */
+.map-list li {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto;
+  column-gap: 0.85rem; align-items: start;
+  padding: 0.85rem 0; border-bottom: 1px solid var(--rule);
+}
+.map-list li:last-child { border-bottom: 0; }
+.map-num {
+  flex: none; width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--amber); color: var(--ink);
+  font-weight: 800; font-size: 13px; line-height: 1;
+}
+.map-place { flex: 1; min-width: 0; padding-top: 3px; }
+.map-place strong { font-weight: 700; font-size: 1.05rem; line-height: 1.2; color: var(--cream); }
+.map-list .map-note {
+  display: block; margin-top: 3px;
+  font-weight: 500; font-size: 0.8rem; line-height: 1.35; color: var(--muted);
+}
+.map-icons { display: flex; gap: 4px; padding-top: 3px; }
+@media (max-width: 479px) {
+  .map-list:not(.map-list--compact) .map-icons { grid-column: 2; grid-row: 2; padding-top: 0.5rem; }
+}
+
+/* The fairgrounds key has ten rows, so they go single-line with the note
+   trailing the name, as in the design. */
+.map-list--compact li { align-items: center; padding: 0.55rem 0; min-height: 42px; }
+.map-list--compact .map-num { width: 24px; height: 24px; font-size: 12px; }
+.map-list--compact .map-place { padding-top: 0; }
+.map-list--compact .map-place strong { font-size: 0.95rem; }
+.map-list--compact .map-note { display: inline; margin: 0; font-size: 0.75rem; }
+.map-list--compact .map-icons { padding-top: 0; }
+
+/* Blue amenity badge. One rule for every size it comes in; the svg inside
+   always fills ~70% of it. Badge blue on white is 7.5:1. */
+.map-icon {
+  display: inline-flex; flex: none; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 5px; background: var(--badge);
+}
+.map-icon svg { width: 70%; height: 70%; fill: #fff; }
+
+/* The bottom of the key: pushed down to the foot of the column on desktop,
+   the way the design has it, so the legend lines up with the map's bottom. */
+.map-key-foot { margin-top: auto; padding-top: 1.5rem; }
+.map-key-foot > .map-eyebrow { padding-top: 1rem; border-top: 1px solid var(--rule); }
+
+.map-legs { margin: 0.5rem 0 1.25rem; }
+.map-legs div { display: flex; gap: 0.75rem; align-items: baseline; padding: 0.4rem 0; }
+.map-legs dt { flex: none; width: 62px; font-weight: 800; font-size: 0.75rem; letter-spacing: 0.04em; color: var(--amber); }
+.map-legs dd { margin: 0; font-weight: 500; font-size: 0.8rem; line-height: 1.4; color: var(--cream); }
+
+.map-legend {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 0.5rem 1rem;
+  font-weight: 500; font-size: 0.75rem; line-height: 1.2;
+}
+.map-legend li { display: flex; align-items: center; gap: 7px; }
+.map-legend .map-icon { width: 18px; height: 18px; border-radius: 4px; }
+.map-legend-area {
+  display: inline-block; width: 18px; height: 12px; border-radius: 3px;
+  background: rgba(242, 163, 58, 0.25); border: 2px solid var(--amber);
+}
+.map-legend-path path {
+  fill: none; stroke: var(--cream); stroke-width: 3.6;
+  stroke-linecap: round; stroke-dasharray: 0 6.5;
+}
+.map-note-small { margin: 0.9rem 0 0; font-weight: 500; font-size: 0.66rem; line-height: 1.45; color: var(--faint); }
+.map-credit { margin: 0.5rem 0 0; font-weight: 500; font-size: 0.62rem; line-height: 1.4; color: var(--faint); }
+
+/* ---------- The map ---------- */
+.map-view { grid-area: map; position: relative; background: var(--ink); }
+
+/* On a phone the fairgrounds pins sit too close together to read at the width
+   of the screen, so that map keeps a minimum width (--map-min) and scrolls
+   sideways in its own box instead. The page itself never scrolls sideways. */
+.map-scroll { overflow-x: auto; overscroll-behavior-x: contain; }
+.map-scroll-hint {
+  display: none; margin: 0; padding: 0.5rem 1.5rem;
+  font-size: 0.75rem; font-weight: 600; color: var(--muted);
+}
+@media (max-width: 767px) {
+  .map-scroll-hint { display: block; }
+}
+
+/* The canvas is exactly the aerial's shape, from the design's artboard size.
+   Everything on it is positioned in percentages of that box (set inline in
+   the HTML), so a pin stays on its building at any width. max-width stops it
+   growing past the size it was drawn at; the Mohonk aerial is square, and a
+   square the full width of a desktop column would be taller than the screen.
+
+   It is also a size container, which is what lets the overlays scale with it:
+   --u is one pixel of the original artboard, measured at the current width
+   (100cqw is the canvas width; divide by the artboard width). Sizes below are
+   written in --u with a floor, so the pins and labels shrink with the map
+   but never below the point of legibility. A browser without container units
+   keeps the --u: 1px default and simply draws everything at design size. */
+.map-canvas {
+  --u: 1px;
+  position: relative;
+  container-type: inline-size;
+  aspect-ratio: var(--map-w) / var(--map-h);
+  min-width: var(--map-min, 0px);
+  max-width: calc(var(--map-w) * 1px);
+  margin: 0 auto;
+  overflow: hidden;
+  font-family: Archivo, system-ui, sans-serif;
+}
+@supports (width: 1cqw) {
+  .map-canvas > * { --u: calc(100cqw / var(--map-w)); }
+}
+.map-aerial {
+  position: absolute; inset: 0; width: 100%; height: 100%; max-width: none;
+  filter: brightness(0.9);   /* the design's 10% ink wash, so the pins carry */
+}
+.map-overlay { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+/* Event areas on the fairgrounds: a dark halo under an amber line. */
+.map-area-halo path { fill: #f2a33a; fill-opacity: 0.17; stroke: #17140f; stroke-opacity: 0.5; stroke-width: 6; stroke-linejoin: round; }
+.map-area-line path { fill: none; stroke: #f2a33a; stroke-width: 2.5; stroke-linejoin: round; }
+
+/* The Mohonk foot path: round dots, in cream over a dark halo. */
+.map-route-halo, .map-route { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 0 11; }
+.map-route-halo { stroke: #17140f; stroke-opacity: 0.75; stroke-width: 8.5; }
+.map-route { stroke: #f5eedc; stroke-width: 4.6; }
+
+/* Numbered pin. left/top in the HTML are its centre. */
+.map-pin {
+  --pin: max(22px, calc(28 * var(--u)));
+  position: absolute; transform: translate(-50%, -50%);
+  width: var(--pin); height: var(--pin);
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: var(--amber); color: var(--ink);
+  border: 2px solid var(--ink);
+  box-shadow: 0 0 0 2px var(--cream), 0 3px 8px rgba(0, 0, 0, 0.55);
+  font-weight: 800; font-size: max(11px, calc(13 * var(--u))); line-height: 1; letter-spacing: -0.02em;
+}
+.map-pin--2digit { font-size: max(10px, calc(12 * var(--u))); }
+/* The amenity badges ride up and to the right of their pin, just overlapping
+   its corner, as in the design. */
+.map-pin-icons {
+  position: absolute; left: calc(100% - 3px); top: -9px;
+  display: flex; gap: 3px;
+}
+.map-pin-icons .map-icon {
+  width: max(15px, calc(18 * var(--u))); height: max(15px, calc(18 * var(--u)));
+  border-radius: 4px;
+  box-shadow: 0 0 0 2px var(--cream), 0 2px 5px rgba(0, 0, 0, 0.45);
+}
+
+/* Road names printed on the photo. --rot follows the road. */
+.map-road {
+  position: absolute; transform: translate(-50%, -50%) rotate(var(--rot, 0deg));
+  font-weight: 700; font-size: max(8px, calc(var(--size, 10) * var(--u)));
+  line-height: 1; letter-spacing: 0.2em; text-transform: uppercase; white-space: nowrap;
+  color: var(--cream); opacity: 0.9;
+  text-shadow: 0 0 3px rgba(23,20,15,.95), 0 0 6px rgba(23,20,15,.7), 0 1px 1px rgba(23,20,15,.9);
+}
+/* Anchored at its right-hand end instead of its middle (see the HTML). */
+.map-road--end { transform: translateY(-50%) rotate(var(--rot)); transform-origin: 100% 50%; }
+
+/* Walking distance badges along the Mohonk path. */
+.map-distance {
+  position: absolute; transform: translate(-50%, -50%);
+  background: var(--cream); color: var(--ink);
+  font-weight: 800; font-size: max(9px, calc(10.5 * var(--u))); line-height: 1; letter-spacing: 0.04em;
+  padding: 0.35em 0.65em; border-radius: 10px; white-space: nowrap;
+  box-shadow: 0 0 0 1.5px var(--ink), 0 2px 6px rgba(0, 0, 0, 0.45);
+}
+
+/* North arrow and scale bar, bottom right. The scale bar is the one overlay
+   that must scale exactly with the photo — it is a measurement — so its width
+   is --ft300 (300 ft in artboard pixels) in --u, with no floor. */
+.map-compass {
+  position: absolute; right: 14px; bottom: 14px;
+  display: flex; align-items: center; gap: 14px;
+  padding: 9px 14px 9px 10px;
+  background: rgba(23, 20, 15, 0.88);
+  border: 1px solid rgba(245, 238, 220, 0.16); border-radius: 8px;
+}
+.map-north { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.map-north span { font-weight: 800; font-size: 10px; line-height: 1; letter-spacing: 0.06em; color: var(--cream); }
+.map-north svg { display: block; }
+.map-scale { --bar: calc(var(--ft300) * var(--u)); }
+.map-scale-bar {
+  position: relative; width: var(--bar); height: 7px;
+  border-bottom: 1.5px solid var(--cream);
+  /* Three ticks and the amber half, painted as backgrounds so the bar is one
+     element: a tick at 0, the middle and the end, then the fill. */
+  background:
+    linear-gradient(var(--cream), var(--cream)) left top / 1.5px 100% no-repeat,
+    linear-gradient(var(--cream), var(--cream)) center top / 1.5px 100% no-repeat,
+    linear-gradient(var(--cream), var(--cream)) right top / 1.5px 100% no-repeat,
+    linear-gradient(var(--amber), var(--amber)) left bottom / 50% 4px no-repeat;
+}
+.map-scale-labels {
+  display: flex; justify-content: space-between;
+  width: calc(var(--bar) + 16px); margin: 4px 0 0 -8px;
+  font-weight: 600; font-size: 9.5px; line-height: 1; color: var(--muted);
+}
+.map-scale-labels span { width: 16px; text-align: center; white-space: nowrap; }
+
+@media (max-width: 599px) {
+  .map-compass { right: 8px; bottom: 8px; gap: 10px; padding: 7px 12px 7px 8px; }
+}
