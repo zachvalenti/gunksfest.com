@@ -179,8 +179,24 @@
   font-weight: 500; font-size: 0.8rem; line-height: 1.35; color: var(--muted);
 }
 .map-icons { display: flex; gap: 4px; padding-top: 3px; }
+/* The note runs the full width of its row, under the name and the badges
+   alike, so a line like "Rides approx. every half-hour" stays whole instead
+   of being squeezed into the gap beside five badges. display: contents lifts
+   the name and note out of their wrapper and into the row's own grid: name
+   and badges share the first line, the note takes the line below. */
+.map-list:not(.map-list--compact) .map-place,
+.map-list--compact .map-row:has(.map-note--block) .map-place { display: contents; }
+.map-list .map-row .map-num { grid-column: 1; grid-row: 1; }
+.map-list:not(.map-list--compact) .map-place strong,
+.map-list--compact .map-row:has(.map-note--block) .map-place strong { grid-column: 2; grid-row: 1; min-width: 0; }
+.map-list:not(.map-list--compact) .map-place strong { display: block; padding-top: 3px; }
+.map-list:not(.map-list--compact) .map-note,
+.map-list--compact .map-row:has(.map-note--block) .map-note { grid-column: 2 / -1; grid-row: 2; min-width: 0; }
+.map-list .map-row .map-icons { grid-column: 3; grid-row: 1; }
 @media (max-width: 479px) {
-  .map-list:not(.map-list--compact) .map-icons { grid-column: 2; grid-row: 2; padding-top: 0.5rem; }
+  /* On a narrow phone the badges drop under the note, so the name keeps the
+     whole line too. */
+  .map-list:not(.map-list--compact) .map-icons { grid-column: 2 / -1; grid-row: 3; padding-top: 0.5rem; }
 }
 
 /* The fairgrounds key has ten rows, so they go single-line with the note
