@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-03T08:11:58.431Z",
+  "generated": "2026-10-03T13:26:56.346Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -66,7 +66,7 @@
           "id": 1145468,
           "availability": {
             "available": true,
-            "left": 6
+            "left": 5
           },
           "name": "Cragging Rock Skills",
           "rawName": "Cragging Rock Skills (Friday 9am-4pm)",
@@ -93,7 +93,7 @@
           "id": 1126451,
           "availability": {
             "available": true,
-            "left": 66
+            "left": 65
           },
           "name": "Friday Night Welcome Reception",
           "rawName": "Friday Night Welcome Reception",
@@ -259,7 +259,7 @@
           "id": 1118643,
           "availability": {
             "available": true,
-            "left": 8
+            "left": 7
           },
           "name": "Ropecraft 101: Knots and hitches every climber should know",
           "rawName": "Ropecraft 101: Knots and hitches every climber should know (Saturday 9-11am)",
@@ -940,7 +940,7 @@
           "id": 1118605,
           "availability": {
             "available": true,
-            "left": 8
+            "left": 7
           },
           "name": "Trapps Climbing Tour: 5.0-5.5",
           "rawName": "Trapps Climbing Tour: 5.0-5.5 (Sunday 9-11am)",
