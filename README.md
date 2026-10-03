@@ -15,13 +15,17 @@ Hosted free on GitHub Pages at **gunksfest.com** (gunksfest.org redirects here).
 ```
 index.html          Landing page
 clinics.html        The clinics page — schedule rendered from data/schedule.json
+maps/index.html     The maps page (gunksfest.com/maps) — for attendees: unlinked from the site, noindex
+maps/sw.js          Service worker that saves the maps page for offline use at the cliff
 schedule.html       Redirect stub left behind when clinics.html was renamed
 tickets/index.html    Redirect stub: gunksfest.com/tickets   -> /#tickets
 volunteer/index.html  Redirect stub: gunksfest.com/volunteer -> /#volunteer
 movement/index.html   Redirect stub: gunksfest.com/movement  -> pretix voucher redemption (Movement members)
 css/style.css       All shared styling. Theme colours/fonts are the :root variables at the top.
 css/schedule.css    Schedule-page styles only.
+css/maps.css        Maps-page styles only, including how the pins scale with the map.
 js/main.js          Nav, slideshows, parallax, rope dividers. No frameworks.
+js/maps.js          Maps page: links the key, legend and pins so picking one highlights the rest.
 js/pretix.js        Shared with both pages: availability, description sanitising, money.
 js/schedule.js      Renders the schedule and stamps live availability from pretix.
 js/tickets.js       Renders the ticket comparison matrix in Stay & Play.
@@ -31,6 +35,7 @@ scripts/fetch-pretix.mjs     Pulls the line-up from pretix. Run by the workflow.
 scripts/pretix-rename.mjs    One-off: strips "2026_" off product names IN pretix.
 scripts/check-links.mjs      Opens every outbound link and reads what came back. Run by the workflow.
 assets/img/         Photos, logos, og-image.
+assets/img/maps/    The two aerial base images the maps are drawn on.
 CNAME               The custom domain for GitHub Pages. Don't delete.
 .nojekyll           Serve files as-is, no Jekyll processing.
 ```
@@ -42,6 +47,7 @@ npx http-server -p 8080 -c-1 .
 # http://127.0.0.1:8080/               the landing page, with the ticket list
 # http://127.0.0.1:8080/clinics.html           real data
 # http://127.0.0.1:8080/clinics.html?demo=1    sample data, to check the layout
+# http://127.0.0.1:8080/maps/                the venue maps
 ```
 
 **Don't open the files straight off disk.** A `file://` page has an opaque
@@ -106,6 +112,27 @@ every volunteer who clicked it got Google Drive's "Sorry, unable to open the
 file at this time" until somebody stumbled on it by accident. So if you redeploy
 in Apps Script, paste the new URL here — and see below for what now notices when
 you forget.
+
+## The maps page and its offline copy
+
+`gunksfest.com/maps` is for attendees, so nothing on the site links to it and
+it carries `noindex`. Share the link directly (confirmation emails, signs at
+registration, the bus).
+
+Signal at the cliff is patchy, so `maps/sw.js` saves the page, its styles and
+scripts, both aerials and the fonts the first time someone opens it; after that
+it opens with no signal at all. The page says so in a small note under the
+heading. Two things to know when editing:
+
+- **Adding a file to the maps page** (an image, a script): add its path to
+  `PRECACHE` in `maps/sw.js` and bump `VERSION`, or it won't be there offline.
+- **Editing a file that's already listed** needs nothing: visitors get the new
+  copy on their next visit with signal.
+
+It only works over HTTPS (or `localhost`), so it does nothing on a `file://`
+copy, and Claude artifact previews block service workers too. Test it on the
+real site or the local preview: open the page, then turn on airplane mode and
+reload.
 
 ## The daily link check
 
