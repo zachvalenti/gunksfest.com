@@ -211,36 +211,6 @@
 /* ---------- The map ---------- */
 .map-view { grid-area: map; position: relative; background: var(--ink); }
 
-/* On a phone or tablet held upright, where the key sits under the map rather
-   than beside it, the map stays pinned to the top of the screen while the key
-   scrolls up beneath it. Tapping a row then lights up its pin without the
-   page going anywhere — the map is already in view.
-
-   The map is capped at half the screen's height so the key keeps the other
-   half: a square aerial the full width of a tablet would otherwise fill it.
-   svh is the height with the browser's toolbars showing, so the cap doesn't
-   jump as they slide away; plain vh is the fallback.
-
-   Not in landscape on a phone (under 560px tall): half of that is too small
-   to read, so the map just scrolls with the page at full width.
-
-   The card's overflow becomes `clip`. `hidden` would make the card a
-   scrolling box of its own, and sticky would then stick inside the card
-   instead of to the screen. A browser without `clip` keeps `hidden` and the
-   map simply scrolls with the page. */
-@media (max-width: 999px) and (min-height: 560px) {
-  .map-card { overflow: hidden; overflow: clip; }
-  .map-view {
-    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.45);
-  }
-  .map-canvas { max-width: min(calc(var(--map-w) * 1px), calc(50vh * var(--map-w) / var(--map-h))); }
-  @supports (height: 1svh) {
-    .map-canvas { max-width: min(calc(var(--map-w) * 1px), calc(50svh * var(--map-w) / var(--map-h))); }
-  }
-  .map-key { padding-top: 0.75rem; }
-}
-
 /* The canvas is exactly the aerial's shape, from the design's artboard size.
    Everything on it is positioned in percentages of that box (set inline in
    the HTML), so a pin stays on its building at any width. max-width stops it

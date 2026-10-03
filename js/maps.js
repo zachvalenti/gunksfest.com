@@ -98,9 +98,9 @@
       callout.hidden = false;
     }
 
-    // If the map has scrolled out of sight, bring it back. On a phone it is
-    // pinned to the top of the screen, so this only fires on a desktop where
-    // someone has scrolled the map off while reading a long key.
+    // If the map has scrolled out of sight, bring it back. On a phone, where
+    // the key sits under the map, that is most taps on a row: the page glides
+    // up so the map, with the picked pin lit, sits at the top of the screen.
     function reveal() {
       var box = canvas.getBoundingClientRect();
       var tall = window.innerHeight || document.documentElement.clientHeight;
