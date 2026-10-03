@@ -190,6 +190,10 @@
 .map-list--compact .map-place { padding-top: 0; }
 .map-list--compact .map-place strong { font-size: 0.95rem; }
 .map-list--compact .map-note { display: inline; margin: 0; font-size: 0.75rem; }
+/* A compact row that needs more than a few words — the bus times on the
+   parking row — drops its note onto lines of its own instead. */
+.map-list--compact .map-note--block { display: block; margin-top: 2px; line-height: 1.35; }
+.map-list--compact .map-row:has(.map-note--block) { align-items: start; }
 .map-list--compact .map-icons { padding-top: 0; }
 
 /* Green amenity badge. One rule for every size it comes in; the svg inside
