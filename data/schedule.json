@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-02T23:00:19.459Z",
+  "generated": "2026-10-03T08:11:58.431Z",
   "shop": {
     "base": "https://pretix.eu",
     "organizer": "gunksclimbers",
@@ -340,7 +340,7 @@
           "id": 1118598,
           "availability": {
             "available": true,
-            "left": 8
+            "left": 9
           },
           "name": "Trapps Bouldering Tour",
           "rawName": "Trapps Bouldering Tour (Saturday 9am-11am)",
@@ -502,7 +502,7 @@
           "id": 1118555,
           "availability": {
             "available": true,
-            "left": 19
+            "left": 18
           },
           "name": "How to be a Good Second",
           "rawName": "How to be a Good Second (Saturday 10am - 12pm)",
@@ -556,7 +556,7 @@
           "id": 1128515,
           "availability": {
             "available": true,
-            "left": 1
+            "left": 2
           },
           "name": "Mushroom Foraging",
           "rawName": "Mushroom Foraging (Saturday 12pm-3pm)",
@@ -583,7 +583,7 @@
           "id": 1118556,
           "availability": {
             "available": true,
-            "left": 17
+            "left": 16
           },
           "name": "Cams: From Soup to Nuts",
           "rawName": "Cams: From Soup to Nuts (Saturday 1pm - 3pm)",
@@ -1129,7 +1129,7 @@
           "id": 1118581,
           "availability": {
             "available": true,
-            "left": 19
+            "left": 18
           },
           "name": "Half Rope Usage: Techniques, Pros, and Cons",
           "rawName": "Half Rope Usage: Techniques, Pros, and Cons (Sunday 1pm-3pm)",
