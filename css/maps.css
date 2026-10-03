@@ -136,9 +136,9 @@
   font-size: 1.15rem; line-height: 1.2; color: var(--sky-text);
 }
 
-/* Directions: one solid button for Google Maps, which opens the app on any
-   phone that has it and the website otherwise, and a quieter link for Apple
-   Maps, which iPhone users will want. White on the site's deep sky is 5.9:1. */
+/* Directions: one button, which opens the phone's own maps app — Apple Maps
+   on an iPhone or iPad, Google Maps everywhere else (js/maps.js makes the
+   swap). White on the site's deep sky is 5.9:1. */
 .map-directions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
 .map-dir {
   display: inline-flex; align-items: center; gap: 0.45rem;
@@ -149,8 +149,6 @@
   transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 .map-dir:hover { background: var(--color-accent-darker); border-color: var(--color-accent-darker); }
-.map-dir--alt { background: transparent; color: var(--cream); border-color: rgba(244, 239, 230, 0.35); }
-.map-dir--alt:hover { background: rgba(244, 239, 230, 0.08); border-color: var(--cream); }
 .map-dir:focus-visible { outline: 3px solid var(--sky-text); outline-offset: 2px; }
 .map-dir-icon { width: 18px; height: 18px; fill: currentColor; flex: none; }
 

@@ -158,6 +158,24 @@
     if (e.key === "Escape") each(clearers, function (clear) { clear(); });
   });
 
+  // --- Directions ---
+  // Each venue has one Directions button. Its href is Google Maps, which works
+  // on every phone and computer (the app if it's installed, the website if
+  // not). On an iPhone or iPad, where Apple Maps is the built-in app, it points
+  // at Apple Maps instead, from the button's data-apple-href.
+  //
+  // iPadOS reports itself as a Mac, so a "Mac" with a touchscreen is an iPad.
+  // Real Macs keep Google Maps: in a browser other than Safari, an Apple Maps
+  // link opens a web page rather than the app.
+  var ua = navigator.userAgent || "";
+  var isIOS = /iPhone|iPad|iPod/.test(ua) ||
+    (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  if (isIOS) {
+    each(document.querySelectorAll(".map-dir[data-apple-href]"), function (link) {
+      link.href = link.getAttribute("data-apple-href");
+    });
+  }
+
   // --- Offline copy ---
   // maps/sw.js saves this page and everything it loads on the first visit, so
   // it opens with no signal afterwards. This registers it and keeps the note
