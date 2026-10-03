@@ -15,10 +15,17 @@
  *     because "one bar of signal" usually means a request that hangs rather
  *     than one that fails, and a page that spins for a minute is no better
  *     than no page.
- *   - Styles, scripts, images, fonts: the saved copy at once, and a fresh copy
- *     fetched in the background for next time ("stale-while-revalidate"). A
- *     change to the CSS or a photo reaches people on their second visit
- *     without anyone having to remember to bump a version.
+ *   - Styles and scripts: the same as the page — network first, saved copy
+ *     after the timeout. They have to match the page they came with: new HTML
+ *     drawn with last week's stylesheet is a broken layout (it happened — the
+ *     bus times ran into "Drop-Off" because the saved CSS predated them).
+ *   - Images and fonts: the saved copy at once, and a fresh copy fetched in
+ *     the background for next time ("stale-while-revalidate"). They are the
+ *     heavy files, and an out-of-date photo for one visit breaks nothing.
+ *
+ * Every network request here is a revalidation (cache: "no-cache"): the
+ * browser's own HTTP cache could otherwise hand back a ten-minute-old copy
+ * and defeat the point. An unchanged file costs a tiny "304 Not Modified".
  *   - Everything else (analytics, the links out): left alone.
  *
  * When to change VERSION: only when the list in PRECACHE changes (a file
@@ -30,7 +37,7 @@
  * here, so unlike js/main.js this file doesn't stick to ES5.
  */
 
-const VERSION = "v1";
+const VERSION = "v2";
 const CACHE = `gunksfest-maps-${VERSION}`;
 
 // The page and every same-site file it loads. If you add an image or script
@@ -112,7 +119,13 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
 
   if (request.mode === "navigate" && url.origin === location.origin) {
-    event.respondWith(pageFirst(request));
+    // Every URL under /maps/ is the same page (/maps/, /maps/index.html,
+    // /maps/?utm_…), so they all share the one saved copy.
+    event.respondWith(networkFirst(request, "/maps/"));
+    return;
+  }
+  if (url.origin === location.origin && /\.(css|js)$/.test(url.pathname)) {
+    event.respondWith(networkFirst(request, request));
     return;
   }
   if (url.origin === location.origin || FONT_HOSTS.includes(url.hostname)) {
@@ -121,17 +134,20 @@ self.addEventListener("fetch", (event) => {
   // Anything else falls through to the network untouched.
 });
 
-/* The page: network first, saved copy as the fallback after a timeout or an
- * error. Every copy that does come back from the network is saved, so the
- * offline page is as fresh as the last visit with signal. */
-async function pageFirst(request) {
+/* The page, its styles and scripts: network first, saved copy as the
+ * fallback after a timeout or an error. Every copy that does come back from
+ * the network is saved, so the offline copy is as fresh as the last visit
+ * with signal. `key` is what it is saved under. */
+async function networkFirst(request, key) {
   const cache = await caches.open(CACHE);
-  // Every URL under /maps/ is the same page (/maps/, /maps/index.html,
-  // /maps/?utm_…), so they all share the one saved copy.
-  const saved = () => cache.match("/maps/");
 
-  const network = fetch(request).then((response) => {
-    if (response.ok) cache.put("/maps/", response.clone());
+  // A page-load request can't be re-sent with options of its own (the
+  // browser refuses to copy a navigation request), so ask for its URL instead.
+  const fresh = request.mode === "navigate"
+    ? fetch(request.url, { cache: "no-cache", credentials: "same-origin" })
+    : fetch(request, { cache: "no-cache" });
+  const network = fresh.then((response) => {
+    if (response.ok) cache.put(key, response.clone());
     return response;
   });
 
@@ -141,14 +157,14 @@ async function pageFirst(request) {
 
   // The network was slow or failed: use the saved copy if there is one, and
   // otherwise keep waiting for the network — it's the only hope left.
-  return (await saved()) || network.catch(() => Response.error());
+  return (await cache.match(key)) || network.catch(() => Response.error());
 }
 
-/* Styles, scripts, images, fonts: saved copy now, fresh copy for next time. */
+/* Images and fonts: saved copy now, fresh copy for next time. */
 async function savedFirst(request, event) {
   const cache = await caches.open(CACHE);
   const saved = await cache.match(request, { ignoreSearch: false });
-  const fresh = fetch(request).then((response) => {
+  const fresh = fetch(request, { cache: "no-cache" }).then((response) => {
     // Only keep real answers. An opaque response (status 0) can't be checked,
     // and saving an error page would serve it offline forever.
     if (response.ok) cache.put(request, response.clone());
