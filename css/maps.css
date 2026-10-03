@@ -211,16 +211,34 @@
 /* ---------- The map ---------- */
 .map-view { grid-area: map; position: relative; background: var(--ink); }
 
-/* On a phone the fairgrounds pins sit too close together to read at the width
-   of the screen, so that map keeps a minimum width (--map-min) and scrolls
-   sideways in its own box instead. The page itself never scrolls sideways. */
-.map-scroll { overflow-x: auto; overscroll-behavior-x: contain; }
-.map-scroll-hint {
-  display: none; margin: 0; padding: 0.5rem 1.5rem;
-  font-size: 0.75rem; font-weight: 600; color: var(--muted);
-}
-@media (max-width: 767px) {
-  .map-scroll-hint { display: block; }
+/* On a phone or tablet held upright, where the key sits under the map rather
+   than beside it, the map stays pinned to the top of the screen while the key
+   scrolls up beneath it. Tapping a row then lights up its pin without the
+   page going anywhere — the map is already in view.
+
+   The map is capped at half the screen's height so the key keeps the other
+   half: a square aerial the full width of a tablet would otherwise fill it.
+   svh is the height with the browser's toolbars showing, so the cap doesn't
+   jump as they slide away; plain vh is the fallback.
+
+   Not in landscape on a phone (under 560px tall): half of that is too small
+   to read, so the map just scrolls with the page at full width.
+
+   The card's overflow becomes `clip`. `hidden` would make the card a
+   scrolling box of its own, and sticky would then stick inside the card
+   instead of to the screen. A browser without `clip` keeps `hidden` and the
+   map simply scrolls with the page. */
+@media (max-width: 999px) and (min-height: 560px) {
+  .map-card { overflow: hidden; overflow: clip; }
+  .map-view {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.45);
+  }
+  .map-canvas { max-width: min(calc(var(--map-w) * 1px), calc(50vh * var(--map-w) / var(--map-h))); }
+  @supports (height: 1svh) {
+    .map-canvas { max-width: min(calc(var(--map-w) * 1px), calc(50svh * var(--map-w) / var(--map-h))); }
+  }
+  .map-key { padding-top: 0.75rem; }
 }
 
 /* The canvas is exactly the aerial's shape, from the design's artboard size.
@@ -240,7 +258,6 @@
   position: relative;
   container-type: inline-size;
   aspect-ratio: var(--map-w) / var(--map-h);
-  min-width: var(--map-min, 0px);
   max-width: calc(var(--map-w) * 1px);
   margin: 0 auto;
   overflow: hidden;
@@ -344,8 +361,12 @@
 }
 .map-scale-labels span { width: 16px; text-align: center; white-space: nowrap; }
 
-@media (max-width: 599px) {
-  .map-compass { right: 8px; bottom: 8px; gap: 10px; padding: 7px 12px 7px 8px; }
+/* On a map under 600px wide the box would sit on top of pin 10 at the
+   fairgrounds, so it moves to the top-left corner, which is open ground on
+   both aerials (and clear of the floating menu button, top right). A
+   container query, so it follows the map's width, not the window's. */
+@container (max-width: 599px) {
+  .map-compass { right: auto; bottom: auto; left: 8px; top: 8px; gap: 10px; padding: 7px 12px 7px 8px; }
 }
 
 /* ---------- Highlighting ---------- */
@@ -374,8 +395,8 @@
 .map-overlay.is-selected .map-area-line path { stroke: var(--cream); stroke-width: 3.5; }
 .map-overlay.is-selected .map-route { stroke-width: 6; }
 
-/* The name tag that appears beside a picked pin, so on a phone — where the
-   key is a scroll away — the map still says what you tapped. js/maps.js sets
+/* The name tag that appears beside a picked pin, so the map itself says what
+   you tapped, whichever part of the key is on screen. js/maps.js sets
    its left/top to the pin's and a class for which side it hangs off. */
 .map-callout {
   position: absolute; z-index: 4; pointer-events: none;

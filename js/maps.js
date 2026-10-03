@@ -33,7 +33,6 @@
   var clearers = [];
 
   each(cards, function (card) {
-    var scroller = card.querySelector(".map-scroll");
     var canvas = card.querySelector(".map-canvas");
     var callout = card.querySelector(".map-callout");
     var pins = card.querySelectorAll(".map-pin");
@@ -43,10 +42,6 @@
 
     // What is picked right now: null, or { type: "place" | "amenity" | "layer", key }.
     var current = null;
-
-    // A map wider than the phone it's on opens scrolled to its middle, which
-    // is where most of the pins are, rather than to its left edge.
-    if (scroller) scroller.scrollLeft = (scroller.scrollWidth - scroller.clientWidth) / 2;
 
     // Does a pin or key row belong to the current pick?
     function matches(el, pick) {
@@ -103,31 +98,18 @@
       callout.hidden = false;
     }
 
-    // Bring the highlighted pins into view: sideways inside the scrolling box
-    // on a phone, and the map itself into the window if the key has been
-    // scrolled away from it.
+    // If the map has scrolled out of sight, bring it back. On a phone it is
+    // pinned to the top of the screen, so this only fires on a desktop where
+    // someone has scrolled the map off while reading a long key.
     function reveal() {
-      var on = card.querySelectorAll(".map-pin.is-selected");
-      if (scroller && on.length && scroller.scrollWidth > scroller.clientWidth) {
-        var sum = 0;
-        // offsetLeft ignores the centring transform, so it is the pin's centre.
-        each(on, function (pin) { sum += pin.offsetLeft; });
-        var target = sum / on.length - scroller.clientWidth / 2;
-        if (scroller.scrollTo) scroller.scrollTo({ left: target, behavior: behavior });
-        else scroller.scrollLeft = target;
-      }
-      // Vertically by moving the window, not with scrollIntoView: that would
-      // also scroll the sideways box to the canvas's left edge and undo the
-      // centring just above.
       var box = canvas.getBoundingClientRect();
       var tall = window.innerHeight || document.documentElement.clientHeight;
       var gap = 16;
       var by = 0;
-      if (box.top < gap) by = box.top - gap;
-      else if (box.bottom > tall - gap) by = Math.min(box.bottom - tall + gap, box.top - gap);
-      if (by) {
-        var top = (window.pageYOffset || document.documentElement.scrollTop) + by;
-        if (window.scrollTo) window.scrollTo({ top: top, behavior: behavior });
+      if (box.top < -1) by = box.top - gap;
+      else if (box.bottom > tall + 1) by = Math.min(box.bottom - tall + gap, box.top - gap);
+      if (by && window.scrollTo) {
+        window.scrollTo({ top: (window.pageYOffset || document.documentElement.scrollTop) + by, behavior: behavior });
       }
     }
 
